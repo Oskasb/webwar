@@ -1,0 +1,206 @@
+[{
+  "canvas": {
+    "widgets":{
+
+      "inputRadial":{
+        "on":true,
+        "color":[1,0.0,0.0,1],
+
+        "spatialColor":[0.0, 1, 0.1, 1],
+        "spatialWidth": 1,
+
+        "extrapColor":[0.2, 0.3, 1, 1],
+        "extrapWidth": 1,
+
+        "targetColor":[1, 0.0, 0.0, 0.5],
+        "targetWidth": 2,
+
+        "width":5,
+        "range":0.11,
+        "flicker":0.5,
+
+        "thrColor":[0.4,0.0,0.6,0.5],
+        "font":"9px Russo One",
+        "top":0.93,
+        "left":0.88
+      },
+
+      "serverRadial":{
+        "on":true,
+        "color":[0.9,0.3,0.0,0.4],
+        "clockRadius":125,
+        "timeColor":[0.5, 0.6, 1, 1],
+        "timeSize":0.03,
+        "timeWidth":35,
+        "width":3,
+        "range":0.27,
+        "flicker":0.2
+      },
+      "playerBlips":{
+        "on":true,
+        "colorOther":[0.8,0.1,0.0,0.8],
+        "colorSelf":[0.4,0.6,0.3,0.3],
+        "flicker":0.9,
+        "size": 2
+      },
+      "playerNames":{
+        "on":true,
+        "color":[0.8,0.4,0.2,0.24],
+        "font":"11px Russo One",
+        "top":5
+      },
+      "tpfGraph":{
+        "color":[0.1,0.9,0.2,0.7],
+        "width":1,
+        "font":"9px Russo One",
+        "pos":{"top":-8,"left":2},
+        "size":{"width":126, "height":3},
+        "topValue":-0.3
+      },
+      "sendGraph":{
+        "color":[1,0.2,0.0,0.8],
+        "width":1,
+        "font":"9px Russo One",
+        "pos":{"top":98,"left":2},
+        "size":{"width":126, "height":-1},
+        "topValue": 2
+      },
+      "recieveGraph":{
+        "color":[0.0,0.4,0.9,0.9],
+        "width":1,
+        "font":"9px Russo One",
+        "pos":{"top": 116,"left":2},
+        "size":{"width":126, "height":-1},
+        "topValue": 2
+      },
+      "idleGraph":{
+        "color":[0,0.9,0.0,0.2],
+        "width":1,
+        "font":"9px Russo One",
+        "pos":{"top":-35,"left":2},
+        "size":{"width":126, "height":-60},
+        "topValue": 0.13
+      },
+      "busyGraph":{
+        "color":[0.9,0.0,0.0,0.2],
+        "width":1,
+        "font":"9px Russo One",
+        "pos":{"top": 46,"left":2},
+        "size":{"width":126, "height":-2},
+        "topValue": 0.002
+      },
+      "piecesGraph":{
+        "color":[1,0.4,0.0,0.4],
+        "width":1,
+        "font":"9px Russo One",
+        "pos":{"top":21,"left":2},
+        "size":{"width":126, "height":-2},
+        "topValue": 35
+      },
+      "playersGraph":{
+        "color":[0.0,0.7,0.9,0.9],
+        "width":1,
+        "font":"9px Russo One",
+        "pos":{"top": 100,"left":2},
+        "size":{"width":126, "height":-2},
+        "topValue": 40
+      }
+    },
+    "systems":[
+      {
+        "id":"canvas_controls",
+        "data":{
+          "resolution":128,
+          "attenuation":[0, 0.2, 0.1, 0.17],
+          "size":{"height":128, "width":128},
+          "zoom":100,
+          "pos":{"top":0, "left":0},
+          "worldSection":{"probability":0.8, "color":[0.05,0.15,0.5,0.1], "borderColor":[0.2,0.55,0.7,0.2], "flicker":0.3,  "width":4},
+          "elementBorder":{"probability":0.3, "color":[0.7,0.6,0.2,0.3], "flicker":0.4, "margin":3, "width":1},
+          "raster":{"probability":0.006, "color":[0.9,0.3,0.2,0.5], "flicker":0.8, "width":11},
+          "tpf":0.01
+
+        }
+      },{
+        "id":"canvas_input_monitor_3d",
+        "data":{
+          "resolution":128,
+          "attenuation":[0.13, 0.16, 0.4, 0.11],
+          "size":{"height":128, "width":128},
+          "zoom":80,
+          "pos":{"top":0, "left":0},
+          "worldSection":{"probability":0.8, "color":[0.5,0.4,0.1,0.2], "borderColor":[0.9,0.55,0.2,0.4], "flicker":0.3,  "width":4},
+          "elementBorder":{"probability":0.95, "color":[0.1,0.1,0.4,0.2], "flicker":0.1, "margin":1, "width":2},
+          "raster":{"probability":0.01, "color":[0.9,0.7,0.8,0.1], "flicker":0.9, "width":15},
+          "tpf":0.01
+        }
+      },{
+        "id":"canvas_input_select",
+        "data":{
+          "resolution":32,
+          "attenuation":[0.4, 0.36, 0.1, 0.11],
+          "size":{"height":32, "width":32},
+          "zoom":80,
+          "pos":{"top":0, "left":0},
+          "worldSection":{"probability":0.8, "color":[0.5,0.4,0.1,0.2], "borderColor":[0.9,0.55,0.2,0.4], "flicker":0.3,  "width":4},
+          "elementBorder":{"probability":0.25, "color":[0.6,0.4,0.1,0.5], "flicker":0.1, "margin":0, "width":1},
+          "raster":{"probability":0.03, "color":[0.9,0.3,0.4,0.1], "flicker":0.9, "width":15},
+          "tpf":0.01
+        }
+      },{
+        "id":"canvas_target_select",
+        "data":{
+          "resolution":32,
+          "attenuation":[0.03, 0.06, 0.04, 0.11],
+          "size":{"height":32, "width":32},
+          "zoom":80,
+          "pos":{"top":0, "left":0},
+          "hoverBorder":{"probability":0.25, "color":[0.1,0.5,0.7,0.6], "flicker":0.1, "margin":0, "width":1},
+          "triggerBorder":{"probability":0.25, "color":[0.7,0.3,0.1,0.4], "flicker":0.3, "margin":0, "width":2},
+          "raster":{"probability":0.01, "color":[0.9,0.7,0.8,0.1], "flicker":0.2, "width":15},
+          "tpf":0.01
+        }
+      },{
+        "id":"canvas_current_target",
+        "data":{
+          "resolution":64,
+          "attenuation":[0.13, 0.16, 0.2, 0.11],
+          "size":{"height":64, "width":64},
+          "zoom":80,
+          "pos":{"top":0, "left":0},
+          "worldSection":{"probability":0.8, "color":[0.5,0.4,0.1,0.2], "borderColor":[0.9,0.55,0.2,0.4], "flicker":0.3,  "width":4},
+          "selectedBorder":{"probability":0.25, "color":[0.2,0.3,0.6,0.4], "flicker":0.1, "margin":2, "width":1},
+          "attackBorder":{"probability":0.3, "color":[0.8,0.2,0.0,0.5], "flicker":0.3, "margin":0, "width":2},
+          "raster":{"probability":0.05, "color":[0.9,0.7,0.8,0.1], "flicker":0.9, "width":15},
+          "tpf":0.01
+        }
+      },{
+        "id":"canvas_radar_2d",
+        "data":{
+          "resolution":128,
+          "attenuation":[0, 0.02, 0.1, 0.17],
+          "size":{"height":128, "width":128},
+          "zoom":80,
+          "pos":{"top":0, "left":0},
+          "worldSection":{"probability":0.8, "color":[0.5,0.4,0.1,0.2], "borderColor":[0.9,0.55,0.2,0.4], "flicker":0.3,  "width":4},
+          "elementBorder":{"probability":0.95, "color":[0.9,0.6,0.2,0.4], "flicker":0.1, "margin":1, "width":2},
+          "raster":{"probability":0.01, "color":[0.9,0.7,0.8,0.1], "flicker":0.9, "width":15},
+          "tpf":0.03
+        }
+      },{
+        "id":"canvas_radar_3d",
+        "data":{
+          "resolution":256,
+          "attenuation":[0, 0.2, 0.1, 0.17],
+          "size":{"height":256, "width":256},
+          "zoom":1000,
+          "pos":{"top":0, "left":0},
+          "worldSection":{"probability":0.8, "color":[0.05,0.15,0.4,0.1], "borderColor":[0.2,0.55,0.7,0.2], "flicker":0.3,  "width":4},
+          "elementBorder":{"probability":0.95, "color":[0.3,0.2,0.5,0.24], "flicker":0.1, "margin":1, "width":2},
+          "raster":{"probability":0.01, "color":[0.7,0.9,0.8,0.1], "flicker":0.9, "width":15},
+          "tpf":0.03
+        }
+      }
+    ]
+  }
+}]

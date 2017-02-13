@@ -1,0 +1,65 @@
+[{
+  "messages":{
+    "channels": {
+      "ping_tracker":{
+        "style":"ping_tracker_message",
+        "anim":[0, 10, 0],
+        "time":0.6
+      },
+
+      "client_state":{
+        "style":"connection_ok_message",
+        "anim":[0, -50, 0],
+        "time":0.4
+      },
+
+      "pipeline_message":{
+        "style":"pipeline_message",
+        "anim":[0, -20, 0],
+        "time":0.4
+      },
+
+      "pipeline_error":{
+        "style":"pipeline_error",
+        "anim":[0, 40, 0],
+        "time":2.7
+      },
+
+      "receive":{
+        "style":"connection_message",
+        "anim":[0, -50, 0],
+        "time":2.4
+      },
+
+      "connection_receive":{
+        "style":"connection_message",
+        "anim":[0, -20, 0],
+        "time":0.2
+      },
+
+      "connection_send":{
+        "style":"connection_send_message",
+        "anim":[0, -20, 0],
+        "time":0.2
+      },
+
+      "receive_error":{
+        "style":"receive_error_message",
+        "anim":[0, -40, 0],
+        "time":1.5
+      },
+
+      "connection_status":{
+        "style":"connection_ok_message",
+        "anim":[0, -60, 0],
+        "time":2.5
+      },
+
+      "connection_error":{
+        "style":"connection_error_message",
+        "anim":[0, -90, 0],
+        "time":2.5
+      }
+    }
+  }
+}]

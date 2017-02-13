@@ -1,0 +1,16 @@
+[{
+    "goo_elements": {
+        "battleship_setup":{
+            "game_effect":"battleship_piece"
+        },
+        "world_star_setup":{
+            "game_effect":"world_star"
+        },
+        "dim_star_setup":{
+            "game_effect":"dim_star"
+        },
+        "yellow_star_setup":{
+            "game_effect":"yellow_star"
+        }
+    }
+}]

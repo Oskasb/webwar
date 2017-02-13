@@ -1,0 +1,136 @@
+[{
+  "dataType":"MODULE_DATA",
+  "modules":{
+    "plasma_blob_module":{
+      "id":"plasma_blob_module",
+      "type":"hull",
+      "size":3,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "game_effect":"plasma_blob_effect",
+        "effect_data":{
+          "intensity":0.5,
+          "color":[0.4,1,0.4, 1],
+          "size":12,
+          "growth":[-200, -180],
+          "lifespan": [0.05, 0.5],
+          "strength":450,
+          "acceleration":0.6
+        },
+        "emit_effect":"plasma_green_splatter",
+        "remove_effect":"shell_detonate"
+      }
+    },
+
+    "big_tree_module":{
+      "id":"big_tree_module",
+      "type":"hull",
+      "size":8,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "game_effect":"big_tree_effect",
+        "effect_data":{
+          "intensity":1
+        },
+        "remove_effect":"shell_detonate"
+      }
+    },
+    "medium_tree_module":{
+      "id":"medium_tree_module",
+      "type":"hull",
+      "size":5,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "game_effect":"medium_tree_effect",
+        "effect_data":{
+          "intensity":1
+        },
+        "remove_effect":"shell_detonate"
+      }
+    },
+    "small_tree_module":{
+      "id":"small_tree_module",
+      "type":"hull",
+      "size":3,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "game_effect":"small_tree_effect",
+        "effect_data":{
+          "intensity":1
+        },
+        "remove_effect":"shell_detonate"
+      }
+    },
+    "big_space_rock_module":{
+      "id":"big_space_rock_module",
+      "type":"hull",
+      "size":8,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "action":"applyAppearance",
+        "game_effect":"big_space_rock_effect",
+        "effect_data":{
+          "intensity":1
+        },
+        "remove_effect":"shell_detonate"
+      }
+    },
+    "small_space_rock_module":{
+      "id":"small_space_rock_module",
+      "type":"hull",
+      "size":3,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "game_effect":"space_rock_effect",
+        "effect_data":{
+          "intensity":1
+        },
+        "remove_effect":"shell_detonate"
+      }
+    },
+
+    "plane_ground_module": {
+      "id":"plane_ground_module",
+      "type":"terrain",
+      "size":1,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "bundle_model":"ground"
+      }
+    },
+
+    "clay_blob_module":{
+      "id":"clay_blob_module",
+      "type":"hull",
+      "size":1,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "bundle_model":"ground"
+      }
+    }
+  }
+}]

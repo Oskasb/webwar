@@ -1,0 +1,13 @@
+[{
+
+	"bundle_index":{
+		"bundles":[
+			{
+				"id":"sherman",
+				"folder":"assets/bundles/tank/",
+				"file":"root.bundle",
+				"entities":["sherman", "ground"]
+			}
+		]
+	}
+}]

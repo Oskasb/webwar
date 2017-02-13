@@ -1,0 +1,22 @@
+[{
+  "dataType":"server_setup",
+  "setup": {
+    "system":{
+      "tickNetworkTime":400,
+      "tickSimulationTime":20
+    }
+  }
+},{
+  "dataType":"config_files",
+  "watchFiles":true,
+  "loadFiles":[
+    "piece_data",
+    "space_piece_module_data",
+    "bullet_piece_data",
+    "player_piece_data",
+    "module_data",
+    "bullet_module_data",
+    "world/grid_sector_data",
+    "world/world_data"
+  ]
+}]

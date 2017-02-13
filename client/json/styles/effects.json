@@ -1,0 +1,39 @@
+[{
+  "styles": {
+
+    "effect_explosion_bullet":{
+      "top": "-50em",
+      "left": "-50em",
+      "width": "100em",
+      "height": "100em",
+      "zIndex":120,
+      "backgroundImage":"url('./client/assets/images/effects/explosion.png')",
+      "backgroundSize":"100% 100%",
+      "transform":"scale3d(0, 0, 0)",
+      "zIndex":"200"
+    },
+    "effect_shockwave_heavy":{
+      "top": "-50em",
+      "left": "-50em",
+      "width": "100em",
+      "height": "100em",
+      "zIndex":120,
+      "backgroundImage":"url('./client/assets/images/effects/shockwave_2.png')",
+      "backgroundSize":"100% 100%",
+      "transform":"scale3d(0, 0, 0)",
+      "zIndex":"200"
+    },
+    "effect_shockwave_light":{
+      "top": "-50em",
+      "left": "-50em",
+      "width": "100em",
+      "height": "100em",
+      "zIndex":120,
+      "backgroundImage":"url('./client/assets/images/effects/shockwave.png')",
+      "backgroundSize":"100% 100%",
+      "transform":"scale3d(0, 0, 0)",
+      "zIndex":"200"
+    }
+
+  }
+}]

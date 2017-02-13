@@ -1,0 +1,6 @@
+*.swp
+node_modules
+/Spaceweb.iml
+/.idea
+.idea
+/Server/.idea

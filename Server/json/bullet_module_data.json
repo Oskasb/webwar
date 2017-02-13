@@ -1,0 +1,55 @@
+[{
+  "dataType":"MODULE_DATA",
+  "modules":{
+        "bullet_shell":{
+      "id":"bullet_shell",
+      "type":"warhead",
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "style":"cannon_bullet",
+        "message":"Load Bullet",
+        "game_effect":"bullet_trail",
+        "spawn_effect":"muzzle_flash_cannon",
+        "remove_effect":"shell_detonate"
+      }
+    },
+    "lazer_beam":{
+      "id":"lazer_beam",
+      "type":"warhead",
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "game_effect":"lazer_bullet_effect",
+        "remove_effect":"shell_detonate"
+      }
+    },
+    "plasma_bullet":{
+      "id":"plasma_bullet",
+      "type":"warhead",
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "game_effect":"plasma_bullet_effect",
+        "effect_data":{
+          "intensity":0.9,
+          "color":[0.4,1,0.4, 1],
+          "size":5,
+          "growth":[-200, -200],
+          "lifespan": [0.05, 0.5],
+          "strength":250,
+          "acceleration":0.4
+        },
+        "emit_effect":"plasma_green_splatter",
+        "spawn_effect":"muzzle_flash_cannon",
+        "remove_effect":"shell_detonate"
+      }
+    }
+  }
+}]

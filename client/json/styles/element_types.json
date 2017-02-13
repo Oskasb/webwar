@@ -1,0 +1,139 @@
+[{
+  "styles": {
+
+    "coloring_dark":{
+      "backgroundColor":"rgb(24, 5, 55)"
+    },
+
+    "coloring_ui_name_field":{
+      "backgroundColor":"rgb(34, 0, 65)",
+      "border": "1.5em solid rgb(188, 45, 255)",
+      "borderRadius":"5em"
+    },
+
+    "coloring_canvas_host":{
+      "backgroundColor":"rgb(35, 65, 125)"
+    },
+
+    "coloring_panel_main":{
+      "backgroundColor":"rgb(15, 5, 45)",
+      "background": "linear-gradient(to bottom, rgb(155, 155, 255) 0%, rgb(15, 15, 15) 100%)"
+    },
+
+    "coloring_panel_dev":{
+      "backgroundColor":"rgba(15, 5, 45)",
+      "background": "linear-gradient(to bottom, rgb(55, 75, 225) 0%, rgb(35, 75, 115) 100%)"
+    },
+
+    "coloring_container_main_panel":{
+      "color":"rgb(195, 225, 255)",
+      "borderRadius":"5em",
+      "backgroundColor":"rgb(25, 45, 85)"
+    },
+
+    "coloring_container_dev_panel":{
+      "color":"rgb(125, 175, 195)",
+      "borderRadius":"5em",
+      "backgroundColor":"rgb(25, 115, 191)"
+    },
+
+    "main_button_active":{
+      "color":"rgb(235, 245, 255)",
+      "border": "0.1em solid rgb(225, 245, 255)",
+      "backgroundColor":"rgb(152, 201, 235)",
+      "transform": "translate3d(0em, 0em, 0em) scale3d(1, 1, 1)"
+    },
+
+    "coloring_button_main_panel":{
+      "color":"rgb(65, 95, 145)",
+      "border": "0.1em solid rgb(125, 185, 245)",
+      "borderRadius":"0.14em",
+      "backgroundColor":"rgb(100, 135, 185)",
+        "transitionProperty":"transform",
+        "transitionDuration":"0.3s",
+        "transitionTimingFunction":"cubic-bezier(0.21, 4.01, 0.36, 0.29)",
+        "transitionDelay":0,
+      "transform": "translate3d(0em, 0em, 0em) scale3d(1, 1, 1)"
+    },
+
+    "coloring_button_dev_panel":{
+      "color":"inherit",
+      "border": "0.1em solid rgb(25, 55, 85)",
+      "borderRadius":"0.2em",
+      "backgroundColor":"rgb(40, 55, 105)"
+    },
+
+    "main_button_hover":{
+      "color":"rgb(235, 245, 255)",
+      "border": "0.1em solid rgb(155, 185, 255)",
+      "backgroundColor":"rgb(172, 221, 255)",
+      "transform": "translate3d(0em, -1px, 0em) scale3d(1.02, 1.02, 1)"
+    },
+
+    "main_button_press":{
+      "color":"rgb(115, 185, 245)",
+      "border": "0.1em solid rgb(55, 55, 125)",
+      "backgroundColor":"rgb(182, 241, 255)",
+      "transform": "translate3d(0em, 1px, 0em) scale3d(0.98, 0.98, 1)"
+    },
+
+    "dev_button_hover":{
+      "color":"rgb(175, 205, 255)",
+      "border": "0.1em solid rgb(255, 255, 255)",
+      "backgroundColor":"rgb(155, 175, 225)",
+      "transform": "translate3d(0em, -0.5px, 0em) scale3d(1.1, 1.1, 1)"
+    },
+
+    "dev_button_press":{
+      "color":"rgb(215, 215, 255)",
+      "border": "0.1em solid rgb(195, 245, 255)",
+      "backgroundColor":"rgb(120, 165, 195)"
+    },
+
+    "dev_button_container_active":{
+      "color":"rgba(215, 235,255, 0.9)",
+      "backgroundColor":"rgba(82, 151, 195, 1)"
+    },
+
+    "dev_button_active":{
+      "color":"rgb(215, 235,255)",
+      "border": "none",
+      "backgroundColor":"rgb(82, 151, 195)"
+    },
+
+    "coloring_data_text_field":{
+      "color":"rgb(195, 235, 255)",
+      "textShadow": "0.15em 0.15em 0.2em rgb(12,11,25)"
+    },
+
+    "coloring_data_type_string":{
+      "color":"rgba(255, 255, 115, 0.95)",
+      "textShadow": "0.15em 0.15em 0.2em rgb(12,11,25)"
+    },
+
+    "coloring_data_type_number":{
+      "color":"rgb(30, 230, 255)"
+    },
+
+    "coloring_data_type_bool_true":{
+      "color":"rgb(55, 255, 25)",
+      "textShadow": "0em 0em 0.4em rgb(132,255,125)"
+    },
+
+    "coloring_data_type_bool_false":{
+      "color":"rgb(255, 105, 75)",
+      "textShadow": "0em 0em 0.4em rgb(255,61,45)"
+    },
+
+    "coloring_data_type_array":{
+      "color":"rgba(75, 75, 255, 0.95)",
+      "textShadow": "0.15em 0.15em 0.2em rgb(12,11,25)"
+    },
+
+    "coloring_data_type_default":{
+      "color":"rgba(255, 115, 255, 0.95)",
+      "textShadow": "0.15em 0.15em 0.2em rgb(12,11,25)"
+    }
+
+  }
+}]

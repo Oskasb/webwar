@@ -1,0 +1,466 @@
+[{
+  "ui_panels": {
+    "right_panel":[
+      {
+        "id":"rightRoot",
+        "data":{
+          "style":["main_top_right", "coloring_panel_main"]
+        }
+
+      }, {
+        "id": "monitorContainer",
+        "data": {
+          "parentId": "rightRoot",
+          "style": ["main_button_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer",
+          "style": ["data_log_container"],
+          "dataLog":{
+            "style":"message_log_field",
+            "channels":["server_message", "system_status", "client_state", "pipeline_error", "ping_tracker", "receive_error", "connection_error", "button_update", "connection_status"],
+            "argument":"message",
+            "entry_count":11,
+            "eventId":"MESSAGE_UI"
+          }
+        }
+
+      },{
+        "id":"buttonContainer1",
+        "data":{
+          "parentId":"rightRoot",
+          "style":["main_button_container", "coloring_container_main_panel"]
+        }
+      },{
+        "id":"multiButtonContainer1",
+        "data":{
+          "parentId":"buttonContainer1",
+          "style":["full_size_container"]
+        }
+      },{
+        "id":"buttonContainer1_1",
+        "data":{
+          "parentId":"multiButtonContainer1",
+          "style":["main_button_container_multi"]
+        }
+      },{
+        "id":"buttonContainer1_2",
+        "data":{
+          "parentId":"multiButtonContainer1",
+          "style":["main_button_container_multi", "coloring_container_main_panel"]
+        }
+      },{
+        "id":"button1_1",
+        "data":{
+          "parentId":"buttonContainer1_1",
+          "style":["panel_button_multi", "coloring_button_main_panel"],
+          "button":{
+            "id":"panel_button",
+            "event":{"category":"CONTROL_STATE", "key":"TOGGLE_SHIELD", "type":"toggle"}
+          },
+          "text":"SHIELD"
+        }
+      },{
+        "id":"button1_2",
+        "data":{
+          "parentId":"buttonContainer1_2",
+          "style":["panel_button_multi", "coloring_button_main_panel"],
+          "button":{
+            "id":"panel_button",
+            "event":{"category":"CONTROL_STATE", "key":"TOGGLE_HYPER", "type":"toggle"}
+          },
+          "text":"HYPER"
+        }
+      },{
+        "id":"canvasSteeringMonitor",
+        "data":{
+          "canvas3d": {
+            "configId": "canvas_input_monitor_3d"
+          }
+        }
+      },{
+        "id":"inputSelectMonitor",
+        "data":{
+          "canvas3d": {
+            "configId": "canvas_input_select"
+          }
+        }
+      },{
+        "id":"targetSelectMonitor",
+        "data":{
+          "canvas3d": {
+            "configId": "canvas_target_select"
+          }
+        }
+      },{
+        "id":"currentTargetMonitor",
+        "data":{
+          "canvas3d": {
+            "configId": "canvas_current_target"
+          }
+        }
+      },{
+        "id":"radar",
+        "data":{
+          "parentId":"rightRoot",
+          "canvas3d":{
+            "configId": "canvas_controls",
+            "enableOnEvent":{"category":"HUD_STATUS", "key":"CANVAS_TOP_RIGHT", "type":"toggle"}
+          }
+        }
+
+      },{
+        "id":"buttonContainerHyper",
+        "data":{
+          "parentId":"rightRoot",
+          "style":["main_button_container", "coloring_container_main_panel"]
+        }
+      },{
+        "id":"hyperButton",
+        "data":{
+          "parentId":"buttonContainerHyper",
+          "style":["panel_button", "coloring_button_main_panel"],
+          "button":{
+            "id":"panel_button",
+            "event":{"category":"CONTROL_STATE", "key":"TOGGLE_TELEPORT", "type":"toggle"}
+          },
+          "text":"WARP"
+        }
+
+      },{
+        "id":"buttonContainerAttack",
+        "data":{
+          "parentId":"rightRoot",
+          "style":["main_button_container", "coloring_container_main_panel"]
+        }
+      },{
+        "id":"hyperButton",
+        "data":{
+          "parentId":"buttonContainerAttack",
+          "style":["panel_button", "coloring_button_main_panel"],
+          "button":{
+            "id":"panel_button",
+            "event":{"category":"CONTROL_STATE", "key":"TOGGLE_ATTACK_ENABLED", "type":"toggle"}
+          },
+          "text":"ATTACK"
+        }
+      }
+
+    ],
+
+    "left_panel":[
+      {
+        "id":"leftRoot",
+        "data":{
+          "style":["main_top_left", "coloring_panel_main"]
+        }
+      },{
+        "id":"IdContainer",
+        "data":{
+          "parentId":"leftRoot",
+          "style":["main_button_container", "coloring_container_main_panel"]
+        }
+      },{
+        "id":"multiContainerID",
+        "data":{
+          "parentId":"IdContainer",
+          "style":["full_size_container"]
+        }
+
+      }, {
+        "id": "idFieldContainer",
+        "data": {
+          "parentId": "multiContainerID",
+          "style": ["id_field_list_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "idFieldContainer",
+          "style": ["ui_name_container", "coloring_ui_name_field"],
+          "dataLog":{
+            "style":"player_id_field",
+            "channels":["own_player_name"],
+            "argument":"message",
+            "entry_count":0,
+            "eventId":"MESSAGE_UI"
+          }
+        }
+
+      }, {
+        "id": "idButtonContainer",
+        "data": {
+          "parentId": "multiContainerID",
+          "style": ["id_button_container", "coloring_container_main_panel"]
+        }
+      },{
+        "id":"playerButton",
+        "data":{
+          "parentId":"idButtonContainer",
+          "style":["panel_button_multi", "coloring_button_main_panel"],
+          "button":{
+            "id":"panel_button",
+            "event":{"category":"MESSAGE_POPUP", "key":"PLAYER_PROFILE", "type":"toggle"}
+          },
+          "text":"PLAYER"
+        }
+      },{
+        "id":"buttonContainer1",
+        "data":{
+          "parentId":"leftRoot",
+          "style":["main_button_container", "coloring_container_main_panel"]
+        }
+      },{
+        "id":"multiButtonContainer1",
+        "data":{
+          "parentId":"buttonContainer1",
+          "style":["full_size_container"]
+        }
+      },{
+        "id":"buttonContainer1_1",
+        "data":{
+          "parentId":"multiButtonContainer1",
+          "style":["main_button_container_multi"]
+        }
+      },{
+        "id":"buttonContainer1_2",
+        "data":{
+          "parentId":"multiButtonContainer1",
+          "style":["main_button_container_multi", "coloring_container_main_panel"]
+        }
+      },{
+        "id":"button1_1",
+        "data":{
+          "parentId":"buttonContainer1_1",
+          "style":["panel_button_multi", "coloring_button_main_panel"],
+          "button":{
+            "id":"panel_button",
+            "event":{"category":"HUD_STATUS", "key":"CANVAS_TOP_LEFT", "type":"toggle"}
+          },
+          "text":"RADAR"
+        }
+      },{
+        "id":"button1_2",
+        "data":{
+          "parentId":"buttonContainer1_2",
+          "style":["panel_button_multi", "coloring_button_main_panel"],
+          "button":{
+            "id":"panel_button",
+            "event":{"category":"HUD_STATUS", "key":"CANVAS_TOP_RIGHT", "type":"toggle"}
+          },
+          "text":"INPUT"
+        }
+      },{
+        "id":"buttonContainer3",
+        "data":{
+          "parentId":"leftRoot",
+          "style":["main_button_container", "coloring_container_main_panel"]
+        }
+      },{
+        "id":"button3",
+        "data":{
+          "parentId":"buttonContainer3",
+          "style":["panel_button", "coloring_button_main_panel"],
+          "button":{
+            "id":"panel_button",
+            "event":{"category":"STATUS", "key":"DEV_MODE", "type":"toggle"}
+          },
+          "text":"DEV"
+        }
+      }, {
+        "id": "radar_3d2",
+        "data": {
+          "parentId": "leftRoot",
+          "canvas3d": {
+            "configId": "canvas_radar_3d",
+            "enableOnEvent":{"category":"HUD_STATUS", "key":"CANVAS_TOP_LEFT", "type":"toggle"}
+          }
+        }
+      }
+    ],
+
+
+    "dev_panel":[
+      {
+        "id":"panelRoot",
+        "data":{
+          "style":["dev_panel_left", "coloring_panel_dev"]
+        }
+      },{
+        "id":"buttonContainer1",
+        "data":{
+          "parentId":"panelRoot",
+          "style":["dev_button_container", "coloring_container_dev_panel"]
+        }
+      },{
+        "id":"button1",
+        "data":{
+          "parentId":"buttonContainer1",
+          "style":["dev_panel_button", "coloring_button_dev_panel"],
+          "button":{
+            "id":"dev_panel_button",
+            "event":{"category":"STATUS", "key":"MON_TRAFFIC", "type":"toggle"}
+          },
+          "text":"TRAFFIC"
+        }
+      },{
+        "id":"buttonContainer2",
+        "data":{
+          "parentId":"panelRoot",
+          "style":["dev_button_container", "coloring_container_dev_panel"]
+        }
+      },{
+        "id":"button2",
+        "data":{
+          "parentId":"buttonContainer2",
+          "style":["dev_panel_button", "coloring_button_dev_panel"],
+          "button":{
+            "id":"dev_panel_button",
+            "event":{"category":"STATUS", "key":"MON_SERVER", "type":"toggle"}
+          },
+          "text":"SERVER"
+        }
+      },{
+        "id":"buttonContainer",
+        "data":{
+          "parentId":"panelRoot",
+          "style":["dev_button_container", "coloring_container_dev_panel"]
+        }
+      },{
+        "id":"button",
+        "data":{
+          "parentId":"buttonContainer",
+          "style":["dev_panel_button", "coloring_button_dev_panel"],
+          "button":{
+            "id":"dev_panel_button",
+            "event":{"category":"STATUS", "key":"MON_TPF", "type":"toggle"}
+          },
+          "text":"TPF"
+        }
+      },
+
+      {
+        "id": "monitorContainer",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+
+
+
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["BROWSER", "OS", "INPUT", "PX_SCALE", "ANTIALIAS", "SCREEN"],
+            "dataCategory":"SETUP"
+          }
+        }
+      }, {
+        "id": "monitorContainer2",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer2",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["FILE_CACHE", "CAMERA", "MON_SERVER", "MON_TPF", "MON_TRAFFIC", "PIPELINE"],
+            "dataCategory":"STATUS"
+          }
+        }
+      },{
+        "id":"buttonContainer4",
+        "data":{
+          "parentId":"panelRoot",
+          "style":["dev_button_container", "coloring_container_dev_panel"]
+        }
+      },{
+        "id":"button4",
+        "data":{
+          "parentId":"buttonContainer4",
+          "style":["dev_panel_button", "coloring_button_dev_panel"],
+          "button":{
+            "id":"dev_panel_button",
+            "event":{"category":"STATUS", "key":"PIPELINE", "type":"toggle"}
+          },
+          "text":"PIPELINE"
+        }
+      },{
+        "id": "monitorContainer3",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer3",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["FANCY_PARTICLES","FANCY_SIMULATIONS", "CHEAP_PARTICLES","CHEAP_SIMULATORS", "MATERIALS", "CLIENT_PIECES", "SERVER_PIECES", "SERVER_PLAYERS"],
+            "dataCategory":"STATUS"
+          }
+        }
+      },{
+        "id": "monitorContainer4",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer4",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["EVENT_TYPES","EVENT_LISTENERS", "FIRED_EVENTS", "LISTENERS_ONCE"],
+            "dataCategory":"STATUS"
+          }
+        }
+      },{
+        "id":"buttonContainerSpat",
+        "data":{
+          "parentId":"panelRoot",
+          "style":["dev_button_container", "coloring_container_dev_panel"]
+        }
+      },{
+        "id":"button",
+        "data":{
+          "parentId":"buttonContainerSpat",
+          "style":["dev_panel_button", "coloring_button_dev_panel"],
+          "button":{
+            "id":"dev_panel_button",
+            "event":{"category":"STATUS", "key":"MON_SPATIAL", "type":"toggle"}
+          },
+          "text":"SPATIAL"
+        }
+      },{
+        "id":"buttonContainerModules",
+        "data":{
+          "parentId":"panelRoot",
+          "style":["dev_button_container", "coloring_container_dev_panel"]
+        }
+      },{
+        "id":"button",
+        "data":{
+          "parentId":"buttonContainerModules",
+          "style":["dev_panel_button", "coloring_button_dev_panel"],
+          "button":{
+            "id":"dev_panel_button",
+            "event":{"category":"STATUS", "key":"MON_MODULES", "type":"toggle"}
+          },
+          "text":"MODULES"
+        }
+      }
+    ]
+
+  }
+}]

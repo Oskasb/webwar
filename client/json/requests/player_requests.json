@@ -1,0 +1,13 @@
+[{
+  "requests": {
+    "player":[
+      {
+        "id":"TOGGLE_SHIELD",
+        "data":{
+
+          "style":"popup_select_name_root"
+        }
+      }
+    ]
+  }
+}]

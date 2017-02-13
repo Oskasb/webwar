@@ -1,0 +1,47 @@
+[{
+  "styles": {
+    "ship_engine":{
+      "top": "65%",
+      "left": "35%",
+      "width": "30%",
+      "height": "50em",
+      "backgroundImage":"url('./client/assets/images/medium_engine_red.png')",
+      "backgroundSize":"800% 100%",
+      "overflow":"visible",
+      "zIndex":1
+    },
+
+    "ship_root":{
+      "zIndex":51,
+      "top": "-40em",
+      "left": "-25em",
+      "width": "50em",
+      "height": "80em",
+      "overflow": "hidden"
+    },
+
+    "ship_hull":{
+      "top": "0%",
+      "left": "-500%",
+      "width": "1100%",
+      "height": "100%",
+      "zIndex":10,
+      "backgroundImage":"url('./client/assets/images/s-11_sprite.png')",
+      "backgroundSize":"100% 100%"
+    },
+
+    "ship_hull_friendly":{
+
+    },
+
+    "cannon_bullet":{
+      "top": "50%",
+      "left": "50%",
+      "width": "8em",
+      "height": "20em",
+      "zIndex":-1,
+      "backgroundImage":"url('./client/assets/images/bullet_round.png')",
+      "backgroundSize":"100% 100%"
+    }
+  }
+}]

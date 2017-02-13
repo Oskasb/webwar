@@ -1,0 +1,105 @@
+[{
+
+  "canvas2d": {
+    "elements":[
+      {
+        "id": "canvas_radar_2d",
+        "data": {
+          "renderModel": "canvas2d",
+          "config":{
+            "callbacks":[]
+          }
+        }
+      }
+    ]
+  },
+  "canvas3d": {
+    "elements":[
+      {
+        "id": "canvas_input_monitor_3d",
+        "data": {
+          "renderModel": "canvas3d",
+          "config":{
+            "callbacks":["temporalState", "tpfMonitor", "inputVector"],
+            "element":{
+              "pos":[60, 60],
+              "size":[12, 12],
+              "blendMode":"add_color"
+            }
+          }
+        }
+      },
+      {
+        "id": "canvas_input_select",
+        "data": {
+          "renderModel": "canvas3d",
+          "config":{
+            "callbacks":["followPointer"],
+            "element":{
+              "pos":[10, 10],
+              "size":[10, 10],
+              "blendMode":"add_color"
+            }
+          }
+        }
+      },
+      {
+        "id": "canvas_target_select",
+        "data": {
+          "renderModel": "canvas3d",
+          "config":{
+            "callbacks":["hoverTargets"],
+            "element":{
+              "pos":[0, 0],
+              "size":[30, 30],
+              "blendMode":"add_color"
+            }
+          }
+        }
+      },
+      {
+        "id": "canvas_current_target",
+        "data": {
+          "renderModel": "canvas3d",
+          "config":{
+            "callbacks":["currentTarget"],
+            "element":{
+              "pos":[0, 0],
+              "size":[15, 15],
+              "blendMode":"add_color"
+            }
+          }
+        }
+      },
+      {
+        "id": "canvas_controls",
+        "data": {
+          "renderModel": "canvas3d",
+          "config":{
+            "callbacks":["inputDebug", "radarMap", "tpfMonitor"],
+            "element":{
+              "pos":[-82, 40],
+              "size":[25, 25],
+              "blendMode":"add_color"
+            }
+          }
+        }
+      },{
+        "id": "canvas_radar_3d",
+        "data": {
+          "renderModel": "canvas3d",
+          "config": {
+            "callbacks": [
+              "radarMap"
+            ],
+            "element": {
+              "pos": [25,-90],
+              "size": [35, 35],
+              "blendMode": "add_color"
+            }
+          }
+        }
+      }
+    ]
+  }
+}]

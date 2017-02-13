@@ -1,0 +1,62 @@
+[{
+  "styles": {
+
+    "message_log_field":{
+      "textAlign":"left",
+      "top":"0em",
+      "overflow":"hidden",
+      "display":"block",
+      "fontSize": "6em",
+      "width": "100%",
+      "position": "relative"
+    },
+
+    "player_id_field":{
+      "textAlign":"center",
+      "top":"0em",
+      "overflow":"hidden",
+      "display":"block",
+      "fontSize": "18em",
+      "width": "100%",
+      "position": "relative"
+    },
+
+    "entry_data_field":{
+      "left": "0em",
+      "top": "0.5m",
+      "width": "94%",
+      "height": "10em",
+      "textAlign": "left",
+      "position": "relative",
+      "display": "inline-block",
+      "margin":"1em",
+      "padding":"0em",
+      "borderRadius":"2em",
+      "backgroundColor":"rgba(2, 2, 2, 0.5)"
+    },
+
+    "data_field_key":{
+      "color":"rgba(115, 255, 235, 1)",
+      "textShadow": "0.15em 0.15em 0.3em rgb(12,11,25)",
+      "position":"absolute",
+      "fontSize":"7em",
+      "marginLeft": "0.3em",
+      "top": "0.1em",
+      "left": "0px",
+      "width": "auto",
+      "height": "0px"
+    },
+
+    "data_field_value":{
+
+      "fontSize":"8em",
+      "position":"absolute",
+      "textAlign":"right",
+      "marginRight": "0.4em",
+      "top": "0.1em",
+      "right": "0em",
+      "width": "auto",
+      "height": "90%"
+    }
+  }
+}]

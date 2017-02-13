@@ -1,0 +1,29 @@
+[{
+  "ui_buttons": {
+    "panel_button":
+      {
+        "hover":{
+          "style":"main_button_hover"
+        },
+        "press":{
+          "style":"main_button_press"
+        },
+        "active":{
+          "style":"main_button_active"
+        }
+      },
+    "dev_panel_button":
+    {
+      "hover":{
+        "style":"dev_button_hover"
+      },
+      "press":{
+        "style":"dev_button_press"
+      },
+      "active":{
+        "style":"dev_button_active"
+      }
+    }
+
+  }
+}]

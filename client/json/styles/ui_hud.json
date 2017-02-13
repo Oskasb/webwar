@@ -1,0 +1,121 @@
+[{
+  "styles": {
+    "point":{
+      "position":"absolute"
+    },
+
+    "name_plate":{
+      "top": "-4em",
+      "left": "-2em",
+      "width": "auto",
+      "height": "auto",
+      "fontSize": "10em",
+      "textAlign": "center",
+      "position": "relative",
+      "display": "inline-block",
+      "padding":"0.05em",
+      "paddingLeft": "0.2em",
+      "paddingRight": "0.2em",
+      "color":"rgba(175, 225, 255, 0.7)",
+      "border": "0.12em solid rgba(75, 225, 255, 0)",
+      "borderRadius":"15%",
+      "backgroundColor":"rgba(15, 45, 45, 0.4)",
+      "textShadow":"0.03em 0.03em rgba(5, 225, 225, 0.3)",
+      "zIndex":"100"
+    },
+
+    "connector":{
+      "top": "0px",
+      "left": "0px",
+      "width": "2em",
+      "height": "0px",
+      "backgroundColor":"rgba(15, 125, 155, 0.6)"
+    },
+
+    "load_progress":{
+      "top": "25em",
+      "left": "50em",
+      "width": "300em",
+      "height": "25em",
+      "backgroundColor":"rgb(52, 55, 76)",
+      "border": "1em solid #609cff"
+    },
+
+    "progress_box":{
+      "top": "-25em",
+      "left": "-50em",
+      "width": "100em",
+      "height": "5em",
+      "backgroundColor":"rgb(52, 55, 76)",
+      "border": "1em solid #609cff"
+    },
+    "progress":{
+      "top": "1em",
+      "left": "1em",
+      "width": "100%",
+      "bottom": "1em",
+      "height": "auto",
+      "backgroundColor":"rgb(255, 222, 76)",
+      "transformOrigin":"0% 50%"
+    },
+    "progress_vertical":{
+      "top": "0em",
+      "left": "auto",
+      "width": "100%",
+      "bottom": "auto",
+      "height": "100%",
+      "backgroundColor":"rgb(15, 145, 150)",
+      "transformOrigin":"50% 100%"
+    },
+    "pointer":{
+      "top": "-12em",
+      "left": "-12em",
+      "width": "24em",
+      "height": "24em",
+      "backgroundColor":"rgba(40, 85, 146, 0.1)",
+      "border": "0em solid rgba(115, 215, 225, 0.2)",
+      "borderRadius": "50%",
+      "outline":"none"
+    },
+    "fps_graph_container":{
+      "bottom": "3em",
+      "top": "auto",
+      "right": "3em",
+      "left": "auto",
+      "width": "100em",
+      "height": "12em",
+      "backgroundColor":"rgb(50, 0, 0)",
+      "border": "2em solid rgb(0, 150, 0)"
+    },
+    "fps_graph_average_number":{
+      "display": "inline-block",
+      "bottom": "auto",
+      "top": "0.3em",
+      "right": "auto",
+      "left": "-9em",
+      "width": "8em",
+      "textAlign": "right",
+      "fontSize": "7em",
+      "height": "1em"
+    },
+    "fps_graph_progress_box":{
+      "top": "0em",
+      "left": "auto",
+      "right": "auto",
+      "width": "1em",
+      "marginLeft": "1em",
+      "height": "100%",
+      "position": "absolute"
+    },
+    "segment_pointer":{
+      "top": "-25em",
+      "left": "-25em",
+      "width": "50em",
+      "height": "50em",
+      "boxShadow": "0 0 0 0.5em rgba(115, 215, 225, 0.5)",
+      "backgroundColor":"none",
+      "zIndex":"-1",
+      "borderRadius": "50%"
+    }
+  }
+}]

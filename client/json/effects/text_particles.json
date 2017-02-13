@@ -1,0 +1,67 @@
+[{
+    "effects": {
+        "text_config":[
+
+            {
+                "id":"text_config",
+                "config_data":{
+                    "spacing":1.6,
+                    "size":1,
+                    "writeSpeed": 0.03
+                }
+            }
+        ],
+        "text_particles":[
+
+            {
+                "id":"Particle_Letter",
+                "effect_data":{
+                    "color0":[1, 0.97, 0.8],
+                    "color1":[1, 0, 0.2],
+                    "colorCurve":[[0, 1], [1, 1]],
+                    "colorRandom":0.2,
+                    "count":1,
+                    "opacity":[1, 1],
+                    "alpha":"oneToZero",
+                    "size":[1, 1],
+                    "growthFactor":[0.01, 0.2],
+                    "growth":"posToNeg",
+                    "stretch":0.0001,
+                    "strength":6,
+                    "spread":0.02,
+                    "acceleration":0.957,
+                    "gravity":-11,
+                    "rotation":[0,0],
+                    "spin":"posToNeg",
+                    "spinspeed":[-0.1, 0.1],
+                    "lifespan":[0.3, 0.3],
+                    "sprite":"A"
+                }
+            },            {
+                "id":"tpf_Letter",
+                "effect_data":{
+                    "color0":[1, 0.69, 0.3],
+                    "color1":[0.4, 1, 0.8],
+                    "colorCurve":[[0, 1], [1,0]],
+                    "colorRandom":0.4,
+                    "count":1,
+                    "opacity":[1, 1],
+                    "alpha":"oneToZero",
+                    "size":[1, 1],
+                    "growthFactor":[2, 2],
+                    "growth":"posToNeg",
+                    "stretch":0.0001,
+                    "strength":4,
+                    "spread":0.02,
+                    "acceleration":0.997,
+                    "gravity":-17,
+                    "rotation":[0,0],
+                    "spin":"posToNeg",
+                    "spinspeed":[-0.4, 0.4],
+                    "lifespan":[0.3, 0.5],
+                    "sprite":"A"
+                }
+            }
+        ]
+    }
+}]

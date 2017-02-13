@@ -1,0 +1,82 @@
+[{
+  "styles": {
+
+    "popup_select_name_root":{
+      "top": "25em",
+      "left": "200em",
+      "width": "500em",
+      "bottom": "25em",
+      "height": "350em",
+      "fontSize": "inherit",
+      "textAlign": "center",
+      "position": "absolute",
+      "display": "inline-block",
+      "padding":"0.05em",
+      "paddingLeft": "0.2em",
+      "paddingRight": "0.2em",
+      "backgroundColor":"rgba(15, 25, 55, 0.5)",
+      "border": "3em solid rgba(25, 215, 255, 0.4)",
+      "borderRadius":"23em",
+      "zIndex":"200"
+    },
+
+    "popup_select_header":{
+      "top": "5%",
+      "left": "10%",
+      "right": "62%",
+      "height": "1.1em",
+      "width": "auto",
+      "fontSize": "30em",
+      "textAlign": "center",
+      "position": "absolute",
+      "display": "inline-block",
+      "padding":"0.05em",
+      "paddingLeft": "0.2em",
+      "paddingRight": "0.2em",
+      "color":"rgba(175, 225, 255, 0.7)",
+      "border": "0.12em solid rgba(75, 225, 255, 0.5)",
+      "borderRadius":"0.2em",
+      "backgroundColor":"rgba(15, 45, 45, 0.6)",
+      "textShadow":"0.03em 0.03em rgba(5, 225, 225, 0.3)"
+    },
+
+    "popup_input_data":{
+      "top": "60%",
+      "left": "10%",
+      "right": "10%",
+      "height": "2.1em",
+      "width": "80%",
+      "fontSize": "30em",
+      "textAlign": "center",
+      "position": "absolute",
+      "display": "inline-block",
+      "padding":"0.05em",
+      "paddingLeft": "0.2em",
+      "paddingRight": "0.2em",
+      "color":"rgba(175, 225, 255, 0.7)",
+      "border": "0.12em solid rgba(75, 225, 255, 0.5)",
+      "borderRadius":"0.2em",
+      "backgroundColor":"rgba(0, 25, 25, 0.4)"
+    },
+
+    "popup_output_data":{
+      "top": "5%",
+      "left": "40%",
+      "right": "10%",
+      "height": "1.1em",
+      "width": "auto",
+      "fontSize": "30em",
+      "textAlign": "center",
+      "position": "absolute",
+      "display": "inline-block",
+      "padding":"0.05em",
+      "paddingLeft": "0.2em",
+      "paddingRight": "0.2em",
+      "color":"rgba(175, 225, 255, 0.7)",
+      "border": "0.12em solid rgba(75, 225, 255, 0.5)",
+      "borderRadius":"0.2em",
+      "backgroundColor":"rgba(0, 25, 25, 0.4)"
+    }
+
+  }
+}]

@@ -1,0 +1,101 @@
+[{
+  "styles": {
+    "ping_tracker_message":{
+      "top":"5%",
+      "left":"2%",
+      "fontSize": "14px",
+      "textAlign":"left",
+      "color":"rgba(85, 185, 255, 1)"
+    },
+
+
+
+    "connection_send_message":{
+      "bottom":"0.7em",
+      "left":"1.4em",
+      "fontSize": "12em",
+      "textAlign":"left",
+      "color":"rgba(255, 85, 255, 1)"
+    },
+
+    "connection_message":{
+      "bottom":"0.7em",
+      "left":"0.7em",
+      "fontSize": "12em",
+      "textAlign":"left",
+      "color":"rgba(55, 255, 120, 1)"
+    },
+
+    "receive_error_message":{
+      "top":"85%",
+      "left":"10%",
+      "fontSize": "34px",
+      "textAlign":"center",
+      "color":"rgba(255, 45, 40, 1)"
+    },
+
+    "connection_error_message":{
+      "top":"55%",
+      "left":"30%",
+      "fontSize": "34px",
+      "textAlign":"center",
+      "color":"rgba(255, 45, 40, 1)"
+    },
+
+    "connection_ok_message":{
+      "top":"55%",
+      "left":"30%",
+      "fontSize": "34px",
+      "textAlign":"center",
+      "color":"rgba(125, 245, 120, 1)"
+    },
+
+
+    "pipeline_error":{
+      "top":"3%",
+      "right":"2%",
+      "fontSize": "32px",
+      "textAlign":"right",
+      "color":"rgba(255, 35, 40, 1)"
+    },
+
+    "pipeline_message":{
+      "top":"95%",
+      "right":"2%",
+      "fontSize": "15px",
+      "textAlign":"right",
+      "color":"rgba(15, 255, 90, 1)"
+    },
+
+    "piece_state_hint":{
+      "zIndex":"10",
+      "textAlign":"center",
+      "fontSize": "16px",
+      "width":"200px",
+      "left":"-100px",
+      "color":"rgba(255, 255, 190, 1)",
+      "transform":"scale3d(0.3,0.3,1)"
+    },
+    "ui_state_hint_on":{
+      "zIndex":"10",
+      "textAlign":"center",
+      "fontSize": "16px",
+      "width":"200px",
+      "left":"-100px",
+      "color":"rgba(15, 255, 190, 1)",
+      "transform":"scale3d(0.3,0.3,1)"
+    },
+    "ui_state_hint_off":{
+      "zIndex":"10",
+      "textAlign":"center",
+      "fontSize": "16px",
+      "width":"200px",
+      "left":"-100px",
+      "color":"rgba(255, 15, 190, 1)",
+      "transform":"scale3d(0.3,0.3,1)"
+    }
+
+
+
+  }
+}]

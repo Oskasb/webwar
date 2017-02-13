@@ -1,0 +1,38 @@
+[{
+  "popups": {
+    "select_name":[
+      {
+        "id":"popupRoot",
+        "data":{
+          "style":"popup_select_name_root"
+        }
+      },{
+        "id":"popupHeader",
+        "data":{
+          "parentId":"popupRoot",
+          "style":"popup_select_header",
+          "text":"Name:"
+        }
+      },{
+        "id":"dataField",
+        "data":{
+          "parentId":"popupRoot",
+          "style":"popup_input_data",
+          "input": {
+            "varname":"player_name",
+            "placeholder":"Enter Name"
+          }
+        }
+        },{
+        "id":"stateField",
+        "data":{
+          "parentId":"popupRoot",
+          "style":"popup_output_data",
+          "data_sample": {
+            "element":"dataField"
+          }
+        }
+      }
+    ]
+  }
+}]

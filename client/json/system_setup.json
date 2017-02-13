@@ -1,0 +1,174 @@
+[{
+
+    "setup": {
+        "DEBUG":{
+            "on":false,
+            "autoName":true,
+            "trackTpf":false,
+            "trackTpfAverage":false,
+            "renderInput":false,
+            "renderDistanceSegments":false,
+            "renderSegments":false,
+            "renderCursor":false,
+            "trackPing":false,
+            "trackTraffic":false,
+            "monitorServer":false,
+            "monitorSpatial":false,
+            "monitorModules":false,
+            "graphPoints":50
+        },
+        "pipeline":{
+            "jsonPipe":{
+                "polling":{
+                    "enabled":false,
+                    "frequency":30
+                }
+            },
+            "svgPipe":{
+                "polling":{
+                    "enabled":false,
+                    "frequency":2
+                }
+            },
+            "imagePipe":{
+                "polling":{
+                    "enabled":false,
+                    "frequency":2
+                }
+            }
+        },
+        "page":{
+            "resolution":128,
+            "blending":{
+                "default":"color_add",
+                "modes":[
+                    {
+                        "id":"opaque",
+                        "data":{
+                            "name":"Opaque",
+                            "blendState":{
+                                "blending" : "NoBlending"
+                            },
+                            "uniforms":{
+                                "discardThreshold":0.01
+                            }
+                        }
+                    },
+                    {
+                        "id":"threshold",
+                        "data":{
+                            "name":"Threshold",
+                            "blendState":{
+                                "blending" : "NoBlending"
+                            },
+                            "uniforms":{
+                                "discardThreshold":0.3
+                            }
+                        }
+                    },
+                    {
+                        "id":"color_add",
+                        "data":{
+                            "name":"Additive",
+                            "blendState":{
+                                "blending" : "CustomBlending",
+                                "blendEquation" : "AddEquation",
+                                "blendSrc" : "SrcColorFactor",
+                                "blendDst" : "SrcAlphaFactor"
+                            },
+                            "uniforms":{
+                                "discardThreshold":0.03
+                            }
+                        }
+                    },
+                    {
+                        "id":"alpha_cover",
+                        "data":{
+                            "name":"Alpha Cover",
+                            "blendState":{
+
+                                "blending" : "CustomBlending",
+                                "blendEquation" : "AddEquation",
+                                "blendSrc" : "SrcAlphaFactor",
+                                "blendDst" : "OneMinusSrcColorFactor"
+                            },
+                            "uniforms":{
+                                "discardThreshold":0.3
+                            }
+                        }
+                    },{
+                        "id":"color_cover",
+                        "data":{
+                            "name":"Color Cover",
+                            "blendState":{
+                                "blending" : "CustomBlending",
+                                "blendEquation" : "AddEquation",
+                                "blendSrc" : "SrcColorFactor",
+                                "blendDst" : "OneMinusSrcColorFactor"
+                            },
+                            "uniforms":{
+                                "discardThreshold":0.3
+                            }
+                        }
+                    },{
+                        "id":"color_alpha",
+                        "data":{
+                            "name":"Color Alpha",
+                            "blendState":{
+                                "blending" : "CustomBlending",
+                                "blendEquation" : "AddEquation",
+                                "blendSrc" : "SrcColorFactor",
+                                "blendDst" : "DstAlphaFactor"
+                            },
+                            "uniforms":{
+                                "discardThreshold":0.3
+                            }
+                        }
+                    },{
+                        "id":"add_cover",
+                        "data":{
+                            "name":"Add Covera",
+                            "blendState":{
+                                "blending" : "CustomBlending",
+                                "blendEquation" : "AddEquation",
+                                "blendSrc" : "OneFactor",
+                                "blendDst" : "OneMinusSrcColorFactor"
+                            },
+                            "uniforms":{
+                                "discardThreshold":0.3
+                            }
+                        }
+                    },{
+                        "id":"add_alpha",
+                        "data":{
+                            "name":"Add Alpha",
+                            "blendState":{
+                                "blending" : "CustomBlending",
+                                "blendEquation" : "AddEquation",
+                                "blendSrc" : "SrcAlphaFactor",
+                                "blendDst" : "OneFactor"
+                            },
+                            "uniforms":{
+                                "discardThreshold":0.3
+                            }
+                        }
+                    },{
+                        "id":"add_color",
+                        "data":{
+                            "name":"Add Color",
+                            "blendState":{
+                                "blending" : "CustomBlending",
+                                "blendEquation" : "AddEquation",
+                                "blendSrc" : "SrcColorFactor",
+                                "blendDst" : "OneFactor"
+                            },
+                            "uniforms":{
+                                "discardThreshold":0.01
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}]

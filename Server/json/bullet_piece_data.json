@@ -1,0 +1,62 @@
+[{
+  "dataType":"PIECE_DATA",
+  "pieces":{
+    "cannon_bullet":{
+      "size":3,
+      "controls":{
+        "actions": {
+          "applyForward":1,
+          "timeoutEvent": "EXPLODE"
+        },
+        "constants":{
+          "velocityDrag":0,
+          "radialDrag":1
+        }
+      },
+      "attachment_points":[
+        {"slot":"warhead",   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
+      ],
+      "default_modules":[
+        "bullet_shell"
+      ]
+    },
+    "lazer_beam_bullet":{
+      "controls":{
+        "size":1,
+        "actions": {
+          "applyForward":1,
+          "timeoutEvent": "EXPLODE"
+        },
+        "constants":{
+          "velocityDrag":0,
+          "radialDrag":1
+        }
+      },
+      "attachment_points":[
+        {"slot":"warhead",   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
+      ],
+      "default_modules":[
+        "lazer_beam"
+      ]
+    },
+    "plasma_bullet":{
+      "size":5,
+      "controls":{
+        "actions": {
+          "applyForward":1,
+          "timeoutEvent": "EXPLODE"
+        },
+        "constants":{
+          "velocityDrag":0,
+          "radialDrag":1
+        }
+      },
+      "attachment_points":[
+        {"slot":"warhead",   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
+      ],
+      "default_modules":[
+        "plasma_bullet"
+      ]
+    }
+  }
+}]

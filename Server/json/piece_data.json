@@ -1,0 +1,159 @@
+[
+  {
+    "dataType":"PIECE_DATA",
+    "pieces":{
+      "plasma_blob_piece":{
+        "size":5,
+        "controls":{
+          "actions": {
+            "applyForward":1,
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+            "velocityDrag":0.98,
+            "radialDrag":1
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
+        ],
+        "default_modules":[
+          "plasma_blob_module"
+        ]
+      },
+      "clay_blob_piece":{
+        "size":5,
+        "controls":{
+          "actions": {
+            "applyForward":1,
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+            "velocityDrag":0.5,
+            "radialDrag":1
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
+        ],
+        "default_modules":[
+          "clay_blob_module"
+        ]
+      },
+      "ground_plane":{
+        "size":5,
+        "controls":{
+          "actions": {
+            "applyForward":1,
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+            "velocityDrag":0.5,
+            "radialDrag":1
+          }
+        },
+        "attachment_points":[
+          {"slot":"ground" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
+        ],
+        "default_modules":[
+          "plane_ground_module"
+        ]
+      },
+      "big_space_rock_piece":{
+        "size":5,
+        "controls":{
+          "actions": {
+            "applyForward":1,
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+            "velocityDrag":0.5,
+            "radialDrag":1
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 4, 0]}}
+        ],
+        "default_modules":[
+          "big_space_rock_module"
+        ]
+      },
+    "big_tree_piece":{
+      "size":4,
+      "controls":{
+        "actions": {
+          "applyForward":1,
+          "timeoutEvent": "EXPLODE"
+        },
+        "constants":{
+          "velocityDrag":0.5,
+          "radialDrag":1
+        }
+      },
+      "attachment_points":[
+        {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 12, 0]}}
+      ],
+      "default_modules":[
+        "big_tree_module"
+      ]
+    },
+      "medium_tree_piece":{
+        "size":3,
+        "controls":{
+          "actions": {
+            "applyForward":1,
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+            "velocityDrag":0.5,
+            "radialDrag":1
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 7, 0]}}
+        ],
+        "default_modules":[
+          "medium_tree_module"
+        ]
+      },
+      "small_tree_piece":{
+        "size":2,
+        "controls":{
+          "actions": {
+            "applyForward":1,
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+            "velocityDrag":0.5,
+            "radialDrag":1
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 4, 0]}}
+        ],
+        "default_modules":[
+          "small_tree_module"
+        ]
+      },
+      "small_space_rock_piece":{
+        "size":5,
+        "controls":{
+          "actions": {
+            "applyForward":1,
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+            "velocityDrag":0.5,
+            "radialDrag":1
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,    "transform":{"rot":[0, 0, 0], "pos":[0, 3, 0]}}
+        ],
+        "default_modules":[
+          "small_space_rock_module"
+        ]
+      }
+    }
+  }
+]
