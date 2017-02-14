@@ -1,17 +1,15 @@
 "use strict";
 
 define([
-	'goo/math/Vector3',
-	'goo/entities/SystemBus'
+
 
 ],function(
-	Vector3,
-	SystemBus
+
 ) {
 
 	var Clouds = function() {
-		this.hitVec = new Vector3();
-		this.hitNorm = new Vector3();
+		this.hitVec = new goo.Vector3();
+		this.hitNorm = new goo.Vector3();
 		this.clouds = [];
 		this.cloudScale = 5;
 		this.lastPuffIndex = 0;
