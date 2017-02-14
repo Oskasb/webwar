@@ -32,7 +32,7 @@ define([], function(
             camera = new THREE.PerspectiveCamera( 45, containerElement.innerWidth / containerElement.innerHeight, 0.5, 10000 );
             camera.position.z = 1000;
 
-
+            console.log("Three Camera:", camera);
             
 
             renderer = new THREE.WebGLRenderer();
@@ -51,6 +51,32 @@ define([], function(
 
             renderer.render(scene, camera);
         }
+        var light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(0,250,0);
+        scene.add(light);
+
+
+        var floorTexture = new THREE.ImageUtils.loadTexture( './client/assets/images/water/watertile.png' );
+        floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+        floorTexture.repeat.set( 10, 10 );
+        var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, side: THREE.DoubleSide } );
+        var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+        var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+        floor.rotation.x = Math.PI / 2;
+        floor.doubleSided = true;
+        scene.add(floor);
+        // SKYBOX/FOG
+        var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
+        var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff, side: THREE.BackSide } );
+        var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+        // scene.add(skyBox);
+        scene.fog = new THREE.FogExp2( 0x9999ff, 0.00025 );
+
+    };
+
+
+    ThreeSetup.sampleCameraFrustum = function(store) {
+
     };
 
     ThreeSetup.setCameraPosition = function(px, py, pz) {
@@ -72,8 +98,8 @@ define([], function(
         parent.add(child);
     };
 
-    ThreeSetup.addModelToScene = function(model) {
-        scene.add(model);
+    ThreeSetup.addToScene = function(object3d) {
+        scene.add(object3d);
     };
 
     ThreeSetup.getCamera = function() {

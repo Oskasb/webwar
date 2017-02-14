@@ -22,9 +22,9 @@
           "config":{
             "callbacks":["temporalState", "tpfMonitor", "inputVector"],
             "element":{
-              "pos":[60, 60],
-              "size":[12, 12],
-              "blendMode":"add_color"
+              "pos":[0.5, 0.5],
+              "size":[1, 1],
+              "blendMode":"AdditiveBlending"
             }
           }
         }
@@ -37,8 +37,8 @@
             "callbacks":["followPointer"],
             "element":{
               "pos":[10, 10],
-              "size":[10, 10],
-              "blendMode":"add_color"
+              "size":[0.5, 0.5],
+              "blendMode":"AdditiveBlending"
             }
           }
         }
@@ -51,8 +51,8 @@
             "callbacks":["hoverTargets"],
             "element":{
               "pos":[0, 0],
-              "size":[30, 30],
-              "blendMode":"add_color"
+              "size":[2, 2],
+              "blendMode":"AdditiveBlending"
             }
           }
         }
@@ -65,8 +65,8 @@
             "callbacks":["currentTarget"],
             "element":{
               "pos":[0, 0],
-              "size":[15, 15],
-              "blendMode":"add_color"
+              "size":[1, 1],
+              "blendMode":"AdditiveBlending"
             }
           }
         }
@@ -78,9 +78,9 @@
           "config":{
             "callbacks":["inputDebug", "radarMap", "tpfMonitor"],
             "element":{
-              "pos":[-82, 40],
-              "size":[25, 25],
-              "blendMode":"add_color"
+              "pos":[0.2, 0.2],
+              "size":[1.1, 1.1],
+              "blendMode":"AdditiveBlending"
             }
           }
         }
@@ -93,9 +93,9 @@
               "radarMap"
             ],
             "element": {
-              "pos": [25,-90],
-              "size": [35, 35],
-              "blendMode": "add_color"
+              "pos": [-0.4, -0.4],
+              "size": [2.1, 2.1],
+              "blendMode": "AdditiveBlending"
             }
           }
         }

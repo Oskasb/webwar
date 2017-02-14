@@ -65,7 +65,9 @@ define([
 		};
 		
 		CanvasGuiMain.prototype.setCanvas3dCoords = function(x, y) {
-			this.canvasCalls.canvasGui3d.setElementPos(x, y);
+		//	this.canvasCalls.canvasGui3d.setElementPos(x, y);
+			this.canvasCalls.canvasGuiThree.setElementPos(x, y);
+
 		};
 
 		CanvasGuiMain.prototype.tickGuiMain = function(tpf) {

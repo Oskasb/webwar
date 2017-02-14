@@ -67,15 +67,10 @@
                         }
                     },
                     {
-                        "id":"color_add",
+                        "id":"additive",
                         "data":{
                             "name":"Additive",
-                            "blendState":{
-                                "blending" : "CustomBlending",
-                                "blendEquation" : "AddEquation",
-                                "blendSrc" : "SrcColorFactor",
-                                "blendDst" : "SrcAlphaFactor"
-                            },
+                            "blendState":"AdditiveBlending",
                             "uniforms":{
                                 "discardThreshold":0.03
                             }
@@ -100,12 +95,7 @@
                         "id":"color_cover",
                         "data":{
                             "name":"Color Cover",
-                            "blendState":{
-                                "blending" : "CustomBlending",
-                                "blendEquation" : "AddEquation",
-                                "blendSrc" : "SrcColorFactor",
-                                "blendDst" : "OneMinusSrcColorFactor"
-                            },
+                            "blendState":"MultiplyBlending",
                             "uniforms":{
                                 "discardThreshold":0.3
                             }

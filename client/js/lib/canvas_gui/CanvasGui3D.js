@@ -230,7 +230,7 @@ define([
 
 		CanvasGui3D.prototype.scaleCanvasGuiResolution = function(scale) {
 			this.txScale = scale;
-			var targetRes = MathUtils.nearestHigherPowerOfTwo(this.config.resolution * this.txScale);
+			var targetRes = MATH.nearestHigherPowerOfTwo(this.config.resolution * this.txScale);
 			if (targetRes != this.resolution) {
 				this.setCanvasGuiResolution(targetRes);
 			}

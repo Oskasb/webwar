@@ -1,28 +1,28 @@
 "use strict";
 
 define([
-	"gui/CanvasGui3D",
-	'gui/layout/LayoutEnums',
-	'gui/layout/ElementLayout',
-	'gui/functions/UiCallbacks',
-    'ui/canvas/CanvasDraw',
-	'gui/elements/UiParent'
-],
+		"gui/CanvasGuiThree",
+		'gui/layout/LayoutEnums',
+		'gui/layout/ElementLayout',
+		'gui/functions/UiCallbacks',
+		'ui/canvas/CanvasDraw',
+		'gui/elements/UiParent'
+	],
 	function(
-		CanvasGui3d,
+		CanvasGuiThree,
 		LayoutEnums,
 		ElementLayout,
 		UiCallbacks,
-        CanvasDraw,
+		CanvasDraw,
 		UiParent
-		) {
+	) {
 
 		var CanvasCalls = function(cameraEntity, resolution, uiCallbacks, canvasGuiConfig) {
 			this.callsToCanvas = 0;
 			this.registerUiCallbacks(uiCallbacks);
 			this.uiParent = new UiParent(this);
-			this.canvasGui3d = new CanvasGui3d(cameraEntity, resolution, canvasGuiConfig);
-			this.aspect = this.canvasGui3d.aspect;
+			this.canvasGuiThree = new CanvasGuiThree(resolution, canvasGuiConfig);
+			this.aspect = this.canvasGuiThree.aspect;
 			var onUpdate = function() {
 				this.updateParentLayout();
 				this.callResetCallbacks();
@@ -30,16 +30,16 @@ define([
 
 			var frustumUpdate = function() {
 				this.updateParentLayout();
-				if (Math.round(this.aspect*1000) != Math.round(this.canvasGui3d.aspect*1000)) {
+				if (Math.round(this.aspect*1000) != Math.round(this.canvasGuiThree.aspect*1000)) {
 					this.callResetCallbacks();
-					this.aspect = this.canvasGui3d.aspect;
+					this.aspect = this.canvasGuiThree.aspect;
 				}
 			}.bind(this);
 
-			this.canvasGui3d.onUpdateCallbacks.push(frustumUpdate);
 
-			this.canvas = this.canvasGui3d.canvas;
-			this.ctx = this.canvasGui3d.ctx;
+			this.canvasGuiThree.onUpdateCallbacks.push(frustumUpdate);
+			this.canvas = this.canvasGuiThree.canvas;
+			this.ctx = this.canvasGuiThree.ctx;
 			this.resolution = resolution;
 			this.lastFont = "20px Verdana";
 
@@ -77,19 +77,19 @@ define([
 		};
 
 		CanvasCalls.prototype.pxToPercentX = function(px) {
-			return px/this.canvasGui3d.scalePercentToX;
+			return px/this.canvasGuiThree.scalePercentToX;
 		};
 
 		CanvasCalls.prototype.pxToPercentY = function(px) {
-			return px/this.canvasGui3d.scalePercentToY;
+			return px/this.canvasGuiThree.scalePercentToY;
 		};
 
 		CanvasCalls.prototype.percentToX = function(percent) {
-			return percent*this.canvasGui3d.scalePercentToX;
+			return percent*this.canvasGuiThree.scalePercentToX;
 		};
 
 		CanvasCalls.prototype.percentToY = function(percent) {
-			return percent*this.canvasGui3d.scalePercentToY;
+			return percent*this.canvasGuiThree.scalePercentToY;
 		};
 
 		CanvasCalls.prototype.pxToX = function(px) {
@@ -97,7 +97,7 @@ define([
 		};
 
 		CanvasCalls.prototype.getPxFactor = function() {
-			return (this.canvasGui3d.resolution / 1024) *this.canvasGui3d.scalePxToX
+			return (this.canvasGuiThree.resolution / 1024) *this.canvasGuiThree.scalePxToX
 		};
 
 		var CALLS = {
@@ -272,8 +272,8 @@ define([
 		};
 
 		CanvasCalls.prototype.attenuateGui = function() {
-			this.resolution = this.canvasGui3d.resolution;
-		//	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			this.resolution = this.canvasGuiThree.resolution;
+			//	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 			this.ctx.fillStyle = this.attenuateColor;
 			this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -283,11 +283,7 @@ define([
 
 		CanvasCalls.prototype.updateCanvasCalls = function(tpf) {
 
-		//	t+=tpf;
-		//	if (t < 1) return
-		//	t = 0;
-			this.canvasGui3d.applyChanges();
-			this.canvasGui3d.updateCanvasGui();
+			this.canvasGuiThree.updateCanvasGui();
 
 			this.ctx.globalCompositeOperation = 'source-over';
 			this.attenuateGui();
@@ -301,7 +297,7 @@ define([
 
 		CanvasCalls.prototype.drawToCanvasGui = function(draw) {
 
-		//	if (t < 0.9) return
+			//	if (t < 0.9) return
 			if (!draw.renderData) {
 				console.error("No renderData", draw);
 				draw.renderData = draw;
@@ -319,7 +315,7 @@ define([
 		CanvasCalls.prototype.drawSortedLayers = function() {
 			this.callsToCanvas = 0;
 			for (var i = 0; i < this.renderDepthLayers.length; i++) {
-				 this.applyDrawInstructions(this.drawInstructions[this.renderDepthLayers[i]]);
+				this.applyDrawInstructions(this.drawInstructions[this.renderDepthLayers[i]]);
 
 			}
 			this.drawInstructions  = {};
@@ -330,7 +326,7 @@ define([
 
 		CanvasCalls.prototype.drawDepthLayers = function() {
 			this.renderDepthLayers.sort();
-		//	this.renderDepthLayers.reverse();
+			//	this.renderDepthLayers.reverse();
 			this.drawSortedLayers();
 		};
 
@@ -365,14 +361,14 @@ define([
 			this.attenuateColor = this.toRgba(color);
 		};
 
-        CanvasCalls.prototype.toggleGui = function(bool) {
-            this.canvasGui3d.toggle3dGui(bool);
+		CanvasCalls.prototype.toggleGui = function(bool) {
+			this.canvasGuiThree.toggle3dGui(bool);
 
-        };
+		};
 
 
-        CanvasCalls.prototype.applyTextureResolution = function(res) {
-			this.canvasGui3d.setCanvasGuiResolution(res);
+		CanvasCalls.prototype.applyTextureResolution = function(res) {
+			this.canvasGuiThree.setCanvasGuiResolution(res);
 
 			if (this.resolution != res) {
 				this.callResetCallbacks();
@@ -380,11 +376,11 @@ define([
 			this.resolution = res;
 
 		};
-		
-		CanvasCalls.prototype.applyTextureScale = function(txScale) {
-			this.canvasGui3d.scaleCanvasGuiResolution(txScale);
 
-			if (this.resolution != this.canvasGui3d.resolution) {
+		CanvasCalls.prototype.applyTextureScale = function(txScale) {
+			this.canvasGuiThree.scaleCanvasGuiResolution(txScale);
+
+			if (this.resolution != this.canvasGuiThree.resolution) {
 				this.callResetCallbacks();
 			}
 
@@ -396,25 +392,25 @@ define([
 		var resetTimeout;
 		CanvasCalls.prototype.callResetCallbacks = function() {
 			this.updateParentLayout();
-            var attenuation = this.attenuateColor;
-        //    this.setAttenuateColor([0, 0, 0, 1]);
+			var attenuation = this.attenuateColor;
+			//    this.setAttenuateColor([0, 0, 0, 1]);
 
 			this.attenuateGui();
-            this.attenuateGui();
-            this.attenuateGui();
+			this.attenuateGui();
+			this.attenuateGui();
 			this.renderDepthLayers = [];
 			this.drawInstructions = [];
 			var rebuild = function() {
 				this.updateParentLayout();
-        //        this.attenuateColor = attenuation;
-				this.resolution = this.canvasGui3d.resolution;
+				//        this.attenuateColor = attenuation;
+				this.resolution = this.canvasGuiThree.resolution;
 				for (var i = 0; i < this.resetCallbacks.length; i++) {
 					this.resetCallbacks[i]();
 				}
 				this.drawInstructions = [];
 			}.bind(this);
 
-			this.resolution = this.canvasGui3d.resolution;
+			this.resolution = this.canvasGuiThree.resolution;
 
 			clearTimeout(resetTimeout);
 			resetTimeout = setTimeout(function() {
@@ -423,12 +419,12 @@ define([
 
 		};
 
-        
 
-        CanvasCalls.prototype.removeGuiElements = function() {
-            this.canvasGui3d.remove3dGuiHost();
 
-        };
+		CanvasCalls.prototype.removeGuiElements = function() {
+			this.canvasGuiThree.remove3dGuiHost();
+
+		};
 
 
 		return CanvasCalls

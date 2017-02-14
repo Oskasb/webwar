@@ -21,8 +21,13 @@ define([],
             geometry = new THREE.BoxGeometry( sx || 1, sy || 1, sz || 1);
             material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
 
-
             return new THREE.Mesh( geometry, material );
+        };
+
+
+        ThreeModelLoader.applyMaterialToMesh = function(material, model) {
+
+            model.material = material;
 
         };
 
