@@ -4,7 +4,6 @@ define([
 	'gui/GuiConfigLoader',
 	'gui/CanvasGuiState',
 	'gui/CanvasCalls',
-	'gui/CanvasCalls2d',
 	'gui/GuiBusSends',
 	'gui/io/InputState',
 	'gui/io/PointerCursor',
@@ -14,7 +13,6 @@ define([
 		GuiConfigLoader,
 		CanvasGuiState,
 		CanvasCalls,
-		CanvasCalls2d,
 		GuiBusSends,
 		InputState,
 		PointerCursor,
@@ -33,8 +31,8 @@ define([
 			this.guiConfigLoader.initConfigs(masterUrl, ok, fail);
 		};
 
-		CanvasGuiMain.prototype.initGuiMain = function(cameraEntity, callbackMap, uiResolution, canvasGuiConfig) {
-			this.canvasCalls = new CanvasCalls(cameraEntity, uiResolution, callbackMap, canvasGuiConfig);
+		CanvasGuiMain.prototype.initGuiMain = function(callbackMap, uiResolution, canvasGuiConfig) {
+			this.canvasCalls = new CanvasCalls(uiResolution, callbackMap, canvasGuiConfig);
 			this.canvasGuiState = new CanvasGuiState(this.canvasCalls, this.pointerCursor);
 			var reset = function() {
 				this.canvasGuiState.rebuildGuiLayers();
@@ -43,7 +41,7 @@ define([
 		};
 
 		CanvasGuiMain.prototype.initGui2d = function(parentDiv, callbackMap, uiResolution) {
-			this.canvasCalls = new CanvasCalls2d(parentDiv, uiResolution, callbackMap);
+		//	this.canvasCalls = new CanvasCalls2d(parentDiv, uiResolution, callbackMap);
 			this.canvasGuiState = new CanvasGuiState(this.canvasCalls);
 			var reset = function() {
 				this.canvasGuiState.rebuildGuiLayers();

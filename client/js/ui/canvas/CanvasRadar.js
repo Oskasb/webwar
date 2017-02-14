@@ -45,7 +45,7 @@ define([
 
 
 
-        CanvasRadar.drawRadarContent = function(gamePieces, ctx, camera, confData, widgetConfigs) {
+        CanvasRadar.drawRadarContent = function(gamePieces, ctx, playerSpatial, confData, widgetConfigs) {
 
             pos = confData.pos;
             size = confData.size;
@@ -54,9 +54,10 @@ define([
             ctx.lineWidth = 1;
             
             var curveCount = 0;
+            
 
-            centerX = CanvasDraw.vectorToX(camera.transformComponent.transform.translation, size);
-            centerY = CanvasDraw.vectorToY(camera.transformComponent.transform.translation, size);
+            centerX = CanvasDraw.vectorToX(playerSpatial.pos, size);
+            centerY = CanvasDraw.vectorToY(playerSpatial.pos, size);
 
             var pathPlotTO = setTimeout(function() {
                 wait = false;

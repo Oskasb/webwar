@@ -34,34 +34,49 @@ define([
 
             var configLoaded = function(src, conf) {
                 _this.canvasElement.applyElementConfig(_this.parent, _this.pipelineObject.buildConfig()[_this.configId]);
-                _this.ready = true;
             };
 
             var clientTick = function(e) {
                 _this.canvasElement.updateCanvasElement(evt.args(e).tpf);
             };
 
+            var playerReady = function() {
 
-            if (!this.active) {
-                this.pipelineObject = new PipelineObject('canvas', 'systems');
-                this.pipelineObject.subscribe(configLoaded);
+                if (_this.ready) return;
+
+                if (!_this.active) {
+                    _this.pipelineObject = new PipelineObject('canvas', 'systems');
+                    _this.pipelineObject.subscribe(configLoaded);
+
+                }
+
+                this.active = true;
+
+                if (_this.conf.enableOnEvent) {
+                    console.log("Enable event", this.conf);
+                    var data = {};
+                    data[_this.conf.enableOnEvent.key] = false;
+                    PipelineAPI.setCategoryData(_this.conf.enableOnEvent.category, data);
+                    PipelineAPI.subscribeToCategoryKey(_this.conf.enableOnEvent.category, _this.conf.enableOnEvent.key, toggleTriggered);
+
+                }
+
+                _this.ready = true;
                 evt.on(evt.list().CLIENT_TICK, clientTick);
-            }
-            this.active = true;
+            };
+
+            PipelineAPI.subscribeToCategoryKey('GAME_DATA', 'OWN_PLAYER', playerReady);
+
+
             
             var toggleTriggered = function(src, data) {
                 _this.canvasElement.toggleEnabled(data);
             };
 
-            if (this.conf.enableOnEvent) {
-    //            console.log("Enable event", this.conf);
-                var data = {};
-                data[this.conf.enableOnEvent.key] = false;
-                PipelineAPI.setCategoryData(this.conf.enableOnEvent.category, data);
-                PipelineAPI.subscribeToCategoryKey(this.conf.enableOnEvent.category, this.conf.enableOnEvent.key, toggleTriggered);
-            }
-                        
+
+
         };
+
 
         DomCanvas.prototype.removeUiSystem = function() {
             this.canvasApi.removeCanvasGui();

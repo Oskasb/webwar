@@ -82,14 +82,17 @@ define([
 
         DataLoader.prototype.preloadImages = function() {
             
-            var processStyleData = function(src, data) {
-                console.log(src, data);
+            var imageOk = function(src, data) {
+                console.log("imageok:", src, data);
             };
 
+            var imageFail = function(src, err) {
+                console.log("image cache fail", erc, err)
+            }
 
             var styles = PipelineAPI.getCachedConfigs()['styles'];
 
-        //    console.log(styles);
+            console.log("STYLES ", styles);
 
             var imageStore = [];
 
@@ -98,6 +101,7 @@ define([
                 if (styles[key].backgroundImage) {
                     if (imageStore.indexOf(styles[key].backgroundImage)) {
                         imageStore.push(styles[key].backgroundImage);
+                        PipelineAPI.cacheImageFromUrl(styles[key].backgroundImage, imageOk, imageFail);
                     }
                 }
             }
@@ -119,14 +123,14 @@ define([
 
             var _this = this;
 
-            var initClient = function() {
+            var initClient = function(ready) {
                 if (client) {
                     console.log("Multi Inits requested, bailing");
                     return;
                 }
                 client = new Client(new PointerCursor());
 
-                client.setupSimulation(sceneController);
+                client.setupSimulation(sceneController, ready);
 
             };
 
@@ -155,26 +159,24 @@ define([
                 console.log('loadStateChange', state)
                 if (state == _this.getStates().IMAGES) {
 
-                    setTimeout(function() {
-                        initClient();
-                    }, 10);
+
 
                     _this.preloadImages();
                 }
 
+
+
                 if (state == _this.getStates().COMPLETED) {
 
-                    if (particles) {
+                    var clientReady = function() {
                         connectClient();
-                    } else {
-            //            console.log("Particles not yet ready...")
-                    //    var particlesRetry = function() {
-                     //       particles = true;
-                            connectClient();
-                         //   evt.removeListener(evt.list().PARTICLES_READY, particlesRetry);
-                    //    };
-                    //    evt.once(evt.list().PARTICLES_READY, particlesRetry);
                     }
+                    
+                    
+                    setTimeout(function() {
+                        initClient(clientReady);
+                    }, 10);
+                    
 
                 }
 
@@ -187,35 +189,36 @@ define([
 
 
             function pipelineCallback(started, remaining, loaded) {
-            //    console.log("SRL", started, remaining, loaded);
+                console.log("SRL", started, remaining, loaded);
 
                 evt.fire(evt.list().MONITOR_STATUS, {FILE_CACHE:loaded});
 
                 loadProgress.setProgress(loaded / started);
 
                 if (loadState == loadStates.IMAGES && remaining == 0) {
+                    console.log("IMAGE COMPLETED", started, remaining, loaded);
                     loadState = loadStates.COMPLETED;
                     PipelineAPI.setCategoryData('STATUS', {PIPELINE:pipelineOn});
                     PipelineAPI.subscribeToCategoryKey('setup', 'DEBUG', setDebug);
-                    setTimeout(function() {
-                        loadStateChange(loadState);
-                    }, 10);
+
+                    loadStateChange(loadState);
+
                 }
 
                 if (loadState == loadStates.CONFIGS && remaining == 0) {
-        //            console.log( "json files loaded.. go for the heavy stuff next.")
+                    console.log( "json files loaded.. go for the heavy stuff next.")
                     loadState = loadStates.IMAGES;
-                    setTimeout(function() {
-                        loadStateChange(loadState);
-                    }, 10);
+
+                    loadStateChange(loadState);
+
                 }
 
                 if (loadState == loadStates.SHARED_FILES && remaining == 0) {
-        //            console.log( "shared loaded....")
+                    console.log( "shared loaded....")
                     loadState = loadStates.CONFIGS;
-                    setTimeout(function() {
-                        loadStateChange(loadState);
-                    }, 10);
+
+                    loadStateChange(loadState);
+
 
 
                 }
@@ -300,6 +303,7 @@ define([
 
 
         DataLoader.prototype.notifyCompleted = function() {
+            evt.fire(evt.list().PLAYER_READY, {});
             loadProgress.removeProgress();
         };        
 

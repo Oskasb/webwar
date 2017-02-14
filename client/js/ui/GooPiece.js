@@ -21,7 +21,7 @@ define([
 		};
 
 		GooPiece.prototype.attachModule = function(module, attachmentPoint) {
-			return new GooModule(module, this.piece, this.entity, attachmentPoint);
+		//	return new GooModule(module, this.piece, this.entity, attachmentPoint);
 		};
 
 

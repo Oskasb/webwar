@@ -22,7 +22,7 @@ define([
         new ThreeCamera();
     };
 
-    ThreeController.setupThreeRenderer = function(clientTickCallback) {
+    ThreeController.setupThreeRenderer = function(clientTickCallback, ready) {
         
         var antialias = PipelineAPI.readCachedConfigKey('SETUP', 'ANTIALIAS');;
         var downscale = PipelineAPI.readCachedConfigKey('SETUP', 'PX_SCALE');
@@ -39,9 +39,14 @@ define([
         var notifyRezize = function() {
             setTimeout(function() {
                 ThreeAPI.updateWindowParameters(GameScreen.getWidth(), GameScreen.getHeight(), GameScreen.getAspect(), downscale);
+                evt.fire(evt.list().ENGINE_READY, {});
             }, 10);
         };
 
+    //    setTimeout(function() {
+            ready()
+    //    },20);
+        
         window.addEventListener('resize', notifyRezize);
         notifyRezize();
     };

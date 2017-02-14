@@ -19,8 +19,8 @@ define([
 			this.is3d = false;
 		};
 
-		CanvasGuiAPI.prototype.init3dCanvasGui = function(cameraEntity, callbackMap, canvasGuiConfig) {
-			this.canvasGuiMain.initGuiMain(cameraEntity, callbackMap, this.uiTxResolution, canvasGuiConfig);
+		CanvasGuiAPI.prototype.init3dCanvasGui = function(callbackMap, canvasGuiConfig) {
+			this.canvasGuiMain.initGuiMain(callbackMap, this.uiTxResolution, canvasGuiConfig);
 			this.is3d = true;
 		};
 

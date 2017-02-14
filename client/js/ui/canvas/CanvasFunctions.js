@@ -37,7 +37,7 @@ define([
             this.configs = {};
 
             pieces = PipelineAPI.readCachedConfigKey('GAME_DATA', 'PIECES');
-            camera = PipelineAPI.readCachedConfigKey('GAME_DATA', 'CAMERA');
+        //    camera = PipelineAPI.readCachedConfigKey('GAME_DATA', 'CAMERA');
             
             var setOwnPiece = function(src, data) {
                 ownPiece = data.ownPiece;
@@ -59,24 +59,25 @@ define([
             var configs = conf;
             
             var radarCallback = function(tpf, ctx) {
-                CanvasRadar.drawRadarContent(pieces, ctx, camera, configs, widgetConfigs);
+                CanvasRadar.drawRadarContent(pieces, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
             };
 
             var temporalStateCallback = function(tpf, ctx) {
                 if (ownPiece) {
-                    CanvasTemporalState.drawTemporal(ownPiece, ctx, camera, configs, widgetConfigs);
+                    CanvasTemporalState.drawTemporal(ownPiece, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
                 }
             };
 
             var inputVectorCallback = function(tpf, ctx) {
                 if (ownPiece) {
-                    CanvasInputVector.drawInputVectors(ownPiece, ctx, camera, configs, widgetConfigs);
+                    CanvasInputVector.drawInputVectors(ownPiece, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
                 }
             };
 
             var inputDebugCallback = function(tpf, ctx) {
                 if (ownPiece) {
-                    CanvasInputDebug.drawInputVectors(ownPiece, ctx, camera, configs, widgetConfigs);
+                    CanvasInputDebug.drawInputVectors(ownPiece, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
+                    CanvasInputDebug.drawInputVectors(ownPiece, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
                 }
             };
             
@@ -161,11 +162,7 @@ define([
                 if (!checkPieceForSelectable(piece)) {
                     return;
                 }
-
-                if (!piece.testFrustumVisible()) {
-            //        return;
-                }
-
+                
                 if (piece === ownPiece) {
                      return;
                 }

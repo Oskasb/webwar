@@ -18,6 +18,10 @@ if(typeof(MATH) == "undefined"){
 	MATH.calcFraction = function(start, end, current) {
 		return (current-start) / (end-start);
 	};
+
+	MATH.nearestHigherPowerOfTwo = function (value) {
+		return Math.floor(Math.pow(2, Math.ceil(Math.log(value) / Math.log(2))));
+	};
 	
 	MATH.getInterpolatedInCurveAboveIndex = function(value, curve, index) {
 		return curve[index][1] + (value - curve[index][0]) / (curve[index+1][0] - curve[index][0])*(curve[index+1][1]-curve[index][1]);

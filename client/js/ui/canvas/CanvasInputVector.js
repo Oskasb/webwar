@@ -40,9 +40,11 @@ define([
         };
 
 
-        CanvasInputVector.drawInputVectors = function(gamePiece, ctx, camera, confData, widgetConfigs) {
+        CanvasInputVector.drawInputVectors = function(gamePiece, ctx, playerSpatial, confData, widgetConfigs) {
 
-            calcVec.set(camera.transformComponent.transform.translation);
+            calcVec.x = playerSpatial.posX();
+            calcVec.y = playerSpatial.posY();
+            calcVec.z = playerSpatial.posZ();
 
             pos = confData.pos;
             size = confData.size;

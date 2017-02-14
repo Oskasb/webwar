@@ -65,7 +65,6 @@ define(['data_pipeline/data/ConfigCache'],
 
 		PipelineAPI.cacheImageFromUrl = function(url, success, fail) {
 			ConfigCache.cacheImageFromUrl(url, success, fail)
-
 		};
 
 		PipelineAPI.subscribeToImage = function(subscriberId, imageId, success) {

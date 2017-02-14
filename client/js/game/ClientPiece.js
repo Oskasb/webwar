@@ -4,7 +4,6 @@
 define([
 	'Events',
 	'ThreeAPI',
-	'ui/GooPiece',
 	'game/ThreePiece',
 	'io/InputSegmentRadial',
     'PipelineObject',
@@ -15,7 +14,6 @@ define([
 	function(
 		evt,
 		ThreeAPI,
-		GooPiece,
 		ThreePiece,
 		InputSegmentRadial,
         PipelineObject,
@@ -31,8 +29,7 @@ define([
 			particleConfig:'tpf_Letter',
 			textConfig:'text_config'
 		};
-
-		var camera;
+		
 		
 		var ClientPiece = function(serverState, removeCallback) {
 
@@ -66,7 +63,7 @@ define([
             
             this.pipelineObject = new PipelineObject('PIECE_DATA', piece.type, applyPieceData);
             this.notifyServerState(serverState)
-			camera = PipelineAPI.readCachedConfigKey('GAME_DATA', 'CAMERA').cameraComponent.camera;
+
 		};
 
 		ClientPiece.prototype.getScreenPosition = function(store) {
@@ -74,18 +71,6 @@ define([
 			ThreeAPI.toScreenPosition(this.piece.spatial.posX(), this.piece.spatial.posY(), this.piece.spatial.posZ(), store);
 		//	camera.getFrustumCoordinates(this.gooPiece.entity.transformComponent.transform.translation, store);
 		//	store.scale(1/camera.near);
-		};
-
-		var testBound = new goo.BoundingSphere(new goo.Vector3(0, 0, 0), 20);
-
-		ClientPiece.prototype.testFrustumVisible = function() {
-			testBound.center.setDirect(this.piece.spatial.posX(), this.piece.spatial.posY(), this.piece.spatial.posZ());
-
-			if (camera.contains(testBound) === goo.Camera.Outside) {
-				return;
-			}
-
-			return true;
 		};
 
 

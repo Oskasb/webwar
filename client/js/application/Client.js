@@ -51,6 +51,7 @@ define([
             this.handlers.timeTracker = this.timeTracker;
             this.handlers.clientWorld = new ClientWorld();
             PipelineAPI.setCategoryData('POINTER_STATE', this.pointerCursor.inputState);
+
 		};
 
         Client.prototype.handleServerMessage = function(res) {
@@ -177,6 +178,7 @@ define([
 					requestClient();
 				}, 10);
 
+                
 			//	evt.removeListener(evt.list().CONNECTION_OPEN, clientReady)
 			}.bind(this);
 
@@ -184,6 +186,8 @@ define([
 
             evt.on(evt.list().CONNECTION_OPEN, clientReady);
             evt.on(evt.list().PLAYER_READY, requestPlayer);
+
+
 
             this.connectSocket(socketMessages, connection);
 
@@ -194,14 +198,14 @@ define([
         var tickEvent = {frame:0, tpf:1};
 
 
-        Client.prototype.setupSimulation = function(sceneController) {
+        Client.prototype.setupSimulation = function(sceneController, ready) {
             var _this = this;
 
             var clientTick = function(tpf) {
                 _this.tick(tpf)
             };
 
-            sceneController.setup3dScene(clientTick);
+            sceneController.setup3dScene(clientTick, ready);
         };
 
         Client.prototype.processResponseStack = function(responseStack) {

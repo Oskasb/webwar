@@ -25,6 +25,8 @@ define([
 
         var CanvasElement = function(canvasParams) {
 
+            console.log("CANVAS ELEM", canvasParams);
+
             this.time = 0;
             this.configs = {};
             this.canvasApi = new CanvasGuiAPI(64);
@@ -62,13 +64,17 @@ define([
 
                     var _this = this;
 
-                    var cameraReady = function(src, camera) {
-                        _this.canvasApi.init3dCanvasGui(camera, _this.callbackMap, _this.canvasGuiConfig);
+                    var playerReady = function(src, player) {
+                        _this.canvasApi.init3dCanvasGui(_this.callbackMap, _this.canvasGuiConfig);
                         _this.ctx = _this.canvasApi.getCanvasContext();
                         _this.ready = true;
+
+                        _this.canvasApi.setGuiTextureResolution(_this.configs.resolution);
+                        _this.canvasApi.setGuiAttenuationRgba(_this.configs.attenuation);
+
                     };
 
-                    PipelineAPI.subscribeToCategoryKey('GAME_DATA', 'CAMERA', cameraReady);
+                    PipelineAPI.subscribeToCategoryKey('GAME_DATA', 'OWN_PLAYER', playerReady);
 
                 } else {
         //            console.log(parent);
@@ -80,8 +86,7 @@ define([
 
             }
 
-            this.canvasApi.setGuiTextureResolution(this.configs.resolution);
-            this.canvasApi.setGuiAttenuationRgba(this.configs.attenuation);
+
 
         };
 

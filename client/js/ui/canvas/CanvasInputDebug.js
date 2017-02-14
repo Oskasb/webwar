@@ -43,7 +43,9 @@ define([
 
         CanvasInputDebug.drawInputVectors = function(gamePiece, ctx, camera, confData, widgetConfigs) {
 
-            calcVec.set(camera.transformComponent.transform.translation);
+            calcVec.x = gamePiece.piece.spatial.posX();
+            calcVec.y = gamePiece.piece.spatial.posY();
+            calcVec.z = gamePiece.piece.spatial.posZ();
             
             pos = confData.pos;
             size = confData.size;

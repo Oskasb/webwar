@@ -95,12 +95,18 @@ define([
         };
 
         DomPanel.prototype.applyCanvas = function(elem, confData) {
+            return;
             var domCanvas = new DomCanvas(elem, confData);
             this.uiSystems.push(domCanvas);
 
             var setupReady = function(data) {
     //            console.log("Config for 3d canvas:", data);
+
                 domCanvas.initCanvasSystem(data);
+
+
+
+
             };
 
             var confLoaded = function(src, conf) {
@@ -124,7 +130,9 @@ define([
             this.uiSystems.push(domCanvas);
 
             var setupReady = function(data) {
+
                 domCanvas.initCanvasSystem(data);
+
             };
 
             var confLoaded = function(src, conf) {

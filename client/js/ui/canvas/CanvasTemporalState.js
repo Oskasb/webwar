@@ -31,9 +31,11 @@ define([
 
         var tmpColor = [0, 0, 0, 0];
 
-        CanvasTemporalState.drawTemporal = function(gamePiece, ctx, camera, confData, widgetConfigs) {
+        CanvasTemporalState.drawTemporal = function(gamePiece, ctx, playerSpatial, confData, widgetConfigs) {
 
-            calcVec.set(camera.transformComponent.transform.translation);
+            calcVec.x = playerSpatial.posX();
+            calcVec.y = playerSpatial.posY();
+            calcVec.z = playerSpatial.posZ();
             
             var pos = confData.pos;
             var size = confData.size;

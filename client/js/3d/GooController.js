@@ -5,14 +5,12 @@ define([
     'PipelineAPI',
     'application/Settings',
     'Events',
-    '3d/GooCameraController',
     'ui/dom/DomUtils',
     'ui/GameScreen'
 ], function(
     PipelineAPI,
     Settings,
     evt,
-    GooCameraController,
     DomUtils,
     GameScreen
 ) {
@@ -46,7 +44,7 @@ define([
      //   g00.startGameLoop();
 
         var setupGooScene = function() {
-            evt.fire(evt.list().ENGINE_READY, {goo:g00});
+        //    evt.fire(evt.list().ENGINE_READY, {goo:g00});
         };
 
         setupGooScene();

@@ -17,7 +17,7 @@ define([
 		UiParent
 	) {
 
-		var CanvasCalls = function(cameraEntity, resolution, uiCallbacks, canvasGuiConfig) {
+		var CanvasCalls = function(resolution, uiCallbacks, canvasGuiConfig) {
 			this.callsToCanvas = 0;
 			this.registerUiCallbacks(uiCallbacks);
 			this.uiParent = new UiParent(this);
