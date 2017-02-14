@@ -99,6 +99,12 @@ define([
             return model;
         };
 
+        ThreeAPI.loadQuad = function(sx, sy) {
+            var model = ThreeModelLoader.loadThreeQuad(sx, sy);
+            ThreeSetup.addToScene(model);
+            return model;
+        };
+
         ThreeAPI.addChildToObject3D = function(child, parent) {
             ThreeSetup.addChildToParent(child, parent);
         };

@@ -22,7 +22,7 @@
           "config":{
             "callbacks":["temporalState", "tpfMonitor", "inputVector"],
             "element":{
-              "pos":[0.5, 0.5],
+              "pos":[0.65, -0.65],
               "size":[1, 1],
               "blendMode":"AdditiveBlending"
             }
@@ -78,8 +78,8 @@
           "config":{
             "callbacks":["inputDebug", "radarMap", "tpfMonitor"],
             "element":{
-              "pos":[0.2, 0.2],
-              "size":[1.1, 1.1],
+              "pos": [0.5, -0.1],
+              "size": [2.1, 2.1],
               "blendMode":"AdditiveBlending"
             }
           }
@@ -93,7 +93,7 @@
               "radarMap"
             ],
             "element": {
-              "pos": [-0.4, -0.4],
+              "pos": [-0.5, -0.5],
               "size": [2.1, 2.1],
               "blendMode": "AdditiveBlending"
             }

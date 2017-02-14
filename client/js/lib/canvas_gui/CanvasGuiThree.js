@@ -70,7 +70,7 @@ define([
 
 			this.materialStore = {}
 
-			this.uiQuad = ThreeAPI.loadModel(0.1,0.1,0.1);
+			this.uiQuad = ThreeAPI.loadQuad(0.1,0.1,0.1);
 			ThreeAPI.buildCanvasObject(this.uiQuad, this.canvas, this.materialStore);
 			ThreeAPI.attachObjectToCamera(this.uiQuad);
 

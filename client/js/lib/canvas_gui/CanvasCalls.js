@@ -363,7 +363,6 @@ define([
 
 		CanvasCalls.prototype.toggleGui = function(bool) {
 			this.canvasGuiThree.toggle3dGui(bool);
-
 		};
 
 
