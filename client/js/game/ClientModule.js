@@ -38,6 +38,9 @@ define([
 
                 this.gooModule = clientPiece.gooPiece.attachModule(this, attachmentPoint);
                 this.gooModule.activateGooModule();
+                
+                this.threeModule = clientPiece.threePiece.attachModule(this, attachmentPoint);
+                
                 clientPiece.registerModule(this);
                 this.on = true;
             //    moduleReadyCb(this);

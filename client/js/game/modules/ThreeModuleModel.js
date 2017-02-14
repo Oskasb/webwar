@@ -17,20 +17,16 @@ define([
     ) {
 
 
-        var ModuleModel = function (parentEntity) {
+        var ThreeModuleModel = function (parentEntity) {
             this.parentEntity = parentEntity;
             this.moduleEntity;
             this.entityName;
             this.baseRotation = new goo.Vector3();
             this.baseTranslation = new goo.Vector3();
         };
-
-        ModuleModel.prototype.attachModuleModel = function (modelName) {
-            evt.fire(evt.list().ATTACH_BUNDLE_ENTITY, {entityName: modelName, parent: this.parentEntity});
-        };
-
-
-        ModuleModel.prototype.attachEntityToModule = function(childEntityName) {
+        
+                
+        ThreeModuleModel.prototype.attachEntityToModule = function(childEntityName) {
             this.entityName = childEntityName;
             var e = this.parentEntity;
 
@@ -54,7 +50,7 @@ define([
 
         };
 
-        ModuleModel.prototype.applyModuleTranslation = function(state, shakeAxis) {
+        ThreeModuleModel.prototype.applyModuleTranslation = function(state, shakeAxis) {
 
             if (this.moduleEntity.name != this.entityName) {
                 this.attachEntityToModule(this.entityName)
@@ -71,7 +67,7 @@ define([
             this.moduleEntity.transformComponent.setUpdated();
         };
 
-        ModuleModel.prototype.applyModuleRotation = function(rot) {
+        ThreeModuleModel.prototype.applyModuleRotation = function(rot) {
 
             if (this.moduleEntity.name != this.entityName) {
                 this.attachEntityToModule(this.entityName)
@@ -82,7 +78,7 @@ define([
             this.moduleEntity.transformComponent.setUpdated();
         };
 
-        ModuleModel.prototype.applyTextureAnimation = function(state, animAxis) {
+        ThreeModuleModel.prototype.applyTextureAnimation = function(state, animAxis) {
 
             if (this.moduleEntity.name != this.entityName) {
                 console.log("tx",this.moduleEntity.meshRendererComponent)
@@ -103,6 +99,6 @@ define([
         };
 
 
-        return ModuleModel;
+        return ThreeModuleModel;
         
     });

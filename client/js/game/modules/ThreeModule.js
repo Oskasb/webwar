@@ -2,24 +2,26 @@
 
 
 define([
+        'ThreeAPI',
         '3d/GooEntityFactory',
         'game/modules/ModuleEffect',
         'game/modules/ModuleEmitter',
-        'game/modules/ModuleModel',
+        'game/modules/ThreeModuleModel',
         'Events'
     ],
     function(
+        ThreeAPI,
         GooEntityFactory,
         ModuleEffect,
         ModuleEmitter,
-        ModuleModel,
+        ThreeModuleModel,
         evt
     ) {
 
 
 
 
-        var ThreeModule = function(module, piece, gooParent, attachmentPoint) {
+        var ThreeModule = function(module, piece, rootObject3d, attachmentPoint) {
 
             this.calcVec = new goo.Vector3();
             this.calcVec2 = new goo.Vector3();
@@ -41,19 +43,24 @@ define([
 
             if (this.applies) {
 
-                if (this.applies.bundle_model) {
-                    this.moduleModel = new ModuleModel(gooParent);
-                    this.moduleModel.attachModuleModel(this.applies.bundle_model);
+                if (this.applies.game_effect) {
+                    this.moduleModel = new ThreeModuleModel(rootObject3d);
+                    this.model = ThreeAPI.loadModel(this.transform.size.getX(), this.transform.size.getY(), this.transform.size.getZ());
+                    ThreeAPI.addChildToObject3D(this.model, rootObject3d);
+                    ThreeAPI.applySpatialToModel(this.transform, this.model);
                 }
 
-                if (this.applies.module_model_child) {
-                    this.moduleModel = new ModuleModel(gooParent);
+                if (this.applies.bundle_model || this.applies.module_model_child) {
+                    this.moduleModel = new ThreeModuleModel(rootObject3d);
 
-                    this.moduleModel.attachEntityToModule(this.applies.module_model_child);
+                    this.model = ThreeAPI.loadModel(this.transform.size.getX(), this.transform.size.getY(), this.transform.size.getZ());
+                    ThreeAPI.addChildToObject3D(this.model, rootObject3d);
+                    ThreeAPI.applySpatialToModel(this.transform, this.model);
+                    // this.moduleModel.attachEntityToModule(this.applies.module_model_child);
 
                 }
 
-                this.entity = gooParent;
+                this.rootObject3d = rootObject3d;
 
                 if (this.applies.game_effect) {
                     this.moduleEffect = new ModuleEffect();

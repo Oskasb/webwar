@@ -65,6 +65,10 @@ define([], function(
         camera.lookAt(lookAt);
     };
 
+    ThreeSetup.addChildToParent = function(child, parent) {
+        parent.add(child);
+    };
+
     ThreeSetup.addModelToScene = function(model) {
         scene.add(model);
     };
