@@ -2,20 +2,10 @@
 
 
 define([
-        'ThreeAPI',
-        '3d/GooEntityFactory',
-        'game/modules/ModuleEffect',
-        'game/modules/ModuleEmitter',
-        'game/modules/ThreeModuleModel',
-        'Events'
+        'ThreeAPI'
     ],
     function(
-        ThreeAPI,
-        GooEntityFactory,
-        ModuleEffect,
-        ModuleEmitter,
-        ThreeModuleModel,
-        evt
+        ThreeAPI
     ) {
 
 

@@ -2,18 +2,14 @@
 
 
 define([
-        '3d/effects/GooGameEffect',
         'Events'
     ],
     function(
-        GooGameEffect,
         evt
     ) {
         
         var ModuleEffect = function() {
-
-            this.gameEffect = new GooGameEffect();
-
+            
             this.effectData = {
                 params:{},
                 state:{}

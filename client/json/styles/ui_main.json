@@ -62,7 +62,7 @@
 
     "main_top_left":{
       "pointerEvents": "auto",
-      "top": "122em",
+      "top": "0em",
       "left": "0em",
       "textAlign": "left",
       "position": "fixed",
