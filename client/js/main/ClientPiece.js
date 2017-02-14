@@ -193,6 +193,7 @@ define([
             this.pipelineObject.removePipelineObject();
 			this.detachModules();
 			this.gooPiece.removeGooPiece();
+			this.threePiece.removeThreePiece();
 			this.removeCallback(this.piece.id);
 		};
 

@@ -34,14 +34,23 @@ define([
         ThreeAPI.cameraLookAt = function(x, y, z) {
             ThreeSetup.setCameraLookAt(x, y, z);
         };
-        
-        
+
+
+        ThreeAPI.transformModel = function(model, px, py, pz, rx, ry, rz) {
+            model.position.x = px; model.position.y = py; model.position.z = pz; 
+            model.rotation.x = rx; model.rotation.y = ry; model.rotation.x = rz;
+        };
+
         ThreeAPI.loadModel = function(data) {
             return ThreeModelLoader.loadThreeModel(data);
         };
 
         ThreeAPI.addModel = function(model) {
             ThreeSetup.addModelToScene(model);
+        };
+        
+        ThreeAPI.removeModel = function(model) {
+            ThreeSetup.removeModelFromScene(model);
         };
 
         return ThreeAPI;

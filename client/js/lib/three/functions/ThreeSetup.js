@@ -66,7 +66,11 @@ define([], function(
     };
 
     ThreeSetup.addModelToScene = function(model) {
-        scene.add( model );
+        scene.add(model);
+    };
+
+    ThreeSetup.removeModelFromScene = function(model) {
+        scene.remove(model);
     };
 
     ThreeSetup.setRenderParams = function(width, height, aspect, downscale) {

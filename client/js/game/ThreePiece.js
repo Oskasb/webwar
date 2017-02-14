@@ -25,24 +25,16 @@ define([
         };
 
 
-        ThreePiece.prototype.removeGooPiece = function() {
-            this.entity.removeFromWorld();
+        ThreePiece.prototype.removeThreePiece = function() {
+            ThreeAPI.removeModel(this.entity);
         };
 
         ThreePiece.prototype.getFrustumCoordinates = function(store) {
             this.entity.getScreenCoordinates(store);
         };
 
-
-
         ThreePiece.prototype.sampleSpatial = function(spatial) {
-            
-            this.entity.position.x = spatial.pos.getX();
-            this.entity.position.y = spatial.pos.getY();
-            this.entity.position.z = spatial.pos.getZ();
-            this.entity.rotation.x = 0;
-            this.entity.rotation.y = -spatial.yaw();
-            this.entity.rotation.x = 0;
+            ThreeAPI.transformModel(this.entity, spatial.pos.getX(), spatial.pos.getY(), spatial.pos.getZ(), 0, -spatial.yaw(), 0);
         };
 
 
