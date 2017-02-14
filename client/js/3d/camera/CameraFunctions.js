@@ -1,7 +1,7 @@
 "use strict";
 
 
-define(['PipelineAPI',], function(PipelineAPI) {
+define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
     
     var Vector3 = goo.Vector3;
     var playerPiece;
@@ -130,6 +130,21 @@ define(['PipelineAPI',], function(PipelineAPI) {
 
         cameraEntity.transformComponent.transform.translation.lerp(lastLerpPos, 0.1);
         cameraEntity.transformComponent.transform.lookAt(calcVec2, Vector3.UNIT_Y);
+
+        cameraEntity.transformComponent.transform.rotation.toAngles(calcVec);
+        ThreeAPI.setCameraPos(
+
+            cameraEntity.transformComponent.transform.translation.x,
+            cameraEntity.transformComponent.transform.translation.y,
+            cameraEntity.transformComponent.transform.translation.z
+
+
+        );
+        ThreeAPI.cameraLookAt(
+            calcVec2.x,
+            calcVec2.y,
+            calcVec2.z
+        )
     };
     
 

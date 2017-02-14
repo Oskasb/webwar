@@ -3,6 +3,8 @@
 
 define([
     '3d/ThreeController',
+    'ThreeAPI',
+    'ui/GameScreen',
     '3d/GooController',
     '3d/GooEntityFactory',
     '3d/effects/ParticlePlayer',
@@ -15,6 +17,8 @@ define([
 
 ], function(
     ThreeController,
+    ThreeAPI,
+    GameScreen,
     GooController,
     GooEntityFactory,
     ParticlePlayer,
@@ -32,19 +36,11 @@ define([
     var spaceFX;
     var groundFX;
     var modelLoader;
-    var threeController;
 
     new GooCameraEffects();
-
-    var setupThreeScene = function() {
-
-
-    };
-
-
+    
     var SceneController = function() {
 
-        threeController = new ThreeController();
         gooController = new GooController();
         
         spaceFX = new SpaceFX();
@@ -59,7 +55,7 @@ define([
         }
 
         function drawReady() {
-        //    gooController.registerGooUpdateCallback(particlePlayer.simpleParticles.update);
+            ThreeAPI.registerUpdateCallback(particlePlayer.simpleParticles.update);
             tickListen();
     //        evt.removeListener(evt.list().PARTICLES_READY, drawReady);
         }
@@ -71,6 +67,7 @@ define([
             },20);
         }
 
+
         evt.once(evt.list().ENGINE_READY, rendererReady);
         evt.once(evt.list().PARTICLES_READY, drawReady);
         evt.once(evt.list().BUNDLES_READY, bundlesReady);
@@ -78,15 +75,16 @@ define([
 
 
     function tickListen() {
+
     //    spaceFX.setupSpaceFxScene();
     //    groundFX.setupGroundFxScene();
-    }
+    };
     
     
 
     SceneController.prototype.setup3dScene = function(clientTickCallback) {
-        threeController.setupThreeRenderer();
-        gooController.setupGooRunner(clientTickCallback);
+        ThreeController.setupThreeRenderer(clientTickCallback);
+        gooController.setupGooRunner();
     };
 
     

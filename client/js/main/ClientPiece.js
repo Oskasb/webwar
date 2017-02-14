@@ -4,6 +4,7 @@
 define([
 	'Events',
 	'ui/GooPiece',
+	'game/ThreePiece',
 	'io/InputSegmentRadial',
     'PipelineObject',
 	'PipelineAPI',
@@ -13,6 +14,7 @@ define([
 	function(
 		evt,
 		GooPiece,
+		ThreePiece,
 		InputSegmentRadial,
         PipelineObject,
 		PipelineAPI,
@@ -45,7 +47,8 @@ define([
             this.name = this.playerId;
 
 
-
+			this.threePiece = new ThreePiece(this.piece);
+			
 			this.gooPiece = new GooPiece(this.piece);
 			
 			this.removeCallback = removeCallback;
@@ -161,7 +164,7 @@ define([
             this.sampleClientModules(this.piece.serverState.modules);
 
 			this.gooPiece.updateGooPiece();
-
+			this.threePiece.updateThreePiece();
 		};
 
 		

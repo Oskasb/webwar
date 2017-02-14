@@ -2,98 +2,42 @@
 
 
 define([
+    'ThreeAPI',
     'PipelineAPI',
     'application/Settings',
     'Events',
-    '3d/GooCameraController',
-    'ui/dom/DomUtils',
     'ui/GameScreen'
 ], function(
+    ThreeAPI,
     PipelineAPI,
     Settings,
     evt,
-    GooCameraController,
-    DomUtils,
     GameScreen
 ) {
 
 
-    var GooRunner = goo.GooRunner;
-    var Renderer = goo.Renderer;
-    var Vector3 = goo.Vector3;
-    var Texture = goo.Texture;
-    var Vector = goo.Vector;
-    
-    
     var ThreeController = function() {
     //    this.cameraController = new GooCameraController();
     };
 
-    ThreeController.prototype.setupThreeRenderer = function(clientTickCallback) {
+    ThreeController.setupThreeRenderer = function(clientTickCallback) {
         
         var antialias = PipelineAPI.readCachedConfigKey('SETUP', 'ANTIALIAS');;
         var downscale = PipelineAPI.readCachedConfigKey('SETUP', 'PX_SCALE');
 
-
-        var scene, camera, renderer;
-        var geometry, material, mesh;
-
-        init();
-        animate();
-
-        function init() {
-
-            scene = new THREE.Scene();
-
-            camera = new THREE.PerspectiveCamera( 75, GameScreen.getAspect(), 1, 10000 );
-            camera.position.z = 1000;
-
-            geometry = new THREE.BoxGeometry( 200, 200, 200 );
-            material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
-
-            mesh = new THREE.Mesh( geometry, material );
-            scene.add( mesh );
-
-            renderer = new THREE.WebGLRenderer();
-            GameScreen.getElement().appendChild(renderer.domElement);
-            renderer.setSize( GameScreen.getWidth(), GameScreen.getHeight() );
-
-         //   document.body.appendChild( renderer.domElement );
-
-        }
-
-        function animate() {
-
-            requestAnimationFrame( animate );
-
-            mesh.rotation.x += 0.01;
-            mesh.rotation.y += 0.02;
-
-            renderer.render( scene, camera );
-
-        }
-
-        
+        ThreeAPI.initThreeScene(GameScreen.getElement(), clientTickCallback);
 
         var adjustPxScale = function(value) {
             console.log("Adjust Px Scale: ", value);
+            downscale = value;
         };
 
         Settings.addOnChangeCallback('display_pixel_scale', adjustPxScale);
-        
-
-        var setupGooScene = function() {
-    //        evt.fire(evt.list().ENGINE_READY, {goo:g00});
-        };
-
-        setupGooScene();
-        
 
         var notifyRezize = function() {
             setTimeout(function() {
-                renderer.setSize( GameScreen.getWidth(), GameScreen.getHeight() );
+                ThreeAPI.updateWindowParameters(GameScreen.getWidth(), GameScreen.getHeight(), GameScreen.getAspect(), downscale);
             }, 10);
-
         };
 
         window.addEventListener('resize', notifyRezize);
