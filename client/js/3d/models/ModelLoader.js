@@ -16,6 +16,8 @@ define([
 
         function ModelLoader(goo) {
             this.loadedEntities = {};
+            
+            
             this.preloadBundleData(goo);
 
 

@@ -49,6 +49,11 @@ define([
             ThreeSetup.setCameraLookAt(x, y, z);
         };
 
+        ThreeAPI.toScreenPosition = function(x, y, z, store) {
+            ThreeSetup.toScreenPosition(x, y, z, store);
+        };
+        
+        
         ThreeAPI.newCanvasTexture = function(canvas) {
             return ThreeTextureMaker.createCanvasTexture(canvas);
         };

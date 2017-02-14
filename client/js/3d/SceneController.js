@@ -5,6 +5,7 @@ define([
     '3d/ThreeController',
     'ThreeAPI',
     'ui/GameScreen',
+    
     '3d/GooController',
     '3d/GooEntityFactory',
     '3d/effects/ParticlePlayer',
@@ -19,6 +20,7 @@ define([
     ThreeController,
     ThreeAPI,
     GameScreen,
+    
     GooController,
     GooEntityFactory,
     ParticlePlayer,
@@ -48,9 +50,9 @@ define([
         function rendererReady(e) {
             GooEntityFactory.setGoo(evt.args(e).goo);
             world = evt.args(e).goo.world;
-            particlePlayer = new ParticlePlayer(evt.args(e).goo);
+    //        particlePlayer = new ParticlePlayer(evt.args(e).goo);
             modelLoader = new ModelLoader(evt.args(e).goo);
-            EnvironmentAPI.setupEnvironment(evt.args(e).goo);
+     //       EnvironmentAPI.setupEnvironment(evt.args(e).goo);
     //        evt.removeListener(evt.list().ENGINE_READY, rendererReady);
         }
 

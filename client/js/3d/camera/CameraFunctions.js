@@ -23,6 +23,9 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
     var targetPos = new goo.Vector3();
     var lastLookAtPoint = new goo.Vector3();
 
+    var frameStore = new goo.Vector3();
+  //  var targetPos = new goo.Vector3();
+
     var elevFromVel = function(velVec, factor) {
         return -velVec.getZ() * Math.sqrt(Math.abs(velVec.getZ() * factor));
     };
@@ -58,7 +61,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
     };
 
 
-    CameraFunctions.prototype.updateCamera = function(tpf, cameraEntity, ownPiece) {
+    CameraFunctions.prototype.updateCamera = function(tpf, ownPiece) {
         playerPiece = ownPiece.piece;
         playerPiece.spatial.getForwardVector(forVec);
         var speedFactor = Math.min(playerPiece.spatial.vel.getLengthSquared(), 20);
@@ -69,7 +72,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         // forVec.addVec(playerPiece.spatial.vel);
         // forVec.scale(0.4);
 
-        cameraEntity.transformComponent.transform.translation.setVector(lastLerpPos);
+        frameStore.setVector(lastLerpPos);
 
         lookAtPoint.lerp(lookAtPos(playerPiece.spatial.pos, calcVec), 0.1);
 
@@ -79,7 +82,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         lookAtPoint.add(calcVec);
         lookAtPoint.y = MATH.clamp(elevFromVel(playerPiece.spatial.vel, 1)*0.2, 1, 3) + 2;
 
-        cameraEntity.lookAtPoint = lookAtPoint;
+    //    cameraEntity.lookAtPoint = lookAtPoint;
 
         var selectedTarget = checkTarget();
         if (selectedTarget) {
@@ -118,25 +121,21 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
 
 
-        calcVec.set(cameraEntity.lookAtPoint);
+        calcVec.set(lookAtPoint);
         calcVec.lerp(lookAtPoint, 0.001);
-        cameraEntity.lookAtPoint = calcVec;
-
 
         calcVec2.set(calcVec);
         lastLookAtPoint.lerp(targetPos, 0.01);
         calcVec2.add(lastLookAtPoint);
 
 
-        cameraEntity.transformComponent.transform.translation.lerp(lastLerpPos, 0.1);
-        cameraEntity.transformComponent.transform.lookAt(calcVec2, Vector3.UNIT_Y);
+        frameStore.lerp(lastLerpPos, 0.1);
 
-        cameraEntity.transformComponent.transform.rotation.toAngles(calcVec);
         ThreeAPI.setCameraPos(
 
-            cameraEntity.transformComponent.transform.translation.x,
-            cameraEntity.transformComponent.transform.translation.y,
-            cameraEntity.transformComponent.transform.translation.z
+            frameStore.x,
+            frameStore.y,
+            frameStore.z
 
 
         );

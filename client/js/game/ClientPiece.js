@@ -3,6 +3,7 @@
 
 define([
 	'Events',
+	'ThreeAPI',
 	'ui/GooPiece',
 	'game/ThreePiece',
 	'io/InputSegmentRadial',
@@ -13,6 +14,7 @@ define([
 ],
 	function(
 		evt,
+		ThreeAPI,
 		GooPiece,
 		ThreePiece,
 		InputSegmentRadial,
@@ -49,7 +51,7 @@ define([
 
 			this.threePiece = new ThreePiece(this.piece);
 			
-			this.gooPiece = new GooPiece(this.piece);
+		//	this.gooPiece = new GooPiece(this.piece);
 			
 			this.removeCallback = removeCallback;
 			this.setServerState(serverState);
@@ -68,8 +70,10 @@ define([
 		};
 
 		ClientPiece.prototype.getScreenPosition = function(store) {
-			camera.getFrustumCoordinates(this.gooPiece.entity.transformComponent.transform.translation, store);
-			store.scale(1/camera.near);
+
+			ThreeAPI.toScreenPosition(this.piece.spatial.posX(), this.piece.spatial.posY(), this.piece.spatial.posZ(), store);
+		//	camera.getFrustumCoordinates(this.gooPiece.entity.transformComponent.transform.translation, store);
+		//	store.scale(1/camera.near);
 		};
 
 		var testBound = new goo.BoundingSphere(new goo.Vector3(0, 0, 0), 20);
@@ -187,7 +191,7 @@ define([
 
             this.sampleClientModules(this.piece.serverState.modules);
 
-			this.gooPiece.updateGooPiece();
+		//	this.gooPiece.updateGooPiece();
 			this.threePiece.updateThreePiece();
 		};
 
@@ -216,7 +220,7 @@ define([
 		ClientPiece.prototype.playerRemove = function() {
             this.pipelineObject.removePipelineObject();
 			this.detachModules();
-			this.gooPiece.removeGooPiece();
+		//	this.gooPiece.removeGooPiece();
 			this.threePiece.removeThreePiece();
 			this.removeCallback(this.piece.id);
 		};
@@ -290,7 +294,7 @@ define([
 				textStyle.posy = this.piece.spatial.pos.getZ()+5;
 
 				evt.fire(evt.list().PARTICLE_TEXT, {text:'TELEPORT', textStyle:textStyle});
-				this.gooPiece.updateGooPiece();
+			//	this.gooPiece.updateGooPiece();
 				evt.fire(evt.list().GAME_EFFECT, {effect:"teleport", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
 
 				textStyle.posx = this.piece.spatial.pos.getX()-5;
@@ -316,7 +320,7 @@ define([
 
 			//	evt.fire(evt.list().PARTICLE_TEXT, {text:'APPEAR', textStyle:textStyle});
 
-				this.gooPiece.updateGooPiece();
+			//	this.gooPiece.updateGooPiece();
 				return;
 			}
 			
@@ -329,7 +333,7 @@ define([
 
 		//		evt.fire(evt.list().PARTICLE_TEXT, {text:'POP', textStyle:textStyle});
 
-				this.gooPiece.updateGooPiece();
+			//	this.gooPiece.updateGooPiece();
 			//	evt.fire(evt.list().GAME_EFFECT, {effect:"spawn_pulse", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
 
 			}

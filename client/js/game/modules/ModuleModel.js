@@ -26,7 +26,7 @@ define([
         };
 
         ModuleModel.prototype.attachModuleModel = function (modelName) {
-            evt.fire(evt.list().ATTACH_BUNDLE_ENTITY, {entityName: modelName, parent: this.parentEntity});
+        //    evt.fire(evt.list().ATTACH_BUNDLE_ENTITY, {entityName: modelName, parent: this.parentEntity});
         };
 
 

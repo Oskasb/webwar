@@ -126,7 +126,7 @@ define([
 
 			// (this.aspectMarginLeft*0.1, this.aspectMarginTop*0.1, -2);
 			this.aspect = this.left / this.top;
-			this.uiQuad.position.set( this.guiConfig.element.pos[0]* this.aspect *0.5, this.guiConfig.element.pos[1]  *0.5,  -1)
+			this.uiQuad.position.set( this.guiConfig.element.pos[0]* this.aspect * 0.5, this.guiConfig.element.pos[1]  * 0.5,  -2)
 
 			this.uiQuad.scale.set(this.guiConfig.element.size[0], this.guiConfig.element.size[1], 1);
 			this.scalePercentToX = 1.01/ (this.size / this.left);
@@ -154,6 +154,7 @@ define([
 
 			this.uiQuad.position.x = this.guiConfig.element.pos[0];
 			this.uiQuad.position.y = this.guiConfig.element.pos[1];
+			this.uiQuad.position.z = -2;
 		};
 
 		CanvasGuiThree.prototype.updateBlendMode = function() {

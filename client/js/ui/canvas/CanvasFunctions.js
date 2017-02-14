@@ -137,8 +137,8 @@ define([
 
 
             var fitView = function(vec3) {
-                vec3.x *= 1.22 / GameScreen.getAspect();
-                vec3.v *= -1.22;
+                vec3.x *= 0.8 * GameScreen.getAspect();
+                vec3.v *= -0.8
                 vec3.z = 0;
             };
 
@@ -161,13 +161,13 @@ define([
                 }
 
                 if (!piece.testFrustumVisible()) {
-                    return;
+            //        return;
                 }
 
                 if (piece === ownPiece) {
-                    return;
+                     return;
                 }
-                
+
                 piece.getScreenPosition(frustumCoordinates);
                 
                 fitView(frustumCoordinates);
@@ -188,7 +188,7 @@ define([
             var hoverCoords = new goo.Vector3(0, 0, 0);
             var pointerDistance;
 
-            var selectRange = 0.03;
+            var selectRange = 1.03;
 
             var hoverTargetsCallback = function(tpf, ctx) {
 

@@ -6,18 +6,20 @@ define([
     'PipelineAPI',
     'application/Settings',
     'Events',
+    '3d/camera/ThreeCamera',
     'ui/GameScreen'
 ], function(
     ThreeAPI,
     PipelineAPI,
     Settings,
     evt,
+    ThreeCamera,
     GameScreen
 ) {
 
 
     var ThreeController = function() {
-    //    this.cameraController = new GooCameraController();
+        new ThreeCamera();
     };
 
     ThreeController.setupThreeRenderer = function(clientTickCallback) {

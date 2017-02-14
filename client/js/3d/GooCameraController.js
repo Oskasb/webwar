@@ -89,7 +89,7 @@ define(['Events',
     var tpf;
 
     var updateCamera = function(e) {
-        if (!on) return;
+        return;
         tpf = evt.args(e).tpf
         ownPiece = PipelineAPI.readCachedConfigKey('GAME_DATA', 'OWN_PLAYER').ownPiece;
         EnvironmentAPI.updateCameraFrame(tpf, cameraEntity);

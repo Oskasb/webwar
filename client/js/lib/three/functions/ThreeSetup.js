@@ -1,8 +1,8 @@
 "use strict";
 
 
-define([], function(
-
+define(['ui/GameScreen'], function(
+    GameScreen
 ) {
     
     var scene, camera, renderer;
@@ -71,6 +71,40 @@ define([], function(
         var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
         // scene.add(skyBox);
         scene.fog = new THREE.FogExp2( 0x9999ff, 0.00025 );
+
+    };
+
+    var vector = new THREE.Vector3();
+    var tempObj = new THREE.Object3D();
+
+    ThreeSetup.toScreenPosition = function(x, y, z, store) {
+
+        tempObj.position.x = x;
+        tempObj.position.y = y;
+        tempObj.position.z = z;
+
+        var width = GameScreen.getWidth();
+        var height = GameScreen.getHeight();
+
+    //    var widthHalf = 0.5*renderer.context.canvas.width;
+    //    var heightHalf = 0.5*renderer.context.canvas.height;
+
+        tempObj.updateMatrixWorld();
+        vector.setFromMatrixPosition(tempObj.matrixWorld);
+        vector.project(camera);
+
+    ////    vector.x = ( vector.x * widthHalf ) + widthHalf;
+    ////    vector.y = - ( vector.y * heightHalf ) + heightHalf;
+
+        store.x = vector.x * 0.5;
+        store.y = vector.y * 0.5;
+        store.z = 0;
+
+    //    console.log(vector.x, width);
+    //    store.x = vector.x * 0.05 + 0.05;
+    //    store.y -= vector.y * 0.05 + 0.05;
+
+        return store;
 
     };
 

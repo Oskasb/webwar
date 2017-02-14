@@ -136,11 +136,11 @@ define([
             }
 
 
-            var particlesReady = function() {
+        //    var particlesReady = function() {
                 particles = true;
 
             //    evt.removeListener(evt.list().PARTICLES_READY, particlesReady);
-            };
+        //    };
 
 
             function connectClient() {
@@ -168,12 +168,12 @@ define([
                         connectClient();
                     } else {
             //            console.log("Particles not yet ready...")
-                        var particlesRetry = function() {
-                            particles = true;
+                    //    var particlesRetry = function() {
+                     //       particles = true;
                             connectClient();
                          //   evt.removeListener(evt.list().PARTICLES_READY, particlesRetry);
-                        };
-                        evt.once(evt.list().PARTICLES_READY, particlesRetry);
+                    //    };
+                    //    evt.once(evt.list().PARTICLES_READY, particlesRetry);
                     }
 
                 }
@@ -290,7 +290,7 @@ define([
 
 
 
-            evt.once(evt.list().PARTICLES_READY, particlesReady);
+        //    evt.once(evt.list().PARTICLES_READY, particlesReady);
 
             PipelineAPI.addReadyCallback(pipelineReady);
 
