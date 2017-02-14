@@ -66,6 +66,9 @@ define([], function(
     };
 
     ThreeSetup.addChildToParent = function(child, parent) {
+        if (child.parent) {
+            child.parent.remove(child);
+        }
         parent.add(child);
     };
 
@@ -73,7 +76,15 @@ define([], function(
         scene.add(model);
     };
 
+    ThreeSetup.getCamera = function() {
+        return camera;
+    };
+
     ThreeSetup.removeModelFromScene = function(model) {
+        if (model.parent) {
+            model.parent.remove(model);
+        }
+
         scene.remove(model);
     };
 

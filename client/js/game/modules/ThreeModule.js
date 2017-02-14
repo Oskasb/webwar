@@ -19,84 +19,55 @@ define([
     ) {
 
 
-
-
-        var ThreeModule = function(module, piece, rootObject3d, attachmentPoint) {
-
-            this.calcVec = new goo.Vector3();
-            this.calcVec2 = new goo.Vector3();
-            this.calcVec3 = new goo.Vector3();
+        var ThreeModule = function(module, piece, attachmentPoint) {
 
             this.tempSpatial = new MODEL.Spatial();
-
             this.transform = attachmentPoint.transform;
-
             this.moduleSpatial = new MODEL.Spatial();
             this.moduleSpatial.setSpatial(attachmentPoint.transform);
-
-            this.particles = [];
             this.piece = piece;
             this.module = module;
-            this.applies = module.data.applies;
-            this.flicker = 0;
-            this.animate = this.applies.animate;
-
-            if (this.applies) {
-
-                if (this.applies.game_effect) {
-                    this.moduleModel = new ThreeModuleModel(rootObject3d);
-                    this.model = ThreeAPI.loadModel(this.transform.size.getX(), this.transform.size.getY(), this.transform.size.getZ());
-                    ThreeAPI.addChildToObject3D(this.model, rootObject3d);
-                    ThreeAPI.applySpatialToModel(this.transform, this.model);
-                }
-
-                if (this.applies.bundle_model || this.applies.module_model_child) {
-                    this.moduleModel = new ThreeModuleModel(rootObject3d);
-
-                    this.model = ThreeAPI.loadModel(this.transform.size.getX(), this.transform.size.getY(), this.transform.size.getZ());
-                    ThreeAPI.addChildToObject3D(this.model, rootObject3d);
-                    ThreeAPI.applySpatialToModel(this.transform, this.model);
-                    // this.moduleModel.attachEntityToModule(this.applies.module_model_child);
-
-                }
-
-                this.rootObject3d = rootObject3d;
-
-                if (this.applies.game_effect) {
-                    this.moduleEffect = new ModuleEffect();
-                    this.moduleEffect.setupEffectModelData(this.applies, this.piece, this.tempSpatial);
-                } else if (this.applies.emit_effect) {
-                    this.moduleEmitter = new ModuleEmitter();
-                    this.moduleEmitter.setupEmitEffectData(this.applies, this.piece, this.tempSpatial, this.transform);
-                }
-
-                if (this.applies.spawn_effect) {
-                    evt.fire(evt.list().GAME_EFFECT, {effect:module.data.applies.spawn_effect, pos:piece.spatial.pos, vel:piece.spatial.vel});
-                }
-            }
-
         };
 
 
-        ThreeModule.prototype.activateGooModule = function() {
-            if (this.moduleEffect) {
-                this.moduleEffect.gameEffect.startGooEffect()
+        ThreeModule.prototype.setModuleData = function(moduleData) {
+            this.applies = moduleData.applies;
+        };
+
+        ThreeModule.prototype.buildModel = function(parentObj3d) {
+            if (!this.applies) return;
+
+            this.parentObject3d = ThreeAPI.createRootObject();
+
+            if (this.applies.game_effect || this.applies.bundle_model || this.applies.module_model_child) {
+
+                this.model = ThreeAPI.loadModel(this.transform.size.getX(), this.transform.size.getY(), this.transform.size.getZ());
+                ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
             }
         };
 
 
-        ThreeModule.prototype.removeModule = function() {
-
-            if (this.applies.remove_effect) {
-                this.tempSpatial.stop();
-                evt.fire(evt.list().GAME_EFFECT, {effect:this.applies.remove_effect, pos:this.piece.spatial.pos, vel:this.tempSpatial.rot});
+        ThreeModule.prototype.getParentObject3d = function() {
+            return this.parentObject3d;
+        };
+        
+        ThreeModule.prototype.attachToParent = function(parentObject3d) {
+            if (!this.applies) return;
+            
+            if (this.applies.game_effect || this.applies.bundle_model || this.applies.module_model_child) {
+                ThreeAPI.addChildToObject3D(this.model, parentObject3d);
+                ThreeAPI.applySpatialToModel(this.transform, this.model);
             }
 
-            if (this.moduleEffect) {
-                this.moduleEffect.gameEffect.removeGooEffect();
-            }
+            this.parentObject3d = parentObject3d;
+        };
 
-            this.entity.removeFromWorld();
+
+
+        ThreeModule.prototype.removeThreeModule = function() {
+            if(this.model) {
+                ThreeAPI.removeModel(this.model);
+            }
         };
 
 
@@ -139,24 +110,29 @@ define([
         };
 
 
-        ThreeModule.prototype.updateGooModule = function() {
+        ThreeModule.prototype.updateThreeModule = function(stateValue) {
 
-            return;
-            
+
+            if (!stateValue) return;
             if (!this.applies) return;
             if (!this.transform) return;
 
             if (this.applies.spatial_axis) {
-                var diff = this.angleDiffForAxis(this.module.state.value, this.applies.spatial_axis);
+                var diff = this.angleDiffForAxis(stateValue, this.applies.spatial_axis);
 
                 var factor = this.applies.rotation_velocity * this.applies.cooldown * 0.2;
 
-                this.applyAngleRotationAxisToSpatial(diff, this.transform.rot.data, this.moduleSpatial, factor);
+                this.applyAngleRotationAxisToSpatial(diff, this.applies.rotation_axis, this.moduleSpatial, factor);
 
                 if (this.moduleModel) {
-                    this.moduleModel.applyModuleRotation(this.moduleSpatial.rot.data);
+                //    this.moduleModel.applyModuleRotation(this.moduleSpatial.rot.data);
                 }
+                ThreeAPI.applySpatialToModel(this.moduleSpatial, this.parentObject3d);
             }
+
+
+
+            return;
 
             if (this.applies.animate_texture) {
                 if (this.moduleModel) {

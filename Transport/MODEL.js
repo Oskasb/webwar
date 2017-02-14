@@ -215,7 +215,7 @@ if(typeof(MODEL) == "undefined"){
 	MODEL.Spatial.prototype.applyRoll = function(angle) {
 		this.rot.rotateZ(angle);
 	};
-
+	
 	MODEL.Spatial.prototype.fromAngles = function(x, y, z) {
 		this.setPitch(x);
 		this.setYaw(y);

@@ -3,30 +3,33 @@
 
 define([
         'ThreeAPI',
-        'game/modules/ThreeModule'
+
     ],
     function(
-        ThreeAPI,
-        ThreeModule
+        ThreeAPI
     ) {
 
         var ThreePiece = function(piece) {
 
             this.id = piece.id;
             this.piece = piece;
-            this.rootObject3d = ThreeAPI.createRootObject();
+            this.parentObject3d = ThreeAPI.createRootObject();
 
             this.model = ThreeAPI.loadModel();
-            ThreeAPI.addChildToObject3D(this.model, this.rootObject3d);
+            ThreeAPI.addChildToObject3D(this.model, this.parentObject3d);
         };
 
         ThreePiece.prototype.attachModule = function(module, attachmentPoint) {
-            return new ThreeModule(module, this.piece, this.rootObject3d, attachmentPoint);
+            return new ThreeModule(module, this.piece, this.parentObject3d, attachmentPoint);
         };
 
-
+        ThreePiece.prototype.getParentObject3d = function() {
+            return this.parentObject3d;
+        };
+        
+        
         ThreePiece.prototype.removeThreePiece = function() {
-            ThreeAPI.removeModel(this.rootObject3d);
+            ThreeAPI.removeModel(this.parentObject3d);
         };
 
         ThreePiece.prototype.getFrustumCoordinates = function(store) {
@@ -34,7 +37,7 @@ define([
         };
 
         ThreePiece.prototype.sampleSpatial = function(spatial) {
-            ThreeAPI.transformModel(this.rootObject3d, spatial.pos.getX(), spatial.pos.getY(), spatial.pos.getZ(), 0, -spatial.yaw(), 0);
+            ThreeAPI.transformModel(this.parentObject3d, spatial.pos.getX(), spatial.pos.getY(), spatial.pos.getZ(), 0, -spatial.yaw(), 0);
         };
 
 

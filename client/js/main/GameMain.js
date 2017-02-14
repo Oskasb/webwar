@@ -2,7 +2,7 @@
 
 
 define([
-	'main/ClientPiece',
+	'game/ClientPiece',
 	'Events',
 	'PipelineAPI',
     'PipelineObject'

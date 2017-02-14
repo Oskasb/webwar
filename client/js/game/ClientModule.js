@@ -4,18 +4,20 @@
 
 define([
         'Events',
-    'PipelineObject'
+        'PipelineObject',
+        'game/modules/ThreeModule'
     ],
     function(
         evt,
-        PipelineObject
+        PipelineObject,
+        ThreeModule
     ) {
 
         var ClientModule = function(clientPiece, attachmentPoint, serverState) {
 
             this.clientPiece = clientPiece;
             this.id = attachmentPoint.data.module;
-
+            this.parentId = attachmentPoint.parent;
 
             if (serverState) {
                 this.state = serverState[0];
@@ -26,29 +28,31 @@ define([
 
             this.on = false;
             this.lastValue = null;
+
+            this.threeModule = new ThreeModule(this, clientPiece.piece,  attachmentPoint);
             
             var applyModuleData = function(src, data) {
             //    console.log("Module data", src, data);
                 this.data = data;
-                
-                if (this.on) {
-                    console.log("Module already on", this);
-                    return;
-                }
 
-                this.gooModule = clientPiece.gooPiece.attachModule(this, attachmentPoint);
-                this.gooModule.activateGooModule();
-                
-                this.threeModule = clientPiece.threePiece.attachModule(this, attachmentPoint);
-                
-                clientPiece.registerModule(this);
-                this.on = true;
-            //    moduleReadyCb(this);
+                this.threeModule.setModuleData(data)
+
+            //    this.on = true;
+
             }.bind(this);
 
             this.pipeObj = new PipelineObject('MODULE_DATA', this.id, applyModuleData)
+            clientPiece.registerModule(this);
+        };
+
+
+        ClientModule.prototype.buildGeometry = function () {
+            this.threeModule.buildModel(this.clientPiece.threePiece.getParentObject3d());
         };
         
+        ClientModule.prototype.attachModuleToParent = function (parentModule) {
+            this.threeModule.attachToParent(parentModule);
+        };
 
         ClientModule.prototype.applyModuleServerState = function (serverState) {
 
@@ -85,13 +89,13 @@ define([
             if (this.state.value != this.lastValue) {
                 this.lastValue = this.state.value;
             }
-            this.gooModule.updateGooModule();
+            this.threeModule.updateThreeModule(this.state.value);
         };
 
         ClientModule.prototype.removeClientModule = function () {
             this.pipeObj.removePipelineObject();
-            this.gooModule.removeModule();
-                        
+            this.threeModule.removeThreeModule();
+            delete this;
         };
         
         return ClientModule

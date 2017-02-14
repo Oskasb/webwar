@@ -82,40 +82,64 @@ define([
 			}
 
 			return true;
-
 		};
 
 
 		ClientPiece.prototype.addAttachmentPoints = function(attachmentPoints, defaultModules) {
 
-            this.detachModules();
-            this.attachmentPoints.length = 0;
-
-            for (var i = 0; i < attachmentPoints.length; i++) {
-                var ap = new AttachmentPoint(attachmentPoints[i], defaultModules[i]);
-                if (ap.data.module) {
-                    this.attachModule(ap);
-                }
-                this.attachmentPoints.push(ap)
+            for (var i = 0; i < this.attachmentPoints.length; i++) {
+				this.attachmentPoints[i].detatchAttachmentPoint();
             }
+
+			this.attachmentPoints.length = 0;
+
+			for (var i = 0; i < attachmentPoints.length; i++) {
+				var ap = new AttachmentPoint(attachmentPoints[i], defaultModules[i]);
+				this.attachmentPoints.push(ap)
+			}
+
+			this.attachModules();
         };
+
+		ClientPiece.prototype.getAttachmentPoint = function(point_id) {
+			for (var i = 0; i < this.attachmentPoints.length; i++) {
+				if (this.attachmentPoints[i].point_id == point_id) {
+					return this.attachmentPoints[i];
+				}
+			}
+		};
+
+		ClientPiece.prototype.attachModules = function() {
+
+			this.detachModules();
+			var serverState = this.piece.serverState;
+			for (var i = 0; i < this.attachmentPoints.length; i++) {
+				this.attachmentPoints[i].attachClientModule(new ClientModule(this, this.attachmentPoints[i], serverState.modules[this.attachmentPoints[i].data.module]));
+			}
+
+			this.buildHierarchy();
+		};
+
+		ClientPiece.prototype.buildHierarchy = function() {
+			for (var i = 0; i < this.attachmentPoints.length; i++) {
+				this.attachmentPoints[i].attachModuleModels();
+				if (this.attachmentPoints[i].parent) {
+					this.attachmentPoints[i].attachToParent(this.getAttachmentPoint(this.attachmentPoints[i].parent).object3D);
+				} else {
+					this.attachmentPoints[i].attachToParent(this.threePiece.getParentObject3d());
+				}
+			}
+		};
 
         ClientPiece.prototype.registerModule = function(module) {
-            this.clientModules.push(module);
-        };
-
-        ClientPiece.prototype.attachModule = function(attachmentPoint) {
-            var serverState = this.piece.serverState;
-            new ClientModule(this, attachmentPoint, serverState.modules[attachmentPoint.data.module]);
+			if (this.clientModules.indexOf(module) == -1) {
+				this.clientModules.push(module);
+			}
         };
 
 
 		ClientPiece.prototype.detachModules = function() {
-            
-            for (var i= 0; i < this.clientModules.length; i++) {
-                this.clientModules[i].removeClientModule()
-            }
-            this.clientModules.length = 0;
+			this.clientModules.length = 0;
 		};
 
 		ClientPiece.prototype.getPieceId = function() {

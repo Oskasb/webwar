@@ -35,6 +35,10 @@ define([
             ThreeSetup.setCameraLookAt(x, y, z);
         };
 
+        ThreeAPI.attachObjectToCamera = function(object) {
+            ThreeSetup.addChildToParent(object, ThreeSetup.getCamera());
+        };
+
         ThreeAPI.applySpatialToModel = function(spatial, model) {
             ThreeAPI.transformModel(model, spatial.posX(), spatial.posY(), spatial.posZ(), spatial.pitch(), spatial.yaw(), spatial.roll())
         };

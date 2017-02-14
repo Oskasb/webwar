@@ -53,7 +53,7 @@ define([
         ThreeModuleModel.prototype.applyModuleTranslation = function(state, shakeAxis) {
 
             if (this.moduleEntity.name != this.entityName) {
-                this.attachEntityToModule(this.entityName)
+                this.attachEntityToModule(this.entityName);
                 return;
             }
 

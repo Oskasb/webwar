@@ -107,7 +107,7 @@
         "delay":0,
         "cooldown":0.4,
         "spatial_axis":"yaw",
-        "rotation_axis":0,
+        "rotation_axis":[0, 1, 0],
         "rotation_velocity":0.5,
         "rotation_min":-6.2,
         "rotation_max":6.2,
@@ -126,11 +126,11 @@
         "delay":1,
         "cooldown":0.4,
         "spatial_axis":"pitch",
-        "rotation_axis":0,
+        "rotation_axis":[0, 0, 1],
         "rotation_velocity":0.08,
         "rotation_min":0,
         "rotation_max":0.4,
-        "module_model_child":"cannon"
+        "game_effect":"cannon_lazer_module"
       }
     },
 
@@ -148,7 +148,8 @@
         "pitch_module":"cannon_pitch",
         "bullet":"cannon_bullet",
         "exitVelocity":155,
-        "lifeTime":7
+        "lifeTime":7,
+        "module_model_child":"cannon"
       }
     },
 
