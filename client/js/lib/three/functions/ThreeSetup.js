@@ -79,12 +79,12 @@ define(['ui/GameScreen'], function(
 
     ThreeSetup.toScreenPosition = function(x, y, z, store) {
 
-        tempObj.position.x = x;
-        tempObj.position.y = y;
-        tempObj.position.z = z;
+        tempObj.position.set(x, y, z);
 
-        var width = GameScreen.getWidth();
-        var height = GameScreen.getHeight();
+        if (!frustum.containsPoint(tempObj.position)) {
+            store.set(tempObj.position);
+            return store;// Do something with the position...
+        }
 
     //    var widthHalf = 0.5*renderer.context.canvas.width;
     //    var heightHalf = 0.5*renderer.context.canvas.height;
@@ -109,6 +109,11 @@ define(['ui/GameScreen'], function(
     };
 
 
+
+    var frustum = new THREE.Frustum();
+    var frustumMatrix = new THREE.Matrix4();
+
+
     ThreeSetup.sampleCameraFrustum = function(store) {
 
     };
@@ -123,6 +128,9 @@ define(['ui/GameScreen'], function(
         lookAt.set(x, y, z);
         camera.up.set(0, 1, 0);
         camera.lookAt(lookAt);
+        camera.updateMatrix();
+        camera.updateMatrixWorld();
+        frustum.setFromMatrix(frustumMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
     };
 
     ThreeSetup.addChildToParent = function(child, parent) {

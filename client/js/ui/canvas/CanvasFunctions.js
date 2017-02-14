@@ -118,10 +118,12 @@ define([
                     CanvasDraw.drawElementBorders(ctx, configs.elementBorder, configs.size);
 
                     pointerFrustumPos.setDirect(
-                        ((mouseState.x-GameScreen.getLeft()) / GameScreen.getWidth()) - 0.5,
-                        ((mouseState.y-GameScreen.getTop()) / GameScreen.getHeight()) - 0.5,
+                        ((mouseState.x-GameScreen.getLeft()) / GameScreen.getWidth() - 0.5),
+                        -((mouseState.y-GameScreen.getTop()) / GameScreen.getHeight()) + 0.5,
                         0
                     );
+
+                    fitView(pointerFrustumPos);
 
                     canvasGuiApi.setElementPosition(
 
@@ -137,8 +139,8 @@ define([
 
 
             var fitView = function(vec3) {
-                vec3.x *= 0.8 * GameScreen.getAspect();
-                vec3.v *= -0.8
+                vec3.x *= 0.84 * GameScreen.getAspect();
+                vec3.v *= -0.84
                 vec3.z = 0;
             };
 
@@ -188,7 +190,7 @@ define([
             var hoverCoords = new goo.Vector3(0, 0, 0);
             var pointerDistance;
 
-            var selectRange = 1.03;
+            var selectRange = 0.025;
 
             var hoverTargetsCallback = function(tpf, ctx) {
 
