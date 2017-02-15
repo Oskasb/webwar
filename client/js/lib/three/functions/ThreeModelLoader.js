@@ -1,9 +1,11 @@
 "use strict";
 
 define([
+    'ThreeAPI',
     'PipelineAPI',
     'PipelineObject'],
     function(
+        ThreeAPI,
         PipelineAPI,
         PipelineObject
     ) {
@@ -74,7 +76,6 @@ define([
             var terrainListLoaded = function(scr, data) {
                 for (var i = 0; i < data.length; i++){
                     terrainList[data[i].id] = data[i]
-                    LoadObj(data[i].id);
                 }
             };
 
@@ -144,26 +145,26 @@ define([
 
             var setup = ThreeSetup;
             
-            var attachModel = function(src, model) {
+            var attachModel = function(model) {
 
                 var attachMaterial = function(src, data) {
                     model.material = data;
+
+                    model.material.map.repeat.x = terrainList[modelId].repeat[0];
+                    model.material.map.repeat.y = terrainList[modelId].repeat[1];
+                    //    model.material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
+
                     setup.addToScene(model);
                     rootObject.add(model);
                 };
 
-                new PipelineObject('THREE_MATERIAL', modelList[modelId].material, attachMaterial);
-
-                transformModel(modelList[modelId].transform, model);
-
+                new PipelineObject('THREE_MATERIAL', terrainList[modelId].material, attachMaterial);
+                transformModel(terrainList[modelId].transform, model);
             };
             
-            attachModel(new THREE.Mesh( new THREE.PlaneGeometry( sx || 1, sy || 1, 1 ,1)));
-            
+            attachModel(new THREE.Mesh(new THREE.PlaneGeometry( terrainList[modelId].transform.scale[0],  terrainList[modelId].transform.scale[2], 10 ,10)));
             return rootObject;
         };
-
-
 
 
         ThreeModelLoader.applyMaterialToMesh = function(material, model) {

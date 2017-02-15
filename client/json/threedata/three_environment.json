@@ -1,0 +1,28 @@
+[{
+    "WORLD": {
+      "THREE":{
+        "defaultEnvId":"sunny_day",
+        "params":[
+          {"id":"sun",      "THREE":"DirectionalLight"},
+          {"id":"ambient",  "THREE":"DirectionalLight"},
+          {"id":"fog",      "THREE":"FogExp2"         },
+          {"id":"skybox",   "THREE":"CubeGeometry"    }
+        ]
+      }
+    }
+  },{
+    "ENVIRONMENT": {
+      "THREE":[
+        {
+          "id":"sunny_day",
+          "configs":[
+            {"id":"sun",     "color":[1, 1, 0.5] , "transform":{"rot":[0.5, 0, 0.5]  }},
+            {"id":"ambient", "color":[1, 1, 0.5] , "transform":{"rot":[-3.5, 0, -3.5] }},
+            {"id":"fog",     "color":[0.8, 0.99, 1], "density":0.004},
+            {"id":"skybox",  "color":[0.8, 0.99, 1]}
+          ]
+        }
+      ]
+    }
+  }
+]

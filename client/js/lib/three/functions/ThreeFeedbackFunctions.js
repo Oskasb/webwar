@@ -8,17 +8,21 @@ define([
 ) {
 
 
+
+
     var ThreeFeedbackFunctions = function() {
 
     };
 
+    var applyToTextures = function(material, x, y) {
+        material.map.offset.x += x;
+        material.map.offset.y += y;
+        material.map.needsUpdate = true;
+    };
+
+
     ThreeFeedbackFunctions.applyModelTextureTranslation = function(model, x, y) {
-
-        model.children[0].material.map.offset.x += x;
-        model.children[0].material.map.offset.y += y;
-
-        console.log(model, x, y);
-
+        applyToTextures(model.children[0].material, x, y);
     };
 
     return ThreeFeedbackFunctions;

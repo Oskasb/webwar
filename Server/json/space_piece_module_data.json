@@ -116,7 +116,7 @@
       "applies":{
         "type":"string",
         "state":true,
-        "bundle_model":"ground"
+        "three_terrain":"plain_ground"
       }
     },
 

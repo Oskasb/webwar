@@ -38,6 +38,11 @@ define([
                 this.model = ThreeAPI.loadMeshModel(this.applies.three_model, this.parentObject3d);
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
             }
+
+            if (this.applies.three_terrain) {
+                this.model = ThreeAPI.loadGround(this.applies.three_terrain, this.parentObject3d);
+                ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
+            }
         };
 
 

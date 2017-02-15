@@ -5,7 +5,8 @@ define([
         'lib/three/functions/ThreeModelLoader',
         'lib/three/functions/ThreeTextureMaker',
         'lib/three/functions/ThreeMaterialMaker',
-        'lib/three/functions/ThreeFeedbackFunctions'
+        'lib/three/functions/ThreeFeedbackFunctions',
+        'lib/three/functions/ThreeEnvironment'
 
 ],
     function(
@@ -13,8 +14,8 @@ define([
         ThreeModelLoader,
         ThreeTextureMaker,
         ThreeMaterialMaker,
-        ThreeFeedbackFunctions
-        
+        ThreeFeedbackFunctions,
+        ThreeEnvironment
         
     ) {
 
@@ -27,11 +28,13 @@ define([
             ThreeModelLoader.loadData();
             ThreeTextureMaker.loadTextures();
             ThreeMaterialMaker.loadMaterialist();
+            ThreeEnvironment.loadEnvironmentData();
         };
 
         ThreeAPI.initThreeScene = function(containerElement, clientTickCallback) {
-            ThreeSetup.initThreeRenderer(containerElement, clientTickCallback);
-            ThreeAPI.addAmbientLight();
+           var scene = ThreeSetup.initThreeRenderer(containerElement, clientTickCallback);
+            ThreeEnvironment.initEnvironment(scene)
+            
         };
 
         ThreeAPI.updateWindowParameters = function(width, height, aspect, downscale) {
@@ -47,7 +50,7 @@ define([
         };
 
         ThreeAPI.addAmbientLight = function() {
-            ThreeSetup.addToScene(new THREE.AmbientLight(0x0050f4, 1));
+           
         };
         
         ThreeAPI.setCameraPos = function(x, y, z) {
@@ -74,9 +77,7 @@ define([
         ThreeAPI.buildCanvasMaterial = function(canvasTexture) {
             return ThreeMaterialMaker.createCanvasMaterial(canvasTexture);
         };
-
-
-
+        
         ThreeAPI.buildCanvasObject = function(model, canvas, store) {
             var tx = ThreeAPI.newCanvasTexture(canvas);
             var mat = ThreeMaterialMaker.createCanvasHudMaterial(tx);
@@ -85,7 +86,6 @@ define([
             store.materia = mat;
             return store;
         };
-        
 
         ThreeAPI.attachObjectToCamera = function(object) {
             ThreeSetup.addToScene(ThreeSetup.getCamera());
@@ -113,7 +113,7 @@ define([
             ThreeSetup.addToScene(model);
             return model;
         };
-        
+
         ThreeAPI.loadModel = function(sx, sy, sz) {
             var model = ThreeModelLoader.loadThreeModel(sx, sy, sz);
             ThreeSetup.addToScene(model);
@@ -122,17 +122,14 @@ define([
 
         ThreeAPI.loadQuad = function(sx, sy) {
             var model = ThreeModelLoader.loadThreeQuad(sx, sy);
-            ThreeSetup.addToScene(model);
-            return model;
+            return ThreeSetup.addToScene(model);
         };
 
-        ThreeAPI.loadGround = function(x, y, z) {
-            var model = ThreeModelLoader.loadGroundMesh(x, y, z);
-            ThreeSetup.addToScene(model);
-            return model;
+        ThreeAPI.loadGround = function(modelId, rootObject) {
+            var model = ThreeModelLoader.loadGroundMesh(modelId, rootObject, ThreeSetup);
+            return ThreeSetup.addToScene(model);
         };
-
-
+        
 
         ThreeAPI.addChildToObject3D = function(child, parent) {
             ThreeSetup.addChildToParent(child, parent);
@@ -153,3 +150,4 @@ define([
 
         return ThreeAPI;
     });
+
