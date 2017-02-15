@@ -20,14 +20,15 @@ define([
 
         };
 
-
+        ThreeAPI.initThreeLoaders = function() {
+            ThreeModelLoader.loadData();
+            ThreeTextureMaker.loadTextures();
+            ThreeMaterialMaker.loadMaterialist();
+        };
 
         ThreeAPI.initThreeScene = function(containerElement, clientTickCallback) {
             ThreeSetup.initThreeRenderer(containerElement, clientTickCallback);
             ThreeAPI.addAmbientLight();
-            ThreeModelLoader.loadData();
-            ThreeTextureMaker.loadTextures();
-            ThreeMaterialMaker.loadMaterialist();
         };
 
         ThreeAPI.updateWindowParameters = function(width, height, aspect, downscale) {

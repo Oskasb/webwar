@@ -10,69 +10,108 @@ define([
 
         var materialList = {};
         var materials = {};
-        
-        
+        var loadedTextures = {};
+        var requestedTextures = {};
+
+
+        var materialPipeline = {};
+
         var ThreeMaterialMaker = function() {
 
         };
-        
+
+        var textureReady = function(matId, txSettings) {
+
+            var data = materialList[matId];
 
 
 
-        
+            var loaded = 0;
+            for (var key in data.textures[0]) {
+
+                if (!loadedTextures[key+'_'+data.textures[0][key]]) {
+                    console.log("Not Yet loaded:", [matId, key+'_'+data.textures[0][key], materialPipeline,  loadedTextures, data]);
+                    setTimeout(function() {
+                        textureReady(matId, txSettings);
+                    }, 500);
+                    return;
+                }
+
+                if (!loadedTextures[key+'_'+data.textures[0][key]][matId]) {
+                    console.log("Not Yet loaded:", [matId, key+'_'+data.textures[0][key], materialPipeline,  loadedTextures, data]);
+                    setTimeout(function() {
+                        textureReady(matId, txSettings);
+                    }, 500);
+                    return;
+                }
+                loaded++
+            }
+
+
+            for (var key in data.textures[0]) {
+                txSettings[key] = loadedTextures[key+'_'+data.textures[0][key]][matId];
+            }
+
+            materials[matId] = new THREE[data.shader](txSettings);
+            PipelineAPI.setCategoryKeyValue('THREE_MATERIAL', matId, materials[matId]);
+            console.log("Loaded all...", matId, loaded, data.textures[0]);
+        };
+
+
+        var addTexture = function(id, textureSettings, key, imageUrl, textureReady) {
+
+            var attachPipeline = function(matId, txSettings, txType, imgUrl, onReadyCB) {
+                var includeTextureTexture = function(src, data) {
+                    var tx = data // ;data.clone();
+                    console.log("Apply THREE_TEXTURE", matId, txType+'_'+imgUrl ,src, [tx]);
+                    tx.needsUpdate = true;
+                    if (!loadedTextures[txType+'_'+imgUrl] ) {
+                        loadedTextures[txType+'_'+imgUrl] = {};
+                    }
+                    loadedTextures[txType+'_'+imgUrl][id] = data;
+
+                    onReadyCB(matId, txSettings);
+                };
+
+                materialPipeline[id][key+'_'+imageUrl] = new PipelineObject("THREE_TEXTURE", key+'_'+imageUrl, includeTextureTexture)
+            };
+
+            attachPipeline(id, textureSettings, key, imageUrl, textureReady)
+        };
+
+
+
+
+        var createMaterial = function(id, data) {
+
+            var textureSettings = {};
+
+            for (var key in data.settings) {
+                textureSettings[key] = data.settings[key];
+            };
+
+            materialPipeline[id] = {};
+
+            for (var i = 0; i < data.textures.length; i++) {
+                for (var key in data.textures[i]) {
+                    if (!materialPipeline[id][key+'_'+data.textures[i][key]] ) {
+                        addTexture(id, textureSettings, key, data.textures[i][key], textureReady)
+                    }
+                }
+            }
+        };
+
+
+
+
         ThreeMaterialMaker.loadMaterialist = function() {
             
             var textureListLoaded = function(scr, data) {
                 for (var i = 0; i < data.length; i++){
-
-
-                    var createMaterial = function(id, data) {
-
-                        var txCount = 0;
-
-
-                        var addTexture = function(textureSettings, key, imageUrl, textureReady) {
-                            var applyBufferTexture = function(src, data) {
-                                console.log("Add Texture To Material List", src, data);
-                                textureSettings[key] = data;
-                                textureReady();
-                            };
-
-                            new PipelineObject("THREE_TEXTURE", imageUrl, applyBufferTexture)
-                        };
-
-
-                        var textureReady = function() {
-                            txCount--;
-
-                            if (txCount == 0) {
-                                materials[id] = new THREE[data.shader](textureSettings);
-                                PipelineAPI.setCategoryKeyValue('THREE_MATERIAL', id, materials[id]);
-                            }
-                            console.log("Adding more textures...", txCount, id, data);
-                        };
-
-                        var textureSettings = {};
-
-                        for (var key in data.settings) {
-                            textureSettings[key] = data.settings[key];
-                        };
-
-                    //    console.log("Texture Settings":)
-
-                        for (var i = 0; i < data.textures.length; i++) {
-                            for (var key in data.textures[i]) {
-                                txCount++
-                                addTexture(textureSettings, key, data.textures[i][key], textureReady)
-                            }
-                        }
-                    };
-
-
                     materialList[data[i].id] = data[i];
                     createMaterial(data[i].id, data[i]);
                 }
-                console.log("Material List", data, materialList);
+                console.log("Material List", [data, materialList]);
             };
 
             new PipelineObject("MATERIALS", "THREE", textureListLoaded);

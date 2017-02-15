@@ -6,14 +6,16 @@ define([
         'PipelineAPI',
         'PipelineObject',
         'ui/dom/DomLoadScreen',
-        'ui/GameScreen'
+        'ui/GameScreen',
+        'ThreeAPI'
     ],
     function(
         evt,
         PipelineAPI,
         PipelineObject,
         DomLoadScreen,
-        GameScreen
+        GameScreen,
+        ThreeAPI
     ) {
 
         var client;
@@ -89,6 +91,8 @@ define([
             var imageFail = function(src, err) {
                 console.log("image cache fail", erc, err)
             }
+
+            ThreeAPI.initThreeLoaders();
 
             var styles = PipelineAPI.getCachedConfigs()['styles'];
 
