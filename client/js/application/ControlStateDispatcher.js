@@ -34,7 +34,7 @@ define([
         //        return;
             }
 
-            console.log("Request module state:", src, stateValue);
+        //    console.log("Request module state:", src, stateValue);
             evt.fire(evt.list().SEND_SERVER_REQUEST, {id:'ModuleStateRequest', data:setupMessageData(src, stateValue)});
         };
 
@@ -57,11 +57,11 @@ define([
         ControlStateDispatcher.prototype.moduleToggled = function(args) {
             if (!this.controlPipes[args.id]) {
 
-                console.log("No module toggle handle for ", args.id, args.on, messages, this.controlPipes)
+            //    console.log("No module toggle handle for ", args.id, args.on, messages, this.controlPipes)
                 return;
             }
 
-            console.log("Module for ", args.id, args.on, args)
+        //    console.log("Module for ", args.id, args.on, args)
 
             if (this.controlPipes[args.id].readData() != args.on) {
                 this.controlPipes[args.id].setData(args.on);

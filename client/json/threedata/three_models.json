@@ -10,17 +10,17 @@
           },
           "settings":{
             "blending":"NoBlending",
-            "color":{"r":0.2, "g":0.2, "b":0.2},
-            "clearCoat":0.2,
+            "color":{"r":0.5, "g":0.5, "b":0.5},
+            "clearCoat":0,
             "clearCoatRoughness":0.2,
-            "reflectivity":0.5,
-            "metalness":1,
+            "reflectivity":0.7,
+            "metalness":3,
             "envMapIntensity":0.5,
             "aoMapIntensity":1
           },
           "textures":[{
             "map":"./client/assets/images/textures/main_diff.png",
-            "metalnessMap":"./client/assets/images/textures/main_spec.png",
+            "metalnessMap":"./client/assets/images/textures/main_cm.png",
             "envMap":"./client/assets/images/textures/ref_sphere.png",
             "normalMap":"./client/assets/images/textures/main_nm.png",
             "aoMap":"./client/assets/images/textures/tank_lm.png"
@@ -30,7 +30,10 @@
           "shader":"MeshPhysicalMaterial",
           "settings":{
             "blending":"NoBlending",
-            "color":{"r":0.1, "g":0.1, "b":0.1}
+            "color":{"r":0.5, "g":0.5, "b":0.5},
+            "clearCoat":0,
+            "reflectivity":0.8,
+            "metalness":0.5
           },
           "textures":[{
             "map":"./client/assets/images/textures/track.png",
@@ -45,33 +48,146 @@
   },
   {
     "MODELS": {
-      "THREE":[
+      "THREE": [
         {
-          "id":"sherman_hull",
-          "material":"main_atlas",
-          "url":"./client/assets/models/sherman_hull",
-          "transform":{"pos":[0, -0.5, 0], "rot":[0, 0, 0], "scale": [1, 1, 1]}
-        }, {
-          "id":"sherman_turret",
-          "material":"main_atlas",
-          "url":"./client/assets/models/sherman_turret",
-          "transform":{"pos":[0,-2.2, 0.3], "rot":[0, -1, 0], "scale": [1, 1, 1]}
-        }, {
-          "id":"sherman_cannon",
-          "material":"main_atlas",
-          "url":"./client/assets/models/sherman_cannon",
-          "transform":{"pos":[0, -1.55, 3.2], "rot":[0, 0, 0], "scale": [1, 1, 1]}
-        }, {
-          "id":"sherman_track_l",
-          "material":"tank_track",
-          "url":"./client/assets/models/sherman_track_l",
-          "transform":{"pos":[1.55, -0.29, -0.6], "rot":[0, 0, 0], "scale": [1, 1, 1]}
-        }, {
-          "id":"sherman_track_r",
-          "material":"tank_track",
-          "url":"./client/assets/models/sherman_track_r",
-          "transform":{"pos":[-1.55, -0.29, -0.6], "rot":[0, 0, 0], "scale": [1, 1, 1]}
+          "id": "sherman_hull",
+          "material": "main_atlas",
+          "url": "./client/assets/models/sherman_hull",
+          "transform": {
+            "pos": [
+              0,
+              -0.5,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "id": "sherman_turret",
+          "material": "main_atlas",
+          "url": "./client/assets/models/sherman_turret",
+          "transform": {
+            "pos": [
+              0,
+              -2.2,
+              0.3
+            ],
+            "rot": [
+              0,
+              -1,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "id": "sherman_cannon",
+          "material": "main_atlas",
+          "url": "./client/assets/models/sherman_cannon",
+          "transform": {
+            "pos": [
+              0,
+              -1.55,
+              3.2
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "id": "sherman_track_l",
+          "material": "tank_track",
+          "url": "./client/assets/models/sherman_track_l",
+          "transform": {
+            "pos": [
+              1.55,
+              -0.29,
+              -0.6
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "id": "sherman_track_r",
+          "material": "tank_track",
+          "url": "./client/assets/models/sherman_track_r",
+          "transform": {
+            "pos": [
+              -1.55,
+              -0.29,
+              -0.6
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+
+      ]
+    }
+  },
+  {
+    "TERRAINS": {
+      "THREE": [
+        {
+          "id": "plain_ground",
+          "material": "tank_track",
+          "transform": {
+            "pos": [
+              0,
+              0,
+              0
+            ],
+            "rot": [
+              0.5,
+              0,
+              0
+            ],
+            "scale": [
+              200,
+              1,
+              200
+            ]
+          }
         }
       ]
     }
-  }]
+  }
+]

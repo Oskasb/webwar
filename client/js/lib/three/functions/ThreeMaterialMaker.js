@@ -13,7 +13,6 @@ define([
         var loadedTextures = {};
         var requestedTextures = {};
 
-
         var materialPipeline = {};
 
         var ThreeMaterialMaker = function() {
@@ -25,12 +24,13 @@ define([
             var data = materialList[matId];
 
 
+            if (materials[matId]) return;
 
             var loaded = 0;
             for (var key in data.textures[0]) {
 
                 if (!loadedTextures[key+'_'+data.textures[0][key]]) {
-                    console.log("Not Yet loaded:", [matId, key+'_'+data.textures[0][key], materialPipeline,  loadedTextures, data]);
+        //            console.log("Not Yet loaded:", [matId, key+'_'+data.textures[0][key], materialPipeline,  loadedTextures, data]);
                     setTimeout(function() {
                         textureReady(matId, txSettings);
                     }, 500);
@@ -54,7 +54,7 @@ define([
 
             materials[matId] = new THREE[data.shader](txSettings);
             PipelineAPI.setCategoryKeyValue('THREE_MATERIAL', matId, materials[matId]);
-            console.log("Loaded all...", matId, loaded, data.textures[0]);
+        //    console.log("Loaded all...", matId, loaded, data.textures[0]);
         };
 
 
@@ -62,8 +62,8 @@ define([
 
             var attachPipeline = function(matId, txSettings, txType, imgUrl, onReadyCB) {
                 var includeTextureTexture = function(src, data) {
-                    var tx = data // ;data.clone();
-                    console.log("Apply THREE_TEXTURE", matId, txType+'_'+imgUrl ,src, [tx]);
+                    var tx = data.clone();
+        //            console.log("Apply THREE_TEXTURE", matId, txType+'_'+imgUrl ,src, [tx]);
                     tx.needsUpdate = true;
                     if (!loadedTextures[txType+'_'+imgUrl] ) {
                         loadedTextures[txType+'_'+imgUrl] = {};
@@ -107,11 +107,12 @@ define([
         ThreeMaterialMaker.loadMaterialist = function() {
             
             var textureListLoaded = function(scr, data) {
+                materials = {};
                 for (var i = 0; i < data.length; i++){
                     materialList[data[i].id] = data[i];
                     createMaterial(data[i].id, data[i]);
                 }
-                console.log("Material List", [data, materialList]);
+            //    console.log("Material List", [data, materialList]);
             };
 
             new PipelineObject("MATERIALS", "THREE", textureListLoaded);

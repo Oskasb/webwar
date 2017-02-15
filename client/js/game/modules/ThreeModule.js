@@ -118,21 +118,16 @@ define([
 
                 this.applyAngleRotationAxisToSpatial(diff, this.applies.rotation_axis, this.moduleSpatial, factor);
 
-                if (this.moduleModel) {
-                //    this.moduleModel.applyModuleRotation(this.moduleSpatial.rot.data);
-                }
                 ThreeAPI.applySpatialToModel(this.moduleSpatial, this.parentObject3d);
             }
 
-
+            if (this.applies.animate_texture) {
+                ThreeAPI.animateModelTexture(this.model, stateValue*this.applies.animate_texture[0]*this.applies.animate_speed_scale, stateValue*this.applies.animate_texture[1]*this.applies.animate_speed_scale);//
+            }
 
             return;
 
-            if (this.applies.animate_texture) {
-                if (this.moduleModel) {
-                    this.moduleModel.applyTextureAnimation(this.module.state.value*this.applies.animate_speed_scale, this.applies.animate_texture);
-                }
-            }
+
 
             if (this.applies.animate_shake) {
                 if (this.moduleModel) {

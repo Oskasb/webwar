@@ -32,8 +32,8 @@
             },
             "imagePipe":{
                 "polling":{
-                    "enabled":false,
-                    "frequency":2
+                    "enabled":true,
+                    "frequency":5
                 }
             }
         },

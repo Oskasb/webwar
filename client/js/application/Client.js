@@ -264,8 +264,8 @@ define([
 
 			var exactTpf = this.timeTracker.trackFrameTime(frame);
 
-            if (exactTpf < 0.01) {
-                console.log("superTiny TPF");
+            if (exactTpf < 0.002) {
+        //        console.log("superTiny TPF");
                 return;
             }
 
@@ -273,11 +273,11 @@ define([
 
             aggDiff += tpf-exactTpf;
 
-            if (Math.abs(tpf-exactTpf) < 0.01) {
+            if (Math.abs(tpf-exactTpf) < 0.002) {
                 tpf = exactTpf;
 
             } else {
-                console.log("Big DT", tpf, exactTpf, aggDiff);
+       //         console.log("Big DT", tpf, exactTpf, aggDiff);
             }
             tickEvent.frame = frame;
             tickEvent.tpf = tpf;

@@ -206,8 +206,8 @@
         "threshold":0.2,
         "message":"wroom",
         "three_model":"sherman_track_l",
-        "animate_texture":[0, 1],
-        "animate_speed_scale":0.002,
+        "animate_texture":[0, -1],
+        "animate_speed_scale":0.001,
         "animate_shake":[0.1,0.1,0.02]
       }
     },
@@ -233,8 +233,8 @@
         "threshold":0.2,
         "message":"wroom",
         "three_model":"sherman_track_r",
-        "animate_texture":[0, 1],
-        "animate_speed_scale":0.002,
+        "animate_texture":[0, -1],
+        "animate_speed_scale":0.001,
         "animate_shake":[0.1,0.1,0.02]
       }
     },

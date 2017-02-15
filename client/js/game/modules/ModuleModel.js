@@ -2,18 +2,10 @@
 
 
 define([
-        '3d/GooEntityFactory',
-        'game/modules/ModuleEffect',
-        'game/modules/ModuleEmitter',
-        'game/modules/ModuleModel',
-        'Events'
+
     ],
     function(
-        GooEntityFactory,
-        ModuleEffect,
-        ModuleEmitter,
-        ModuleModel,
-        evt
+
     ) {
 
 

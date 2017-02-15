@@ -4,14 +4,17 @@ define([
         'lib/three/functions/ThreeSetup',
         'lib/three/functions/ThreeModelLoader',
         'lib/three/functions/ThreeTextureMaker',
-        'lib/three/functions/ThreeMaterialMaker'
+        'lib/three/functions/ThreeMaterialMaker',
+        'lib/three/functions/ThreeFeedbackFunctions'
 
 ],
     function(
         ThreeSetup,
         ThreeModelLoader,
         ThreeTextureMaker,
-        ThreeMaterialMaker
+        ThreeMaterialMaker,
+        ThreeFeedbackFunctions
+        
         
     ) {
 
@@ -44,7 +47,7 @@ define([
         };
 
         ThreeAPI.addAmbientLight = function() {
-            ThreeSetup.addToScene(new THREE.AmbientLight(0x112234, 5));
+            ThreeSetup.addToScene(new THREE.AmbientLight(0x0050f4, 1));
         };
         
         ThreeAPI.setCameraPos = function(x, y, z) {
@@ -123,12 +126,20 @@ define([
             return model;
         };
 
+        ThreeAPI.loadGround = function(x, y, z) {
+            var model = ThreeModelLoader.loadGroundMesh(x, y, z);
+            ThreeSetup.addToScene(model);
+            return model;
+        };
+
+
+
         ThreeAPI.addChildToObject3D = function(child, parent) {
             ThreeSetup.addChildToParent(child, parent);
         };
-        
-        ThreeAPI.addChildToObject3D = function(child, parent) {
-            ThreeSetup.addChildToParent(child, parent);
+
+        ThreeAPI.animateModelTexture = function(model, z, y) {
+            ThreeFeedbackFunctions.applyModelTextureTranslation(model, z, y)
         };
 
         

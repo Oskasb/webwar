@@ -23,17 +23,13 @@ define([
                         PipelineAPI.setCategoryKeyValue('THREE_MODEL', modelId, child.parent);
                     }
                 } );
-
-            //    dae.updateMatrix();
-                console.log("THREE_MODEL Collada", dae);
-            //
             });
         };
 
         var LoadObj = function(modelId) {
             var loader = new THREE.OBJLoader();
             loader.load(modelList[modelId].url+'.obj', function ( object ) {
-                    console.log("THREE_MODEL OBJ", object);
+            //        console.log("THREE_MODEL OBJ", object);
                 object.traverse( function ( child ) {
 
                     if ( child instanceof THREE.Mesh ) {
@@ -45,15 +41,13 @@ define([
                         PipelineAPI.setCategoryKeyValue('THREE_MODEL', modelId, child);
                     }
                 } );
-
-                //    PipelineAPI.setCategoryKeyValue('THREE_MODEL', modelId, object);
-                });
-
+            });
         };
 
 
 
         var modelList = {};
+        var terrainList = {};
 
         var ThreeModelLoader = function() {
 
@@ -73,10 +67,18 @@ define([
                     modelList[data[i].id] = data[i]
                     LoadObj(data[i].id);
                 }
-                console.log("Three Model List", data, modelList);
             };
 
             new PipelineObject("MODELS", "THREE", modelListLoaded);
+
+            var terrainListLoaded = function(scr, data) {
+                for (var i = 0; i < data.length; i++){
+                    terrainList[data[i].id] = data[i]
+                    LoadObj(data[i].id);
+                }
+            };
+
+            new PipelineObject("TERRAINS", "THREE", terrainListLoaded);
         };
 
 
@@ -97,15 +99,11 @@ define([
         ThreeModelLoader.loadThreeMeshModel = function(modelId, rootObject, ThreeSetup) {
 
             var setup = ThreeSetup;
-
-            if (rootObject.children[0]) {
-            //    rootObject.remove(rootObject.children[0]);
-            }
-
+            
             var attachModel = function(src, model) {
 
                 var attachMaterial = function(src, data) {
-                    console.log("Attach MAterial to Model", data, model);
+                //    console.log("Attach MAterial to Model", data, model);
                     model.material = data;
                     setup.addToScene(model);
                     rootObject.add(model);
@@ -141,6 +139,32 @@ define([
 
             return new THREE.Mesh( geometry, material );
         };
+
+        ThreeModelLoader.loadGroundMesh = function(modelId, rootObject, ThreeSetup) {
+
+            var setup = ThreeSetup;
+            
+            var attachModel = function(src, model) {
+
+                var attachMaterial = function(src, data) {
+                    model.material = data;
+                    setup.addToScene(model);
+                    rootObject.add(model);
+                };
+
+                new PipelineObject('THREE_MATERIAL', modelList[modelId].material, attachMaterial);
+
+                transformModel(modelList[modelId].transform, model);
+
+            };
+            
+            attachModel(new THREE.Mesh( new THREE.PlaneGeometry( sx || 1, sy || 1, 1 ,1)));
+            
+            return rootObject;
+        };
+
+
+
 
         ThreeModelLoader.applyMaterialToMesh = function(material, model) {
             model.material = material;

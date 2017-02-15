@@ -85,11 +85,11 @@ define([
         DataLoader.prototype.preloadImages = function() {
             
             var imageOk = function(src, data) {
-                console.log("imageok:", src, data);
+        //        console.log("imageok:", src, data);
             };
 
             var imageFail = function(src, err) {
-                console.log("image cache fail", erc, err)
+        //        console.log("image cache fail", erc, err)
             }
 
             ThreeAPI.initThreeLoaders();
@@ -139,7 +139,7 @@ define([
             };
 
             function connectionReady() {
-                console.log('connectionReady do notifyCompleted')
+             //   console.log('connectionReady do notifyCompleted')
                 _this.notifyCompleted();
             }
 
@@ -160,7 +160,7 @@ define([
 
 
             var loadStateChange = function(state) {
-                console.log('loadStateChange', state)
+            //    console.log('loadStateChange', state)
                 if (state == _this.getStates().IMAGES) {
 
 
@@ -193,14 +193,14 @@ define([
 
 
             function pipelineCallback(started, remaining, loaded) {
-                console.log("SRL", started, remaining, loaded);
+            //    console.log("SRL", started, remaining, loaded);
 
                 evt.fire(evt.list().MONITOR_STATUS, {FILE_CACHE:loaded});
 
                 loadProgress.setProgress(loaded / started);
 
                 if (loadState == loadStates.IMAGES && remaining == 0) {
-                    console.log("IMAGE COMPLETED", started, remaining, loaded);
+                //    console.log("IMAGE COMPLETED", started, remaining, loaded);
                     loadState = loadStates.COMPLETED;
                     PipelineAPI.setCategoryData('STATUS', {PIPELINE:pipelineOn});
                     PipelineAPI.subscribeToCategoryKey('setup', 'DEBUG', setDebug);
