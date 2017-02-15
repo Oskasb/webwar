@@ -11,7 +11,7 @@
       "applies":{
         "type":"string",
         "state":true,
-        "bundle_model":"sherman"
+        "three_model":"sherman_hull"
       }
     },
 
@@ -111,7 +111,7 @@
         "rotation_velocity":0.5,
         "rotation_min":-6.2,
         "rotation_max":6.2,
-        "module_model_child":"turret"
+        "three_model":"sherman_turret"
       }
     },
 
@@ -149,7 +149,7 @@
         "bullet":"cannon_bullet",
         "exitVelocity":155,
         "lifeTime":7,
-        "module_model_child":"cannon"
+        "three_model":"sherman_cannon"
       }
     },
 
@@ -205,7 +205,34 @@
         },
         "threshold":0.2,
         "message":"wroom",
-        "module_model_child":"track_l",
+        "three_model":"sherman_track_l",
+        "animate_texture":[0, 1],
+        "animate_speed_scale":0.002,
+        "animate_shake":[0.1,0.1,0.02]
+      }
+    },
+
+    "track_r":{
+      "type":"engine",
+      "id":"track_r",
+
+      "source":"throttle",
+      "initState": 0,
+      "applies":{
+        "type":"float",
+        "state":true,
+        "action":"applyForward",
+        "state_factor":30,
+        "emit_effect":"tank_track_fx",
+        "effect_data":{
+          "intensity":0.3,
+          "strength":10,
+          "lifeSpan":0.4
+
+        },
+        "threshold":0.2,
+        "message":"wroom",
+        "three_model":"sherman_track_r",
         "animate_texture":[0, 1],
         "animate_speed_scale":0.002,
         "animate_shake":[0.1,0.1,0.02]

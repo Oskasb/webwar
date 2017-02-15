@@ -20,9 +20,14 @@ define([
 
         };
 
+
+
         ThreeAPI.initThreeScene = function(containerElement, clientTickCallback) {
             ThreeSetup.initThreeRenderer(containerElement, clientTickCallback);
             ThreeAPI.addAmbientLight();
+            ThreeModelLoader.loadData();
+            ThreeTextureMaker.loadTextures();
+            ThreeMaterialMaker.loadMaterialist();
         };
 
         ThreeAPI.updateWindowParameters = function(width, height, aspect, downscale) {
@@ -38,7 +43,7 @@ define([
         };
 
         ThreeAPI.addAmbientLight = function() {
-            ThreeSetup.addToScene(new THREE.AmbientLight(0xff0066, 12));
+            ThreeSetup.addToScene(new THREE.AmbientLight(0x112234, 5));
         };
         
         ThreeAPI.setCameraPos = function(x, y, z) {
@@ -97,6 +102,13 @@ define([
             ThreeSetup.addToScene(object3d);
             return object3d;
         };
+
+
+        ThreeAPI.loadMeshModel = function(modelId, rootObject) {
+            var model = ThreeModelLoader.loadThreeMeshModel(modelId, rootObject, ThreeSetup);
+            ThreeSetup.addToScene(model);
+            return model;
+        };
         
         ThreeAPI.loadModel = function(sx, sy, sz) {
             var model = ThreeModelLoader.loadThreeModel(sx, sy, sz);
@@ -110,6 +122,10 @@ define([
             return model;
         };
 
+        ThreeAPI.addChildToObject3D = function(child, parent) {
+            ThreeSetup.addChildToParent(child, parent);
+        };
+        
         ThreeAPI.addChildToObject3D = function(child, parent) {
             ThreeSetup.addChildToParent(child, parent);
         };

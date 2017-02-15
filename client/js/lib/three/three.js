@@ -1,7 +1,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.THREE = global.THREE || {})));
+		typeof define === 'function' && define.amd ? define(['exports'], factory) :
+			(factory((global.THREE = global.THREE || {})));
 }(this, (function (exports) { 'use strict';
 
 	// Polyfills
@@ -96,7 +96,7 @@
 
 	function EventDispatcher() {}
 
-	EventDispatcher.prototype = {
+	Object.assign( EventDispatcher.prototype, {
 
 		addEventListener: function ( type, listener ) {
 
@@ -179,9 +179,9 @@
 
 		}
 
-	};
+	} );
 
-	var REVISION = '84';
+	var REVISION = '85dev';
 	var MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2 };
 	var CullFaceNone = 0;
 	var CullFaceBack = 1;
@@ -487,37 +487,45 @@
 
 	}
 
-	Vector2.prototype = {
+	Object.defineProperties( Vector2.prototype, {
 
-		constructor: Vector2,
+		"width" : {
+
+			get: function () {
+
+				return this.x;
+
+			},
+
+			set: function ( value ) {
+
+				this.x = value;
+
+			}
+
+		},
+
+		"height" : {
+
+			get: function () {
+
+				return this.y;
+
+			},
+
+			set: function ( value ) {
+
+				this.y = value;
+
+			}
+
+		}
+
+	} );
+
+	Object.assign( Vector2.prototype, {
 
 		isVector2: true,
-
-		get width() {
-
-			return this.x;
-
-		},
-
-		set width( value ) {
-
-			this.x = value;
-
-		},
-
-		get height() {
-
-			return this.y;
-
-		},
-
-		set height( value ) {
-
-			this.y = value;
-
-		},
-
-		//
 
 		set: function ( x, y ) {
 
@@ -744,16 +752,10 @@
 
 		clampScalar: function () {
 
-			var min, max;
+			var min = new Vector2();
+			var max = new Vector2();
 
 			return function clampScalar( minVal, maxVal ) {
-
-				if ( min === undefined ) {
-
-					min = new Vector2();
-					max = new Vector2();
-
-				}
 
 				min.set( minVal, minVal );
 				max.set( maxVal, maxVal );
@@ -957,7 +959,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/
@@ -999,7 +1001,6 @@
 		this.flipY = true;
 		this.unpackAlignment = 4;	// valid values: 1, 2, 4, 8 (see http://www.khronos.org/opengles/sdk/docs/man/xhtml/glPixelStorei.xml)
 
-
 		// Values of encoding !== THREE.LinearEncoding only supported on map, envMap and emissiveMap.
 		//
 		// Also changing the encoding after already used by a Material will not automatically make the Material
@@ -1014,17 +1015,21 @@
 	Texture.DEFAULT_IMAGE = undefined;
 	Texture.DEFAULT_MAPPING = UVMapping;
 
-	Texture.prototype = {
+	Object.defineProperty( Texture.prototype, "needsUpdate", {
+
+		set: function ( value ) {
+
+			if ( value === true ) this.version ++;
+
+		}
+
+	} );
+
+	Object.assign( Texture.prototype, EventDispatcher.prototype, {
 
 		constructor: Texture,
 
 		isTexture: true,
-
-		set needsUpdate( value ) {
-
-			if ( value === true ) this.version ++;
-
-		},
 
 		clone: function () {
 
@@ -1033,6 +1038,8 @@
 		},
 
 		copy: function ( source ) {
+
+			this.name = source.name;
 
 			this.image = source.image;
 			this.mipmaps = source.mipmaps.slice( 0 );
@@ -1238,9 +1245,7 @@
 
 		}
 
-	};
-
-	Object.assign( Texture.prototype, EventDispatcher.prototype );
+	} );
 
 	/**
 	 * @author supereggbert / http://www.paulbrunt.co.uk/
@@ -1259,9 +1264,7 @@
 
 	}
 
-	Vector4.prototype = {
-
-		constructor: Vector4,
+	Object.assign( Vector4.prototype, {
 
 		isVector4: true,
 
@@ -1511,15 +1514,15 @@
 
 			if ( s < 0.0001 ) {
 
-				 this.x = 1;
-				 this.y = 0;
-				 this.z = 0;
+				this.x = 1;
+				this.y = 0;
+				this.z = 0;
 
 			} else {
 
-				 this.x = q.x / s;
-				 this.y = q.y / s;
-				 this.z = q.z / s;
+				this.x = q.x / s;
+				this.y = q.y / s;
+				this.z = q.z / s;
 
 			}
 
@@ -1544,17 +1547,17 @@
 				m31 = te[ 2 ], m32 = te[ 6 ], m33 = te[ 10 ];
 
 			if ( ( Math.abs( m12 - m21 ) < epsilon ) &&
-			     ( Math.abs( m13 - m31 ) < epsilon ) &&
-			     ( Math.abs( m23 - m32 ) < epsilon ) ) {
+				( Math.abs( m13 - m31 ) < epsilon ) &&
+				( Math.abs( m23 - m32 ) < epsilon ) ) {
 
 				// singularity found
 				// first check for identity matrix which must have +1 for all terms
 				// in leading diagonal and zero in other terms
 
 				if ( ( Math.abs( m12 + m21 ) < epsilon2 ) &&
-				     ( Math.abs( m13 + m31 ) < epsilon2 ) &&
-				     ( Math.abs( m23 + m32 ) < epsilon2 ) &&
-				     ( Math.abs( m11 + m22 + m33 - 3 ) < epsilon2 ) ) {
+					( Math.abs( m13 + m31 ) < epsilon2 ) &&
+					( Math.abs( m23 + m32 ) < epsilon2 ) &&
+					( Math.abs( m11 + m22 + m33 - 3 ) < epsilon2 ) ) {
 
 					// this singularity is identity matrix so angle = 0
 
@@ -1640,8 +1643,8 @@
 			// as we have reached here there are no singularities so we can handle normally
 
 			var s = Math.sqrt( ( m32 - m23 ) * ( m32 - m23 ) +
-			                   ( m13 - m31 ) * ( m13 - m31 ) +
-			                   ( m21 - m12 ) * ( m21 - m12 ) ); // used to normalize
+				( m13 - m31 ) * ( m13 - m31 ) +
+				( m21 - m12 ) * ( m21 - m12 ) ); // used to normalize
 
 			if ( Math.abs( s ) < 0.001 ) s = 1;
 
@@ -1694,16 +1697,10 @@
 
 		clampScalar: function () {
 
-			var min, max;
+			var min = new Vector4();
+			var max = new Vector4();
 
 			return function clampScalar( minVal, maxVal ) {
-
-				if ( min === undefined ) {
-
-					min = new Vector4();
-					max = new Vector4();
-
-				}
 
 				min.set( minVal, minVal, minVal, minVal );
 				max.set( maxVal, maxVal, maxVal, maxVal );
@@ -1872,7 +1869,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author szimek / https://github.com/szimek/
@@ -1884,7 +1881,7 @@
 	 In options, we can specify:
 	 * Texture parameters for an auto-generated target texture
 	 * depthBuffer/stencilBuffer: Booleans to indicate if we should generate these buffers
-	*/
+	 */
 	function WebGLRenderTarget( width, height, options ) {
 
 		this.uuid = _Math.generateUUID();
@@ -1909,9 +1906,7 @@
 
 	}
 
-	WebGLRenderTarget.prototype = {
-
-		constructor: WebGLRenderTarget,
+	Object.assign( WebGLRenderTarget.prototype, EventDispatcher.prototype, {
 
 		isWebGLRenderTarget: true,
 
@@ -1960,9 +1955,7 @@
 
 		}
 
-	};
-
-	Object.assign( WebGLRenderTarget.prototype, EventDispatcher.prototype );
+	} );
 
 	/**
 	 * @author alteredq / http://alteredqualia.com
@@ -1998,61 +1991,152 @@
 
 	}
 
-	Quaternion.prototype = {
+	Object.assign( Quaternion, {
 
-		constructor: Quaternion,
+		slerp: function( qa, qb, qm, t ) {
 
-		get x () {
-
-			return this._x;
+			return qm.copy( qa ).slerp( qb, t );
 
 		},
 
-		set x ( value ) {
+		slerpFlat: function(
+			dst, dstOffset, src0, srcOffset0, src1, srcOffset1, t ) {
 
-			this._x = value;
-			this.onChangeCallback();
+			// fuzz-free, array-based Quaternion SLERP operation
+
+			var x0 = src0[ srcOffset0 + 0 ],
+				y0 = src0[ srcOffset0 + 1 ],
+				z0 = src0[ srcOffset0 + 2 ],
+				w0 = src0[ srcOffset0 + 3 ],
+
+				x1 = src1[ srcOffset1 + 0 ],
+				y1 = src1[ srcOffset1 + 1 ],
+				z1 = src1[ srcOffset1 + 2 ],
+				w1 = src1[ srcOffset1 + 3 ];
+
+			if ( w0 !== w1 || x0 !== x1 || y0 !== y1 || z0 !== z1 ) {
+
+				var s = 1 - t,
+
+					cos = x0 * x1 + y0 * y1 + z0 * z1 + w0 * w1,
+
+					dir = ( cos >= 0 ? 1 : - 1 ),
+					sqrSin = 1 - cos * cos;
+
+				// Skip the Slerp for tiny steps to avoid numeric problems:
+				if ( sqrSin > Number.EPSILON ) {
+
+					var sin = Math.sqrt( sqrSin ),
+						len = Math.atan2( sin, cos * dir );
+
+					s = Math.sin( s * len ) / sin;
+					t = Math.sin( t * len ) / sin;
+
+				}
+
+				var tDir = t * dir;
+
+				x0 = x0 * s + x1 * tDir;
+				y0 = y0 * s + y1 * tDir;
+				z0 = z0 * s + z1 * tDir;
+				w0 = w0 * s + w1 * tDir;
+
+				// Normalize in case we just did a lerp:
+				if ( s === 1 - t ) {
+
+					var f = 1 / Math.sqrt( x0 * x0 + y0 * y0 + z0 * z0 + w0 * w0 );
+
+					x0 *= f;
+					y0 *= f;
+					z0 *= f;
+					w0 *= f;
+
+				}
+
+			}
+
+			dst[ dstOffset ] = x0;
+			dst[ dstOffset + 1 ] = y0;
+			dst[ dstOffset + 2 ] = z0;
+			dst[ dstOffset + 3 ] = w0;
+
+		}
+
+	} );
+
+	Object.defineProperties( Quaternion.prototype, {
+
+		"x" : {
+
+			get: function () {
+
+				return this._x;
+
+			},
+
+			set: function ( value ) {
+
+				this._x = value;
+				this.onChangeCallback();
+
+			}
 
 		},
 
-		get y () {
+		"y" : {
 
-			return this._y;
+			get: function () {
 
-		},
+				return this._y;
 
-		set y ( value ) {
+			},
 
-			this._y = value;
-			this.onChangeCallback();
+			set: function ( value ) {
 
-		},
+				this._y = value;
+				this.onChangeCallback();
 
-		get z () {
-
-			return this._z;
+			}
 
 		},
 
-		set z ( value ) {
+		"z" : {
 
-			this._z = value;
-			this.onChangeCallback();
+			get: function () {
 
-		},
+				return this._z;
 
-		get w () {
+			},
 
-			return this._w;
+			set: function ( value ) {
 
-		},
+				this._z = value;
+				this.onChangeCallback();
 
-		set w ( value ) {
-
-			this._w = value;
-			this.onChangeCallback();
+			}
 
 		},
+
+		"w" : {
+
+			get: function () {
+
+				return this._w;
+
+			},
+
+			set: function ( value ) {
+
+				this._w = value;
+				this.onChangeCallback();
+
+			}
+
+		}
+
+	});
+
+	Object.assign( Quaternion.prototype, {
 
 		set: function ( x, y, z, w ) {
 
@@ -2241,7 +2325,8 @@
 
 			// assumes direction vectors vFrom and vTo are normalized
 
-			var v1, r;
+			var v1 = new Vector3();
+			var r;
 
 			var EPS = 0.000001;
 
@@ -2435,7 +2520,7 @@
 
 			var halfTheta = Math.atan2( sinHalfTheta, cosHalfTheta );
 			var ratioA = Math.sin( ( 1 - t ) * halfTheta ) / sinHalfTheta,
-			ratioB = Math.sin( t * halfTheta ) / sinHalfTheta;
+				ratioB = Math.sin( t * halfTheta ) / sinHalfTheta;
 
 			this._w = ( w * ratioA + this._w * ratioB );
 			this._x = ( x * ratioA + this._x * ratioB );
@@ -2493,79 +2578,6 @@
 
 		onChangeCallback: function () {}
 
-	};
-
-	Object.assign( Quaternion, {
-
-		slerp: function( qa, qb, qm, t ) {
-
-			return qm.copy( qa ).slerp( qb, t );
-
-		},
-
-		slerpFlat: function(
-				dst, dstOffset, src0, srcOffset0, src1, srcOffset1, t ) {
-
-			// fuzz-free, array-based Quaternion SLERP operation
-
-			var x0 = src0[ srcOffset0 + 0 ],
-				y0 = src0[ srcOffset0 + 1 ],
-				z0 = src0[ srcOffset0 + 2 ],
-				w0 = src0[ srcOffset0 + 3 ],
-
-				x1 = src1[ srcOffset1 + 0 ],
-				y1 = src1[ srcOffset1 + 1 ],
-				z1 = src1[ srcOffset1 + 2 ],
-				w1 = src1[ srcOffset1 + 3 ];
-
-			if ( w0 !== w1 || x0 !== x1 || y0 !== y1 || z0 !== z1 ) {
-
-				var s = 1 - t,
-
-					cos = x0 * x1 + y0 * y1 + z0 * z1 + w0 * w1,
-
-					dir = ( cos >= 0 ? 1 : - 1 ),
-					sqrSin = 1 - cos * cos;
-
-				// Skip the Slerp for tiny steps to avoid numeric problems:
-				if ( sqrSin > Number.EPSILON ) {
-
-					var sin = Math.sqrt( sqrSin ),
-						len = Math.atan2( sin, cos * dir );
-
-					s = Math.sin( s * len ) / sin;
-					t = Math.sin( t * len ) / sin;
-
-				}
-
-				var tDir = t * dir;
-
-				x0 = x0 * s + x1 * tDir;
-				y0 = y0 * s + y1 * tDir;
-				z0 = z0 * s + z1 * tDir;
-				w0 = w0 * s + w1 * tDir;
-
-				// Normalize in case we just did a lerp:
-				if ( s === 1 - t ) {
-
-					var f = 1 / Math.sqrt( x0 * x0 + y0 * y0 + z0 * z0 + w0 * w0 );
-
-					x0 *= f;
-					y0 *= f;
-					z0 *= f;
-					w0 *= f;
-
-				}
-
-			}
-
-			dst[ dstOffset ] = x0;
-			dst[ dstOffset + 1 ] = y0;
-			dst[ dstOffset + 2 ] = z0;
-			dst[ dstOffset + 3 ] = w0;
-
-		}
-
 	} );
 
 	/**
@@ -2585,9 +2597,7 @@
 
 	}
 
-	Vector3.prototype = {
-
-		constructor: Vector3,
+	Object.assign( Vector3.prototype, {
 
 		isVector3: true,
 
@@ -2812,7 +2822,7 @@
 
 		applyEuler: function () {
 
-			var quaternion;
+			var quaternion = new Quaternion();
 
 			return function applyEuler( euler ) {
 
@@ -2822,8 +2832,6 @@
 
 				}
 
-				if ( quaternion === undefined ) quaternion = new Quaternion();
-
 				return this.applyQuaternion( quaternion.setFromEuler( euler ) );
 
 			};
@@ -2832,11 +2840,9 @@
 
 		applyAxisAngle: function () {
 
-			var quaternion;
+			var quaternion = new Quaternion();
 
 			return function applyAxisAngle( axis, angle ) {
-
-				if ( quaternion === undefined ) quaternion = new Quaternion();
 
 				return this.applyQuaternion( quaternion.setFromAxisAngle( axis, angle ) );
 
@@ -2895,11 +2901,9 @@
 
 		project: function () {
 
-			var matrix;
+			var matrix = new Matrix4();
 
 			return function project( camera ) {
-
-				if ( matrix === undefined ) matrix = new Matrix4();
 
 				matrix.multiplyMatrices( camera.projectionMatrix, matrix.getInverse( camera.matrixWorld ) );
 				return this.applyMatrix4( matrix );
@@ -2910,11 +2914,9 @@
 
 		unproject: function () {
 
-			var matrix;
+			var matrix = new Matrix4();
 
 			return function unproject( camera ) {
-
-				if ( matrix === undefined ) matrix = new Matrix4();
 
 				matrix.multiplyMatrices( camera.matrixWorld, matrix.getInverse( camera.projectionMatrix ) );
 				return this.applyMatrix4( matrix );
@@ -2989,16 +2991,10 @@
 
 		clampScalar: function () {
 
-			var min, max;
+			var min = new Vector3();
+			var max = new Vector3();
 
 			return function clampScalar( minVal, maxVal ) {
-
-				if ( min === undefined ) {
-
-					min = new Vector3();
-					max = new Vector3();
-
-				}
 
 				min.set( minVal, minVal, minVal );
 				max.set( maxVal, maxVal, maxVal );
@@ -3161,11 +3157,9 @@
 
 		projectOnPlane: function () {
 
-			var v1;
+			var v1 = new Vector3();
 
 			return function projectOnPlane( planeNormal ) {
-
-				if ( v1 === undefined ) v1 = new Vector3();
 
 				v1.copy( this ).projectOnVector( planeNormal );
 
@@ -3180,11 +3174,9 @@
 			// reflect incident vector off plane orthogonal to normal
 			// normal is assumed to have unit length
 
-			var v1;
+			var v1 = new Vector3();
 
 			return function reflect( normal ) {
-
-				if ( v1 === undefined ) v1 = new Vector3();
 
 				return this.sub( v1.copy( normal ).multiplyScalar( 2 * this.dot( normal ) ) );
 
@@ -3326,7 +3318,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/
@@ -3343,14 +3335,14 @@
 
 	function Matrix4() {
 
-		this.elements = new Float32Array( [
+		this.elements = [
 
 			1, 0, 0, 0,
 			0, 1, 0, 0,
 			0, 0, 1, 0,
 			0, 0, 0, 1
 
-		] );
+		];
 
 		if ( arguments.length > 0 ) {
 
@@ -3360,9 +3352,7 @@
 
 	}
 
-	Matrix4.prototype = {
-
-		constructor: Matrix4,
+	Object.assign( Matrix4.prototype, {
 
 		isMatrix4: true,
 
@@ -3402,7 +3392,10 @@
 
 		copy: function ( m ) {
 
-			this.elements.set( m.elements );
+			var te = this.elements;
+			var me = m.elements;
+
+			for ( var i = 0; i < 16; i ++ ) te[ i ] = me[ i ];
 
 			return this;
 
@@ -3410,8 +3403,7 @@
 
 		copyPosition: function ( m ) {
 
-			var te = this.elements;
-			var me = m.elements;
+			var te = this.elements, me = m.elements;
 
 			te[ 12 ] = me[ 12 ];
 			te[ 13 ] = me[ 13 ];
@@ -3446,11 +3438,9 @@
 
 		extractRotation: function () {
 
-			var v1;
+			var v1 = new Vector3();
 
 			return function extractRotation( m ) {
-
-				if ( v1 === undefined ) v1 = new Vector3();
 
 				var te = this.elements;
 				var me = m.elements;
@@ -3479,7 +3469,7 @@
 
 		makeRotationFromEuler: function ( euler ) {
 
-			if ( (euler && euler.isEuler) === false ) {
+			if ( ( euler && euler.isEuler ) === false ) {
 
 				console.error( 'THREE.Matrix: .makeRotationFromEuler() now expects a Euler rotation rather than a Vector3 and order.' );
 
@@ -3644,17 +3634,11 @@
 
 		lookAt: function () {
 
-			var x, y, z;
+			var x = new Vector3();
+			var y = new Vector3();
+			var z = new Vector3();
 
 			return function lookAt( eye, target, up ) {
-
-				if ( x === undefined ) {
-
-					x = new Vector3();
-					y = new Vector3();
-					z = new Vector3();
-
-				}
 
 				var te = this.elements;
 
@@ -3747,21 +3731,6 @@
 
 		},
 
-		multiplyToArray: function ( a, b, r ) {
-
-			var te = this.elements;
-
-			this.multiplyMatrices( a, b );
-
-			r[ 0 ] = te[ 0 ]; r[ 1 ] = te[ 1 ]; r[ 2 ] = te[ 2 ]; r[ 3 ] = te[ 3 ];
-			r[ 4 ] = te[ 4 ]; r[ 5 ] = te[ 5 ]; r[ 6 ] = te[ 6 ]; r[ 7 ] = te[ 7 ];
-			r[ 8 ]  = te[ 8 ]; r[ 9 ]  = te[ 9 ]; r[ 10 ] = te[ 10 ]; r[ 11 ] = te[ 11 ];
-			r[ 12 ] = te[ 12 ]; r[ 13 ] = te[ 13 ]; r[ 14 ] = te[ 14 ]; r[ 15 ] = te[ 15 ];
-
-			return this;
-
-		},
-
 		multiplyScalar: function ( s ) {
 
 			var te = this.elements;
@@ -3777,11 +3746,9 @@
 
 		applyToBufferAttribute: function () {
 
-			var v1;
+			var v1 = new Vector3();
 
 			return function applyToBufferAttribute( attribute ) {
-
-				if ( v1 === undefined ) v1 = new Vector3();
 
 				for ( var i = 0, l = attribute.count; i < l; i ++ ) {
 
@@ -3816,35 +3783,35 @@
 			return (
 				n41 * (
 					+ n14 * n23 * n32
-					 - n13 * n24 * n32
-					 - n14 * n22 * n33
-					 + n12 * n24 * n33
-					 + n13 * n22 * n34
-					 - n12 * n23 * n34
+					- n13 * n24 * n32
+					- n14 * n22 * n33
+					+ n12 * n24 * n33
+					+ n13 * n22 * n34
+					- n12 * n23 * n34
 				) +
 				n42 * (
 					+ n11 * n23 * n34
-					 - n11 * n24 * n33
-					 + n14 * n21 * n33
-					 - n13 * n21 * n34
-					 + n13 * n24 * n31
-					 - n14 * n23 * n31
+					- n11 * n24 * n33
+					+ n14 * n21 * n33
+					- n13 * n21 * n34
+					+ n13 * n24 * n31
+					- n14 * n23 * n31
 				) +
 				n43 * (
 					+ n11 * n24 * n32
-					 - n11 * n22 * n34
-					 - n14 * n21 * n32
-					 + n12 * n21 * n34
-					 + n14 * n22 * n31
-					 - n12 * n24 * n31
+					- n11 * n22 * n34
+					- n14 * n21 * n32
+					+ n12 * n21 * n34
+					+ n14 * n22 * n31
+					- n12 * n24 * n31
 				) +
 				n44 * (
 					- n13 * n22 * n31
-					 - n11 * n23 * n32
-					 + n11 * n22 * n33
-					 + n13 * n21 * n32
-					 - n12 * n21 * n33
-					 + n12 * n23 * n31
+					- n11 * n23 * n32
+					+ n11 * n22 * n33
+					+ n13 * n21 * n32
+					- n12 * n21 * n33
+					+ n12 * n23 * n31
 				)
 
 			);
@@ -4006,10 +3973,10 @@
 
 			this.set(
 
-				 c, 0, s, 0,
-				 0, 1, 0, 0,
+				c, 0, s, 0,
+				0, 1, 0, 0,
 				- s, 0, c, 0,
-				 0, 0, 0, 1
+				0, 0, 0, 1
 
 			);
 
@@ -4053,7 +4020,7 @@
 
 			);
 
-			 return this;
+			return this;
 
 		},
 
@@ -4099,16 +4066,10 @@
 
 		decompose: function () {
 
-			var vector, matrix;
+			var vector = new Vector3();
+			var matrix = new Matrix4();
 
 			return function decompose( position, quaternion, scale ) {
-
-				if ( vector === undefined ) {
-
-					vector = new Vector3();
-					matrix = new Matrix4();
-
-				}
 
 				var te = this.elements;
 
@@ -4129,8 +4090,7 @@
 				position.z = te[ 14 ];
 
 				// scale the rotation part
-
-				matrix.elements.set( this.elements ); // at this point matrix is incomplete so we can't use .copy()
+				for ( var i = 0; i < 16; i ++ ) matrix.elements[ i ] = this.elements[ i ]; // at this point matrix is incomplete so we can't use .copy()
 
 				var invSX = 1 / sx;
 				var invSY = 1 / sy;
@@ -4266,7 +4226,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/
@@ -4372,6 +4332,11 @@
 	var arrayCacheF32 = [];
 	var arrayCacheI32 = [];
 
+	// Float32Array caches used for uploading Matrix uniforms
+
+	var mat4array = new Float32Array( 16 );
+	var mat3array = new Float32Array( 9 );
+
 	// Flattening for arrays of vectors and matrices
 
 	function flatten( array, nBlocks, blockSize ) {
@@ -4476,13 +4441,31 @@
 
 	function setValue3fm( gl, v ) {
 
-		gl.uniformMatrix3fv( this.addr, false, v.elements || v );
+		if ( v.elements === undefined ) {
+
+			gl.uniformMatrix3fv( this.addr, false, v );
+
+		} else {
+
+			mat3array.set( v.elements );
+			gl.uniformMatrix3fv( this.addr, false, mat3array );
+
+		}
 
 	}
 
 	function setValue4fm( gl, v ) {
 
-		gl.uniformMatrix4fv( this.addr, false, v.elements || v );
+		if ( v.elements === undefined ) {
+
+			gl.uniformMatrix4fv( this.addr, false, v );
+
+		} else {
+
+			mat4array.set( v.elements );
+			gl.uniformMatrix4fv( this.addr, false, mat4array );
+
+		}
 
 	}
 
@@ -4672,7 +4655,7 @@
 
 	}
 
-	StructuredUniform.prototype.setValue = function( gl, value ) {
+	StructuredUniform.prototype.setValue = function ( gl, value ) {
 
 		// Note: Don't need an extra 'renderer' parameter, since samplers
 		// are not allowed in structured uniforms.
@@ -4718,7 +4701,7 @@
 		// reset RegExp object, because of the early exit of a previous run
 		RePathPart.lastIndex = 0;
 
-		for (; ;) {
+		for ( ; ; ) {
 
 			var match = RePathPart.exec( path ),
 				matchEnd = RePathPart.lastIndex,
@@ -4729,21 +4712,21 @@
 
 			if ( idIsIndex ) id = id | 0; // convert to integer
 
-			if ( subscript === undefined ||
-					subscript === '[' && matchEnd + 2 === pathLength ) {
+			if ( subscript === undefined || subscript === '[' && matchEnd + 2 === pathLength ) {
+
 				// bare name or "pure" bottom-level array "[0]" suffix
 
 				addUniform( container, subscript === undefined ?
-						new SingleUniform( id, activeInfo, addr ) :
-						new PureArrayUniform( id, activeInfo, addr ) );
+					new SingleUniform( id, activeInfo, addr ) :
+					new PureArrayUniform( id, activeInfo, addr ) );
 
 				break;
 
 			} else {
+
 				// step into inner node / create it in case it doesn't exist
 
-				var map = container.map,
-					next = map[ id ];
+				var map = container.map, next = map[ id ];
 
 				if ( next === undefined ) {
 
@@ -4782,7 +4765,7 @@
 
 	}
 
-	WebGLUniforms.prototype.setValue = function( gl, name, value ) {
+	WebGLUniforms.prototype.setValue = function ( gl, name, value ) {
 
 		var u = this.map[ name ];
 
@@ -4790,7 +4773,7 @@
 
 	};
 
-	WebGLUniforms.prototype.set = function( gl, object, name ) {
+	WebGLUniforms.prototype.set = function ( gl, object, name ) {
 
 		var u = this.map[ name ];
 
@@ -4798,7 +4781,7 @@
 
 	};
 
-	WebGLUniforms.prototype.setOptional = function( gl, object, name ) {
+	WebGLUniforms.prototype.setOptional = function ( gl, object, name ) {
 
 		var v = object[ name ];
 
@@ -4809,7 +4792,7 @@
 
 	// Static interface
 
-	WebGLUniforms.upload = function( gl, seq, values, renderer ) {
+	WebGLUniforms.upload = function ( gl, seq, values, renderer ) {
 
 		for ( var i = 0, n = seq.length; i !== n; ++ i ) {
 
@@ -4817,8 +4800,8 @@
 				v = values[ u.id ];
 
 			if ( v.needsUpdate !== false ) {
-				// note: always updating when .needsUpdate is undefined
 
+				// note: always updating when .needsUpdate is undefined
 				u.setValue( gl, v.value, renderer );
 
 			}
@@ -4827,7 +4810,7 @@
 
 	};
 
-	WebGLUniforms.seqWithValue = function( seq, values ) {
+	WebGLUniforms.seqWithValue = function ( seq, values ) {
 
 		var r = [];
 
@@ -5011,7 +4994,7 @@
 
 	var map_particle_pars_fragment = "#ifdef USE_MAP\n\tuniform vec4 offsetRepeat;\n\tuniform sampler2D map;\n#endif\n";
 
-	var metalnessmap_fragment = "float metalnessFactor = metalness;\n#ifdef USE_METALNESSMAP\n\tvec4 texelMetalness = texture2D( metalnessMap, vUv );\n\tmetalnessFactor *= texelMetalness.r;\n#endif\n";
+	var metalnessmap_fragment = "float metalnessFactor = metalness;\n#ifdef USE_METALNESSMAP\n\tvec4 texelMetalness = texture2D( metalnessMap, vUv );\n\tmetalnessFactor *= texelMetalness.b;\n#endif\n";
 
 	var metalnessmap_pars_fragment = "#ifdef USE_METALNESSMAP\n\tuniform sampler2D metalnessMap;\n#endif";
 
@@ -5033,7 +5016,7 @@
 
 	var project_vertex = "#ifdef USE_SKINNING\n\tvec4 mvPosition = modelViewMatrix * skinned;\n#else\n\tvec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );\n#endif\ngl_Position = projectionMatrix * mvPosition;\n";
 
-	var roughnessmap_fragment = "float roughnessFactor = roughness;\n#ifdef USE_ROUGHNESSMAP\n\tvec4 texelRoughness = texture2D( roughnessMap, vUv );\n\troughnessFactor *= texelRoughness.r;\n#endif\n";
+	var roughnessmap_fragment = "float roughnessFactor = roughness;\n#ifdef USE_ROUGHNESSMAP\n\tvec4 texelRoughness = texture2D( roughnessMap, vUv );\n\troughnessFactor *= texelRoughness.g;\n#endif\n";
 
 	var roughnessmap_pars_fragment = "#ifdef USE_ROUGHNESSMAP\n\tuniform sampler2D roughnessMap;\n#endif";
 
@@ -5239,6 +5222,31 @@
 	 * @author mrdoob / http://mrdoob.com/
 	 */
 
+	var ColorKeywords = { 'aliceblue': 0xF0F8FF, 'antiquewhite': 0xFAEBD7, 'aqua': 0x00FFFF, 'aquamarine': 0x7FFFD4, 'azure': 0xF0FFFF,
+		'beige': 0xF5F5DC, 'bisque': 0xFFE4C4, 'black': 0x000000, 'blanchedalmond': 0xFFEBCD, 'blue': 0x0000FF, 'blueviolet': 0x8A2BE2,
+		'brown': 0xA52A2A, 'burlywood': 0xDEB887, 'cadetblue': 0x5F9EA0, 'chartreuse': 0x7FFF00, 'chocolate': 0xD2691E, 'coral': 0xFF7F50,
+		'cornflowerblue': 0x6495ED, 'cornsilk': 0xFFF8DC, 'crimson': 0xDC143C, 'cyan': 0x00FFFF, 'darkblue': 0x00008B, 'darkcyan': 0x008B8B,
+		'darkgoldenrod': 0xB8860B, 'darkgray': 0xA9A9A9, 'darkgreen': 0x006400, 'darkgrey': 0xA9A9A9, 'darkkhaki': 0xBDB76B, 'darkmagenta': 0x8B008B,
+		'darkolivegreen': 0x556B2F, 'darkorange': 0xFF8C00, 'darkorchid': 0x9932CC, 'darkred': 0x8B0000, 'darksalmon': 0xE9967A, 'darkseagreen': 0x8FBC8F,
+		'darkslateblue': 0x483D8B, 'darkslategray': 0x2F4F4F, 'darkslategrey': 0x2F4F4F, 'darkturquoise': 0x00CED1, 'darkviolet': 0x9400D3,
+		'deeppink': 0xFF1493, 'deepskyblue': 0x00BFFF, 'dimgray': 0x696969, 'dimgrey': 0x696969, 'dodgerblue': 0x1E90FF, 'firebrick': 0xB22222,
+		'floralwhite': 0xFFFAF0, 'forestgreen': 0x228B22, 'fuchsia': 0xFF00FF, 'gainsboro': 0xDCDCDC, 'ghostwhite': 0xF8F8FF, 'gold': 0xFFD700,
+		'goldenrod': 0xDAA520, 'gray': 0x808080, 'green': 0x008000, 'greenyellow': 0xADFF2F, 'grey': 0x808080, 'honeydew': 0xF0FFF0, 'hotpink': 0xFF69B4,
+		'indianred': 0xCD5C5C, 'indigo': 0x4B0082, 'ivory': 0xFFFFF0, 'khaki': 0xF0E68C, 'lavender': 0xE6E6FA, 'lavenderblush': 0xFFF0F5, 'lawngreen': 0x7CFC00,
+		'lemonchiffon': 0xFFFACD, 'lightblue': 0xADD8E6, 'lightcoral': 0xF08080, 'lightcyan': 0xE0FFFF, 'lightgoldenrodyellow': 0xFAFAD2, 'lightgray': 0xD3D3D3,
+		'lightgreen': 0x90EE90, 'lightgrey': 0xD3D3D3, 'lightpink': 0xFFB6C1, 'lightsalmon': 0xFFA07A, 'lightseagreen': 0x20B2AA, 'lightskyblue': 0x87CEFA,
+		'lightslategray': 0x778899, 'lightslategrey': 0x778899, 'lightsteelblue': 0xB0C4DE, 'lightyellow': 0xFFFFE0, 'lime': 0x00FF00, 'limegreen': 0x32CD32,
+		'linen': 0xFAF0E6, 'magenta': 0xFF00FF, 'maroon': 0x800000, 'mediumaquamarine': 0x66CDAA, 'mediumblue': 0x0000CD, 'mediumorchid': 0xBA55D3,
+		'mediumpurple': 0x9370DB, 'mediumseagreen': 0x3CB371, 'mediumslateblue': 0x7B68EE, 'mediumspringgreen': 0x00FA9A, 'mediumturquoise': 0x48D1CC,
+		'mediumvioletred': 0xC71585, 'midnightblue': 0x191970, 'mintcream': 0xF5FFFA, 'mistyrose': 0xFFE4E1, 'moccasin': 0xFFE4B5, 'navajowhite': 0xFFDEAD,
+		'navy': 0x000080, 'oldlace': 0xFDF5E6, 'olive': 0x808000, 'olivedrab': 0x6B8E23, 'orange': 0xFFA500, 'orangered': 0xFF4500, 'orchid': 0xDA70D6,
+		'palegoldenrod': 0xEEE8AA, 'palegreen': 0x98FB98, 'paleturquoise': 0xAFEEEE, 'palevioletred': 0xDB7093, 'papayawhip': 0xFFEFD5, 'peachpuff': 0xFFDAB9,
+		'peru': 0xCD853F, 'pink': 0xFFC0CB, 'plum': 0xDDA0DD, 'powderblue': 0xB0E0E6, 'purple': 0x800080, 'red': 0xFF0000, 'rosybrown': 0xBC8F8F,
+		'royalblue': 0x4169E1, 'saddlebrown': 0x8B4513, 'salmon': 0xFA8072, 'sandybrown': 0xF4A460, 'seagreen': 0x2E8B57, 'seashell': 0xFFF5EE,
+		'sienna': 0xA0522D, 'silver': 0xC0C0C0, 'skyblue': 0x87CEEB, 'slateblue': 0x6A5ACD, 'slategray': 0x708090, 'slategrey': 0x708090, 'snow': 0xFFFAFA,
+		'springgreen': 0x00FF7F, 'steelblue': 0x4682B4, 'tan': 0xD2B48C, 'teal': 0x008080, 'thistle': 0xD8BFD8, 'tomato': 0xFF6347, 'turquoise': 0x40E0D0,
+		'violet': 0xEE82EE, 'wheat': 0xF5DEB3, 'white': 0xFFFFFF, 'whitesmoke': 0xF5F5F5, 'yellow': 0xFFFF00, 'yellowgreen': 0x9ACD32 };
+
 	function Color( r, g, b ) {
 
 		if ( g === undefined && b === undefined ) {
@@ -5252,9 +5260,7 @@
 
 	}
 
-	Color.prototype = {
-
-		constructor: Color,
+	Object.assign( Color.prototype, {
 
 		isColor: true,
 
@@ -5729,32 +5735,7 @@
 
 		}
 
-	};
-
-	var ColorKeywords = { 'aliceblue': 0xF0F8FF, 'antiquewhite': 0xFAEBD7, 'aqua': 0x00FFFF, 'aquamarine': 0x7FFFD4, 'azure': 0xF0FFFF,
-	'beige': 0xF5F5DC, 'bisque': 0xFFE4C4, 'black': 0x000000, 'blanchedalmond': 0xFFEBCD, 'blue': 0x0000FF, 'blueviolet': 0x8A2BE2,
-	'brown': 0xA52A2A, 'burlywood': 0xDEB887, 'cadetblue': 0x5F9EA0, 'chartreuse': 0x7FFF00, 'chocolate': 0xD2691E, 'coral': 0xFF7F50,
-	'cornflowerblue': 0x6495ED, 'cornsilk': 0xFFF8DC, 'crimson': 0xDC143C, 'cyan': 0x00FFFF, 'darkblue': 0x00008B, 'darkcyan': 0x008B8B,
-	'darkgoldenrod': 0xB8860B, 'darkgray': 0xA9A9A9, 'darkgreen': 0x006400, 'darkgrey': 0xA9A9A9, 'darkkhaki': 0xBDB76B, 'darkmagenta': 0x8B008B,
-	'darkolivegreen': 0x556B2F, 'darkorange': 0xFF8C00, 'darkorchid': 0x9932CC, 'darkred': 0x8B0000, 'darksalmon': 0xE9967A, 'darkseagreen': 0x8FBC8F,
-	'darkslateblue': 0x483D8B, 'darkslategray': 0x2F4F4F, 'darkslategrey': 0x2F4F4F, 'darkturquoise': 0x00CED1, 'darkviolet': 0x9400D3,
-	'deeppink': 0xFF1493, 'deepskyblue': 0x00BFFF, 'dimgray': 0x696969, 'dimgrey': 0x696969, 'dodgerblue': 0x1E90FF, 'firebrick': 0xB22222,
-	'floralwhite': 0xFFFAF0, 'forestgreen': 0x228B22, 'fuchsia': 0xFF00FF, 'gainsboro': 0xDCDCDC, 'ghostwhite': 0xF8F8FF, 'gold': 0xFFD700,
-	'goldenrod': 0xDAA520, 'gray': 0x808080, 'green': 0x008000, 'greenyellow': 0xADFF2F, 'grey': 0x808080, 'honeydew': 0xF0FFF0, 'hotpink': 0xFF69B4,
-	'indianred': 0xCD5C5C, 'indigo': 0x4B0082, 'ivory': 0xFFFFF0, 'khaki': 0xF0E68C, 'lavender': 0xE6E6FA, 'lavenderblush': 0xFFF0F5, 'lawngreen': 0x7CFC00,
-	'lemonchiffon': 0xFFFACD, 'lightblue': 0xADD8E6, 'lightcoral': 0xF08080, 'lightcyan': 0xE0FFFF, 'lightgoldenrodyellow': 0xFAFAD2, 'lightgray': 0xD3D3D3,
-	'lightgreen': 0x90EE90, 'lightgrey': 0xD3D3D3, 'lightpink': 0xFFB6C1, 'lightsalmon': 0xFFA07A, 'lightseagreen': 0x20B2AA, 'lightskyblue': 0x87CEFA,
-	'lightslategray': 0x778899, 'lightslategrey': 0x778899, 'lightsteelblue': 0xB0C4DE, 'lightyellow': 0xFFFFE0, 'lime': 0x00FF00, 'limegreen': 0x32CD32,
-	'linen': 0xFAF0E6, 'magenta': 0xFF00FF, 'maroon': 0x800000, 'mediumaquamarine': 0x66CDAA, 'mediumblue': 0x0000CD, 'mediumorchid': 0xBA55D3,
-	'mediumpurple': 0x9370DB, 'mediumseagreen': 0x3CB371, 'mediumslateblue': 0x7B68EE, 'mediumspringgreen': 0x00FA9A, 'mediumturquoise': 0x48D1CC,
-	'mediumvioletred': 0xC71585, 'midnightblue': 0x191970, 'mintcream': 0xF5FFFA, 'mistyrose': 0xFFE4E1, 'moccasin': 0xFFE4B5, 'navajowhite': 0xFFDEAD,
-	'navy': 0x000080, 'oldlace': 0xFDF5E6, 'olive': 0x808000, 'olivedrab': 0x6B8E23, 'orange': 0xFFA500, 'orangered': 0xFF4500, 'orchid': 0xDA70D6,
-	'palegoldenrod': 0xEEE8AA, 'palegreen': 0x98FB98, 'paleturquoise': 0xAFEEEE, 'palevioletred': 0xDB7093, 'papayawhip': 0xFFEFD5, 'peachpuff': 0xFFDAB9,
-	'peru': 0xCD853F, 'pink': 0xFFC0CB, 'plum': 0xDDA0DD, 'powderblue': 0xB0E0E6, 'purple': 0x800080, 'red': 0xFF0000, 'rosybrown': 0xBC8F8F,
-	'royalblue': 0x4169E1, 'saddlebrown': 0x8B4513, 'salmon': 0xFA8072, 'sandybrown': 0xF4A460, 'seagreen': 0x2E8B57, 'seashell': 0xFFF5EE,
-	'sienna': 0xA0522D, 'silver': 0xC0C0C0, 'skyblue': 0x87CEEB, 'slateblue': 0x6A5ACD, 'slategray': 0x708090, 'slategrey': 0x708090, 'snow': 0xFFFAFA,
-	'springgreen': 0x00FF7F, 'steelblue': 0x4682B4, 'tan': 0xD2B48C, 'teal': 0x008080, 'thistle': 0xD8BFD8, 'tomato': 0xFF6347, 'turquoise': 0x40E0D0,
-	'violet': 0xEE82EE, 'wheat': 0xF5DEB3, 'white': 0xFFFFFF, 'whitesmoke': 0xF5F5F5, 'yellow': 0xFFFF00, 'yellowgreen': 0x9ACD32 };
+	} );
 
 	/**
 	 * @author alteredq / http://alteredqualia.com/
@@ -6104,7 +6085,7 @@
 		},
 
 		/* -------------------------------------------------------------------------
-		//	Cube map shader
+		 //	Cube map shader
 		 ------------------------------------------------------------------------- */
 
 		cube: {
@@ -6121,7 +6102,7 @@
 		},
 
 		/* -------------------------------------------------------------------------
-		//	Cube map shader
+		 //	Cube map shader
 		 ------------------------------------------------------------------------- */
 
 		equirect: {
@@ -6175,9 +6156,7 @@
 
 	}
 
-	Box2.prototype = {
-
-		constructor: Box2,
+	Object.assign( Box2.prototype, {
 
 		set: function ( min, max ) {
 
@@ -6294,7 +6273,7 @@
 		containsPoint: function ( point ) {
 
 			return point.x < this.min.x || point.x > this.max.x ||
-				point.y < this.min.y || point.y > this.max.y ? false : true;
+			point.y < this.min.y || point.y > this.max.y ? false : true;
 
 		},
 
@@ -6323,7 +6302,7 @@
 
 			// using 6 splitting planes to rule out intersections.
 			return box.max.x < this.min.x || box.min.x > this.max.x ||
-				box.max.y < this.min.y || box.min.y > this.max.y ? false : true;
+			box.max.y < this.min.y || box.min.y > this.max.y ? false : true;
 
 		},
 
@@ -6380,7 +6359,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author mikael emtinger / http://gomo.se/
@@ -6401,8 +6380,8 @@
 
 			var vertices = new Float32Array( [
 				- 1, - 1,  0, 0,
-				 1, - 1,  1, 0,
-				 1,  1,  1, 1,
+				1, - 1,  1, 0,
+				1,  1,  1, 1,
 				- 1,  1,  0, 1
 			] );
 
@@ -6461,33 +6440,33 @@
 
 					"void main() {",
 
-						"vUV = uv;",
+					"vUV = uv;",
 
-						"vec2 pos = position;",
+					"vec2 pos = position;",
 
-						"if ( renderType == 2 ) {",
+					"if ( renderType == 2 ) {",
 
-							"vec4 visibility = texture2D( occlusionMap, vec2( 0.1, 0.1 ) );",
-							"visibility += texture2D( occlusionMap, vec2( 0.5, 0.1 ) );",
-							"visibility += texture2D( occlusionMap, vec2( 0.9, 0.1 ) );",
-							"visibility += texture2D( occlusionMap, vec2( 0.9, 0.5 ) );",
-							"visibility += texture2D( occlusionMap, vec2( 0.9, 0.9 ) );",
-							"visibility += texture2D( occlusionMap, vec2( 0.5, 0.9 ) );",
-							"visibility += texture2D( occlusionMap, vec2( 0.1, 0.9 ) );",
-							"visibility += texture2D( occlusionMap, vec2( 0.1, 0.5 ) );",
-							"visibility += texture2D( occlusionMap, vec2( 0.5, 0.5 ) );",
+					"vec4 visibility = texture2D( occlusionMap, vec2( 0.1, 0.1 ) );",
+					"visibility += texture2D( occlusionMap, vec2( 0.5, 0.1 ) );",
+					"visibility += texture2D( occlusionMap, vec2( 0.9, 0.1 ) );",
+					"visibility += texture2D( occlusionMap, vec2( 0.9, 0.5 ) );",
+					"visibility += texture2D( occlusionMap, vec2( 0.9, 0.9 ) );",
+					"visibility += texture2D( occlusionMap, vec2( 0.5, 0.9 ) );",
+					"visibility += texture2D( occlusionMap, vec2( 0.1, 0.9 ) );",
+					"visibility += texture2D( occlusionMap, vec2( 0.1, 0.5 ) );",
+					"visibility += texture2D( occlusionMap, vec2( 0.5, 0.5 ) );",
 
-							"vVisibility =        visibility.r / 9.0;",
-							"vVisibility *= 1.0 - visibility.g / 9.0;",
-							"vVisibility *=       visibility.b / 9.0;",
-							"vVisibility *= 1.0 - visibility.a / 9.0;",
+					"vVisibility =        visibility.r / 9.0;",
+					"vVisibility *= 1.0 - visibility.g / 9.0;",
+					"vVisibility *=       visibility.b / 9.0;",
+					"vVisibility *= 1.0 - visibility.a / 9.0;",
 
-							"pos.x = cos( rotation ) * position.x - sin( rotation ) * position.y;",
-							"pos.y = sin( rotation ) * position.x + cos( rotation ) * position.y;",
+					"pos.x = cos( rotation ) * position.x - sin( rotation ) * position.y;",
+					"pos.y = sin( rotation ) * position.x + cos( rotation ) * position.y;",
 
-						"}",
+					"}",
 
-						"gl_Position = vec4( ( pos * scale + screenPosition.xy ).xy, screenPosition.z, 1.0 );",
+					"gl_Position = vec4( ( pos * scale + screenPosition.xy ).xy, screenPosition.z, 1.0 );",
 
 					"}"
 
@@ -6506,28 +6485,28 @@
 
 					"void main() {",
 
-						// pink square
+					// pink square
 
-						"if ( renderType == 0 ) {",
+					"if ( renderType == 0 ) {",
 
-							"gl_FragColor = vec4( 1.0, 0.0, 1.0, 0.0 );",
+					"gl_FragColor = vec4( 1.0, 0.0, 1.0, 0.0 );",
 
-						// restore
+					// restore
 
-						"} else if ( renderType == 1 ) {",
+					"} else if ( renderType == 1 ) {",
 
-							"gl_FragColor = texture2D( map, vUV );",
+					"gl_FragColor = texture2D( map, vUV );",
 
-						// flare
+					// flare
 
-						"} else {",
+					"} else {",
 
-							"vec4 texture = texture2D( map, vUV );",
-							"texture.a *= opacity * vVisibility;",
-							"gl_FragColor = texture;",
-							"gl_FragColor.rgb *= color;",
+					"vec4 texture = texture2D( map, vUV );",
+					"texture.a *= opacity * vVisibility;",
+					"gl_FragColor = texture;",
+					"gl_FragColor.rgb *= color;",
 
-						"}",
+					"}",
 
 					"}"
 
@@ -6790,8 +6769,8 @@
 
 			var vertices = new Float32Array( [
 				- 0.5, - 0.5,  0, 0,
-				  0.5, - 0.5,  1, 0,
-				  0.5,   0.5,  1, 1,
+				0.5, - 0.5,  1, 0,
+				0.5,   0.5,  1, 1,
 				- 0.5,   0.5,  0, 1
 			] );
 
@@ -7037,21 +7016,21 @@
 
 				'void main() {',
 
-					'vUV = uvOffset + uv * uvScale;',
+				'vUV = uvOffset + uv * uvScale;',
 
-					'vec2 alignedPosition = position * scale;',
+				'vec2 alignedPosition = position * scale;',
 
-					'vec2 rotatedPosition;',
-					'rotatedPosition.x = cos( rotation ) * alignedPosition.x - sin( rotation ) * alignedPosition.y;',
-					'rotatedPosition.y = sin( rotation ) * alignedPosition.x + cos( rotation ) * alignedPosition.y;',
+				'vec2 rotatedPosition;',
+				'rotatedPosition.x = cos( rotation ) * alignedPosition.x - sin( rotation ) * alignedPosition.y;',
+				'rotatedPosition.y = sin( rotation ) * alignedPosition.x + cos( rotation ) * alignedPosition.y;',
 
-					'vec4 finalPosition;',
+				'vec4 finalPosition;',
 
-					'finalPosition = modelViewMatrix * vec4( 0.0, 0.0, 0.0, 1.0 );',
-					'finalPosition.xy += rotatedPosition;',
-					'finalPosition = projectionMatrix * finalPosition;',
+				'finalPosition = modelViewMatrix * vec4( 0.0, 0.0, 0.0, 1.0 );',
+				'finalPosition.xy += rotatedPosition;',
+				'finalPosition = projectionMatrix * finalPosition;',
 
-					'gl_Position = finalPosition;',
+				'gl_Position = finalPosition;',
 
 				'}'
 
@@ -7076,32 +7055,32 @@
 
 				'void main() {',
 
-					'vec4 texture = texture2D( map, vUV );',
+				'vec4 texture = texture2D( map, vUV );',
 
-					'if ( texture.a < alphaTest ) discard;',
+				'if ( texture.a < alphaTest ) discard;',
 
-					'gl_FragColor = vec4( color * texture.xyz, texture.a * opacity );',
+				'gl_FragColor = vec4( color * texture.xyz, texture.a * opacity );',
 
-					'if ( fogType > 0 ) {',
+				'if ( fogType > 0 ) {',
 
-						'float depth = gl_FragCoord.z / gl_FragCoord.w;',
-						'float fogFactor = 0.0;',
+				'float depth = gl_FragCoord.z / gl_FragCoord.w;',
+				'float fogFactor = 0.0;',
 
-						'if ( fogType == 1 ) {',
+				'if ( fogType == 1 ) {',
 
-							'fogFactor = smoothstep( fogNear, fogFar, depth );',
+				'fogFactor = smoothstep( fogNear, fogFar, depth );',
 
-						'} else {',
+				'} else {',
 
-							'const float LOG2 = 1.442695;',
-							'fogFactor = exp2( - fogDensity * fogDensity * depth * depth * LOG2 );',
-							'fogFactor = 1.0 - clamp( fogFactor, 0.0, 1.0 );',
+				'const float LOG2 = 1.442695;',
+				'fogFactor = exp2( - fogDensity * fogDensity * depth * depth * LOG2 );',
+				'fogFactor = 1.0 - clamp( fogFactor, 0.0, 1.0 );',
 
-						'}',
+				'}',
 
-						'gl_FragColor = mix( gl_FragColor, vec4( fogColor, gl_FragColor.w ), fogFactor );',
+				'gl_FragColor = mix( gl_FragColor, vec4( fogColor, gl_FragColor.w ), fogFactor );',
 
-					'}',
+				'}',
 
 				'}'
 
@@ -7200,24 +7179,26 @@
 
 	}
 
-	Material.prototype = {
+	Object.defineProperty( Material.prototype, 'needsUpdate', {
 
-		constructor: Material,
-
-		isMaterial: true,
-
-		get needsUpdate() {
+		get: function () {
 
 			return this._needsUpdate;
 
 		},
 
-		set needsUpdate( value ) {
+		set: function ( value ) {
 
 			if ( value === true ) this.update();
 			this._needsUpdate = value;
 
-		},
+		}
+
+	} );
+
+	Object.assign( Material.prototype, EventDispatcher.prototype, {
+
+		isMaterial: true,
 
 		setValues: function ( values ) {
 
@@ -7367,7 +7348,6 @@
 			if ( this.wireframeLinecap !== 'round' ) data.wireframeLinecap = this.wireframeLinecap;
 			if ( this.wireframeLinejoin !== 'round' ) data.wireframeLinejoin = this.wireframeLinejoin;
 
-			data.skinning = this.skinning;
 			data.morphTargets = this.morphTargets;
 
 			// TODO: Copied from Object3D.toJSON
@@ -7483,9 +7463,7 @@
 
 		}
 
-	};
-
-	Object.assign( Material.prototype, EventDispatcher.prototype );
+	} );
 
 	/**
 	 * @author alteredq / http://alteredqualia.com/
@@ -7502,7 +7480,6 @@
 	 *
 	 *  lights: <bool>,
 	 *
-	 *  skinning: <bool>,
 	 *  morphTargets: <bool>,
 	 *  morphNormals: <bool>
 	 * }
@@ -7529,7 +7506,6 @@
 		this.lights = false; // set to use scene lights
 		this.clipping = false; // set to use user-defined clipping planes
 
-		this.skinning = false; // set to use skinning attribute streams
 		this.morphTargets = false; // set to use morph targets
 		this.morphNormals = false; // set to use morph normals
 
@@ -7586,8 +7562,6 @@
 		this.lights = source.lights;
 		this.clipping = source.clipping;
 
-		this.skinning = source.skinning;
-
 		this.morphTargets = source.morphTargets;
 		this.morphNormals = source.morphNormals;
 
@@ -7640,7 +7614,6 @@
 
 		this.depthPacking = BasicDepthPacking;
 
-		this.skinning = false;
 		this.morphTargets = false;
 
 		this.map = null;
@@ -7672,7 +7645,6 @@
 
 		this.depthPacking = source.depthPacking;
 
-		this.skinning = source.skinning;
 		this.morphTargets = source.morphTargets;
 
 		this.map = source.map;
@@ -7702,9 +7674,7 @@
 
 	}
 
-	Box3.prototype = {
-
-		constructor: Box3,
+	Object.assign( Box3.prototype, {
 
 		isBox3: true,
 
@@ -7960,8 +7930,8 @@
 		containsPoint: function ( point ) {
 
 			return point.x < this.min.x || point.x > this.max.x ||
-				point.y < this.min.y || point.y > this.max.y ||
-				point.z < this.min.z || point.z > this.max.z ? false : true;
+			point.y < this.min.y || point.y > this.max.y ||
+			point.z < this.min.z || point.z > this.max.z ? false : true;
 
 		},
 
@@ -7992,18 +7962,16 @@
 
 			// using 6 splitting planes to rule out intersections.
 			return box.max.x < this.min.x || box.min.x > this.max.x ||
-				box.max.y < this.min.y || box.min.y > this.max.y ||
-				box.max.z < this.min.z || box.min.z > this.max.z ? false : true;
+			box.max.y < this.min.y || box.min.y > this.max.y ||
+			box.max.z < this.min.z || box.min.z > this.max.z ? false : true;
 
 		},
 
 		intersectsSphere: ( function () {
 
-			var closestPoint;
+			var closestPoint = new Vector3();
 
 			return function intersectsSphere( sphere ) {
-
-				if ( closestPoint === undefined ) closestPoint = new Vector3();
 
 				// Find the point on the AABB closest to the sphere center.
 				this.clampPoint( sphere.center, closestPoint );
@@ -8172,7 +8140,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author bhouston / http://clara.io
@@ -8186,9 +8154,7 @@
 
 	}
 
-	Sphere.prototype = {
-
-		constructor: Sphere,
+	Object.assign( Sphere.prototype, {
 
 		set: function ( center, radius ) {
 
@@ -8201,11 +8167,9 @@
 
 		setFromPoints: function () {
 
-			var box;
+			var box = new Box3();
 
 			return function setFromPoints( points, optionalCenter ) {
-
-				if ( box === undefined ) box = new Box3(); // see #10547
 
 				var center = this.center;
 
@@ -8349,7 +8313,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author alteredq / http://alteredqualia.com/
@@ -8360,13 +8324,13 @@
 
 	function Matrix3() {
 
-		this.elements = new Float32Array( [
+		this.elements = [
 
 			1, 0, 0,
 			0, 1, 0,
 			0, 0, 1
 
-		] );
+		];
 
 		if ( arguments.length > 0 ) {
 
@@ -8376,9 +8340,7 @@
 
 	}
 
-	Matrix3.prototype = {
-
-		constructor: Matrix3,
+	Object.assign( Matrix3.prototype, {
 
 		isMatrix3: true,
 
@@ -8416,21 +8378,16 @@
 
 		copy: function ( m ) {
 
+			var te = this.elements;
 			var me = m.elements;
 
-			this.set(
-
-				me[ 0 ], me[ 3 ], me[ 6 ],
-				me[ 1 ], me[ 4 ], me[ 7 ],
-				me[ 2 ], me[ 5 ], me[ 8 ]
-
-			);
+			for ( var i = 0; i < 9; i ++ ) te[ i ] = me[ i ];
 
 			return this;
 
 		},
 
-		setFromMatrix4: function( m ) {
+		setFromMatrix4: function ( m ) {
 
 			var me = m.elements;
 
@@ -8448,11 +8405,9 @@
 
 		applyToBufferAttribute: function () {
 
-			var v1;
+			var v1 = new Vector3();
 
 			return function applyToBufferAttribute( attribute ) {
-
-				if ( v1 === undefined ) v1 = new Vector3();
 
 				for ( var i = 0, l = attribute.count; i < l; i ++ ) {
 
@@ -8532,6 +8487,7 @@
 				}
 
 				return this.identity();
+
 			}
 
 			var detInv = 1 / det;
@@ -8592,7 +8548,7 @@
 
 			if ( offset === undefined ) offset = 0;
 
-			for( var i = 0; i < 9; i ++ ) {
+			for ( var i = 0; i < 9; i ++ ) {
 
 				this.elements[ i ] = array[ i + offset ];
 
@@ -8619,13 +8575,13 @@
 
 			array[ offset + 6 ] = te[ 6 ];
 			array[ offset + 7 ] = te[ 7 ];
-			array[ offset + 8 ]  = te[ 8 ];
+			array[ offset + 8 ] = te[ 8 ];
 
 			return array;
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author bhouston / http://clara.io
@@ -8638,9 +8594,7 @@
 
 	}
 
-	Plane.prototype = {
-
-		constructor: Plane,
+	Object.assign( Plane.prototype, {
 
 		set: function ( normal, constant ) {
 
@@ -8858,7 +8812,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/
@@ -8881,9 +8835,7 @@
 
 	}
 
-	Frustum.prototype = {
-
-		constructor: Frustum,
+	Object.assign( Frustum.prototype, {
 
 		set: function ( p0, p1, p2, p3, p4, p5 ) {
 
@@ -9037,7 +8989,6 @@
 
 		}(),
 
-
 		containsPoint: function ( point ) {
 
 			var planes = this.planes;
@@ -9056,7 +9007,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author alteredq / http://alteredqualia.com/
@@ -9066,29 +9017,26 @@
 	function WebGLShadowMap( _renderer, _lights, _objects, capabilities ) {
 
 		var _gl = _renderer.context,
-		_state = _renderer.state,
-		_frustum = new Frustum(),
-		_projScreenMatrix = new Matrix4(),
+			_state = _renderer.state,
+			_frustum = new Frustum(),
+			_projScreenMatrix = new Matrix4(),
 
-		_lightShadows = _lights.shadows,
+			_lightShadows = _lights.shadows,
 
-		_shadowMapSize = new Vector2(),
-		_maxShadowMapSize = new Vector2( capabilities.maxTextureSize, capabilities.maxTextureSize ),
+			_shadowMapSize = new Vector2(),
+			_maxShadowMapSize = new Vector2( capabilities.maxTextureSize, capabilities.maxTextureSize ),
 
-		_lookTarget = new Vector3(),
-		_lightPositionWorld = new Vector3(),
+			_lookTarget = new Vector3(),
+			_lightPositionWorld = new Vector3(),
 
-		_renderList = [],
+			_MorphingFlag = 1,
 
-		_MorphingFlag = 1,
-		_SkinningFlag = 2,
+			_NumberOfMaterialVariants = ( _MorphingFlag ) + 1,
 
-		_NumberOfMaterialVariants = ( _MorphingFlag | _SkinningFlag ) + 1,
+			_depthMaterials = new Array( _NumberOfMaterialVariants ),
+			_distanceMaterials = new Array( _NumberOfMaterialVariants ),
 
-		_depthMaterials = new Array( _NumberOfMaterialVariants ),
-		_distanceMaterials = new Array( _NumberOfMaterialVariants ),
-
-		_materialCache = {};
+			_materialCache = {};
 
 		var cubeDirections = [
 			new Vector3( 1, 0, 0 ), new Vector3( - 1, 0, 0 ), new Vector3( 0, 0, 1 ),
@@ -9117,11 +9065,9 @@
 		for ( var i = 0; i !== _NumberOfMaterialVariants; ++ i ) {
 
 			var useMorphing = ( i & _MorphingFlag ) !== 0;
-			var useSkinning = ( i & _SkinningFlag ) !== 0;
 
 			var depthMaterial = depthMaterialTemplate.clone();
 			depthMaterial.morphTargets = useMorphing;
-			depthMaterial.skinning = useSkinning;
 
 			_depthMaterials[ i ] = depthMaterial;
 
@@ -9133,7 +9079,6 @@
 				vertexShader: distanceShader.vertexShader,
 				fragmentShader: distanceShader.fragmentShader,
 				morphTargets: useMorphing,
-				skinning: useSkinning,
 				clipping: true
 			} );
 
@@ -9238,6 +9183,7 @@
 					var pars = { minFilter: NearestFilter, magFilter: NearestFilter, format: RGBAFormat };
 
 					shadow.map = new WebGLRenderTarget( _shadowMapSize.x, _shadowMapSize.y, pars );
+					shadow.map.texture.name = light.name + ".shadowMap";
 
 					shadowCamera.updateProjectionMatrix();
 
@@ -9250,7 +9196,7 @@
 				}
 
 				// TODO (abelnation / sam-g-steel): is this needed?
-				if (shadow && shadow.isRectAreaLightShadow ) {
+				if ( shadow && shadow.isRectAreaLightShadow ) {
 
 					shadow.update( light );
 
@@ -9309,54 +9255,15 @@
 
 					// set object matrices & frustum culling
 
-					_renderList.length = 0;
-
-					projectObject( scene, camera, shadowCamera );
-
-					// render shadow map
-					// render regular objects
-
-					for ( var j = 0, jl = _renderList.length; j < jl; j ++ ) {
-
-						var object = _renderList[ j ];
-						var geometry = _objects.update( object );
-						var material = object.material;
-
-						if ( material && material.isMultiMaterial ) {
-
-							var groups = geometry.groups;
-							var materials = material.materials;
-
-							for ( var k = 0, kl = groups.length; k < kl; k ++ ) {
-
-								var group = groups[ k ];
-								var groupMaterial = materials[ group.materialIndex ];
-
-								if ( groupMaterial.visible === true ) {
-
-									var depthMaterial = getDepthMaterial( object, groupMaterial, isPointLight, _lightPositionWorld );
-									_renderer.renderBufferDirect( shadowCamera, null, geometry, depthMaterial, object, group );
-
-								}
-
-							}
-
-						} else {
-
-							var depthMaterial = getDepthMaterial( object, material, isPointLight, _lightPositionWorld );
-							_renderer.renderBufferDirect( shadowCamera, null, geometry, depthMaterial, object, null );
-
-						}
-
-					}
+					renderObject( scene, camera, shadowCamera, isPointLight );
 
 				}
 
 			}
 
 			// Restore GL state.
-			var clearColor = _renderer.getClearColor(),
-			clearAlpha = _renderer.getClearAlpha();
+			var clearColor = _renderer.getClearColor();
+			var clearAlpha = _renderer.getClearAlpha();
 			_renderer.setClearColor( clearColor, clearAlpha );
 
 			scope.needsUpdate = false;
@@ -9397,12 +9304,9 @@
 
 				}
 
-				var useSkinning = object.isSkinnedMesh && material.skinning;
-
 				var variantIndex = 0;
 
 				if ( useMorphing ) variantIndex |= _MorphingFlag;
-				if ( useSkinning ) variantIndex |= _SkinningFlag;
 
 				result = materialVariants[ variantIndex ];
 
@@ -9413,8 +9317,8 @@
 			}
 
 			if ( _renderer.localClippingEnabled &&
-				 material.clipShadows === true &&
-					material.clippingPlanes.length !== 0 ) {
+				material.clipShadows === true &&
+				material.clippingPlanes.length !== 0 ) {
 
 				// in this case we need a unique material instance reflecting the
 				// appropriate state
@@ -9479,7 +9383,7 @@
 
 		}
 
-		function projectObject( object, camera, shadowCamera ) {
+		function renderObject( object, camera, shadowCamera, isPointLight ) {
 
 			if ( object.visible === false ) return;
 
@@ -9489,12 +9393,33 @@
 
 				if ( object.castShadow && ( object.frustumCulled === false || _frustum.intersectsObject( object ) === true ) ) {
 
+					object.modelViewMatrix.multiplyMatrices( shadowCamera.matrixWorldInverse, object.matrixWorld );
+
+					var geometry = _objects.update( object );
 					var material = object.material;
 
-					if ( material.visible === true ) {
+					if ( Array.isArray( material ) ) {
 
-						object.modelViewMatrix.multiplyMatrices( shadowCamera.matrixWorldInverse, object.matrixWorld );
-						_renderList.push( object );
+						var groups = geometry.groups;
+
+						for ( var k = 0, kl = groups.length; k < kl; k ++ ) {
+
+							var group = groups[ k ];
+							var groupMaterial = material[ group.materialIndex ];
+
+							if ( groupMaterial && groupMaterial.visible === true ) {
+
+								var depthMaterial = getDepthMaterial( object, groupMaterial, isPointLight, _lightPositionWorld );
+								_renderer.renderBufferDirect( shadowCamera, null, geometry, depthMaterial, object, group );
+
+							}
+
+						}
+
+					} else if ( material.visible === true ) {
+
+						var depthMaterial = getDepthMaterial( object, material, isPointLight, _lightPositionWorld );
+						_renderer.renderBufferDirect( shadowCamera, null, geometry, depthMaterial, object, null );
 
 					}
 
@@ -9506,7 +9431,7 @@
 
 			for ( var i = 0, l = children.length; i < l; i ++ ) {
 
-				projectObject( children[ i ], camera, shadowCamera );
+				renderObject( children[ i ], camera, shadowCamera );
 
 			}
 
@@ -9525,9 +9450,7 @@
 
 	}
 
-	Ray.prototype = {
-
-		constructor: Ray,
+	Object.assign( Ray.prototype, {
 
 		set: function ( origin, direction ) {
 
@@ -9839,8 +9762,6 @@
 
 		},
 
-
-
 		intersectsPlane: function ( plane ) {
 
 			// check if the ray lies on the plane first
@@ -10048,7 +9969,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/
@@ -10069,63 +9990,81 @@
 
 	Euler.DefaultOrder = 'XYZ';
 
-	Euler.prototype = {
+	Object.defineProperties( Euler.prototype, {
 
-		constructor: Euler,
+		"x" : {
+
+			get: function () {
+
+				return this._x;
+
+			},
+
+			set: function ( value ) {
+
+				this._x = value;
+				this.onChangeCallback();
+
+			}
+
+		},
+
+		"y" : {
+
+			get: function () {
+
+				return this._y;
+
+			},
+
+			set: function ( value ) {
+
+				this._y = value;
+				this.onChangeCallback();
+
+			}
+
+		},
+
+		"z" : {
+
+			get: function () {
+
+				return this._z;
+
+			},
+
+			set: function ( value ) {
+
+				this._z = value;
+				this.onChangeCallback();
+
+			}
+
+		},
+
+		"order" : {
+
+			get: function () {
+
+				return this._order;
+
+			},
+
+			set: function ( value ) {
+
+				this._order = value;
+				this.onChangeCallback();
+
+			}
+
+		}
+
+	});
+
+	Object.assign( Euler.prototype, {
 
 		isEuler: true,
-
-		get x () {
-
-			return this._x;
-
-		},
-
-		set x ( value ) {
-
-			this._x = value;
-			this.onChangeCallback();
-
-		},
-
-		get y () {
-
-			return this._y;
-
-		},
-
-		set y ( value ) {
-
-			this._y = value;
-			this.onChangeCallback();
-
-		},
-
-		get z () {
-
-			return this._z;
-
-		},
-
-		set z ( value ) {
-
-			this._z = value;
-			this.onChangeCallback();
-
-		},
-
-		get order () {
-
-			return this._order;
-
-		},
-
-		set order ( value ) {
-
-			this._order = value;
-			this.onChangeCallback();
-
-		},
 
 		set: function ( x, y, z, order ) {
 
@@ -10284,11 +10223,9 @@
 
 		setFromQuaternion: function () {
 
-			var matrix;
+			var matrix = new Matrix4();
 
 			return function setFromQuaternion( q, order, update ) {
-
-				if ( matrix === undefined ) matrix = new Matrix4();
 
 				matrix.makeRotationFromQuaternion( q );
 
@@ -10377,7 +10314,7 @@
 
 		onChangeCallback: function () {}
 
-	};
+	} );
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/
@@ -10389,9 +10326,7 @@
 
 	}
 
-	Layers.prototype = {
-
-		constructor: Layers,
+	Object.assign( Layers.prototype, {
 
 		set: function ( channel ) {
 
@@ -10423,7 +10358,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/
@@ -10519,9 +10454,7 @@
 	Object3D.DefaultUp = new Vector3( 0, 1, 0 );
 	Object3D.DefaultMatrixAutoUpdate = true;
 
-	Object3D.prototype = {
-
-		constructor: Object3D,
+	Object.assign( Object3D.prototype, EventDispatcher.prototype, {
 
 		isObject3D: true,
 
@@ -11148,9 +11081,7 @@
 
 		}
 
-	};
-
-	Object.assign( Object3D.prototype, EventDispatcher.prototype );
+	} );
 
 	/**
 	 * @author bhouston / http://clara.io
@@ -11163,9 +11094,7 @@
 
 	}
 
-	Line3.prototype = {
-
-		constructor: Line3,
+	Object.assign( Line3.prototype, {
 
 		set: function ( start, end ) {
 
@@ -11277,7 +11206,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author bhouston / http://clara.io
@@ -11292,92 +11221,94 @@
 
 	}
 
-	Triangle.normal = function () {
+	Object.assign( Triangle, {
 
-		var v0 = new Vector3();
+		normal: function () {
 
-		return function normal( a, b, c, optionalTarget ) {
+			var v0 = new Vector3();
 
-			var result = optionalTarget || new Vector3();
+			return function normal( a, b, c, optionalTarget ) {
 
-			result.subVectors( c, b );
-			v0.subVectors( a, b );
-			result.cross( v0 );
+				var result = optionalTarget || new Vector3();
 
-			var resultLengthSq = result.lengthSq();
-			if ( resultLengthSq > 0 ) {
+				result.subVectors( c, b );
+				v0.subVectors( a, b );
+				result.cross( v0 );
 
-				return result.multiplyScalar( 1 / Math.sqrt( resultLengthSq ) );
+				var resultLengthSq = result.lengthSq();
+				if ( resultLengthSq > 0 ) {
 
-			}
+					return result.multiplyScalar( 1 / Math.sqrt( resultLengthSq ) );
 
-			return result.set( 0, 0, 0 );
+				}
 
-		};
+				return result.set( 0, 0, 0 );
 
-	}();
+			};
 
-	// static/instance method to calculate barycentric coordinates
-	// based on: http://www.blackpawn.com/texts/pointinpoly/default.html
-	Triangle.barycoordFromPoint = function () {
+		}(),
 
-		var v0 = new Vector3();
-		var v1 = new Vector3();
-		var v2 = new Vector3();
+		// static/instance method to calculate barycentric coordinates
+		// based on: http://www.blackpawn.com/texts/pointinpoly/default.html
+		barycoordFromPoint: function () {
 
-		return function barycoordFromPoint( point, a, b, c, optionalTarget ) {
+			var v0 = new Vector3();
+			var v1 = new Vector3();
+			var v2 = new Vector3();
 
-			v0.subVectors( c, a );
-			v1.subVectors( b, a );
-			v2.subVectors( point, a );
+			return function barycoordFromPoint( point, a, b, c, optionalTarget ) {
 
-			var dot00 = v0.dot( v0 );
-			var dot01 = v0.dot( v1 );
-			var dot02 = v0.dot( v2 );
-			var dot11 = v1.dot( v1 );
-			var dot12 = v1.dot( v2 );
+				v0.subVectors( c, a );
+				v1.subVectors( b, a );
+				v2.subVectors( point, a );
 
-			var denom = ( dot00 * dot11 - dot01 * dot01 );
+				var dot00 = v0.dot( v0 );
+				var dot01 = v0.dot( v1 );
+				var dot02 = v0.dot( v2 );
+				var dot11 = v1.dot( v1 );
+				var dot12 = v1.dot( v2 );
 
-			var result = optionalTarget || new Vector3();
+				var denom = ( dot00 * dot11 - dot01 * dot01 );
 
-			// collinear or singular triangle
-			if ( denom === 0 ) {
+				var result = optionalTarget || new Vector3();
 
-				// arbitrary location outside of triangle?
-				// not sure if this is the best idea, maybe should be returning undefined
-				return result.set( - 2, - 1, - 1 );
+				// collinear or singular triangle
+				if ( denom === 0 ) {
 
-			}
+					// arbitrary location outside of triangle?
+					// not sure if this is the best idea, maybe should be returning undefined
+					return result.set( - 2, - 1, - 1 );
 
-			var invDenom = 1 / denom;
-			var u = ( dot11 * dot02 - dot01 * dot12 ) * invDenom;
-			var v = ( dot00 * dot12 - dot01 * dot02 ) * invDenom;
+				}
 
-			// barycentric coordinates must always sum to 1
-			return result.set( 1 - u - v, v, u );
+				var invDenom = 1 / denom;
+				var u = ( dot11 * dot02 - dot01 * dot12 ) * invDenom;
+				var v = ( dot00 * dot12 - dot01 * dot02 ) * invDenom;
 
-		};
+				// barycentric coordinates must always sum to 1
+				return result.set( 1 - u - v, v, u );
 
-	}();
+			};
 
-	Triangle.containsPoint = function () {
+		}(),
 
-		var v1 = new Vector3();
+		containsPoint: function () {
 
-		return function containsPoint( point, a, b, c ) {
+			var v1 = new Vector3();
 
-			var result = Triangle.barycoordFromPoint( point, a, b, c, v1 );
+			return function containsPoint( point, a, b, c ) {
 
-			return ( result.x >= 0 ) && ( result.y >= 0 ) && ( ( result.x + result.y ) <= 1 );
+				var result = Triangle.barycoordFromPoint( point, a, b, c, v1 );
 
-		};
+				return ( result.x >= 0 ) && ( result.y >= 0 ) && ( ( result.x + result.y ) <= 1 );
 
-	}();
+			};
 
-	Triangle.prototype = {
+		}()
 
-		constructor: Triangle,
+	} );
+
+	Object.assign( Triangle.prototype, {
 
 		set: function ( a, b, c ) {
 
@@ -11466,18 +11397,12 @@
 
 		closestPointToPoint: function () {
 
-			var plane, edgeList, projectedPoint, closestPoint;
+			var plane = new Plane();
+			var edgeList = [ new Line3(), new Line3(), new Line3() ];
+			var projectedPoint = new Vector3();
+			var closestPoint = new Vector3();
 
 			return function closestPointToPoint( point, optionalTarget ) {
-
-				if ( plane === undefined ) {
-
-					plane = new Plane();
-					edgeList = [ new Line3(), new Line3(), new Line3() ];
-					projectedPoint = new Vector3();
-					closestPoint = new Vector3();
-
-				}
 
 				var result = optionalTarget || new Vector3();
 				var minDistance = Infinity;
@@ -11533,7 +11458,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/
@@ -11556,9 +11481,7 @@
 
 	}
 
-	Face3.prototype = {
-
-		constructor: Face3,
+	Object.assign( Face3.prototype, {
 
 		clone: function () {
 
@@ -11593,7 +11516,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/
@@ -11626,7 +11549,6 @@
 	 *  wireframe: <boolean>,
 	 *  wireframeLinewidth: <float>,
 	 *
-	 *  skinning: <bool>,
 	 *  morphTargets: <bool>
 	 * }
 	 */
@@ -11661,7 +11583,6 @@
 		this.wireframeLinecap = 'round';
 		this.wireframeLinejoin = 'round';
 
-		this.skinning = false;
 		this.morphTargets = false;
 
 		this.lights = false;
@@ -11703,7 +11624,6 @@
 		this.wireframeLinecap = source.wireframeLinecap;
 		this.wireframeLinejoin = source.wireframeLinejoin;
 
-		this.skinning = source.skinning;
 		this.morphTargets = source.morphTargets;
 
 		return this;
@@ -11738,17 +11658,19 @@
 
 	}
 
-	BufferAttribute.prototype = {
+	Object.defineProperty( BufferAttribute.prototype, 'needsUpdate', {
 
-		constructor: BufferAttribute,
-
-		isBufferAttribute: true,
-
-		set needsUpdate( value ) {
+		set: function ( value ) {
 
 			if ( value === true ) this.version ++;
 
-		},
+		}
+
+	} );
+
+	Object.assign( BufferAttribute.prototype, {
+
+		isBufferAttribute: true,
 
 		setArray: function ( array ) {
 
@@ -12041,7 +11963,7 @@
 
 		}
 
-	};
+	} );
 
 	//
 
@@ -12462,9 +12384,7 @@
 
 	}
 
-	Geometry.prototype = {
-
-		constructor: Geometry,
+	Object.assign( Geometry.prototype, EventDispatcher.prototype, {
 
 		isGeometry: true,
 
@@ -12515,11 +12435,9 @@
 
 			// rotate geometry around world x-axis
 
-			var m1;
+			var m1 = new Matrix4();
 
 			return function rotateX( angle ) {
-
-				if ( m1 === undefined ) m1 = new Matrix4();
 
 				m1.makeRotationX( angle );
 
@@ -12535,11 +12453,9 @@
 
 			// rotate geometry around world y-axis
 
-			var m1;
+			var m1 = new Matrix4();
 
 			return function rotateY( angle ) {
-
-				if ( m1 === undefined ) m1 = new Matrix4();
 
 				m1.makeRotationY( angle );
 
@@ -12555,11 +12471,9 @@
 
 			// rotate geometry around world z-axis
 
-			var m1;
+			var m1 = new Matrix4();
 
 			return function rotateZ( angle ) {
-
-				if ( m1 === undefined ) m1 = new Matrix4();
 
 				m1.makeRotationZ( angle );
 
@@ -12575,11 +12489,9 @@
 
 			// translate geometry
 
-			var m1;
+			var m1 = new Matrix4();
 
 			return function translate( x, y, z ) {
-
-				if ( m1 === undefined ) m1 = new Matrix4();
 
 				m1.makeTranslation( x, y, z );
 
@@ -12595,11 +12507,9 @@
 
 			// scale geometry
 
-			var m1;
+			var m1 = new Matrix4();
 
 			return function scale( x, y, z ) {
-
-				if ( m1 === undefined ) m1 = new Matrix4();
 
 				m1.makeScale( x, y, z );
 
@@ -12613,11 +12523,9 @@
 
 		lookAt: function () {
 
-			var obj;
+			var obj = new Object3D();
 
 			return function lookAt( vector ) {
-
-				if ( obj === undefined ) obj = new Object3D();
 
 				obj.lookAt( vector );
 
@@ -13117,15 +13025,15 @@
 			}
 
 			var normalMatrix,
-			vertexOffset = this.vertices.length,
-			vertices1 = this.vertices,
-			vertices2 = geometry.vertices,
-			faces1 = this.faces,
-			faces2 = geometry.faces,
-			uvs1 = this.faceVertexUvs[ 0 ],
-			uvs2 = geometry.faceVertexUvs[ 0 ],
-			colors1 = this.colors,
-			colors2 = geometry.colors;
+				vertexOffset = this.vertices.length,
+				vertices1 = this.vertices,
+				vertices2 = geometry.vertices,
+				faces1 = this.faces,
+				faces2 = geometry.faces,
+				uvs1 = this.faceVertexUvs[ 0 ],
+				uvs2 = geometry.faceVertexUvs[ 0 ],
+				colors1 = this.colors,
+				colors2 = geometry.colors;
 
 			if ( materialIndexOffset === undefined ) materialIndexOffset = 0;
 
@@ -13162,8 +13070,8 @@
 			for ( i = 0, il = faces2.length; i < il; i ++ ) {
 
 				var face = faces2[ i ], faceCopy, normal, color,
-				faceVertexNormals = face.vertexNormals,
-				faceVertexColors = face.vertexColors;
+					faceVertexNormals = face.vertexNormals,
+					faceVertexColors = face.vertexColors;
 
 				faceCopy = new Face3( face.a + vertexOffset, face.b + vertexOffset, face.c + vertexOffset );
 				faceCopy.normal.copy( face.normal );
@@ -13574,28 +13482,28 @@
 		clone: function () {
 
 			/*
-			// Handle primitives
+			 // Handle primitives
 
-			var parameters = this.parameters;
+			 var parameters = this.parameters;
 
-			if ( parameters !== undefined ) {
+			 if ( parameters !== undefined ) {
 
-				var values = [];
+			 var values = [];
 
-				for ( var key in parameters ) {
+			 for ( var key in parameters ) {
 
-					values.push( parameters[ key ] );
+			 values.push( parameters[ key ] );
 
-				}
+			 }
 
-				var geometry = Object.create( this.constructor.prototype );
-				this.constructor.apply( geometry, values );
-				return geometry;
+			 var geometry = Object.create( this.constructor.prototype );
+			 this.constructor.apply( geometry, values );
+			 return geometry;
 
-			}
+			 }
 
-			return new this.constructor().copy( this );
-			*/
+			 return new this.constructor().copy( this );
+			 */
 
 			return new Geometry().copy( this );
 
@@ -13841,9 +13749,7 @@
 
 		}
 
-	};
-
-	Object.assign( Geometry.prototype, EventDispatcher.prototype );
+	} );
 
 	/**
 	 * @author alteredq / http://alteredqualia.com/
@@ -13873,9 +13779,9 @@
 
 	}
 
-	BufferGeometry.prototype = {
+	BufferGeometry.MaxIndex = 65535;
 
-		constructor: BufferGeometry,
+	Object.assign( BufferGeometry.prototype, EventDispatcher.prototype, {
 
 		isBufferGeometry: true,
 
@@ -14007,11 +13913,9 @@
 
 			// rotate geometry around world x-axis
 
-			var m1;
+			var m1 = new Matrix4();
 
 			return function rotateX( angle ) {
-
-				if ( m1 === undefined ) m1 = new Matrix4();
 
 				m1.makeRotationX( angle );
 
@@ -14027,11 +13931,9 @@
 
 			// rotate geometry around world y-axis
 
-			var m1;
+			var m1 = new Matrix4();
 
 			return function rotateY( angle ) {
-
-				if ( m1 === undefined ) m1 = new Matrix4();
 
 				m1.makeRotationY( angle );
 
@@ -14047,11 +13949,9 @@
 
 			// rotate geometry around world z-axis
 
-			var m1;
+			var m1 = new Matrix4();
 
 			return function rotateZ( angle ) {
-
-				if ( m1 === undefined ) m1 = new Matrix4();
 
 				m1.makeRotationZ( angle );
 
@@ -14067,11 +13967,9 @@
 
 			// translate geometry
 
-			var m1;
+			var m1 = new Matrix4();
 
 			return function translate( x, y, z ) {
-
-				if ( m1 === undefined ) m1 = new Matrix4();
 
 				m1.makeTranslation( x, y, z );
 
@@ -14087,11 +13985,9 @@
 
 			// scale geometry
 
-			var m1;
+			var m1 = new Matrix4();
 
 			return function scale( x, y, z ) {
-
-				if ( m1 === undefined ) m1 = new Matrix4();
 
 				m1.makeScale( x, y, z );
 
@@ -14105,11 +14001,9 @@
 
 		lookAt: function () {
 
-			var obj;
+			var obj = new Object3D();
 
 			return function lookAt( vector ) {
-
-				if ( obj === undefined ) obj = new Object3D();
 
 				obj.lookAt( vector );
 
@@ -14813,28 +14707,28 @@
 		clone: function () {
 
 			/*
-			// Handle primitives
+			 // Handle primitives
 
-			var parameters = this.parameters;
+			 var parameters = this.parameters;
 
-			if ( parameters !== undefined ) {
+			 if ( parameters !== undefined ) {
 
-				var values = [];
+			 var values = [];
 
-				for ( var key in parameters ) {
+			 for ( var key in parameters ) {
 
-					values.push( parameters[ key ] );
+			 values.push( parameters[ key ] );
 
-				}
+			 }
 
-				var geometry = Object.create( this.constructor.prototype );
-				this.constructor.apply( geometry, values );
-				return geometry;
+			 var geometry = Object.create( this.constructor.prototype );
+			 this.constructor.apply( geometry, values );
+			 return geometry;
 
-			}
+			 }
 
-			return new this.constructor().copy( this );
-			*/
+			 return new this.constructor().copy( this );
+			 */
 
 			return new BufferGeometry().copy( this );
 
@@ -14943,11 +14837,7 @@
 
 		}
 
-	};
-
-	BufferGeometry.MaxIndex = 65535;
-
-	Object.assign( BufferGeometry.prototype, EventDispatcher.prototype );
+	} );
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/
@@ -15098,7 +14988,7 @@
 						uvB.fromBufferAttribute( uv, b );
 						uvC.fromBufferAttribute( uv, c );
 
-						intersection.uv = uvIntersection( intersectionPoint,  vA, vB, vC, uvA, uvB, uvC );
+						intersection.uv = uvIntersection( intersectionPoint, vA, vB, vC, uvA, uvB, uvC );
 
 					}
 
@@ -15198,8 +15088,7 @@
 				} else if ( geometry.isGeometry ) {
 
 					var fvA, fvB, fvC;
-					var isFaceMaterial = ( material && material.isMultiMaterial );
-					var materials = isFaceMaterial === true ? material.materials : null;
+					var isMultiMaterial = Array.isArray( material );
 
 					var vertices = geometry.vertices;
 					var faces = geometry.faces;
@@ -15211,7 +15100,7 @@
 					for ( var f = 0, fl = faces.length; f < fl; f ++ ) {
 
 						var face = faces[ f ];
-						var faceMaterial = isFaceMaterial === true ? materials[ face.materialIndex ] : material;
+						var faceMaterial = isMultiMaterial ? material[ face.materialIndex ] : material;
 
 						if ( faceMaterial === undefined ) continue;
 
@@ -15604,7 +15493,7 @@
 	 * @author mrdoob / http://mrdoob.com/
 	 * @author mikael emtinger / http://gomo.se/
 	 * @author WestLangley / http://github.com/WestLangley
-	*/
+	 */
 
 	function Camera() {
 
@@ -16607,7 +16496,7 @@
 
 			prefixVertex = [
 
-	        
+
 				'precision ' + parameters.precision + ' float;',
 				'precision ' + parameters.precision + ' int;',
 
@@ -17023,7 +16912,7 @@
 
 				var maxBones = nVertexMatrices;
 
-				if ( object !== undefined && (object && object.isSkinnedMesh) ) {
+				if ( object && object.isSkinnedMesh ) {
 
 					maxBones = Math.min( object.skeleton.bones.length, maxBones );
 
@@ -17128,14 +17017,14 @@
 
 				fog: !! fog,
 				useFog: material.fog,
-				fogExp: (fog && fog.isFogExp2),
+				fogExp: ( fog && fog.isFogExp2 ),
 
 				flatShading: material.shading === FlatShading,
 
 				sizeAttenuation: material.sizeAttenuation,
 				logarithmicDepthBuffer: capabilities.logarithmicDepthBuffer,
 
-				skinning: material.skinning,
+				skinning: ( object && object.isSkinnedMesh ),
 				maxBones: maxBones,
 				useVertexTexture: capabilities.floatVertexTextures && object && object.skeleton && object.skeleton.useVertexTexture,
 
@@ -17557,7 +17446,7 @@
 			} else {
 
 				gl.bufferSubData( bufferType, data.updateRange.offset * data.array.BYTES_PER_ELEMENT,
-								  data.array.subarray( data.updateRange.offset, data.updateRange.offset + data.updateRange.count ) );
+					data.array.subarray( data.updateRange.offset, data.updateRange.offset + data.updateRange.count ) );
 
 				data.updateRange.count = 0; // reset range
 
@@ -17918,9 +17807,9 @@
 					}
 
 					var image = cubeImage[ 0 ],
-					isPowerOfTwoImage = isPowerOfTwo( image ),
-					glFormat = paramThreeToGL( texture.format ),
-					glType = paramThreeToGL( texture.type );
+						isPowerOfTwoImage = isPowerOfTwo( image ),
+						glFormat = paramThreeToGL( texture.format ),
+						glType = paramThreeToGL( texture.type );
 
 					setTextureParameters( _gl.TEXTURE_CUBE_MAP, texture, isPowerOfTwoImage );
 
@@ -18080,8 +17969,8 @@
 			}
 
 			var isPowerOfTwoImage = isPowerOfTwo( image ),
-			glFormat = paramThreeToGL( texture.format ),
-			glType = paramThreeToGL( texture.type );
+				glFormat = paramThreeToGL( texture.format ),
+				glType = paramThreeToGL( texture.type );
 
 			setTextureParameters( _gl.TEXTURE_2D, texture, isPowerOfTwoImage );
 
@@ -18112,7 +18001,7 @@
 					// (https://www.khronos.org/registry/webgl/extensions/WEBGL_depth_texture/)
 					if ( texture.type !== UnsignedShortType && texture.type !== UnsignedIntType ) {
 
-					        console.warn( 'THREE.WebGLRenderer: Use UnsignedShortType or UnsignedIntType for DepthFormat DepthTexture.' );
+						console.warn( 'THREE.WebGLRenderer: Use UnsignedShortType or UnsignedIntType for DepthFormat DepthTexture.' );
 
 						texture.type = UnsignedShortType;
 						glType = paramThreeToGL( texture.type );
@@ -18132,7 +18021,7 @@
 					// (https://www.khronos.org/registry/webgl/extensions/WEBGL_depth_texture/)
 					if ( texture.type !== UnsignedInt248Type ) {
 
-					        console.warn( 'THREE.WebGLRenderer: Use UnsignedInt248Type for DepthStencilFormat DepthTexture.' );
+						console.warn( 'THREE.WebGLRenderer: Use UnsignedInt248Type for DepthStencilFormat DepthTexture.' );
 
 						texture.type = UnsignedInt248Type;
 						glType = paramThreeToGL( texture.type );
@@ -18283,8 +18172,8 @@
 
 			// upload an empty depth texture with framebuffer size
 			if ( !properties.get( renderTarget.depthTexture ).__webglTexture ||
-					renderTarget.depthTexture.image.width !== renderTarget.width ||
-					renderTarget.depthTexture.image.height !== renderTarget.height ) {
+				renderTarget.depthTexture.image.width !== renderTarget.width ||
+				renderTarget.depthTexture.image.height !== renderTarget.height ) {
 				renderTarget.depthTexture.image.width = renderTarget.width;
 				renderTarget.depthTexture.image.height = renderTarget.height;
 				renderTarget.depthTexture.needsUpdate = true;
@@ -18426,8 +18315,8 @@
 			var texture = renderTarget.texture;
 
 			if ( texture.generateMipmaps && isPowerOfTwo( renderTarget ) &&
-					texture.minFilter !== NearestFilter &&
-					texture.minFilter !== LinearFilter ) {
+				texture.minFilter !== NearestFilter &&
+				texture.minFilter !== LinearFilter ) {
 
 				var target = (renderTarget && renderTarget.isWebGLRenderTargetCube) ? _gl.TEXTURE_CUBE_MAP : _gl.TEXTURE_2D;
 				var webglTexture = properties.get( texture ).__webglTexture;
@@ -18730,8 +18619,8 @@
 				setFunc: function ( stencilFunc, stencilRef, stencilMask ) {
 
 					if ( currentStencilFunc !== stencilFunc ||
-					     currentStencilRef 	!== stencilRef 	||
-					     currentStencilFuncMask !== stencilMask ) {
+						currentStencilRef 	!== stencilRef 	||
+						currentStencilFuncMask !== stencilMask ) {
 
 						gl.stencilFunc( stencilFunc, stencilRef, stencilMask );
 
@@ -18746,8 +18635,8 @@
 				setOp: function ( stencilFail, stencilZFail, stencilZPass ) {
 
 					if ( currentStencilFail	 !== stencilFail 	||
-					     currentStencilZFail !== stencilZFail ||
-					     currentStencilZPass !== stencilZPass ) {
+						currentStencilZFail !== stencilZFail ||
+						currentStencilZPass !== stencilZPass ) {
 
 						gl.stencilOp( stencilFail, stencilZFail, stencilZPass );
 
@@ -18979,8 +18868,8 @@
 				compressedTextureFormats = [];
 
 				if ( extensions.get( 'WEBGL_compressed_texture_pvrtc' ) ||
-				     extensions.get( 'WEBGL_compressed_texture_s3tc' ) ||
-				     extensions.get( 'WEBGL_compressed_texture_etc1' ) ) {
+					extensions.get( 'WEBGL_compressed_texture_s3tc' ) ||
+					extensions.get( 'WEBGL_compressed_texture_etc1' ) ) {
 
 					var formats = gl.getParameter( gl.COMPRESSED_TEXTURE_FORMATS );
 
@@ -19489,7 +19378,7 @@
 			if ( precision === 'highp' ) {
 
 				if ( gl.getShaderPrecisionFormat( gl.VERTEX_SHADER, gl.HIGH_FLOAT ).precision > 0 &&
-				     gl.getShaderPrecisionFormat( gl.FRAGMENT_SHADER, gl.HIGH_FLOAT ).precision > 0 ) {
+					gl.getShaderPrecisionFormat( gl.FRAGMENT_SHADER, gl.HIGH_FLOAT ).precision > 0 ) {
 
 					return 'highp';
 
@@ -19502,7 +19391,7 @@
 			if ( precision === 'mediump' ) {
 
 				if ( gl.getShaderPrecisionFormat( gl.VERTEX_SHADER, gl.MEDIUM_FLOAT ).precision > 0 &&
-				     gl.getShaderPrecisionFormat( gl.FRAGMENT_SHADER, gl.MEDIUM_FLOAT ).precision > 0 ) {
+					gl.getShaderPrecisionFormat( gl.FRAGMENT_SHADER, gl.MEDIUM_FLOAT ).precision > 0 ) {
 
 					return 'mediump';
 
@@ -19687,8 +19576,8 @@
 		this.setState = function( planes, clipIntersection, clipShadows, camera, cache, fromCache ) {
 
 			if ( ! localClippingEnabled ||
-					planes === null || planes.length === 0 ||
-					renderingShadows && ! clipShadows ) {
+				planes === null || planes.length === 0 ||
+				renderingShadows && ! clipShadows ) {
 				// there's no local clipping
 
 				if ( renderingShadows ) {
@@ -19764,10 +19653,10 @@
 					}
 
 					for ( var i = 0, i4 = dstOffset;
-										i !== nPlanes; ++ i, i4 += 4 ) {
+						  i !== nPlanes; ++ i, i4 += 4 ) {
 
 						plane.copy( planes[ i ] ).
-								applyMatrix4( viewMatrix, viewNormalMatrix );
+						applyMatrix4( viewMatrix, viewNormalMatrix );
 
 						plane.normal.toArray( dstArray, i4 );
 						dstArray[ i4 + 3 ] = plane.constant;
@@ -19782,7 +19671,7 @@
 			}
 
 			scope.numPlanes = nPlanes;
-			
+
 			return dstArray;
 
 		}
@@ -19871,7 +19760,7 @@
 
 		var _this = this,
 
-			// internal state cache
+		// internal state cache
 
 			_currentProgram = null,
 			_currentRenderTarget = null,
@@ -19885,11 +19774,11 @@
 
 			_currentViewport = new Vector4(),
 
-			//
+		//
 
 			_usedTextureUnits = 0,
 
-			//
+		//
 
 			_clearColor = new Color( 0x000000 ),
 			_clearAlpha = 0,
@@ -19904,11 +19793,11 @@
 
 			_viewport = new Vector4( 0, 0, _width, _height ),
 
-			// frustum
+		// frustum
 
 			_frustum = new Frustum(),
 
-			// clipping
+		// clipping
 
 			_clipping = new WebGLClipping(),
 			_clippingEnabled = false,
@@ -19916,7 +19805,7 @@
 
 			_sphere = new Sphere(),
 
-			// camera matrices cache
+		// camera matrices cache
 
 			_projScreenMatrix = new Matrix4(),
 
@@ -19924,30 +19813,30 @@
 			_matrix4 = new Matrix4(),
 			_matrix42 = new Matrix4(),
 
-			// light arrays cache
+		// light arrays cache
 
 			_lights = {
 
 				hash: '',
 
-			ambient: [ 0, 0, 0 ],
-			directional: [],
-			directionalShadowMap: [],
-			directionalShadowMatrix: [],
-			spot: [],
-			spotShadowMap: [],
-			spotShadowMatrix: [],
-			rectArea: [],
-			point: [],
-			pointShadowMap: [],
-			pointShadowMatrix: [],
-			hemi: [],
+				ambient: [ 0, 0, 0 ],
+				directional: [],
+				directionalShadowMap: [],
+				directionalShadowMatrix: [],
+				spot: [],
+				spotShadowMap: [],
+				spotShadowMatrix: [],
+				rectArea: [],
+				point: [],
+				pointShadowMap: [],
+				pointShadowMatrix: [],
+				hemi: [],
 
 				shadows: []
 
 			},
 
-			// info
+		// info
 
 			_infoRender = {
 
@@ -20613,6 +20502,10 @@
 
 					renderer.setMode( _gl.LINES );
 
+				} else if ( object.isLineLoop ) {
+
+					renderer.setMode( _gl.LINE_LOOP );
+
 				} else {
 
 					renderer.setMode( _gl.LINE_STRIP );
@@ -21170,42 +21063,36 @@
 
 					if ( object.frustumCulled === false || isObjectViewable( object ) === true ) {
 
+						if ( _this.sortObjects === true ) {
+
+							_vector3.setFromMatrixPosition( object.matrixWorld );
+							_vector3.applyMatrix4( _projScreenMatrix );
+
+						}
+
+						var geometry = objects.update( object );
 						var material = object.material;
 
-						if ( material.visible === true ) {
+						if ( Array.isArray( material ) ) {
 
-							if ( _this.sortObjects === true ) {
+							var groups = geometry.groups;
 
-								_vector3.setFromMatrixPosition( object.matrixWorld );
-								_vector3.applyMatrix4( _projScreenMatrix );
+							for ( var i = 0, l = groups.length; i < l; i ++ ) {
 
-							}
+								var group = groups[ i ];
+								var groupMaterial = material[ group.materialIndex ];
 
-							var geometry = objects.update( object );
+								if ( groupMaterial && groupMaterial.visible === true ) {
 
-							if ( material.isMultiMaterial ) {
-
-								var groups = geometry.groups;
-								var materials = material.materials;
-
-								for ( var i = 0, l = groups.length; i < l; i ++ ) {
-
-									var group = groups[ i ];
-									var groupMaterial = materials[ group.materialIndex ];
-
-									if ( groupMaterial.visible === true ) {
-
-										pushRenderItem( object, geometry, groupMaterial, _vector3.z, group );
-
-									}
+									pushRenderItem( object, geometry, groupMaterial, _vector3.z, group );
 
 								}
 
-							} else {
-
-								pushRenderItem( object, geometry, material, _vector3.z, null );
-
 							}
+
+						} else if ( material.visible === true ) {
+
+							pushRenderItem( object, geometry, material, _vector3.z, null );
 
 						}
 
@@ -21477,7 +21364,7 @@
 
 				} else if ( materialProperties.numClippingPlanes !== undefined &&
 					( materialProperties.numClippingPlanes !== _clipping.numPlanes ||
-					materialProperties.numIntersection  !== _clipping.numIntersection ) ) {
+					materialProperties.numIntersection !== _clipping.numIntersection ) ) {
 
 					material.needsUpdate = true;
 
@@ -21568,7 +21455,7 @@
 					material.isMeshBasicMaterial ||
 					material.isMeshStandardMaterial ||
 					material.isShaderMaterial ||
-					material.skinning ) {
+					object.isSkinnedMesh ) {
 
 					p_uniforms.setValue( _gl, 'viewMatrix', camera.matrixWorldInverse );
 
@@ -21583,7 +21470,7 @@
 			// auto-setting of texture unit for bone texture must go before other textures
 			// not sure why, but otherwise weird things happen
 
-			if ( material.skinning ) {
+			if ( object.isSkinnedMesh ) {
 
 				p_uniforms.setOptional( _gl, object, 'bindMatrix' );
 				p_uniforms.setOptional( _gl, object, 'bindMatrixInverse' );
@@ -22071,11 +21958,11 @@
 
 				viewMatrix = camera.matrixWorldInverse,
 
-			directionalLength = 0,
-			pointLength = 0,
-			spotLength = 0,
-			rectAreaLength = 0,
-			hemiLength = 0;
+				directionalLength = 0,
+				pointLength = 0,
+				spotLength = 0,
+				rectAreaLength = 0,
+				hemiLength = 0;
 
 			for ( l = 0, ll = lights.length; l < ll; l ++ ) {
 
@@ -22727,35 +22614,37 @@
 
 	}
 
-	Scene.prototype = Object.create( Object3D.prototype );
+	Scene.prototype = Object.assign( Object.create( Object3D.prototype ), {
 
-	Scene.prototype.constructor = Scene;
+		constructor: Scene,
 
-	Scene.prototype.copy = function ( source, recursive ) {
+		copy: function ( source, recursive ) {
 
-		Object3D.prototype.copy.call( this, source, recursive );
+			Object3D.prototype.copy.call( this, source, recursive );
 
-		if ( source.background !== null ) this.background = source.background.clone();
-		if ( source.fog !== null ) this.fog = source.fog.clone();
-		if ( source.overrideMaterial !== null ) this.overrideMaterial = source.overrideMaterial.clone();
+			if ( source.background !== null ) this.background = source.background.clone();
+			if ( source.fog !== null ) this.fog = source.fog.clone();
+			if ( source.overrideMaterial !== null ) this.overrideMaterial = source.overrideMaterial.clone();
 
-		this.autoUpdate = source.autoUpdate;
-		this.matrixAutoUpdate = source.matrixAutoUpdate;
+			this.autoUpdate = source.autoUpdate;
+			this.matrixAutoUpdate = source.matrixAutoUpdate;
 
-		return this;
+			return this;
 
-	};
+		},
 
-	Scene.prototype.toJSON = function ( meta ) {
+		toJSON: function ( meta ) {
 
-		var data = Object3D.prototype.toJSON.call( this, meta );
+			var data = Object3D.prototype.toJSON.call( this, meta );
 
-		if ( this.background !== null ) data.object.background = this.background.toJSON( meta );
-		if ( this.fog !== null ) data.object.fog = this.fog.toJSON();
+			if ( this.background !== null ) data.object.background = this.background.toJSON( meta );
+			if ( this.fog !== null ) data.object.fog = this.fog.toJSON();
 
-		return data;
+			return data;
 
-	};
+		}
+
+	} );
 
 	/**
 	 * @author mikael emtinger / http://gomo.se/
@@ -22981,7 +22870,6 @@
 
 	}
 
-
 	LOD.prototype = Object.assign( Object.create( Object3D.prototype ), {
 
 		constructor: LOD,
@@ -23193,7 +23081,7 @@
 
 			} else {
 
-				console.warn( 'THREE.Skeleton bonInverses is the wrong length.' );
+				console.warn( 'THREE.Skeleton boneInverses is the wrong length.' );
 
 				this.boneInverses = [];
 
@@ -23381,7 +23269,7 @@
 				gbone = this.geometry.bones[ b ];
 
 				if ( gbone.parent !== - 1 && gbone.parent !== null &&
-						bones[ gbone.parent ] !== undefined ) {
+					bones[ gbone.parent ] !== undefined ) {
 
 					bones[ gbone.parent ].add( bones[ b ] );
 
@@ -23402,14 +23290,13 @@
 
 	}
 
-
 	SkinnedMesh.prototype = Object.assign( Object.create( Mesh.prototype ), {
 
 		constructor: SkinnedMesh,
 
 		isSkinnedMesh: true,
 
-		bind: function( skeleton, bindMatrix ) {
+		bind: function ( skeleton, bindMatrix ) {
 
 			this.skeleton = skeleton;
 
@@ -23489,7 +23376,7 @@
 
 		},
 
-		updateMatrixWorld: function( force ) {
+		updateMatrixWorld: function () {
 
 			Mesh.prototype.updateMatrixWorld.call( this, true );
 
@@ -23509,7 +23396,7 @@
 
 		},
 
-		clone: function() {
+		clone: function () {
 
 			return new this.constructor( this.geometry, this.material, this.skeleton.useVertexTexture ).copy( this );
 
@@ -23770,6 +23657,26 @@
 		constructor: LineSegments,
 
 		isLineSegments: true
+
+	} );
+
+	/**
+	 * @author mgreter / http://github.com/mgreter
+	 */
+
+	function LineLoop( geometry, material ) {
+
+		Line.call( this, geometry, material );
+
+		this.type = 'LineLoop';
+
+	}
+
+	LineLoop.prototype = Object.assign( Object.create( Line.prototype ), {
+
+		constructor: LineLoop,
+
+		isLineLoop: true,
 
 	} );
 
@@ -24172,7 +24079,7 @@
 
 				if ( groups.length === 0 ) {
 
-					geometry.addGroup( 0, indices.count );
+					groups = [ { start: 0, count: indices.count, materialIndex: 0 } ];
 
 				}
 
@@ -24381,7 +24288,7 @@
 	 * @author clockworkgeek / https://github.com/clockworkgeek
 	 * @author timothypratley / https://github.com/timothypratley
 	 * @author WestLangley / http://github.com/WestLangley
-	*/
+	 */
 
 	function PolyhedronGeometry( vertices, indices, radius, detail ) {
 
@@ -24808,7 +24715,7 @@
 
 	function IcosahedronGeometry( radius, detail ) {
 
-	 	Geometry.call( this );
+		Geometry.call( this );
 
 		this.type = 'IcosahedronGeometry';
 
@@ -24835,15 +24742,15 @@
 
 		var vertices = [
 			- 1,  t,  0,    1,  t,  0,   - 1, - t,  0,    1, - t,  0,
-			 0, - 1,  t,    0,  1,  t,    0, - 1, - t,    0,  1, - t,
-			 t,  0, - 1,    t,  0,  1,   - t,  0, - 1,   - t,  0,  1
+			0, - 1,  t,    0,  1,  t,    0, - 1, - t,    0,  1, - t,
+			t,  0, - 1,    t,  0,  1,   - t,  0, - 1,   - t,  0,  1
 		];
 
 		var indices = [
-			 0, 11,  5,    0,  5,  1,    0,  1,  7,    0,  7, 10,    0, 10, 11,
-			 1,  5,  9,    5, 11,  4,   11, 10,  2,   10,  7,  6,    7,  1,  8,
-			 3,  9,  4,    3,  4,  2,    3,  2,  6,    3,  6,  8,    3,  8,  9,
-			 4,  9,  5,    2,  4, 11,    6,  2, 10,    8,  6,  7,    9,  8,  1
+			0, 11,  5,    0,  5,  1,    0,  1,  7,    0,  7, 10,    0, 10, 11,
+			1,  5,  9,    5, 11,  4,   11, 10,  2,   10,  7,  6,    7,  1,  8,
+			3,  9,  4,    3,  4,  2,    3,  2,  6,    3,  6,  8,    3,  8,  9,
+			4,  9,  5,    2,  4, 11,    6,  2, 10,    8,  6,  7,    9,  8,  1
 		];
 
 		PolyhedronBufferGeometry.call( this, vertices, indices, radius, detail );
@@ -24897,16 +24804,16 @@
 			// (±1, ±1, ±1)
 			- 1, - 1, - 1,    - 1, - 1,  1,
 			- 1,  1, - 1,    - 1,  1,  1,
-			  1, - 1, - 1,     1, - 1,  1,
-			  1,  1, - 1,     1,  1,  1,
+			1, - 1, - 1,     1, - 1,  1,
+			1,  1, - 1,     1,  1,  1,
 
 			// (0, ±1/φ, ±φ)
-			 0, - r, - t,     0, - r,  t,
-			 0,  r, - t,     0,  r,  t,
+			0, - r, - t,     0, - r,  t,
+			0,  r, - t,     0,  r,  t,
 
 			// (±1/φ, ±φ, 0)
 			- r, - t,  0,    - r,  t,  0,
-			 r, - t,  0,     r,  t,  0,
+			r, - t,  0,     r,  t,  0,
 
 			// (±φ, 0, ±1/φ)
 			- t,  0, - r,     t,  0, - r,
@@ -24914,18 +24821,18 @@
 		];
 
 		var indices = [
-			 3, 11,  7,      3,  7, 15,      3, 15, 13,
-			 7, 19, 17,      7, 17,  6,      7,  6, 15,
+			3, 11,  7,      3,  7, 15,      3, 15, 13,
+			7, 19, 17,      7, 17,  6,      7,  6, 15,
 			17,  4,  8,     17,  8, 10,     17, 10,  6,
-			 8,  0, 16,      8, 16,  2,      8,  2, 10,
-			 0, 12,  1,      0,  1, 18,      0, 18, 16,
-			 6, 10,  2,      6,  2, 13,      6, 13, 15,
-			 2, 16, 18,      2, 18,  3,      2,  3, 13,
+			8,  0, 16,      8, 16,  2,      8,  2, 10,
+			0, 12,  1,      0,  1, 18,      0, 18, 16,
+			6, 10,  2,      6,  2, 13,      6, 13, 15,
+			2, 16, 18,      2, 18,  3,      2,  3, 13,
 			18,  1,  9,     18,  9, 11,     18, 11,  3,
-			 4, 14, 12,      4, 12,  0,      4,  0,  8,
+			4, 14, 12,      4, 12,  0,      4,  0,  8,
 			11,  9,  5,     11,  5, 19,     11, 19,  7,
 			19,  5, 14,     19, 14,  4,     19,  4, 17,
-			 1, 12, 14,      1, 14,  5,      1,  5,  9
+			1, 12, 14,      1, 14,  5,      1,  5,  9
 		];
 
 		PolyhedronBufferGeometry.call( this, vertices, indices, radius, detail );
@@ -25546,8 +25453,8 @@
 					py = contour[ verts[ p ] ].y;
 
 					if ( ( ( px === ax ) && ( py === ay ) ) ||
-						 ( ( px === bx ) && ( py === by ) ) ||
-						 ( ( px === cx ) && ( py === cy ) ) )	continue;
+						( ( px === bx ) && ( py === by ) ) ||
+						( ( px === cx ) && ( py === cy ) ) )	continue;
 
 					apx = px - ax;  apy = py - ay;
 					bpx = px - bx;  bpy = py - by;
@@ -25750,14 +25657,14 @@
 					if ( perpSeg2 === 0 ) {
 
 						if ( ( inExcludeAdjacentSegs ) &&
-							 ( ( perpSeg1 === 0 ) || ( perpSeg1 === limit ) ) )		return [];
+							( ( perpSeg1 === 0 ) || ( perpSeg1 === limit ) ) )		return [];
 						return [ inSeg1Pt1 ];
 
 					}
 					if ( perpSeg2 === limit ) {
 
 						if ( ( inExcludeAdjacentSegs ) &&
-							 ( ( perpSeg1 === 0 ) || ( perpSeg1 === limit ) ) )		return [];
+							( ( perpSeg1 === 0 ) || ( perpSeg1 === limit ) ) )		return [];
 						return [ inSeg1Pt2 ];
 
 					}
@@ -25768,13 +25675,13 @@
 					// return real intersection point
 					var factorSeg1 = perpSeg2 / limit;
 					return	[ { x: inSeg1Pt1.x + factorSeg1 * seg1dx,
-								y: inSeg1Pt1.y + factorSeg1 * seg1dy } ];
+						y: inSeg1Pt1.y + factorSeg1 * seg1dy } ];
 
 				} else {
 
 					// parallel or collinear
 					if ( ( perpSeg1 !== 0 ) ||
-						 ( seg2dy * seg1seg2dx !== seg2dx * seg1seg2dy ) ) 			return [];
+						( seg2dy * seg1seg2dx !== seg2dx * seg1seg2dy ) ) 			return [];
 
 					// they are collinear or degenerate
 					var seg1Pt = ( ( seg1dx === 0 ) && ( seg1dy === 0 ) );	// segment1 is just a point?
@@ -25783,7 +25690,7 @@
 					if ( seg1Pt && seg2Pt ) {
 
 						if ( ( inSeg1Pt1.x !== inSeg2Pt1.x ) ||
-							 ( inSeg1Pt1.y !== inSeg2Pt1.y ) )		return [];	// they are distinct  points
+							( inSeg1Pt1.y !== inSeg2Pt1.y ) )		return [];	// they are distinct  points
 						return [ inSeg1Pt1 ];                 						// they are the same point
 
 					}
@@ -26188,7 +26095,7 @@
 	 *  extrudePath: <THREE.Curve> // curve to extrude shape along
 	 *  frames: <Object> // containing arrays of tangents, normals, binormals
 	 *
-	 *  uvGenerator: <Object> // object that provides UV generator functions
+	 *  UVGenerator: <Object> // object that provides UV generator functions
 	 *
 	 * }
 	 **/
@@ -26400,8 +26307,8 @@
 				// scaling factor for v_prev to intersection point
 
 				var sf = (  ( ptNextShift_x - ptPrevShift_x ) * v_next_y -
-							( ptNextShift_y - ptPrevShift_y ) * v_next_x    ) /
-						  ( v_prev_x * v_next_y - v_prev_y * v_next_x );
+					( ptNextShift_y - ptPrevShift_y ) * v_next_x    ) /
+					( v_prev_x * v_next_y - v_prev_y * v_next_x );
 
 				// vector from inPt to intersection point
 
@@ -28243,76 +28150,6 @@
 	RawShaderMaterial.prototype.isRawShaderMaterial = true;
 
 	/**
-	 * @author mrdoob / http://mrdoob.com/
-	 */
-
-	function MultiMaterial( materials ) {
-
-		this.uuid = _Math.generateUUID();
-
-		this.type = 'MultiMaterial';
-
-		this.materials = Array.isArray( materials ) ? materials : [];
-
-		this.visible = true;
-
-	}
-
-	MultiMaterial.prototype = {
-
-		constructor: MultiMaterial,
-
-		isMultiMaterial: true,
-
-		toJSON: function ( meta ) {
-
-			var output = {
-				metadata: {
-					version: 4.2,
-					type: 'material',
-					generator: 'MaterialExporter'
-				},
-				uuid: this.uuid,
-				type: this.type,
-				materials: []
-			};
-
-			var materials = this.materials;
-
-			for ( var i = 0, l = materials.length; i < l; i ++ ) {
-
-				var material = materials[ i ].toJSON( meta );
-				delete material.metadata;
-
-				output.materials.push( material );
-
-			}
-
-			output.visible = this.visible;
-
-			return output;
-
-		},
-
-		clone: function () {
-
-			var material = new this.constructor();
-
-			for ( var i = 0; i < this.materials.length; i ++ ) {
-
-				material.materials.push( this.materials[ i ].clone() );
-
-			}
-
-			material.visible = this.visible;
-
-			return material;
-
-		}
-
-	};
-
-	/**
 	 * @author WestLangley / http://github.com/WestLangley
 	 *
 	 * parameters = {
@@ -28357,7 +28194,6 @@
 	 *  wireframe: <boolean>,
 	 *  wireframeLinewidth: <float>,
 	 *
-	 *  skinning: <bool>,
 	 *  morphTargets: <bool>,
 	 *  morphNormals: <bool>
 	 * }
@@ -28413,7 +28249,6 @@
 		this.wireframeLinecap = 'round';
 		this.wireframeLinejoin = 'round';
 
-		this.skinning = false;
 		this.morphTargets = false;
 		this.morphNormals = false;
 
@@ -28474,7 +28309,6 @@
 		this.wireframeLinecap = source.wireframeLinecap;
 		this.wireframeLinejoin = source.wireframeLinejoin;
 
-		this.skinning = source.skinning;
 		this.morphTargets = source.morphTargets;
 		this.morphNormals = source.morphNormals;
 
@@ -28571,7 +28405,6 @@
 	 *  wireframe: <boolean>,
 	 *  wireframeLinewidth: <float>,
 	 *
-	 *  skinning: <bool>,
 	 *  morphTargets: <bool>,
 	 *  morphNormals: <bool>
 	 * }
@@ -28623,7 +28456,6 @@
 		this.wireframeLinecap = 'round';
 		this.wireframeLinejoin = 'round';
 
-		this.skinning = false;
 		this.morphTargets = false;
 		this.morphNormals = false;
 
@@ -28680,7 +28512,6 @@
 		this.wireframeLinecap = source.wireframeLinecap;
 		this.wireframeLinejoin = source.wireframeLinejoin;
 
-		this.skinning = source.skinning;
 		this.morphTargets = source.morphTargets;
 		this.morphNormals = source.morphNormals;
 
@@ -28745,7 +28576,6 @@
 	 *  wireframe: <boolean>,
 	 *  wireframeLinewidth: <float>
 	 *
-	 *  skinning: <bool>,
 	 *  morphTargets: <bool>,
 	 *  morphNormals: <bool>
 	 * }
@@ -28773,7 +28603,6 @@
 		this.fog = false;
 		this.lights = false;
 
-		this.skinning = false;
 		this.morphTargets = false;
 		this.morphNormals = false;
 
@@ -28803,7 +28632,6 @@
 		this.wireframe = source.wireframe;
 		this.wireframeLinewidth = source.wireframeLinewidth;
 
-		this.skinning = source.skinning;
 		this.morphTargets = source.morphTargets;
 		this.morphNormals = source.morphNormals;
 
@@ -28843,7 +28671,6 @@
 	 *  wireframe: <boolean>,
 	 *  wireframeLinewidth: <float>,
 	 *
-	 *  skinning: <bool>,
 	 *  morphTargets: <bool>,
 	 *  morphNormals: <bool>
 	 * }
@@ -28883,7 +28710,6 @@
 		this.wireframeLinecap = 'round';
 		this.wireframeLinejoin = 'round';
 
-		this.skinning = false;
 		this.morphTargets = false;
 		this.morphNormals = false;
 
@@ -28928,7 +28754,6 @@
 		this.wireframeLinecap = source.wireframeLinecap;
 		this.wireframeLinejoin = source.wireframeLinejoin;
 
-		this.skinning = source.skinning;
 		this.morphTargets = source.morphTargets;
 		this.morphNormals = source.morphNormals;
 
@@ -29000,7 +28825,6 @@
 		RawShaderMaterial: RawShaderMaterial,
 		ShaderMaterial: ShaderMaterial,
 		PointsMaterial: PointsMaterial,
-		MultiMaterial: MultiMaterial,
 		MeshPhysicalMaterial: MeshPhysicalMaterial,
 		MeshStandardMaterial: MeshStandardMaterial,
 		MeshPhongMaterial: MeshPhongMaterial,
@@ -29192,7 +29016,7 @@
 						case 'arraybuffer':
 						case 'blob':
 
-						 	response = new ArrayBuffer( data.length );
+							response = new ArrayBuffer( data.length );
 
 							var view = new Uint8Array( response );
 
@@ -29627,12 +29451,12 @@
 			}, false );
 
 			/*
-			image.addEventListener( 'progress', function ( event ) {
+			 image.addEventListener( 'progress', function ( event ) {
 
-				if ( onProgress ) onProgress( event );
+			 if ( onProgress ) onProgress( event );
 
-			}, false );
-			*/
+			 }, false );
+			 */
 
 			image.addEventListener( 'error', function ( event ) {
 
@@ -30197,7 +30021,7 @@
 		convertArray: function( array, type, forceClone ) {
 
 			if ( ! array || // let 'undefined' and 'null' pass
-					! forceClone && array.constructor === type ) return array;
+				! forceClone && array.constructor === type ) return array;
 
 			if ( typeof type.BYTES_PER_ELEMENT === 'number' ) {
 
@@ -30212,7 +30036,7 @@
 		isTypedArray: function( object ) {
 
 			return ArrayBuffer.isView( object ) &&
-					! ( object instanceof DataView );
+				! ( object instanceof DataView );
 
 		},
 
@@ -30354,22 +30178,19 @@
 	 * @author tschw
 	 */
 
-	function Interpolant(
-			parameterPositions, sampleValues, sampleSize, resultBuffer ) {
+	function Interpolant( parameterPositions, sampleValues, sampleSize, resultBuffer ) {
 
 		this.parameterPositions = parameterPositions;
 		this._cachedIndex = 0;
 
 		this.resultBuffer = resultBuffer !== undefined ?
-				resultBuffer : new sampleValues.constructor( sampleSize );
+			resultBuffer : new sampleValues.constructor( sampleSize );
 		this.sampleValues = sampleValues;
 		this.valueSize = sampleSize;
 
 	}
 
-	Interpolant.prototype = {
-
-		constructor: Interpolant,
+	Object.assign( Interpolant.prototype, {
 
 		evaluate: function( t ) {
 
@@ -30386,10 +30207,10 @@
 					var right;
 
 					linear_scan: {
-	//- See http://jsperf.com/comparison-to-undefined/3
-	//- slower code:
-	//-
-	//- 				if ( t >= t1 || t1 === undefined ) {
+						//- See http://jsperf.com/comparison-to-undefined/3
+						//- slower code:
+						//-
+						//- 				if ( t >= t1 || t1 === undefined ) {
 						forward_scan: if ( ! ( t < t1 ) ) {
 
 							for ( var giveUpAt = i1 + 2; ;) {
@@ -30426,8 +30247,8 @@
 
 						}
 
-	//- slower code:
-	//-					if ( t < t0 || t0 === undefined ) {
+						//- slower code:
+						//-					if ( t < t0 || t0 === undefined ) {
 						if ( ! ( t >= t0 ) ) {
 
 							// looping?
@@ -30578,15 +30399,16 @@
 
 		}
 
-	};
+	} );
 
+	//!\ DECLARE ALIAS AFTER assign prototype !
 	Object.assign( Interpolant.prototype, {
 
-		beforeStart_: //( 0, t, t0 ), returns this.resultBuffer
-			Interpolant.prototype.copySampleValue_,
+		//( 0, t, t0 ), returns this.resultBuffer
+		beforeStart_: Interpolant.prototype.copySampleValue_,
 
-		afterEnd_: //( N-1, tN-1, t ), returns this.resultBuffer
-			Interpolant.prototype.copySampleValue_
+		//( N-1, tN-1, t ), returns this.resultBuffer
+		afterEnd_: Interpolant.prototype.copySampleValue_,
 
 	} );
 
@@ -30600,11 +30422,10 @@
 	 * @author tschw
 	 */
 
-	function CubicInterpolant(
-			parameterPositions, sampleValues, sampleSize, resultBuffer ) {
+	function CubicInterpolant( parameterPositions, sampleValues, sampleSize, resultBuffer ) {
 
 		Interpolant.call(
-				this, parameterPositions, sampleValues, sampleSize, resultBuffer );
+			this, parameterPositions, sampleValues, sampleSize, resultBuffer );
 
 		this._weightPrev = -0;
 		this._offsetPrev = -0;
@@ -30613,8 +30434,7 @@
 
 	}
 
-	CubicInterpolant.prototype =
-			Object.assign( Object.create( Interpolant.prototype ), {
+	CubicInterpolant.prototype = Object.assign( Object.create( Interpolant.prototype ), {
 
 		constructor: CubicInterpolant,
 
@@ -30730,10 +30550,10 @@
 			for ( var i = 0; i !== stride; ++ i ) {
 
 				result[ i ] =
-						sP * values[ oP + i ] +
-						s0 * values[ o0 + i ] +
-						s1 * values[ o1 + i ] +
-						sN * values[ oN + i ];
+					sP * values[ oP + i ] +
+					s0 * values[ o0 + i ] +
+					s1 * values[ o1 + i ] +
+					sN * values[ oN + i ];
 
 			}
 
@@ -30747,16 +30567,13 @@
 	 * @author tschw
 	 */
 
-	function LinearInterpolant(
-			parameterPositions, sampleValues, sampleSize, resultBuffer ) {
+	function LinearInterpolant( parameterPositions, sampleValues, sampleSize, resultBuffer ) {
 
-		Interpolant.call(
-				this, parameterPositions, sampleValues, sampleSize, resultBuffer );
+		Interpolant.call( this, parameterPositions, sampleValues, sampleSize, resultBuffer );
 
 	}
 
-	LinearInterpolant.prototype =
-			Object.assign( Object.create( Interpolant.prototype ), {
+	LinearInterpolant.prototype = Object.assign( Object.create( Interpolant.prototype ), {
 
 		constructor: LinearInterpolant,
 
@@ -30775,8 +30592,8 @@
 			for ( var i = 0; i !== stride; ++ i ) {
 
 				result[ i ] =
-						values[ offset0 + i ] * weight0 +
-						values[ offset1 + i ] * weight1;
+					values[ offset0 + i ] * weight0 +
+					values[ offset1 + i ] * weight1;
 
 			}
 
@@ -30794,16 +30611,13 @@
 	 * @author tschw
 	 */
 
-	function DiscreteInterpolant(
-			parameterPositions, sampleValues, sampleSize, resultBuffer ) {
+	function DiscreteInterpolant( parameterPositions, sampleValues, sampleSize, resultBuffer ) {
 
-		Interpolant.call(
-				this, parameterPositions, sampleValues, sampleSize, resultBuffer );
+		Interpolant.call( this, parameterPositions, sampleValues, sampleSize, resultBuffer );
 
 	}
 
-	DiscreteInterpolant.prototype =
-			Object.assign( Object.create( Interpolant.prototype ), {
+	DiscreteInterpolant.prototype = Object.assign( Object.create( Interpolant.prototype ), {
 
 		constructor: DiscreteInterpolant,
 
@@ -30827,21 +30641,21 @@
 		InterpolantFactoryMethodDiscrete: function ( result ) {
 
 			return new DiscreteInterpolant(
-					this.times, this.values, this.getValueSize(), result );
+				this.times, this.values, this.getValueSize(), result );
 
 		},
 
 		InterpolantFactoryMethodLinear: function ( result ) {
 
 			return new LinearInterpolant(
-					this.times, this.values, this.getValueSize(), result );
+				this.times, this.values, this.getValueSize(), result );
 
 		},
 
 		InterpolantFactoryMethodSmooth: function ( result ) {
 
 			return new CubicInterpolant(
-					this.times, this.values, this.getValueSize(), result );
+				this.times, this.values, this.getValueSize(), result );
 
 		},
 
@@ -30874,7 +30688,7 @@
 			if ( factoryMethod === undefined ) {
 
 				var message = "unsupported interpolation for " +
-						this.ValueTypeName + " keyframe track named " + this.name;
+					this.ValueTypeName + " keyframe track named " + this.name;
 
 				if ( this.createInterpolant === undefined ) {
 
@@ -30986,7 +30800,7 @@
 				var stride = this.getValueSize();
 				this.times = AnimationUtils.arraySlice( times, from, to );
 				this.values = AnimationUtils.
-						arraySlice( this.values, from * stride, to * stride );
+				arraySlice( this.values, from * stride, to * stride );
 
 			}
 
@@ -31108,7 +30922,7 @@
 							var value = values[ offset + j ];
 
 							if ( value !== values[ offsetP + j ] ||
-									value !== values[ offsetN + j ] ) {
+								value !== values[ offsetN + j ] ) {
 
 								keep = true;
 								break;
@@ -31210,17 +31024,17 @@
 	}
 
 	VectorKeyframeTrack.prototype =
-			Object.assign( Object.create( KeyframeTrackPrototype ), {
+		Object.assign( Object.create( KeyframeTrackPrototype ), {
 
-		constructor: VectorKeyframeTrack,
+			constructor: VectorKeyframeTrack,
 
-		ValueTypeName: 'vector'
+			ValueTypeName: 'vector'
 
-		// ValueBufferType is inherited
+			// ValueBufferType is inherited
 
-		// DefaultInterpolation is inherited
+			// DefaultInterpolation is inherited
 
-	} );
+		} );
 
 	/**
 	 * Spherical linear unit quaternion interpolant.
@@ -31228,16 +31042,13 @@
 	 * @author tschw
 	 */
 
-	function QuaternionLinearInterpolant(
-			parameterPositions, sampleValues, sampleSize, resultBuffer ) {
+	function QuaternionLinearInterpolant( parameterPositions, sampleValues, sampleSize, resultBuffer ) {
 
-		Interpolant.call(
-				this, parameterPositions, sampleValues, sampleSize, resultBuffer );
+		Interpolant.call( this, parameterPositions, sampleValues, sampleSize, resultBuffer );
 
 	}
 
-	QuaternionLinearInterpolant.prototype =
-			Object.assign( Object.create( Interpolant.prototype ), {
+	QuaternionLinearInterpolant.prototype = Object.assign( Object.create( Interpolant.prototype ), {
 
 		constructor: QuaternionLinearInterpolant,
 
@@ -31254,7 +31065,7 @@
 			for ( var end = offset + stride; offset !== end; offset += 4 ) {
 
 				Quaternion.slerpFlat( result, 0,
-						values, offset - stride, values, offset, alpha );
+					values, offset - stride, values, offset, alpha );
 
 			}
 
@@ -31280,26 +31091,26 @@
 	}
 
 	QuaternionKeyframeTrack.prototype =
-			Object.assign( Object.create( KeyframeTrackPrototype ), {
+		Object.assign( Object.create( KeyframeTrackPrototype ), {
 
-		constructor: QuaternionKeyframeTrack,
+			constructor: QuaternionKeyframeTrack,
 
-		ValueTypeName: 'quaternion',
+			ValueTypeName: 'quaternion',
 
-		// ValueBufferType is inherited
+			// ValueBufferType is inherited
 
-		DefaultInterpolation: InterpolateLinear,
+			DefaultInterpolation: InterpolateLinear,
 
-		InterpolantFactoryMethodLinear: function( result ) {
+			InterpolantFactoryMethodLinear: function( result ) {
 
-			return new QuaternionLinearInterpolant(
+				return new QuaternionLinearInterpolant(
 					this.times, this.values, this.getValueSize(), result );
 
-		},
+			},
 
-		InterpolantFactoryMethodSmooth: undefined // not yet implemented
+			InterpolantFactoryMethodSmooth: undefined // not yet implemented
 
-	} );
+		} );
 
 	/**
 	 *
@@ -31317,17 +31128,17 @@
 	}
 
 	NumberKeyframeTrack.prototype =
-			Object.assign( Object.create( KeyframeTrackPrototype ), {
+		Object.assign( Object.create( KeyframeTrackPrototype ), {
 
-		constructor: NumberKeyframeTrack,
+			constructor: NumberKeyframeTrack,
 
-		ValueTypeName: 'number'
+			ValueTypeName: 'number'
 
-		// ValueBufferType is inherited
+			// ValueBufferType is inherited
 
-		// DefaultInterpolation is inherited
+			// DefaultInterpolation is inherited
 
-	} );
+		} );
 
 	/**
 	 *
@@ -31346,20 +31157,20 @@
 	}
 
 	StringKeyframeTrack.prototype =
-			Object.assign( Object.create( KeyframeTrackPrototype ), {
+		Object.assign( Object.create( KeyframeTrackPrototype ), {
 
-		constructor: StringKeyframeTrack,
+			constructor: StringKeyframeTrack,
 
-		ValueTypeName: 'string',
-		ValueBufferType: Array,
+			ValueTypeName: 'string',
+			ValueBufferType: Array,
 
-		DefaultInterpolation: InterpolateDiscrete,
+			DefaultInterpolation: InterpolateDiscrete,
 
-		InterpolantFactoryMethodLinear: undefined,
+			InterpolantFactoryMethodLinear: undefined,
 
-		InterpolantFactoryMethodSmooth: undefined
+			InterpolantFactoryMethodSmooth: undefined
 
-	} );
+		} );
 
 	/**
 	 *
@@ -31378,23 +31189,23 @@
 	}
 
 	BooleanKeyframeTrack.prototype =
-			Object.assign( Object.create( KeyframeTrackPrototype ), {
+		Object.assign( Object.create( KeyframeTrackPrototype ), {
 
-		constructor: BooleanKeyframeTrack,
+			constructor: BooleanKeyframeTrack,
 
-		ValueTypeName: 'bool',
-		ValueBufferType: Array,
+			ValueTypeName: 'bool',
+			ValueBufferType: Array,
 
-		DefaultInterpolation: InterpolateDiscrete,
+			DefaultInterpolation: InterpolateDiscrete,
 
-		InterpolantFactoryMethodLinear: undefined,
-		InterpolantFactoryMethodSmooth: undefined
+			InterpolantFactoryMethodLinear: undefined,
+			InterpolantFactoryMethodSmooth: undefined
 
-		// Note: Actually this track could have a optimized / compressed
-		// representation of a single value and a custom interpolant that
-		// computes "firstValue ^ isOdd( index )".
+			// Note: Actually this track could have a optimized / compressed
+			// representation of a single value and a custom interpolant that
+			// computes "firstValue ^ isOdd( index )".
 
-	} );
+		} );
 
 	/**
 	 *
@@ -31413,21 +31224,21 @@
 	}
 
 	ColorKeyframeTrack.prototype =
-			Object.assign( Object.create( KeyframeTrackPrototype ), {
+		Object.assign( Object.create( KeyframeTrackPrototype ), {
 
-		constructor: ColorKeyframeTrack,
+			constructor: ColorKeyframeTrack,
 
-		ValueTypeName: 'color'
+			ValueTypeName: 'color'
 
-		// ValueBufferType is inherited
+			// ValueBufferType is inherited
 
-		// DefaultInterpolation is inherited
+			// DefaultInterpolation is inherited
 
 
-		// Note: Very basic implementation and nothing special yet.
-		// However, this is the place for color space parameterization.
+			// Note: Very basic implementation and nothing special yet.
+			// However, this is the place for color space parameterization.
 
-	} );
+		} );
 
 	/**
 	 *
@@ -31485,7 +31296,7 @@
 
 				// by default, we asssume a constructor compatible with the base
 				return new trackType(
-						json.name, json.times, json.values, json.interpolation );
+					json.name, json.times, json.values, json.interpolation );
 
 			}
 
@@ -31585,7 +31396,7 @@
 
 		this.name = name;
 		this.tracks = tracks;
-		this.duration = ( duration !== undefined ) ? duration : -1;
+		this.duration = ( duration !== undefined ) ? duration : - 1;
 
 		this.uuid = _Math.generateUUID();
 
@@ -31600,58 +31411,9 @@
 
 	}
 
-	AnimationClip.prototype = {
-
-		constructor: AnimationClip,
-
-		resetDuration: function() {
-
-			var tracks = this.tracks,
-				duration = 0;
-
-			for ( var i = 0, n = tracks.length; i !== n; ++ i ) {
-
-				var track = this.tracks[ i ];
-
-				duration = Math.max( duration, track.times[ track.times.length - 1 ] );
-
-			}
-
-			this.duration = duration;
-
-		},
-
-		trim: function() {
-
-			for ( var i = 0; i < this.tracks.length; i ++ ) {
-
-				this.tracks[ i ].trim( 0, this.duration );
-
-			}
-
-			return this;
-
-		},
-
-		optimize: function() {
-
-			for ( var i = 0; i < this.tracks.length; i ++ ) {
-
-				this.tracks[ i ].optimize();
-
-			}
-
-			return this;
-
-		}
-
-	};
-
-	// Static methods:
-
 	Object.assign( AnimationClip, {
 
-		parse: function( json ) {
+		parse: function ( json ) {
 
 			var tracks = [],
 				jsonTracks = json.tracks,
@@ -31667,8 +31429,7 @@
 
 		},
 
-
-		toJSON: function( clip ) {
+		toJSON: function ( clip ) {
 
 			var tracks = [],
 				clipTracks = clip.tracks;
@@ -31691,8 +31452,7 @@
 
 		},
 
-
-		CreateFromMorphTargetSequence: function( name, morphTargetSequence, fps, noLoop ) {
+		CreateFromMorphTargetSequence: function ( name, morphTargetSequence, fps, noLoop ) {
 
 			var numMorphTargets = morphTargetSequence.length;
 			var tracks = [];
@@ -31703,9 +31463,9 @@
 				var values = [];
 
 				times.push(
-						( i + numMorphTargets - 1 ) % numMorphTargets,
-						i,
-						( i + 1 ) % numMorphTargets );
+					( i + numMorphTargets - 1 ) % numMorphTargets,
+					i,
+					( i + 1 ) % numMorphTargets );
 
 				values.push( 0, 1, 0 );
 
@@ -31723,17 +31483,18 @@
 				}
 
 				tracks.push(
-						new NumberKeyframeTrack(
-							'.morphTargetInfluences[' + morphTargetSequence[ i ].name + ']',
-							times, values
-						).scale( 1.0 / fps ) );
+					new NumberKeyframeTrack(
+						'.morphTargetInfluences[' + morphTargetSequence[ i ].name + ']',
+						times, values
+					).scale( 1.0 / fps ) );
+
 			}
 
-			return new AnimationClip( name, -1, tracks );
+			return new AnimationClip( name, - 1, tracks );
 
 		},
 
-		findByName: function( objectOrClipArray, name ) {
+		findByName: function ( objectOrClipArray, name ) {
 
 			var clipArray = objectOrClipArray;
 
@@ -31751,13 +31512,14 @@
 					return clipArray[ i ];
 
 				}
+
 			}
 
 			return null;
 
 		},
 
-		CreateClipsFromMorphTargetSequences: function( morphTargets, fps, noLoop ) {
+		CreateClipsFromMorphTargetSequences: function ( morphTargets, fps, noLoop ) {
 
 			var animationToMorphTargets = {};
 
@@ -31802,7 +31564,7 @@
 		},
 
 		// parse the animation.hierarchy format
-		parseAnimation: function( animation, bones ) {
+		parseAnimation: function ( animation, bones ) {
 
 			if ( ! animation ) {
 
@@ -31811,8 +31573,7 @@
 
 			}
 
-			var addNonemptyTrack = function(
-					trackType, trackName, animationKeys, propertyName, destTracks ) {
+			var addNonemptyTrack = function ( trackType, trackName, animationKeys, propertyName, destTracks ) {
 
 				// only return track if there are actually keys.
 				if ( animationKeys.length !== 0 ) {
@@ -31820,8 +31581,7 @@
 					var times = [];
 					var values = [];
 
-					AnimationUtils.flattenJSON(
-							animationKeys, times, values, propertyName );
+					AnimationUtils.flattenJSON( animationKeys, times, values, propertyName );
 
 					// empty keys are filtered out, so check again
 					if ( times.length !== 0 ) {
@@ -31838,7 +31598,7 @@
 
 			var clipName = animation.name || 'default';
 			// automatic length determination in AnimationClip.
-			var duration = animation.length || -1;
+			var duration = animation.length || - 1;
 			var fps = animation.fps || 30;
 
 			var hierarchyTracks = animation.hierarchy || [];
@@ -31852,17 +31612,19 @@
 
 				// process morph targets in a way exactly compatible
 				// with AnimationHandler.init( animation )
-				if ( animationKeys[0].morphTargets ) {
+				if ( animationKeys[ 0 ].morphTargets ) {
 
 					// figure out all morph targets used in this track
 					var morphTargetNames = {};
+
 					for ( var k = 0; k < animationKeys.length; k ++ ) {
 
-						if ( animationKeys[k].morphTargets ) {
+						if ( animationKeys[ k ].morphTargets ) {
 
-							for ( var m = 0; m < animationKeys[k].morphTargets.length; m ++ ) {
+							for ( var m = 0; m < animationKeys[ k ].morphTargets.length; m ++ ) {
 
-								morphTargetNames[ animationKeys[k].morphTargets[m] ] = -1;
+								morphTargetNames[ animationKeys[ k ].morphTargets[ m ] ] = - 1;
+
 							}
 
 						}
@@ -31877,37 +31639,38 @@
 						var times = [];
 						var values = [];
 
-						for ( var m = 0; m !== animationKeys[k].morphTargets.length; ++ m ) {
+						for ( var m = 0; m !== animationKeys[ k ].morphTargets.length; ++ m ) {
 
-							var animationKey = animationKeys[k];
+							var animationKey = animationKeys[ k ];
 
 							times.push( animationKey.time );
 							values.push( ( animationKey.morphTarget === morphTargetName ) ? 1 : 0 );
 
 						}
 
-						tracks.push( new NumberKeyframeTrack('.morphTargetInfluence[' + morphTargetName + ']', times, values ) );
+						tracks.push( new NumberKeyframeTrack( '.morphTargetInfluence[' + morphTargetName + ']', times, values ) );
 
 					}
 
 					duration = morphTargetNames.length * ( fps || 1.0 );
 
 				} else {
+
 					// ...assume skeletal animation
 
 					var boneName = '.bones[' + bones[ h ].name + ']';
 
 					addNonemptyTrack(
-							VectorKeyframeTrack, boneName + '.position',
-							animationKeys, 'pos', tracks );
+						VectorKeyframeTrack, boneName + '.position',
+						animationKeys, 'pos', tracks );
 
 					addNonemptyTrack(
-							QuaternionKeyframeTrack, boneName + '.quaternion',
-							animationKeys, 'rot', tracks );
+						QuaternionKeyframeTrack, boneName + '.quaternion',
+						animationKeys, 'rot', tracks );
 
 					addNonemptyTrack(
-							VectorKeyframeTrack, boneName + '.scale',
-							animationKeys, 'scl', tracks );
+						VectorKeyframeTrack, boneName + '.scale',
+						animationKeys, 'scl', tracks );
 
 				}
 
@@ -31922,6 +31685,50 @@
 			var clip = new AnimationClip( clipName, duration, tracks );
 
 			return clip;
+
+		}
+
+	} );
+
+	Object.assign( AnimationClip.prototype, {
+
+		resetDuration: function () {
+
+			var tracks = this.tracks, duration = 0;
+
+			for ( var i = 0, n = tracks.length; i !== n; ++ i ) {
+
+				var track = this.tracks[ i ];
+
+				duration = Math.max( duration, track.times[ track.times.length - 1 ] );
+
+			}
+
+			this.duration = duration;
+
+		},
+
+		trim: function () {
+
+			for ( var i = 0; i < this.tracks.length; i ++ ) {
+
+				this.tracks[ i ].trim( 0, this.duration );
+
+			}
+
+			return this;
+
+		},
+
+		optimize: function () {
+
+			for ( var i = 0; i < this.tracks.length; i ++ ) {
+
+				this.tracks[ i ].optimize();
+
+			}
+
+			return this;
 
 		}
 
@@ -32005,7 +31812,6 @@
 			if ( json.wireframeLinewidth !== undefined ) material.wireframeLinewidth = json.wireframeLinewidth;
 			if ( json.wireframeLinecap !== undefined ) material.wireframeLinecap = json.wireframeLinecap;
 			if ( json.wireframeLinejoin !== undefined ) material.wireframeLinejoin = json.wireframeLinejoin;
-			if ( json.skinning !== undefined ) material.skinning = json.skinning;
 			if ( json.morphTargets !== undefined ) material.morphTargets = json.morphTargets;
 
 			// for PointsMaterial
@@ -32195,9 +32001,40 @@
 
 	}
 
-	Loader.prototype = {
+	Loader.Handlers = {
 
-		constructor: Loader,
+		handlers: [],
+
+		add: function ( regex, loader ) {
+
+			this.handlers.push( regex, loader );
+
+		},
+
+		get: function ( file ) {
+
+			var handlers = this.handlers;
+
+			for ( var i = 0, l = handlers.length; i < l; i += 2 ) {
+
+				var regex = handlers[ i ];
+				var loader = handlers[ i + 1 ];
+
+				if ( regex.test( file ) ) {
+
+					return loader;
+
+				}
+
+			}
+
+			return null;
+
+		}
+
+	};
+
+	Object.assign( Loader.prototype, {
 
 		crossOrigin: undefined,
 
@@ -32238,13 +32075,11 @@
 				CustomBlending: CustomBlending
 			};
 
-			var color, textureLoader, materialLoader;
+			var color = new Color();
+			var textureLoader = new TextureLoader();
+			var materialLoader = new MaterialLoader();
 
 			return function createMaterial( m, texturePath, crossOrigin ) {
-
-				if ( color === undefined ) color = new Color();
-				if ( textureLoader === undefined ) textureLoader = new TextureLoader();
-				if ( materialLoader === undefined ) materialLoader = new MaterialLoader();
 
 				// convert from old material format
 
@@ -32483,40 +32318,7 @@
 
 		} )()
 
-	};
-
-	Loader.Handlers = {
-
-		handlers: [],
-
-		add: function ( regex, loader ) {
-
-			this.handlers.push( regex, loader );
-
-		},
-
-		get: function ( file ) {
-
-			var handlers = this.handlers;
-
-			for ( var i = 0, l = handlers.length; i < l; i += 2 ) {
-
-				var regex = handlers[ i ];
-				var loader = handlers[ i + 1 ];
-
-				if ( regex.test( file ) ) {
-
-					return loader;
-
-				}
-
-			}
-
-			return null;
-
-		}
-
-	};
+	} );
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/
@@ -32593,7 +32395,7 @@
 		parse: function ( json, texturePath ) {
 
 			var geometry = new Geometry(),
-			scale = ( json.scale !== undefined ) ? 1.0 / json.scale : 1.0;
+				scale = ( json.scale !== undefined ) ? 1.0 / json.scale : 1.0;
 
 			parseModel( scale );
 
@@ -32614,27 +32416,27 @@
 
 				var i, j, fi,
 
-				offset, zLength,
+					offset, zLength,
 
-			colorIndex, normalIndex, uvIndex, materialIndex,
+					colorIndex, normalIndex, uvIndex, materialIndex,
 
-				type,
-				isQuad,
-				hasMaterial,
-				hasFaceVertexUv,
-				hasFaceNormal, hasFaceVertexNormal,
-				hasFaceColor, hasFaceVertexColor,
+					type,
+					isQuad,
+					hasMaterial,
+					hasFaceVertexUv,
+					hasFaceNormal, hasFaceVertexNormal,
+					hasFaceColor, hasFaceVertexColor,
 
-			vertex, face, faceA, faceB, hex, normal,
+					vertex, face, faceA, faceB, hex, normal,
 
-				uvLayer, uv, u, v,
+					uvLayer, uv, u, v,
 
-				faces = json.faces,
-				vertices = json.vertices,
-				normals = json.normals,
-				colors = json.colors,
+					faces = json.faces,
+					vertices = json.vertices,
+					normals = json.normals,
+					colors = json.colors,
 
-				nUvLayers = 0;
+					nUvLayers = 0;
 
 				if ( json.uvs !== undefined ) {
 
@@ -33644,6 +33446,10 @@
 
 						break;
 
+					case 'SkinnedMesh':
+
+						console.warn( 'THREE.ObjectLoader.parseObject() does not support SkinnedMesh yet.' );
+
 					case 'Mesh':
 
 						var geometry = getGeometry( data.geometry );
@@ -33673,6 +33479,12 @@
 
 						break;
 
+					case 'LineLoop':
+
+						object = new LineLoop( getGeometry( data.geometry ), getMaterial( data.material ) );
+
+						break;
+
 					case 'LineSegments':
 
 						object = new LineSegments( getGeometry( data.geometry ), getMaterial( data.material ) );
@@ -33697,10 +33509,6 @@
 						object = new Group();
 
 						break;
-
-					case 'SkinnedMesh':
-
-						console.warn( 'THREE.ObjectLoader.parseObject() does not support SkinnedMesh type. Instantiates Object3D instead.' );
 
 					default:
 
@@ -33894,14 +33702,12 @@
 
 	function Curve() {}
 
-	Curve.prototype = {
-
-		constructor: Curve,
+	Object.assign( Curve.prototype, {
 
 		// Virtual base class method to overwrite and implement in subclasses
 		//	- t [0 .. 1]
 
-		getPoint: function ( t ) {
+		getPoint: function () {
 
 			console.warn( "THREE.Curve: Warning, getPoint() not implemented!" );
 			return null;
@@ -33922,7 +33728,7 @@
 
 		getPoints: function ( divisions ) {
 
-			if ( isNaN( divisions ) ) divisions = 5;
+			if ( divisions === undefined ) divisions = 5;
 
 			var points = [];
 
@@ -33940,7 +33746,7 @@
 
 		getSpacedPoints: function ( divisions ) {
 
-			if ( isNaN( divisions ) ) divisions = 5;
+			if ( divisions === undefined ) divisions = 5;
 
 			var points = [];
 
@@ -33967,7 +33773,7 @@
 
 		getLengths: function ( divisions ) {
 
-			if ( isNaN( divisions ) ) divisions = ( this.__arcLengthDivisions ) ? ( this.__arcLengthDivisions ) : 200;
+			if ( divisions === undefined ) divisions = ( this.__arcLengthDivisions ) ? ( this.__arcLengthDivisions ) : 200;
 
 			if ( this.cacheArcLengths
 				&& ( this.cacheArcLengths.length === divisions + 1 )
@@ -33988,7 +33794,7 @@
 
 			for ( p = 1; p <= divisions; p ++ ) {
 
-				current = this.getPoint ( p / divisions );
+				current = this.getPoint( p / divisions );
 				sum += current.distanceTo( last );
 				cache.push( sum );
 				last = current;
@@ -34001,7 +33807,7 @@
 
 		},
 
-		updateArcLengths: function() {
+		updateArcLengths: function () {
 
 			this.needsUpdate = true;
 			this.getLengths();
@@ -34094,7 +33900,7 @@
 		// 2 points a small delta apart will be used to find its gradient
 		// which seems to give a reasonable approximation
 
-		getTangent: function( t ) {
+		getTangent: function ( t ) {
 
 			var delta = 0.0001;
 			var t1 = t - delta;
@@ -34237,7 +34043,7 @@
 
 		}
 
-	};
+	} );
 
 	function LineCurve( v1, v2 ) {
 
@@ -34418,7 +34224,7 @@
 
 		getSpacedPoints: function ( divisions ) {
 
-			if ( isNaN( divisions ) ) divisions = 40;
+			if ( divisions === undefined ) divisions = 40;
 
 			var points = [];
 
@@ -34885,7 +34691,7 @@
 
 	}
 
-	ShapePath.prototype = {
+	Object.assign( ShapePath.prototype, {
 
 		moveTo: function ( x, y ) {
 
@@ -34988,7 +34794,7 @@
 						if ( inPt.y !== edgeLowPt.y ) 		continue;			// parallel
 						// edge lies on the same horizontal line as inPt
 						if ( ( ( edgeHighPt.x <= inPt.x ) && ( inPt.x <= edgeLowPt.x ) ) ||
-							 ( ( edgeLowPt.x <= inPt.x ) && ( inPt.x <= edgeHighPt.x ) ) )		return	true;	// inPt: Point on contour !
+							( ( edgeLowPt.x <= inPt.x ) && ( inPt.x <= edgeHighPt.x ) ) )		return	true;	// inPt: Point on contour !
 						// continue;
 
 					}
@@ -35146,7 +34952,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author zz85 / http://www.lab4games.net/zz85/blog
@@ -35504,7 +35310,7 @@
 
 		update: ( function () {
 
-			var instance, focus, fov, aspect, near, far, zoom;
+			var instance, focus, fov, aspect, near, far, zoom, eyeSep;
 
 			var eyeRight = new Matrix4();
 			var eyeLeft = new Matrix4();
@@ -35512,8 +35318,8 @@
 			return function update( camera ) {
 
 				var needsUpdate = instance !== this || focus !== camera.focus || fov !== camera.fov ||
-													aspect !== camera.aspect * this.aspect || near !== camera.near ||
-													far !== camera.far || zoom !== camera.zoom;
+					aspect !== camera.aspect * this.aspect || near !== camera.near ||
+					far !== camera.far || zoom !== camera.zoom || eyeSep !== this.eyeSep;
 
 				if ( needsUpdate ) {
 
@@ -35529,7 +35335,7 @@
 					// http://paulbourke.net/stereographics/stereorender/
 
 					var projectionMatrix = camera.projectionMatrix.clone();
-					var eyeSep = this.eyeSep / 2;
+					eyeSep = this.eyeSep / 2;
 					var eyeSepOnProjection = eyeSep * near / focus;
 					var ymax = ( near * Math.tan( _Math.DEG2RAD * fov * 0.5 ) ) / zoom;
 					var xmin, xmax;
@@ -35618,6 +35424,7 @@
 		var options = { format: RGBFormat, magFilter: LinearFilter, minFilter: LinearFilter };
 
 		this.renderTarget = new WebGLRenderTargetCube( cubeResolution, cubeResolution, options );
+		this.renderTarget.texture.name = "CubeCamera";
 
 		this.updateCubeMap = function ( renderer, scene ) {
 
@@ -36067,7 +35874,6 @@
 
 		},
 
-
 		setVolume: function ( value ) {
 
 			this.gain.gain.value = value;
@@ -36265,12 +36071,10 @@
 
 	}
 
-	PropertyMixer.prototype = {
-
-		constructor: PropertyMixer,
+	Object.assign( PropertyMixer.prototype, {
 
 		// accumulate data in the 'incoming' region into 'accu<i>'
-		accumulate: function( accuIndex, weight ) {
+		accumulate: function ( accuIndex, weight ) {
 
 			// note: happily accumulating nothing when weight = 0, the caller knows
 			// the weight and shouldn't have made the call in the first place
@@ -36308,7 +36112,7 @@
 		},
 
 		// apply the state of 'accu<i>' to the binding when accus differ
-		apply: function( accuIndex ) {
+		apply: function ( accuIndex ) {
 
 			var stride = this.valueSize,
 				buffer = this.buffer,
@@ -36327,7 +36131,7 @@
 				var originalValueOffset = stride * 3;
 
 				this._mixBufferRegion(
-						buffer, offset, originalValueOffset, 1 - weight, stride );
+					buffer, offset, originalValueOffset, 1 - weight, stride );
 
 			}
 
@@ -36347,7 +36151,7 @@
 		},
 
 		// remember the state of the bound property and copy it to both accus
-		saveOriginalState: function() {
+		saveOriginalState: function () {
 
 			var binding = this.binding;
 
@@ -36370,7 +36174,7 @@
 		},
 
 		// apply the state previously taken via 'saveOriginalState' to the binding
-		restoreOriginalState: function() {
+		restoreOriginalState: function () {
 
 			var originalValueOffset = this.valueSize * 3;
 			this.binding.setValue( this.buffer, originalValueOffset );
@@ -36380,7 +36184,7 @@
 
 		// mix functions
 
-		_select: function( buffer, dstOffset, srcOffset, t, stride ) {
+		_select: function ( buffer, dstOffset, srcOffset, t, stride ) {
 
 			if ( t >= 0.5 ) {
 
@@ -36394,14 +36198,13 @@
 
 		},
 
-		_slerp: function( buffer, dstOffset, srcOffset, t, stride ) {
+		_slerp: function ( buffer, dstOffset, srcOffset, t ) {
 
-			Quaternion.slerpFlat( buffer, dstOffset,
-					buffer, dstOffset, buffer, srcOffset, t );
+			Quaternion.slerpFlat( buffer, dstOffset, buffer, dstOffset, buffer, srcOffset, t );
 
 		},
 
-		_lerp: function( buffer, dstOffset, srcOffset, t, stride ) {
+		_lerp: function ( buffer, dstOffset, srcOffset, t, stride ) {
 
 			var s = 1 - t;
 
@@ -36415,7 +36218,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 *
@@ -36427,275 +36230,227 @@
 	 * @author tschw
 	 */
 
+	function Composite( targetGroup, path, optionalParsedPath ) {
+
+		var parsedPath = optionalParsedPath || PropertyBinding.parseTrackName( path );
+
+		this._targetGroup = targetGroup;
+		this._bindings = targetGroup.subscribe_( path, parsedPath );
+
+	}
+
+	Object.assign( Composite.prototype, {
+
+		getValue: function ( array, offset ) {
+
+			this.bind(); // bind all binding
+
+			var firstValidIndex = this._targetGroup.nCachedObjects_,
+				binding = this._bindings[ firstValidIndex ];
+
+			// and only call .getValue on the first
+			if ( binding !== undefined ) binding.getValue( array, offset );
+
+		},
+
+		setValue: function ( array, offset ) {
+
+			var bindings = this._bindings;
+
+			for ( var i = this._targetGroup.nCachedObjects_,
+					  n = bindings.length; i !== n; ++ i ) {
+
+				bindings[ i ].setValue( array, offset );
+
+			}
+
+		},
+
+		bind: function () {
+
+			var bindings = this._bindings;
+
+			for ( var i = this._targetGroup.nCachedObjects_,
+					  n = bindings.length; i !== n; ++ i ) {
+
+				bindings[ i ].bind();
+
+			}
+
+		},
+
+		unbind: function () {
+
+			var bindings = this._bindings;
+
+			for ( var i = this._targetGroup.nCachedObjects_,
+					  n = bindings.length; i !== n; ++ i ) {
+
+				bindings[ i ].unbind();
+
+			}
+
+		}
+
+	} );
+
+
 	function PropertyBinding( rootNode, path, parsedPath ) {
 
 		this.path = path;
-		this.parsedPath = parsedPath ||
-				PropertyBinding.parseTrackName( path );
+		this.parsedPath = parsedPath || PropertyBinding.parseTrackName( path );
 
-		this.node = PropertyBinding.findNode(
-				rootNode, this.parsedPath.nodeName ) || rootNode;
+		this.node = PropertyBinding.findNode( rootNode, this.parsedPath.nodeName ) || rootNode;
 
 		this.rootNode = rootNode;
 
 	}
 
-	PropertyBinding.prototype = {
+	Object.assign( PropertyBinding, {
 
-		constructor: PropertyBinding,
+		Composite: Composite,
 
-		getValue: function getValue_unbound( targetArray, offset ) {
+		create: function ( root, path, parsedPath ) {
 
-			this.bind();
-			this.getValue( targetArray, offset );
+			if ( ! ( root && root.isAnimationObjectGroup ) ) {
 
-			// Note: This class uses a State pattern on a per-method basis:
-			// 'bind' sets 'this.getValue' / 'setValue' and shadows the
-			// prototype version of these methods with one that represents
-			// the bound state. When the property is not found, the methods
-			// become no-ops.
-
-		},
-
-		setValue: function getValue_unbound( sourceArray, offset ) {
-
-			this.bind();
-			this.setValue( sourceArray, offset );
-
-		},
-
-		// create getter / setter pair for a property in the scene graph
-		bind: function() {
-
-			var targetObject = this.node,
-				parsedPath = this.parsedPath,
-
-				objectName = parsedPath.objectName,
-				propertyName = parsedPath.propertyName,
-				propertyIndex = parsedPath.propertyIndex;
-
-			if ( ! targetObject ) {
-
-				targetObject = PropertyBinding.findNode(
-						this.rootNode, parsedPath.nodeName ) || this.rootNode;
-
-				this.node = targetObject;
-
-			}
-
-			// set fail state so we can just 'return' on error
-			this.getValue = this._getValue_unavailable;
-			this.setValue = this._setValue_unavailable;
-
-	 		// ensure there is a value node
-			if ( ! targetObject ) {
-
-				console.error( "  trying to update node for track: " + this.path + " but it wasn't found." );
-				return;
-
-			}
-
-			if ( objectName ) {
-
-				var objectIndex = parsedPath.objectIndex;
-
-				// special cases were we need to reach deeper into the hierarchy to get the face materials....
-				switch ( objectName ) {
-
-					case 'materials':
-
-						if ( ! targetObject.material ) {
-
-							console.error( '  can not bind to material as node does not have a material', this );
-							return;
-
-						}
-
-						if ( ! targetObject.material.materials ) {
-
-							console.error( '  can not bind to material.materials as node.material does not have a materials array', this );
-							return;
-
-						}
-
-						targetObject = targetObject.material.materials;
-
-						break;
-
-					case 'bones':
-
-						if ( ! targetObject.skeleton ) {
-
-							console.error( '  can not bind to bones as node does not have a skeleton', this );
-							return;
-
-						}
-
-						// potential future optimization: skip this if propertyIndex is already an integer
-						// and convert the integer string to a true integer.
-
-						targetObject = targetObject.skeleton.bones;
-
-						// support resolving morphTarget names into indices.
-						for ( var i = 0; i < targetObject.length; i ++ ) {
-
-							if ( targetObject[ i ].name === objectIndex ) {
-
-								objectIndex = i;
-								break;
-
-							}
-
-						}
-
-						break;
-
-					default:
-
-						if ( targetObject[ objectName ] === undefined ) {
-
-							console.error( '  can not bind to objectName of node, undefined', this );
-							return;
-
-						}
-
-						targetObject = targetObject[ objectName ];
-
-				}
-
-
-				if ( objectIndex !== undefined ) {
-
-					if ( targetObject[ objectIndex ] === undefined ) {
-
-						console.error( "  trying to bind to objectIndex of objectName, but is undefined:", this, targetObject );
-						return;
-
-					}
-
-					targetObject = targetObject[ objectIndex ];
-
-				}
-
-			}
-
-			// resolve property
-			var nodeProperty = targetObject[ propertyName ];
-
-			if ( nodeProperty === undefined ) {
-
-				var nodeName = parsedPath.nodeName;
-
-				console.error( "  trying to update property for track: " + nodeName +
-						'.' + propertyName + " but it wasn't found.", targetObject );
-				return;
-
-			}
-
-			// determine versioning scheme
-			var versioning = this.Versioning.None;
-
-			if ( targetObject.needsUpdate !== undefined ) { // material
-
-				versioning = this.Versioning.NeedsUpdate;
-				this.targetObject = targetObject;
-
-			} else if ( targetObject.matrixWorldNeedsUpdate !== undefined ) { // node transform
-
-				versioning = this.Versioning.MatrixWorldNeedsUpdate;
-				this.targetObject = targetObject;
-
-			}
-
-			// determine how the property gets bound
-			var bindingType = this.BindingType.Direct;
-
-			if ( propertyIndex !== undefined ) {
-				// access a sub element of the property array (only primitives are supported right now)
-
-				if ( propertyName === "morphTargetInfluences" ) {
-					// potential optimization, skip this if propertyIndex is already an integer, and convert the integer string to a true integer.
-
-					// support resolving morphTarget names into indices.
-					if ( ! targetObject.geometry ) {
-
-						console.error( '  can not bind to morphTargetInfluences becasuse node does not have a geometry', this );
-						return;
-
-					}
-
-					if ( ! targetObject.geometry.morphTargets ) {
-
-						console.error( '  can not bind to morphTargetInfluences becasuse node does not have a geometry.morphTargets', this );
-						return;
-
-					}
-
-					for ( var i = 0; i < this.node.geometry.morphTargets.length; i ++ ) {
-
-						if ( targetObject.geometry.morphTargets[ i ].name === propertyIndex ) {
-
-							propertyIndex = i;
-							break;
-
-						}
-
-					}
-
-				}
-
-				bindingType = this.BindingType.ArrayElement;
-
-				this.resolvedProperty = nodeProperty;
-				this.propertyIndex = propertyIndex;
-
-			} else if ( nodeProperty.fromArray !== undefined && nodeProperty.toArray !== undefined ) {
-				// must use copy for Object3D.Euler/Quaternion
-
-				bindingType = this.BindingType.HasFromToArray;
-
-				this.resolvedProperty = nodeProperty;
-
-			} else if ( nodeProperty.length !== undefined ) {
-
-				bindingType = this.BindingType.EntireArray;
-
-				this.resolvedProperty = nodeProperty;
+				return new PropertyBinding( root, path, parsedPath );
 
 			} else {
 
-				this.propertyName = propertyName;
+				return new PropertyBinding.Composite( root, path, parsedPath );
 
 			}
 
-			// select getter / setter
-			this.getValue = this.GetterByBindingType[ bindingType ];
-			this.setValue = this.SetterByBindingTypeAndVersioning[ bindingType ][ versioning ];
+		},
+
+		parseTrackName: function ( trackName ) {
+
+			// matches strings in the form of:
+			//    nodeName.property
+			//    nodeName.property[accessor]
+			//    nodeName.material.property[accessor]
+			//    uuid.property[accessor]
+			//    uuid.objectName[objectIndex].propertyName[propertyIndex]
+			//    parentName/nodeName.property
+			//    parentName/parentName/nodeName.property[index]
+			//    .bone[Armature.DEF_cog].position
+			//    scene:helium_balloon_model:helium_balloon_model.position
+			// created and tested via https://regex101.com/#javascript
+
+			var re = /^((?:[\w-]+[\/:])*)([\w-]+)?(?:\.([\w-]+)(?:\[(.+)\])?)?\.([\w-]+)(?:\[(.+)\])?$/;
+			var matches = re.exec( trackName );
+
+			if ( ! matches ) {
+
+				throw new Error( "cannot parse trackName at all: " + trackName );
+
+			}
+
+			var results = {
+				// directoryName: matches[ 1 ], // (tschw) currently unused
+				nodeName: matches[ 2 ], 	// allowed to be null, specified root node.
+				objectName: matches[ 3 ],
+				objectIndex: matches[ 4 ],
+				propertyName: matches[ 5 ],
+				propertyIndex: matches[ 6 ]	// allowed to be null, specifies that the whole property is set.
+			};
+
+			if ( results.propertyName === null || results.propertyName.length === 0 ) {
+
+				throw new Error( "can not parse propertyName from trackName: " + trackName );
+
+			}
+
+			return results;
 
 		},
 
-		unbind: function() {
+		findNode: function ( root, nodeName ) {
 
-			this.node = null;
+			if ( ! nodeName || nodeName === "" || nodeName === "root" || nodeName === "." || nodeName === - 1 || nodeName === root.name || nodeName === root.uuid ) {
 
-			// back to the prototype version of getValue / setValue
-			// note: avoiding to mutate the shape of 'this' via 'delete'
-			this.getValue = this._getValue_unbound;
-			this.setValue = this._setValue_unbound;
+				return root;
+
+			}
+
+			// search into skeleton bones.
+			if ( root.skeleton ) {
+
+				var searchSkeleton = function ( skeleton ) {
+
+					for ( var i = 0; i < skeleton.bones.length; i ++ ) {
+
+						var bone = skeleton.bones[ i ];
+
+						if ( bone.name === nodeName ) {
+
+							return bone;
+
+						}
+
+					}
+
+					return null;
+
+				};
+
+				var bone = searchSkeleton( root.skeleton );
+
+				if ( bone ) {
+
+					return bone;
+
+				}
+
+			}
+
+			// search into node subtree.
+			if ( root.children ) {
+
+				var searchNodeSubtree = function ( children ) {
+
+					for ( var i = 0; i < children.length; i ++ ) {
+
+						var childNode = children[ i ];
+
+						if ( childNode.name === nodeName || childNode.uuid === nodeName ) {
+
+							return childNode;
+
+						}
+
+						var result = searchNodeSubtree( childNode.children );
+
+						if ( result ) return result;
+
+					}
+
+					return null;
+
+				};
+
+				var subTreeNode = searchNodeSubtree( root.children );
+
+				if ( subTreeNode ) {
+
+					return subTreeNode;
+
+				}
+
+			}
+
+			return null;
 
 		}
 
-	};
+	} );
 
 	Object.assign( PropertyBinding.prototype, { // prototype, continued
 
 		// these are used to "bind" a nonexistent property
-		_getValue_unavailable: function() {},
-		_setValue_unavailable: function() {},
-
-		// initial state of these methods that calls 'bind'
-		_getValue_unbound: PropertyBinding.prototype.getValue,
-		_setValue_unbound: PropertyBinding.prototype.setValue,
+		_getValue_unavailable: function () {},
+		_setValue_unavailable: function () {},
 
 		BindingType: {
 			Direct: 0,
@@ -36863,209 +36618,262 @@
 
 			]
 
-		]
+		],
+
+		getValue: function getValue_unbound( targetArray, offset ) {
+
+			this.bind();
+			this.getValue( targetArray, offset );
+
+			// Note: This class uses a State pattern on a per-method basis:
+			// 'bind' sets 'this.getValue' / 'setValue' and shadows the
+			// prototype version of these methods with one that represents
+			// the bound state. When the property is not found, the methods
+			// become no-ops.
+
+		},
+
+		setValue: function getValue_unbound( sourceArray, offset ) {
+
+			this.bind();
+			this.setValue( sourceArray, offset );
+
+		},
+
+		// create getter / setter pair for a property in the scene graph
+		bind: function () {
+
+			var targetObject = this.node,
+				parsedPath = this.parsedPath,
+
+				objectName = parsedPath.objectName,
+				propertyName = parsedPath.propertyName,
+				propertyIndex = parsedPath.propertyIndex;
+
+			if ( ! targetObject ) {
+
+				targetObject = PropertyBinding.findNode(
+						this.rootNode, parsedPath.nodeName ) || this.rootNode;
+
+				this.node = targetObject;
+
+			}
+
+			// set fail state so we can just 'return' on error
+			this.getValue = this._getValue_unavailable;
+			this.setValue = this._setValue_unavailable;
+
+			// ensure there is a value node
+			if ( ! targetObject ) {
+
+				console.error( "  trying to update node for track: " + this.path + " but it wasn't found." );
+				return;
+
+			}
+
+			if ( objectName ) {
+
+				var objectIndex = parsedPath.objectIndex;
+
+				// special cases were we need to reach deeper into the hierarchy to get the face materials....
+				switch ( objectName ) {
+
+					case 'materials':
+
+						if ( ! targetObject.material ) {
+
+							console.error( '  can not bind to material as node does not have a material', this );
+							return;
+
+						}
+
+						if ( ! targetObject.material.materials ) {
+
+							console.error( '  can not bind to material.materials as node.material does not have a materials array', this );
+							return;
+
+						}
+
+						targetObject = targetObject.material.materials;
+
+						break;
+
+					case 'bones':
+
+						if ( ! targetObject.skeleton ) {
+
+							console.error( '  can not bind to bones as node does not have a skeleton', this );
+							return;
+
+						}
+
+						// potential future optimization: skip this if propertyIndex is already an integer
+						// and convert the integer string to a true integer.
+
+						targetObject = targetObject.skeleton.bones;
+
+						// support resolving morphTarget names into indices.
+						for ( var i = 0; i < targetObject.length; i ++ ) {
+
+							if ( targetObject[ i ].name === objectIndex ) {
+
+								objectIndex = i;
+								break;
+
+							}
+
+						}
+
+						break;
+
+					default:
+
+						if ( targetObject[ objectName ] === undefined ) {
+
+							console.error( '  can not bind to objectName of node, undefined', this );
+							return;
+
+						}
+
+						targetObject = targetObject[ objectName ];
+
+				}
+
+
+				if ( objectIndex !== undefined ) {
+
+					if ( targetObject[ objectIndex ] === undefined ) {
+
+						console.error( "  trying to bind to objectIndex of objectName, but is undefined:", this, targetObject );
+						return;
+
+					}
+
+					targetObject = targetObject[ objectIndex ];
+
+				}
+
+			}
+
+			// resolve property
+			var nodeProperty = targetObject[ propertyName ];
+
+			if ( nodeProperty === undefined ) {
+
+				var nodeName = parsedPath.nodeName;
+
+				console.error( "  trying to update property for track: " + nodeName +
+					'.' + propertyName + " but it wasn't found.", targetObject );
+				return;
+
+			}
+
+			// determine versioning scheme
+			var versioning = this.Versioning.None;
+
+			if ( targetObject.needsUpdate !== undefined ) { // material
+
+				versioning = this.Versioning.NeedsUpdate;
+				this.targetObject = targetObject;
+
+			} else if ( targetObject.matrixWorldNeedsUpdate !== undefined ) { // node transform
+
+				versioning = this.Versioning.MatrixWorldNeedsUpdate;
+				this.targetObject = targetObject;
+
+			}
+
+			// determine how the property gets bound
+			var bindingType = this.BindingType.Direct;
+
+			if ( propertyIndex !== undefined ) {
+
+				// access a sub element of the property array (only primitives are supported right now)
+
+				if ( propertyName === "morphTargetInfluences" ) {
+
+					// potential optimization, skip this if propertyIndex is already an integer, and convert the integer string to a true integer.
+
+					// support resolving morphTarget names into indices.
+					if ( ! targetObject.geometry ) {
+
+						console.error( '  can not bind to morphTargetInfluences becasuse node does not have a geometry', this );
+						return;
+
+					}
+
+					if ( ! targetObject.geometry.morphTargets ) {
+
+						console.error( '  can not bind to morphTargetInfluences becasuse node does not have a geometry.morphTargets', this );
+						return;
+
+					}
+
+					for ( var i = 0; i < this.node.geometry.morphTargets.length; i ++ ) {
+
+						if ( targetObject.geometry.morphTargets[ i ].name === propertyIndex ) {
+
+							propertyIndex = i;
+							break;
+
+						}
+
+					}
+
+				}
+
+				bindingType = this.BindingType.ArrayElement;
+
+				this.resolvedProperty = nodeProperty;
+				this.propertyIndex = propertyIndex;
+
+			} else if ( nodeProperty.fromArray !== undefined && nodeProperty.toArray !== undefined ) {
+
+				// must use copy for Object3D.Euler/Quaternion
+
+				bindingType = this.BindingType.HasFromToArray;
+
+				this.resolvedProperty = nodeProperty;
+
+			} else if ( Array.isArray( nodeProperty ) ) {
+
+				bindingType = this.BindingType.EntireArray;
+
+				this.resolvedProperty = nodeProperty;
+
+			} else {
+
+				this.propertyName = propertyName;
+
+			}
+
+			// select getter / setter
+			this.getValue = this.GetterByBindingType[ bindingType ];
+			this.setValue = this.SetterByBindingTypeAndVersioning[ bindingType ][ versioning ];
+
+		},
+
+		unbind: function () {
+
+			this.node = null;
+
+			// back to the prototype version of getValue / setValue
+			// note: avoiding to mutate the shape of 'this' via 'delete'
+			this.getValue = this._getValue_unbound;
+			this.setValue = this._setValue_unbound;
+
+		}
 
 	} );
 
-	PropertyBinding.Composite =
-			function( targetGroup, path, optionalParsedPath ) {
+	//!\ DECLARE ALIAS AFTER assign prototype !
+	Object.assign( PropertyBinding.prototype, {
 
-		var parsedPath = optionalParsedPath ||
-				PropertyBinding.parseTrackName( path );
+		// initial state of these methods that calls 'bind'
+		_getValue_unbound: PropertyBinding.prototype.getValue,
+		_setValue_unbound: PropertyBinding.prototype.setValue,
 
-		this._targetGroup = targetGroup;
-		this._bindings = targetGroup.subscribe_( path, parsedPath );
-
-	};
-
-	PropertyBinding.Composite.prototype = {
-
-		constructor: PropertyBinding.Composite,
-
-		getValue: function( array, offset ) {
-
-			this.bind(); // bind all binding
-
-			var firstValidIndex = this._targetGroup.nCachedObjects_,
-				binding = this._bindings[ firstValidIndex ];
-
-			// and only call .getValue on the first
-			if ( binding !== undefined ) binding.getValue( array, offset );
-
-		},
-
-		setValue: function( array, offset ) {
-
-			var bindings = this._bindings;
-
-			for ( var i = this._targetGroup.nCachedObjects_,
-					n = bindings.length; i !== n; ++ i ) {
-
-				bindings[ i ].setValue( array, offset );
-
-			}
-
-		},
-
-		bind: function() {
-
-			var bindings = this._bindings;
-
-			for ( var i = this._targetGroup.nCachedObjects_,
-					n = bindings.length; i !== n; ++ i ) {
-
-				bindings[ i ].bind();
-
-			}
-
-		},
-
-		unbind: function() {
-
-			var bindings = this._bindings;
-
-			for ( var i = this._targetGroup.nCachedObjects_,
-					n = bindings.length; i !== n; ++ i ) {
-
-				bindings[ i ].unbind();
-
-			}
-
-		}
-
-	};
-
-	PropertyBinding.create = function( root, path, parsedPath ) {
-
-		if ( ! ( root && root.isAnimationObjectGroup ) ) {
-
-			return new PropertyBinding( root, path, parsedPath );
-
-		} else {
-
-			return new PropertyBinding.Composite( root, path, parsedPath );
-
-		}
-
-	};
-
-	PropertyBinding.parseTrackName = function( trackName ) {
-
-		// matches strings in the form of:
-		//    nodeName.property
-		//    nodeName.property[accessor]
-		//    nodeName.material.property[accessor]
-		//    uuid.property[accessor]
-		//    uuid.objectName[objectIndex].propertyName[propertyIndex]
-		//    parentName/nodeName.property
-		//    parentName/parentName/nodeName.property[index]
-		//    .bone[Armature.DEF_cog].position
-		//    scene:helium_balloon_model:helium_balloon_model.position
-		// created and tested via https://regex101.com/#javascript
-
-		var re = /^((?:[\w-]+[\/:])*)([\w-]+)?(?:\.([\w-]+)(?:\[(.+)\])?)?\.([\w-]+)(?:\[(.+)\])?$/;
-		var matches = re.exec( trackName );
-
-		if ( ! matches ) {
-
-			throw new Error( "cannot parse trackName at all: " + trackName );
-
-		}
-
-		var results = {
-			// directoryName: matches[ 1 ], // (tschw) currently unused
-			nodeName: matches[ 2 ], 	// allowed to be null, specified root node.
-			objectName: matches[ 3 ],
-			objectIndex: matches[ 4 ],
-			propertyName: matches[ 5 ],
-			propertyIndex: matches[ 6 ]	// allowed to be null, specifies that the whole property is set.
-		};
-
-		if ( results.propertyName === null || results.propertyName.length === 0 ) {
-
-			throw new Error( "can not parse propertyName from trackName: " + trackName );
-
-		}
-
-		return results;
-
-	};
-
-	PropertyBinding.findNode = function( root, nodeName ) {
-
-		if ( ! nodeName || nodeName === "" || nodeName === "root" || nodeName === "." || nodeName === -1 || nodeName === root.name || nodeName === root.uuid ) {
-
-			return root;
-
-		}
-
-		// search into skeleton bones.
-		if ( root.skeleton ) {
-
-			var searchSkeleton = function( skeleton ) {
-
-				for( var i = 0; i < skeleton.bones.length; i ++ ) {
-
-					var bone = skeleton.bones[ i ];
-
-					if ( bone.name === nodeName ) {
-
-						return bone;
-
-					}
-				}
-
-				return null;
-
-			};
-
-			var bone = searchSkeleton( root.skeleton );
-
-			if ( bone ) {
-
-				return bone;
-
-			}
-		}
-
-		// search into node subtree.
-		if ( root.children ) {
-
-			var searchNodeSubtree = function( children ) {
-
-				for( var i = 0; i < children.length; i ++ ) {
-
-					var childNode = children[ i ];
-
-					if ( childNode.name === nodeName || childNode.uuid === nodeName ) {
-
-						return childNode;
-
-					}
-
-					var result = searchNodeSubtree( childNode.children );
-
-					if ( result ) return result;
-
-				}
-
-				return null;
-
-			};
-
-			var subTreeNode = searchNodeSubtree( root.children );
-
-			if ( subTreeNode ) {
-
-				return subTreeNode;
-
-			}
-
-		}
-
-		return null;
-
-	};
+	} );
 
 	/**
 	 *
@@ -37128,7 +36936,7 @@
 
 			objects: {
 				get total() { return scope._objects.length; },
-				get inUse() { return this.total - scope.nCachedObjects_;  }
+				get inUse() { return this.total - scope.nCachedObjects_; }
 			},
 
 			get bindingsPerObject() { return scope._bindings.length; }
@@ -37137,9 +36945,7 @@
 
 	}
 
-	AnimationObjectGroup.prototype = {
-
-		constructor: AnimationObjectGroup,
+	Object.assign( AnimationObjectGroup.prototype, {
 
 		isAnimationObjectGroup: true,
 
@@ -37174,8 +36980,8 @@
 					for ( var j = 0, m = nBindings; j !== m; ++ j ) {
 
 						bindings[ j ].push(
-								new PropertyBinding(
-									object, paths[ j ], parsedPaths[ j ] ) );
+							new PropertyBinding(
+								object, paths[ j ], parsedPaths[ j ] ) );
 
 					}
 
@@ -37211,7 +37017,7 @@
 							// or may not exist
 
 							binding = new PropertyBinding(
-									object, paths[ j ], parsedPaths[ j ] );
+								object, paths[ j ], parsedPaths[ j ] );
 
 						}
 
@@ -37219,11 +37025,11 @@
 
 					}
 
-				} else if ( objects[ index ] !== knownObject) {
+				} else if ( objects[ index ] !== knownObject ) {
 
 					console.error( "Different objects with the same UUID " +
-							"detected. Clean the caches or recreate your " +
-							"infrastructure when reloading scenes..." );
+						"detected. Clean the caches or recreate your " +
+						"infrastructure when reloading scenes..." );
 
 				} // else the object is already where we want it to be
 
@@ -37367,7 +37173,8 @@
 
 		// Internal interface used by befriended PropertyBinding.Composite:
 
-		subscribe_: function( path, parsedPath ) {
+		subscribe_: function ( path, parsedPath ) {
+
 			// returns an array of bindings for the given path that is changed
 			// according to the contained objects in the group
 
@@ -37392,13 +37199,10 @@
 			parsedPaths.push( parsedPath );
 			bindings.push( bindingsForPath );
 
-			for ( var i = nCachedObjects,
-					n = objects.length; i !== n; ++ i ) {
+			for ( var i = nCachedObjects, n = objects.length; i !== n; ++ i ) {
 
 				var object = objects[ i ];
-
-				bindingsForPath[ i ] =
-						new PropertyBinding( object, path, parsedPath );
+				bindingsForPath[ i ] = new PropertyBinding( object, path, parsedPath );
 
 			}
 
@@ -37406,7 +37210,8 @@
 
 		},
 
-		unsubscribe_: function( path ) {
+		unsubscribe_: function ( path ) {
+
 			// tells the group to forget about a property path and no longer
 			// update the array previously obtained with 'subscribe_'
 
@@ -37437,7 +37242,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 *
@@ -37461,8 +37266,8 @@
 			interpolants = new Array( nTracks );
 
 		var interpolantSettings = {
-				endingStart: 	ZeroCurvatureEnding,
-				endingEnd:		ZeroCurvatureEnding
+			endingStart: 	ZeroCurvatureEnding,
+			endingEnd:		ZeroCurvatureEnding
 		};
 
 		for ( var i = 0; i !== nTracks; ++ i ) {
@@ -37515,9 +37320,7 @@
 
 	}
 
-	AnimationAction.prototype = {
-
-		constructor: AnimationAction,
+	Object.assign( AnimationAction.prototype, {
 
 		// State & Scheduling
 
@@ -37553,7 +37356,7 @@
 		isRunning: function() {
 
 			return this.enabled && ! this.paused && this.timeScale !== 0 &&
-					this._startTime === null && this._mixer._isActiveAction( this );
+				this._startTime === null && this._mixer._isActiveAction( this );
 
 		},
 
@@ -37951,7 +37754,7 @@
 						loopCount = 0;
 
 						this._setEndings(
-								true, this.repetitions === 0, pingPong );
+							true, this.repetitions === 0, pingPong );
 
 					} else {
 
@@ -37960,7 +37763,7 @@
 						// so leave loopCount at -1
 
 						this._setEndings(
-								this.repetitions === 0, true, pingPong );
+							this.repetitions === 0, true, pingPong );
 
 					}
 
@@ -38045,7 +37848,7 @@
 				if ( atStart ) {
 
 					settings.endingStart = this.zeroSlopeAtStart ?
-							ZeroSlopeEnding : ZeroCurvatureEnding;
+						ZeroSlopeEnding : ZeroCurvatureEnding;
 
 				} else {
 
@@ -38056,7 +37859,7 @@
 				if ( atEnd ) {
 
 					settings.endingEnd = this.zeroSlopeAtEnd ?
-							ZeroSlopeEnding : ZeroCurvatureEnding;
+						ZeroSlopeEnding : ZeroCurvatureEnding;
 
 				} else {
 
@@ -38090,7 +37893,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 *
@@ -38114,9 +37917,467 @@
 
 	}
 
-	AnimationMixer.prototype = {
+	Object.assign( AnimationMixer.prototype, EventDispatcher.prototype, {
 
-		constructor: AnimationMixer,
+		_bindAction: function ( action, prototypeAction ) {
+
+			var root = action._localRoot || this._root,
+				tracks = action._clip.tracks,
+				nTracks = tracks.length,
+				bindings = action._propertyBindings,
+				interpolants = action._interpolants,
+				rootUuid = root.uuid,
+				bindingsByRoot = this._bindingsByRootAndName,
+				bindingsByName = bindingsByRoot[ rootUuid ];
+
+			if ( bindingsByName === undefined ) {
+
+				bindingsByName = {};
+				bindingsByRoot[ rootUuid ] = bindingsByName;
+
+			}
+
+			for ( var i = 0; i !== nTracks; ++ i ) {
+
+				var track = tracks[ i ],
+					trackName = track.name,
+					binding = bindingsByName[ trackName ];
+
+				if ( binding !== undefined ) {
+
+					bindings[ i ] = binding;
+
+				} else {
+
+					binding = bindings[ i ];
+
+					if ( binding !== undefined ) {
+
+						// existing binding, make sure the cache knows
+
+						if ( binding._cacheIndex === null ) {
+
+							++ binding.referenceCount;
+							this._addInactiveBinding( binding, rootUuid, trackName );
+
+						}
+
+						continue;
+
+					}
+
+					var path = prototypeAction && prototypeAction.
+							_propertyBindings[ i ].binding.parsedPath;
+
+					binding = new PropertyMixer(
+						PropertyBinding.create( root, trackName, path ),
+						track.ValueTypeName, track.getValueSize() );
+
+					++ binding.referenceCount;
+					this._addInactiveBinding( binding, rootUuid, trackName );
+
+					bindings[ i ] = binding;
+
+				}
+
+				interpolants[ i ].resultBuffer = binding.buffer;
+
+			}
+
+		},
+
+		_activateAction: function ( action ) {
+
+			if ( ! this._isActiveAction( action ) ) {
+
+				if ( action._cacheIndex === null ) {
+
+					// this action has been forgotten by the cache, but the user
+					// appears to be still using it -> rebind
+
+					var rootUuid = ( action._localRoot || this._root ).uuid,
+						clipUuid = action._clip.uuid,
+						actionsForClip = this._actionsByClip[ clipUuid ];
+
+					this._bindAction( action,
+						actionsForClip && actionsForClip.knownActions[ 0 ] );
+
+					this._addInactiveAction( action, clipUuid, rootUuid );
+
+				}
+
+				var bindings = action._propertyBindings;
+
+				// increment reference counts / sort out state
+				for ( var i = 0, n = bindings.length; i !== n; ++ i ) {
+
+					var binding = bindings[ i ];
+
+					if ( binding.useCount ++ === 0 ) {
+
+						this._lendBinding( binding );
+						binding.saveOriginalState();
+
+					}
+
+				}
+
+				this._lendAction( action );
+
+			}
+
+		},
+
+		_deactivateAction: function ( action ) {
+
+			if ( this._isActiveAction( action ) ) {
+
+				var bindings = action._propertyBindings;
+
+				// decrement reference counts / sort out state
+				for ( var i = 0, n = bindings.length; i !== n; ++ i ) {
+
+					var binding = bindings[ i ];
+
+					if ( -- binding.useCount === 0 ) {
+
+						binding.restoreOriginalState();
+						this._takeBackBinding( binding );
+
+					}
+
+				}
+
+				this._takeBackAction( action );
+
+			}
+
+		},
+
+		// Memory manager
+
+		_initMemoryManager: function () {
+
+			this._actions = []; // 'nActiveActions' followed by inactive ones
+			this._nActiveActions = 0;
+
+			this._actionsByClip = {};
+			// inside:
+			// {
+			// 		knownActions: Array< AnimationAction >	- used as prototypes
+			// 		actionByRoot: AnimationAction			- lookup
+			// }
+
+
+			this._bindings = []; // 'nActiveBindings' followed by inactive ones
+			this._nActiveBindings = 0;
+
+			this._bindingsByRootAndName = {}; // inside: Map< name, PropertyMixer >
+
+
+			this._controlInterpolants = []; // same game as above
+			this._nActiveControlInterpolants = 0;
+
+			var scope = this;
+
+			this.stats = {
+
+				actions: {
+					get total() { return scope._actions.length; },
+					get inUse() { return scope._nActiveActions; }
+				},
+				bindings: {
+					get total() { return scope._bindings.length; },
+					get inUse() { return scope._nActiveBindings; }
+				},
+				controlInterpolants: {
+					get total() { return scope._controlInterpolants.length; },
+					get inUse() { return scope._nActiveControlInterpolants; }
+				}
+
+			};
+
+		},
+
+		// Memory management for AnimationAction objects
+
+		_isActiveAction: function ( action ) {
+
+			var index = action._cacheIndex;
+			return index !== null && index < this._nActiveActions;
+
+		},
+
+		_addInactiveAction: function ( action, clipUuid, rootUuid ) {
+
+			var actions = this._actions,
+				actionsByClip = this._actionsByClip,
+				actionsForClip = actionsByClip[ clipUuid ];
+
+			if ( actionsForClip === undefined ) {
+
+				actionsForClip = {
+
+					knownActions: [ action ],
+					actionByRoot: {}
+
+				};
+
+				action._byClipCacheIndex = 0;
+
+				actionsByClip[ clipUuid ] = actionsForClip;
+
+			} else {
+
+				var knownActions = actionsForClip.knownActions;
+
+				action._byClipCacheIndex = knownActions.length;
+				knownActions.push( action );
+
+			}
+
+			action._cacheIndex = actions.length;
+			actions.push( action );
+
+			actionsForClip.actionByRoot[ rootUuid ] = action;
+
+		},
+
+		_removeInactiveAction: function ( action ) {
+
+			var actions = this._actions,
+				lastInactiveAction = actions[ actions.length - 1 ],
+				cacheIndex = action._cacheIndex;
+
+			lastInactiveAction._cacheIndex = cacheIndex;
+			actions[ cacheIndex ] = lastInactiveAction;
+			actions.pop();
+
+			action._cacheIndex = null;
+
+
+			var clipUuid = action._clip.uuid,
+				actionsByClip = this._actionsByClip,
+				actionsForClip = actionsByClip[ clipUuid ],
+				knownActionsForClip = actionsForClip.knownActions,
+
+				lastKnownAction =
+					knownActionsForClip[ knownActionsForClip.length - 1 ],
+
+				byClipCacheIndex = action._byClipCacheIndex;
+
+			lastKnownAction._byClipCacheIndex = byClipCacheIndex;
+			knownActionsForClip[ byClipCacheIndex ] = lastKnownAction;
+			knownActionsForClip.pop();
+
+			action._byClipCacheIndex = null;
+
+
+			var actionByRoot = actionsForClip.actionByRoot,
+				rootUuid = ( action._localRoot || this._root ).uuid;
+
+			delete actionByRoot[ rootUuid ];
+
+			if ( knownActionsForClip.length === 0 ) {
+
+				delete actionsByClip[ clipUuid ];
+
+			}
+
+			this._removeInactiveBindingsForAction( action );
+
+		},
+
+		_removeInactiveBindingsForAction: function ( action ) {
+
+			var bindings = action._propertyBindings;
+			for ( var i = 0, n = bindings.length; i !== n; ++ i ) {
+
+				var binding = bindings[ i ];
+
+				if ( -- binding.referenceCount === 0 ) {
+
+					this._removeInactiveBinding( binding );
+
+				}
+
+			}
+
+		},
+
+		_lendAction: function ( action ) {
+
+			// [ active actions |  inactive actions  ]
+			// [  active actions >| inactive actions ]
+			//                 s        a
+			//                  <-swap->
+			//                 a        s
+
+			var actions = this._actions,
+				prevIndex = action._cacheIndex,
+
+				lastActiveIndex = this._nActiveActions ++,
+
+				firstInactiveAction = actions[ lastActiveIndex ];
+
+			action._cacheIndex = lastActiveIndex;
+			actions[ lastActiveIndex ] = action;
+
+			firstInactiveAction._cacheIndex = prevIndex;
+			actions[ prevIndex ] = firstInactiveAction;
+
+		},
+
+		_takeBackAction: function ( action ) {
+
+			// [  active actions  | inactive actions ]
+			// [ active actions |< inactive actions  ]
+			//        a        s
+			//         <-swap->
+			//        s        a
+
+			var actions = this._actions,
+				prevIndex = action._cacheIndex,
+
+				firstInactiveIndex = -- this._nActiveActions,
+
+				lastActiveAction = actions[ firstInactiveIndex ];
+
+			action._cacheIndex = firstInactiveIndex;
+			actions[ firstInactiveIndex ] = action;
+
+			lastActiveAction._cacheIndex = prevIndex;
+			actions[ prevIndex ] = lastActiveAction;
+
+		},
+
+		// Memory management for PropertyMixer objects
+
+		_addInactiveBinding: function ( binding, rootUuid, trackName ) {
+
+			var bindingsByRoot = this._bindingsByRootAndName,
+				bindingByName = bindingsByRoot[ rootUuid ],
+
+				bindings = this._bindings;
+
+			if ( bindingByName === undefined ) {
+
+				bindingByName = {};
+				bindingsByRoot[ rootUuid ] = bindingByName;
+
+			}
+
+			bindingByName[ trackName ] = binding;
+
+			binding._cacheIndex = bindings.length;
+			bindings.push( binding );
+
+		},
+
+		_removeInactiveBinding: function ( binding ) {
+
+			var bindings = this._bindings,
+				propBinding = binding.binding,
+				rootUuid = propBinding.rootNode.uuid,
+				trackName = propBinding.path,
+				bindingsByRoot = this._bindingsByRootAndName,
+				bindingByName = bindingsByRoot[ rootUuid ],
+
+				lastInactiveBinding = bindings[ bindings.length - 1 ],
+				cacheIndex = binding._cacheIndex;
+
+			lastInactiveBinding._cacheIndex = cacheIndex;
+			bindings[ cacheIndex ] = lastInactiveBinding;
+			bindings.pop();
+
+			delete bindingByName[ trackName ];
+
+			remove_empty_map: {
+
+				for ( var _ in bindingByName ) break remove_empty_map;
+
+				delete bindingsByRoot[ rootUuid ];
+
+			}
+
+		},
+
+		_lendBinding: function ( binding ) {
+
+			var bindings = this._bindings,
+				prevIndex = binding._cacheIndex,
+
+				lastActiveIndex = this._nActiveBindings ++,
+
+				firstInactiveBinding = bindings[ lastActiveIndex ];
+
+			binding._cacheIndex = lastActiveIndex;
+			bindings[ lastActiveIndex ] = binding;
+
+			firstInactiveBinding._cacheIndex = prevIndex;
+			bindings[ prevIndex ] = firstInactiveBinding;
+
+		},
+
+		_takeBackBinding: function ( binding ) {
+
+			var bindings = this._bindings,
+				prevIndex = binding._cacheIndex,
+
+				firstInactiveIndex = -- this._nActiveBindings,
+
+				lastActiveBinding = bindings[ firstInactiveIndex ];
+
+			binding._cacheIndex = firstInactiveIndex;
+			bindings[ firstInactiveIndex ] = binding;
+
+			lastActiveBinding._cacheIndex = prevIndex;
+			bindings[ prevIndex ] = lastActiveBinding;
+
+		},
+
+
+		// Memory management of Interpolants for weight and time scale
+
+		_lendControlInterpolant: function () {
+
+			var interpolants = this._controlInterpolants,
+				lastActiveIndex = this._nActiveControlInterpolants ++,
+				interpolant = interpolants[ lastActiveIndex ];
+
+			if ( interpolant === undefined ) {
+
+				interpolant = new LinearInterpolant(
+					new Float32Array( 2 ), new Float32Array( 2 ),
+					1, this._controlInterpolantsResultBuffer );
+
+				interpolant.__cacheIndex = lastActiveIndex;
+				interpolants[ lastActiveIndex ] = interpolant;
+
+			}
+
+			return interpolant;
+
+		},
+
+		_takeBackControlInterpolant: function ( interpolant ) {
+
+			var interpolants = this._controlInterpolants,
+				prevIndex = interpolant.__cacheIndex,
+
+				firstInactiveIndex = -- this._nActiveControlInterpolants,
+
+				lastActiveInterpolant = interpolants[ firstInactiveIndex ];
+
+			interpolant.__cacheIndex = firstInactiveIndex;
+			interpolants[ firstInactiveIndex ] = interpolant;
+
+			lastActiveInterpolant.__cacheIndex = prevIndex;
+			interpolants[ prevIndex ] = lastActiveInterpolant;
+
+		},
+
+		_controlInterpolantsResultBuffer: new Float32Array( 1 ),
 
 		// return an action for a clip optionally using a custom root target
 		// object (this method allocates a lot of dynamic memory in case a
@@ -38127,7 +38388,7 @@
 				rootUuid = root.uuid,
 
 				clipObject = typeof clip === 'string' ?
-						AnimationClip.findByName( root, clip ) : clip,
+					AnimationClip.findByName( root, clip ) : clip,
 
 				clipUuid = clipObject !== null ? clipObject.uuid : clip,
 
@@ -38137,7 +38398,7 @@
 			if ( actionsForClip !== undefined ) {
 
 				var existingAction =
-						actionsForClip.actionByRoot[ rootUuid ];
+					actionsForClip.actionByRoot[ rootUuid ];
 
 				if ( existingAction !== undefined ) {
 
@@ -38177,7 +38438,7 @@
 				rootUuid = root.uuid,
 
 				clipObject = typeof clip === 'string' ?
-						AnimationClip.findByName( root, clip ) : clip,
+					AnimationClip.findByName( root, clip ) : clip,
 
 				clipUuid = clipObject ? clipObject.uuid : clip,
 
@@ -38362,475 +38623,7 @@
 
 		}
 
-	};
-
-	// Implementation details:
-
-	Object.assign( AnimationMixer.prototype, {
-
-		_bindAction: function ( action, prototypeAction ) {
-
-			var root = action._localRoot || this._root,
-				tracks = action._clip.tracks,
-				nTracks = tracks.length,
-				bindings = action._propertyBindings,
-				interpolants = action._interpolants,
-				rootUuid = root.uuid,
-				bindingsByRoot = this._bindingsByRootAndName,
-				bindingsByName = bindingsByRoot[ rootUuid ];
-
-			if ( bindingsByName === undefined ) {
-
-				bindingsByName = {};
-				bindingsByRoot[ rootUuid ] = bindingsByName;
-
-			}
-
-			for ( var i = 0; i !== nTracks; ++ i ) {
-
-				var track = tracks[ i ],
-					trackName = track.name,
-					binding = bindingsByName[ trackName ];
-
-				if ( binding !== undefined ) {
-
-					bindings[ i ] = binding;
-
-				} else {
-
-					binding = bindings[ i ];
-
-					if ( binding !== undefined ) {
-
-						// existing binding, make sure the cache knows
-
-						if ( binding._cacheIndex === null ) {
-
-							++ binding.referenceCount;
-							this._addInactiveBinding( binding, rootUuid, trackName );
-
-						}
-
-						continue;
-
-					}
-
-					var path = prototypeAction && prototypeAction.
-							_propertyBindings[ i ].binding.parsedPath;
-
-					binding = new PropertyMixer(
-							PropertyBinding.create( root, trackName, path ),
-							track.ValueTypeName, track.getValueSize() );
-
-					++ binding.referenceCount;
-					this._addInactiveBinding( binding, rootUuid, trackName );
-
-					bindings[ i ] = binding;
-
-				}
-
-				interpolants[ i ].resultBuffer = binding.buffer;
-
-			}
-
-		},
-
-		_activateAction: function ( action ) {
-
-			if ( ! this._isActiveAction( action ) ) {
-
-				if ( action._cacheIndex === null ) {
-
-					// this action has been forgotten by the cache, but the user
-					// appears to be still using it -> rebind
-
-					var rootUuid = ( action._localRoot || this._root ).uuid,
-						clipUuid = action._clip.uuid,
-						actionsForClip = this._actionsByClip[ clipUuid ];
-
-					this._bindAction( action,
-							actionsForClip && actionsForClip.knownActions[ 0 ] );
-
-					this._addInactiveAction( action, clipUuid, rootUuid );
-
-				}
-
-				var bindings = action._propertyBindings;
-
-				// increment reference counts / sort out state
-				for ( var i = 0, n = bindings.length; i !== n; ++ i ) {
-
-					var binding = bindings[ i ];
-
-					if ( binding.useCount ++ === 0 ) {
-
-						this._lendBinding( binding );
-						binding.saveOriginalState();
-
-					}
-
-				}
-
-				this._lendAction( action );
-
-			}
-
-		},
-
-		_deactivateAction: function ( action ) {
-
-			if ( this._isActiveAction( action ) ) {
-
-				var bindings = action._propertyBindings;
-
-				// decrement reference counts / sort out state
-				for ( var i = 0, n = bindings.length; i !== n; ++ i ) {
-
-					var binding = bindings[ i ];
-
-					if ( -- binding.useCount === 0 ) {
-
-						binding.restoreOriginalState();
-						this._takeBackBinding( binding );
-
-					}
-
-				}
-
-				this._takeBackAction( action );
-
-			}
-
-		},
-
-		// Memory manager
-
-		_initMemoryManager: function () {
-
-			this._actions = []; // 'nActiveActions' followed by inactive ones
-			this._nActiveActions = 0;
-
-			this._actionsByClip = {};
-			// inside:
-			// {
-			// 		knownActions: Array< AnimationAction >	- used as prototypes
-			// 		actionByRoot: AnimationAction			- lookup
-			// }
-
-
-			this._bindings = []; // 'nActiveBindings' followed by inactive ones
-			this._nActiveBindings = 0;
-
-			this._bindingsByRootAndName = {}; // inside: Map< name, PropertyMixer >
-
-
-			this._controlInterpolants = []; // same game as above
-			this._nActiveControlInterpolants = 0;
-
-			var scope = this;
-
-			this.stats = {
-
-				actions: {
-					get total() { return scope._actions.length; },
-					get inUse() { return scope._nActiveActions; }
-				},
-				bindings: {
-					get total() { return scope._bindings.length; },
-					get inUse() { return scope._nActiveBindings; }
-				},
-				controlInterpolants: {
-					get total() { return scope._controlInterpolants.length; },
-					get inUse() { return scope._nActiveControlInterpolants; }
-				}
-
-			};
-
-		},
-
-		// Memory management for AnimationAction objects
-
-		_isActiveAction: function ( action ) {
-
-			var index = action._cacheIndex;
-			return index !== null && index < this._nActiveActions;
-
-		},
-
-		_addInactiveAction: function ( action, clipUuid, rootUuid ) {
-
-			var actions = this._actions,
-				actionsByClip = this._actionsByClip,
-				actionsForClip = actionsByClip[ clipUuid ];
-
-			if ( actionsForClip === undefined ) {
-
-				actionsForClip = {
-
-					knownActions: [ action ],
-					actionByRoot: {}
-
-				};
-
-				action._byClipCacheIndex = 0;
-
-				actionsByClip[ clipUuid ] = actionsForClip;
-
-			} else {
-
-				var knownActions = actionsForClip.knownActions;
-
-				action._byClipCacheIndex = knownActions.length;
-				knownActions.push( action );
-
-			}
-
-			action._cacheIndex = actions.length;
-			actions.push( action );
-
-			actionsForClip.actionByRoot[ rootUuid ] = action;
-
-		},
-
-		_removeInactiveAction: function ( action ) {
-
-			var actions = this._actions,
-				lastInactiveAction = actions[ actions.length - 1 ],
-				cacheIndex = action._cacheIndex;
-
-			lastInactiveAction._cacheIndex = cacheIndex;
-			actions[ cacheIndex ] = lastInactiveAction;
-			actions.pop();
-
-			action._cacheIndex = null;
-
-
-			var clipUuid = action._clip.uuid,
-				actionsByClip = this._actionsByClip,
-				actionsForClip = actionsByClip[ clipUuid ],
-				knownActionsForClip = actionsForClip.knownActions,
-
-				lastKnownAction =
-					knownActionsForClip[ knownActionsForClip.length - 1 ],
-
-				byClipCacheIndex = action._byClipCacheIndex;
-
-			lastKnownAction._byClipCacheIndex = byClipCacheIndex;
-			knownActionsForClip[ byClipCacheIndex ] = lastKnownAction;
-			knownActionsForClip.pop();
-
-			action._byClipCacheIndex = null;
-
-
-			var actionByRoot = actionsForClip.actionByRoot,
-				rootUuid = ( actions._localRoot || this._root ).uuid;
-
-			delete actionByRoot[ rootUuid ];
-
-			if ( knownActionsForClip.length === 0 ) {
-
-				delete actionsByClip[ clipUuid ];
-
-			}
-
-			this._removeInactiveBindingsForAction( action );
-
-		},
-
-		_removeInactiveBindingsForAction: function ( action ) {
-
-			var bindings = action._propertyBindings;
-			for ( var i = 0, n = bindings.length; i !== n; ++ i ) {
-
-				var binding = bindings[ i ];
-
-				if ( -- binding.referenceCount === 0 ) {
-
-					this._removeInactiveBinding( binding );
-
-				}
-
-			}
-
-		},
-
-		_lendAction: function ( action ) {
-
-			// [ active actions |  inactive actions  ]
-			// [  active actions >| inactive actions ]
-			//                 s        a
-			//                  <-swap->
-			//                 a        s
-
-			var actions = this._actions,
-				prevIndex = action._cacheIndex,
-
-				lastActiveIndex = this._nActiveActions ++,
-
-				firstInactiveAction = actions[ lastActiveIndex ];
-
-			action._cacheIndex = lastActiveIndex;
-			actions[ lastActiveIndex ] = action;
-
-			firstInactiveAction._cacheIndex = prevIndex;
-			actions[ prevIndex ] = firstInactiveAction;
-
-		},
-
-		_takeBackAction: function ( action ) {
-
-			// [  active actions  | inactive actions ]
-			// [ active actions |< inactive actions  ]
-			//        a        s
-			//         <-swap->
-			//        s        a
-
-			var actions = this._actions,
-				prevIndex = action._cacheIndex,
-
-				firstInactiveIndex = -- this._nActiveActions,
-
-				lastActiveAction = actions[ firstInactiveIndex ];
-
-			action._cacheIndex = firstInactiveIndex;
-			actions[ firstInactiveIndex ] = action;
-
-			lastActiveAction._cacheIndex = prevIndex;
-			actions[ prevIndex ] = lastActiveAction;
-
-		},
-
-		// Memory management for PropertyMixer objects
-
-		_addInactiveBinding: function ( binding, rootUuid, trackName ) {
-
-			var bindingsByRoot = this._bindingsByRootAndName,
-				bindingByName = bindingsByRoot[ rootUuid ],
-
-				bindings = this._bindings;
-
-			if ( bindingByName === undefined ) {
-
-				bindingByName = {};
-				bindingsByRoot[ rootUuid ] = bindingByName;
-
-			}
-
-			bindingByName[ trackName ] = binding;
-
-			binding._cacheIndex = bindings.length;
-			bindings.push( binding );
-
-		},
-
-		_removeInactiveBinding: function ( binding ) {
-
-			var bindings = this._bindings,
-				propBinding = binding.binding,
-				rootUuid = propBinding.rootNode.uuid,
-				trackName = propBinding.path,
-				bindingsByRoot = this._bindingsByRootAndName,
-				bindingByName = bindingsByRoot[ rootUuid ],
-
-				lastInactiveBinding = bindings[ bindings.length - 1 ],
-				cacheIndex = binding._cacheIndex;
-
-			lastInactiveBinding._cacheIndex = cacheIndex;
-			bindings[ cacheIndex ] = lastInactiveBinding;
-			bindings.pop();
-
-			delete bindingByName[ trackName ];
-
-			remove_empty_map: {
-
-				for ( var _ in bindingByName ) break remove_empty_map;
-
-				delete bindingsByRoot[ rootUuid ];
-
-			}
-
-		},
-
-		_lendBinding: function ( binding ) {
-
-			var bindings = this._bindings,
-				prevIndex = binding._cacheIndex,
-
-				lastActiveIndex = this._nActiveBindings ++,
-
-				firstInactiveBinding = bindings[ lastActiveIndex ];
-
-			binding._cacheIndex = lastActiveIndex;
-			bindings[ lastActiveIndex ] = binding;
-
-			firstInactiveBinding._cacheIndex = prevIndex;
-			bindings[ prevIndex ] = firstInactiveBinding;
-
-		},
-
-		_takeBackBinding: function ( binding ) {
-
-			var bindings = this._bindings,
-				prevIndex = binding._cacheIndex,
-
-				firstInactiveIndex = -- this._nActiveBindings,
-
-				lastActiveBinding = bindings[ firstInactiveIndex ];
-
-			binding._cacheIndex = firstInactiveIndex;
-			bindings[ firstInactiveIndex ] = binding;
-
-			lastActiveBinding._cacheIndex = prevIndex;
-			bindings[ prevIndex ] = lastActiveBinding;
-
-		},
-
-
-		// Memory management of Interpolants for weight and time scale
-
-		_lendControlInterpolant: function () {
-
-			var interpolants = this._controlInterpolants,
-				lastActiveIndex = this._nActiveControlInterpolants ++,
-				interpolant = interpolants[ lastActiveIndex ];
-
-			if ( interpolant === undefined ) {
-
-				interpolant = new LinearInterpolant(
-						new Float32Array( 2 ), new Float32Array( 2 ),
-							1, this._controlInterpolantsResultBuffer );
-
-				interpolant.__cacheIndex = lastActiveIndex;
-				interpolants[ lastActiveIndex ] = interpolant;
-
-			}
-
-			return interpolant;
-
-		},
-
-		_takeBackControlInterpolant: function ( interpolant ) {
-
-			var interpolants = this._controlInterpolants,
-				prevIndex = interpolant.__cacheIndex,
-
-				firstInactiveIndex = -- this._nActiveControlInterpolants,
-
-				lastActiveInterpolant = interpolants[ firstInactiveIndex ];
-
-			interpolant.__cacheIndex = firstInactiveIndex;
-			interpolants[ firstInactiveIndex ] = interpolant;
-
-			lastActiveInterpolant.__cacheIndex = prevIndex;
-			interpolants[ prevIndex ] = lastActiveInterpolant;
-
-		},
-
-		_controlInterpolantsResultBuffer: new Float32Array( 1 )
-
 	} );
-
-	Object.assign( AnimationMixer.prototype, EventDispatcher.prototype );
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/
@@ -38933,24 +38726,33 @@
 
 	}
 
+	Object.defineProperties( InterleavedBufferAttribute.prototype, {
 
-	InterleavedBufferAttribute.prototype = {
+		"count" : {
 
-		constructor: InterleavedBufferAttribute,
+			get: function () {
+
+				return this.data.count;
+
+			}
+
+		},
+
+		"array" : {
+
+			get: function () {
+
+				return this.data.array;
+
+			}
+
+		}
+
+	} );
+
+	Object.assign( InterleavedBufferAttribute.prototype, {
 
 		isInterleavedBufferAttribute: true,
-
-		get count() {
-
-			return this.data.count;
-
-		},
-
-		get array() {
-
-			return this.data.array;
-
-		},
 
 		setX: function ( index, x ) {
 
@@ -39044,7 +38846,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author benaadams / https://twitter.com/ben_a_adams
@@ -39067,17 +38869,19 @@
 
 	}
 
-	InterleavedBuffer.prototype = {
+	Object.defineProperty( InterleavedBuffer.prototype, 'needsUpdate', {
 
-		constructor: InterleavedBuffer,
-
-		isInterleavedBuffer: true,
-
-		set needsUpdate( value ) {
+		set: function ( value ) {
 
 			if ( value === true ) this.version ++;
 
-		},
+		}
+
+	} );
+
+	Object.assign( InterleavedBuffer.prototype, {
+
+		isInterleavedBuffer: true,
 
 		setArray: function ( array ) {
 
@@ -39150,7 +38954,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author benaadams / https://twitter.com/ben_a_adams
@@ -39265,11 +39069,7 @@
 
 	}
 
-	//
-
-	Raycaster.prototype = {
-
-		constructor: Raycaster,
+	Object.assign( Raycaster.prototype, {
 
 		linePrecision: 1,
 
@@ -39336,7 +39136,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author alteredq / http://alteredqualia.com/
@@ -39354,9 +39154,7 @@
 
 	}
 
-	Clock.prototype = {
-
-		constructor: Clock,
+	Object.assign( Clock.prototype, {
 
 		start: function () {
 
@@ -39407,7 +39205,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author bhouston / http://clara.io
@@ -39429,9 +39227,7 @@
 
 	}
 
-	Spherical.prototype = {
-
-		constructor: Spherical,
+	Object.assign( Spherical.prototype, {
 
 		set: function ( radius, phi, theta ) {
 
@@ -39489,7 +39285,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author Mugen87 / https://github.com/Mugen87
@@ -39508,9 +39304,7 @@
 
 	}
 
-	Cylindrical.prototype = {
-
-		constructor: Cylindrical,
+	Object.assign( Cylindrical.prototype, {
 
 		set: function ( radius, theta, y ) {
 
@@ -39548,7 +39342,7 @@
 
 		}
 
-	};
+	} );
 
 	/**
 	 * @author alteredq / http://alteredqualia.com/
@@ -39887,7 +39681,7 @@
 	/**
 	 * @author mrdoob / http://mrdoob.com/
 	 * @author WestLangley / http://github.com/WestLangley
-	*/
+	 */
 
 	function VertexNormalsHelper( object, size, hex, linewidth ) {
 
@@ -40034,7 +39828,7 @@
 	 * @author alteredq / http://alteredqualia.com/
 	 * @author mrdoob / http://mrdoob.com/
 	 * @author WestLangley / http://github.com/WestLangley
-	*/
+	 */
 
 	function SpotLightHelper( light ) {
 
@@ -40247,26 +40041,26 @@
 		this.matrixAutoUpdate = false;
 
 		/*
-		var distanceGeometry = new THREE.IcosahedronGeometry( 1, 2 );
-		var distanceMaterial = new THREE.MeshBasicMaterial( { color: hexColor, fog: false, wireframe: true, opacity: 0.1, transparent: true } );
+		 var distanceGeometry = new THREE.IcosahedronGeometry( 1, 2 );
+		 var distanceMaterial = new THREE.MeshBasicMaterial( { color: hexColor, fog: false, wireframe: true, opacity: 0.1, transparent: true } );
 
-		this.lightSphere = new THREE.Mesh( bulbGeometry, bulbMaterial );
-		this.lightDistance = new THREE.Mesh( distanceGeometry, distanceMaterial );
+		 this.lightSphere = new THREE.Mesh( bulbGeometry, bulbMaterial );
+		 this.lightDistance = new THREE.Mesh( distanceGeometry, distanceMaterial );
 
-		var d = light.distance;
+		 var d = light.distance;
 
-		if ( d === 0.0 ) {
+		 if ( d === 0.0 ) {
 
-			this.lightDistance.visible = false;
+		 this.lightDistance.visible = false;
 
-		} else {
+		 } else {
 
-			this.lightDistance.scale.set( d, d, d );
+		 this.lightDistance.scale.set( d, d, d );
 
-		}
+		 }
 
-		this.add( this.lightDistance );
-		*/
+		 this.add( this.lightDistance );
+		 */
 
 	}
 
@@ -40285,19 +40079,19 @@
 		this.material.color.copy( this.light.color ).multiplyScalar( this.light.intensity );
 
 		/*
-		var d = this.light.distance;
+		 var d = this.light.distance;
 
-		if ( d === 0.0 ) {
+		 if ( d === 0.0 ) {
 
-			this.lightDistance.visible = false;
+		 this.lightDistance.visible = false;
 
-		} else {
+		 } else {
 
-			this.lightDistance.visible = true;
-			this.lightDistance.scale.set( d, d, d );
+		 this.lightDistance.visible = true;
+		 this.lightDistance.scale.set( d, d, d );
 
-		}
-		*/
+		 }
+		 */
 
 	};
 
@@ -40614,7 +40408,7 @@
 	/**
 	 * @author mrdoob / http://mrdoob.com/
 	 * @author WestLangley / http://github.com/WestLangley
-	*/
+	 */
 
 	function FaceNormalsHelper( object, size, hex, linewidth ) {
 
@@ -40743,8 +40537,8 @@
 		var geometry = new BufferGeometry();
 		geometry.addAttribute( 'position', new Float32BufferAttribute( [
 			- size,   size, 0,
-			  size,   size, 0,
-			  size, - size, 0,
+			size,   size, 0,
+			size, - size, 0,
 			- size, - size, 0,
 			- size,   size, 0
 		], 3 ) );
@@ -41051,20 +40845,20 @@
 			var max = box.max;
 
 			/*
-			  5____4
-			1/___0/|
-			| 6__|_7
-			2/___3/
+			 5____4
+			 1/___0/|
+			 | 6__|_7
+			 2/___3/
 
-			0: max.x, max.y, max.z
-			1: min.x, max.y, max.z
-			2: min.x, min.y, max.z
-			3: max.x, min.y, max.z
-			4: max.x, max.y, min.z
-			5: min.x, max.y, min.z
-			6: min.x, min.y, min.z
-			7: max.x, min.y, min.z
-			*/
+			 0: max.x, max.y, max.z
+			 1: min.x, max.y, max.z
+			 2: min.x, min.y, max.z
+			 3: max.x, min.y, max.z
+			 4: max.x, max.y, min.z
+			 5: min.x, max.y, min.z
+			 6: min.x, min.y, min.z
+			 7: max.x, min.y, min.z
+			 */
 
 			var position = this.geometry.attributes.position;
 			var array = position.array;
@@ -41243,14 +41037,14 @@
 
 
 	/*
-	Based on an optimized c++ solution in
+	 Based on an optimized c++ solution in
 	 - http://stackoverflow.com/questions/9489736/catmull-rom-curve-with-no-cusps-and-no-self-intersections/
 	 - http://ideone.com/NoEbVM
 
-	This CubicPoly class could be used for reusing some variables and calculations,
-	but for three.js curve use, it could be possible inlined and flatten into a single function call
-	which can be placed in CurveUtils.
-	*/
+	 This CubicPoly class could be used for reusing some variables and calculations,
+	 but for three.js curve use, it could be possible inlined and flatten into a single function call
+	 which can be placed in CurveUtils.
+	 */
 
 	function CubicPoly() {
 
@@ -41547,8 +41341,24 @@
 
 	function MeshFaceMaterial( materials ) {
 
-		console.warn( 'THREE.MeshFaceMaterial has been renamed to THREE.MultiMaterial.' );
-		return new MultiMaterial( materials );
+		console.warn( 'THREE.MeshFaceMaterial has been removed. Use an Array instead.' );
+		return materials;
+
+	}
+
+	function MultiMaterial( materials ) {
+
+		if ( materials === undefined ) materials = [];
+
+		console.warn( 'THREE.MultiMaterial has been removed. Use an Array instead.' );
+		materials.isMultiMaterial = true;
+		materials.materials = materials;
+		materials.clone = function () {
+
+			return materials.slice();
+
+		};
+		return materials;
 
 	}
 
@@ -41936,6 +41746,11 @@
 			return this.makeRotationFromQuaternion( q );
 
 		},
+		multiplyToArray: function () {
+
+			console.warn( 'THREE.Matrix4: .multiplyToArray() has been removed.' );
+
+		},
 		multiplyVector3: function ( vector ) {
 
 			console.warn( 'THREE.Matrix4: .multiplyVector3() has been removed. Use vector.applyMatrix4( matrix ) instead.' );
@@ -42211,7 +42026,7 @@
 	PerspectiveCamera.prototype.setLens = function ( focalLength, filmGauge ) {
 
 		console.warn( "THREE.PerspectiveCamera.setLens is deprecated. " +
-				"Use .setFocalLength and .filmGauge for a photographic setup." );
+			"Use .setFocalLength and .filmGauge for a photographic setup." );
 
 		if ( filmGauge !== undefined ) this.filmGauge = filmGauge;
 		this.setFocalLength( focalLength );
@@ -42424,22 +42239,36 @@
 
 	Object.defineProperties( Material.prototype, {
 
-		wrapAround: {
+		skinning: {
 			get: function () {
 
-				console.warn( 'THREE.' + this.type + ': .wrapAround has been removed.' );
+				console.warn( 'THREE.Material: .skinning has been removed.' );
 
 			},
 			set: function () {
 
-				console.warn( 'THREE.' + this.type + ': .wrapAround has been removed.' );
+				console.warn( 'THREE.Material: .skinning has been removed.' );
+
+			}
+
+		},
+
+		wrapAround: {
+			get: function () {
+
+				console.warn( 'THREE.Material: .wrapAround has been removed.' );
+
+			},
+			set: function () {
+
+				console.warn( 'THREE.Material: .wrapAround has been removed.' );
 
 			}
 		},
 		wrapRGB: {
 			get: function () {
 
-				console.warn( 'THREE.' + this.type + ': .wrapRGB has been removed.' );
+				console.warn( 'THREE.Material: .wrapRGB has been removed.' );
 				return new Color();
 
 			}
@@ -42936,6 +42765,7 @@
 	exports.Bone = Bone;
 	exports.Mesh = Mesh;
 	exports.LineSegments = LineSegments;
+	exports.LineLoop = LineLoop;
 	exports.Line = Line;
 	exports.Points = Points;
 	exports.Group = Group;
@@ -43113,7 +42943,6 @@
 	exports.RawShaderMaterial = RawShaderMaterial;
 	exports.ShaderMaterial = ShaderMaterial;
 	exports.PointsMaterial = PointsMaterial;
-	exports.MultiMaterial = MultiMaterial;
 	exports.MeshPhysicalMaterial = MeshPhysicalMaterial;
 	exports.MeshStandardMaterial = MeshStandardMaterial;
 	exports.MeshPhongMaterial = MeshPhongMaterial;
@@ -43265,6 +43094,7 @@
 	exports.LineStrip = LineStrip;
 	exports.LinePieces = LinePieces;
 	exports.MeshFaceMaterial = MeshFaceMaterial;
+	exports.MultiMaterial = MultiMaterial;
 	exports.PointCloud = PointCloud;
 	exports.Particle = Particle;
 	exports.ParticleSystem = ParticleSystem;

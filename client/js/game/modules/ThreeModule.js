@@ -30,8 +30,12 @@ define([
             this.parentObject3d = ThreeAPI.createRootObject();
 
             if (this.applies.game_effect || this.applies.bundle_model || this.applies.module_model_child) {
-
                 this.model = ThreeAPI.loadModel(this.transform.size.getX(), this.transform.size.getY(), this.transform.size.getZ());
+                ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
+            }
+
+            if (this.applies.three_model) {
+                this.model = ThreeAPI.loadMeshModel(this.applies.three_model, this.parentObject3d);
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
             }
         };
@@ -44,7 +48,7 @@ define([
         ThreeModule.prototype.attachToParent = function(parentObject3d) {
             if (!this.applies) return;
             
-            if (this.applies.game_effect || this.applies.bundle_model || this.applies.module_model_child) {
+            if (this.applies.game_effect || this.applies.three_model || this.applies.module_model_child) {
                 ThreeAPI.addChildToObject3D(this.model, parentObject3d);
                 ThreeAPI.applySpatialToModel(this.transform, this.model);
             }
