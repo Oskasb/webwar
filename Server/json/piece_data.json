@@ -91,12 +91,12 @@
         }
       },
       "attachment_points":[
-        {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 14, 0], "size":[15, 16, 15]}},
-        {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 4, 0], "size":[2, 12, 2]}}
+        {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 44, 0], "size":[15, 16, 15]}},
+        {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  0,  0], "size":[5, 12, 5]}}
       ],
       "default_modules":[
-        "big_tree_module",
-        "big_tree_module"
+        "tree_trunk_1_module",
+        "tree_leaves_1_module"
       ]
     },
       "medium_tree_piece":{
@@ -112,12 +112,12 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 9, 0], "size":[10, 6, 10]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 3, 0], "size":[2, 6, 2]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0,  0], "size":[10, 6, 10]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 20, 0], "size":[2, 6, 2]}}
         ],
         "default_modules":[
-          "medium_tree_module",
-          "medium_tree_module"
+          "tree_trunk_1_module",
+          "tree_leaves_1_module"
         ]
       },
       "small_tree_piece":{
@@ -133,12 +133,12 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 5, 0], "size":[6, 8, 6]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 2, 0], "size":[2, 4, 2]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0], "size":[6, 8, 6]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,10, 0], "size":[2, 4, 2]}}
         ],
         "default_modules":[
-          "small_tree_module",
-          "small_tree_module"
+          "tree_trunk_1_module",
+          "tree_leaves_1_module"
         ]
       },
       "small_space_rock_piece":{

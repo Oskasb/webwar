@@ -1,60 +1,5 @@
 [
   {
-    "MATERIALS": {
-      "THREE":[
-        {
-          "id":"main_atlas",
-          "shader":"MeshPhysicalMaterial",
-          "settings":{
-            "blending":"NoBlending",
-            "color":{"r":0.5, "g":0.5, "b":0.5},
-            "clearCoat":0,
-            "clearCoatRoughness":0.2,
-            "reflectivity":0.7,
-            "metalness":3,
-            "envMapIntensity":0.5,
-            "aoMapIntensity":1
-          },
-          "textures":[{
-            "map":"./client/assets/images/textures/main_diff.png",
-            "metalnessMap":"./client/assets/images/textures/main_cm.png",
-            "envMap":"./client/assets/images/textures/ref_sphere.png",
-            "normalMap":"./client/assets/images/textures/main_nm.png",
-            "aoMap":"./client/assets/images/textures/tank_lm.png"
-          }]
-        },{
-          "id":"tank_track",
-          "shader":"MeshPhysicalMaterial",
-          "settings":{
-            "blending":"NoBlending",
-            "color":{"r":0.5, "g":0.5, "b":0.5},
-            "clearCoat":0,
-            "reflectivity":0.8,
-            "metalness":0.5
-          },
-          "textures":[{
-            "map":"./client/assets/images/textures/track.png",
-            "envMap":"./client/assets/images/textures/ref_sphere.png",
-            "metalnessMap":"./client/assets/images/textures/track_surface.png",
-            "normalMap":"./client/assets/images/textures/track_nm.png",
-            "aoMap":"./client/assets/images/textures/tank_lm.png"
-          }]
-        },{
-          "id":"ground_grass",
-          "shader":"MeshStandardMaterial",
-          "settings":{
-            "blending":"NoBlending",
-            "color":{"r":0.5, "g":0.5, "b":0.5}
-          },
-          "textures":[{
-            "map":"./client/assets/images/textures/grass.png",
-            "normalMap":"./client/assets/images/textures/grass_nm.png"
-          }]
-        }
-      ]
-    }
-  },
-  {
     "MODELS": {
       "THREE": [
         {
@@ -154,6 +99,50 @@
               -1.55,
               -0.29,
               -0.6
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "id": "tree_trunk_1",
+          "material": "nature_opaque",
+          "url": "./client/assets/models/tree_trunk_1",
+          "transform": {
+            "pos": [
+              0,
+              0,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "id": "tree_leaves_1",
+          "material": "natrue_alphakill",
+          "url": "./client/assets/models/tree_leaves_1",
+          "transform": {
+            "pos": [
+               0,
+               0,
+               0
             ],
             "rot": [
               0,

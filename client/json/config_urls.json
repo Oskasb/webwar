@@ -31,6 +31,7 @@
 
       "modules/canvas_systems.json",
       "modules/canvas3d_elements.json",
+      "threedata/three_materials.json",
       "threedata/three_models.json",
       "threedata/three_environment.json",
       "system_setup.json"

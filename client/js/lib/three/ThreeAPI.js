@@ -32,8 +32,9 @@ define([
         };
 
         ThreeAPI.initThreeScene = function(containerElement, clientTickCallback) {
-           var scene = ThreeSetup.initThreeRenderer(containerElement, clientTickCallback);
-            ThreeEnvironment.initEnvironment(scene)
+            var store = {}; 
+            store = ThreeSetup.initThreeRenderer(containerElement, clientTickCallback, store);
+            ThreeEnvironment.initEnvironment(store)
             
         };
 

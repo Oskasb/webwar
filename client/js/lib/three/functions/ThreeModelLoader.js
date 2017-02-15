@@ -97,26 +97,48 @@ define([
             model.rotation.z = trf.rot[2]*Math.PI;
         };
 
-        ThreeModelLoader.loadThreeMeshModel = function(modelId, rootObject, ThreeSetup) {
+        var setup
 
-            var setup = ThreeSetup;
-            
-            var attachModel = function(src, model) {
+
+
+
+
+
+        var attachAsynchModel = function(modelId, rootObject, connectObects) {
+
+            var attachModel = function(src, cached) {
+
+                var model = cached.clone();
 
                 var attachMaterial = function(src, data) {
-                //    console.log("Attach MAterial to Model", data, model);
+                    //    console.log("Attach MAterial to Model", data, model);
                     model.material = data;
                     setup.addToScene(model);
                     rootObject.add(model);
+                    transformModel(modelList[modelId].transform, model);
+                    connectObects()
                 };
 
                 new PipelineObject('THREE_MATERIAL', modelList[modelId].material, attachMaterial);
+            };
 
-                transformModel(modelList[modelId].transform, model);
+
+            new PipelineObject('THREE_MODEL', modelId, attachModel);
+        };
+
+
+        ThreeModelLoader.loadThreeMeshModel = function(modelId, rootObject, ThreeSetup) {
+
+            setup = ThreeSetup;
+
+
+            var connectObects = function() {
 
             };
 
-            new PipelineObject('THREE_MODEL', modelId, attachModel);
+
+            attachAsynchModel(modelId, rootObject, connectObects);
+
             return rootObject;
         };
 
@@ -141,10 +163,20 @@ define([
             return new THREE.Mesh( geometry, material );
         };
 
+        var count = 0;
+        var rootObjs = [];
+
+
+
+
         ThreeModelLoader.loadGroundMesh = function(modelId, rootObject, ThreeSetup) {
 
             var setup = ThreeSetup;
-            
+
+            count++
+
+            console.log(count);
+
             var attachModel = function(model) {
 
                 var attachMaterial = function(src, data) {
@@ -161,7 +193,7 @@ define([
                 new PipelineObject('THREE_MATERIAL', terrainList[modelId].material, attachMaterial);
                 transformModel(terrainList[modelId].transform, model);
             };
-            
+
             attachModel(new THREE.Mesh(new THREE.PlaneGeometry( terrainList[modelId].transform.scale[0],  terrainList[modelId].transform.scale[2], 10 ,10)));
             return rootObject;
         };

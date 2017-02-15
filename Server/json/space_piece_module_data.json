@@ -25,6 +25,34 @@
       }
     },
 
+    "tree_trunk_1_module":{
+      "id":"tree_trunk_1_module",
+      "type":"hull",
+      "size":8,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "remove_effect":"shell_detonate",
+        "three_model":"tree_trunk_1"
+      }
+    },
+
+    "tree_leaves_1_module":{
+      "id":"tree_leaves_1_module",
+      "type":"hull",
+      "size":8,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "remove_effect":"shell_detonate",
+        "three_model":"tree_leaves_1"
+      }
+    },
+
     "big_tree_module":{
       "id":"big_tree_module",
       "type":"hull",

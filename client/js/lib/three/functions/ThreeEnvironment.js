@@ -13,6 +13,9 @@ define(['PipelineObject'
     var currentEnvId;
     var envData = {};
 
+    var scene;
+    var renderer;
+
     var ThreeEnvironment = function() {
 
     };
@@ -29,7 +32,10 @@ define(['PipelineObject'
     };
 
     
-    ThreeEnvironment.initEnvironment = function(scene) {
+    ThreeEnvironment.initEnvironment = function(store) {
+
+        scene = store.scene;
+        renderer = store.renderer;
 
         var createEnvWorld = function(worldSetup) {
 
@@ -43,12 +49,14 @@ define(['PipelineObject'
 
                 if (key == "skybox") {
 
-                    var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
-                    var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff, side: THREE.BackSide } );
-                    var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+                 //   var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
+                 //   var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff, side: THREE.BackSide } );
+                 //   var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+//
+                 //   world[key] = skyBox;
+                 //   scene.add(world[key]);
 
-                    world[key] = skyBox;
-                    scene.add(world[key]);
+
                 } else if (key == "fog") {
                     scene.fog = new THREE.FogExp2( 0x9999ff, 0.00025 );
                     world[key] = scene.fog;
@@ -60,11 +68,14 @@ define(['PipelineObject'
         };
 
         var applyColor = function(Obj3d, color) {
-            Obj3d.color = new THREE.Color(color[0],color[1], color[2]);
+            if (Obj3d) {
+                Obj3d.color = new THREE.Color(color[0],color[1], color[2]);
+            }
+
         };
 
         var applyTransform = function(Obj3d, trx) {
-
+//
             if (trx.pos) {
                 Obj3d.position.x = trx.rot[0];
                 Obj3d.position.y = trx.rot[1];
@@ -100,6 +111,7 @@ define(['PipelineObject'
 
                 if (config[key].density) {
                     applyFog(world[key], config[key].density);
+                    renderer.setClearColor(new THREE.Color(config[key].color[0],config[key].color[1], config[key].color[2]))
                 }
             }
         };

@@ -19,7 +19,7 @@ define(['ui/GameScreen'], function(
 
 
 
-    ThreeSetup.initThreeRenderer = function(containerElement, clientTickCallback) {
+    ThreeSetup.initThreeRenderer = function(containerElement, clientTickCallback, store) {
         prerenderCallbacks.push(clientTickCallback);
         lastTime = 0;
         init();
@@ -52,7 +52,10 @@ define(['ui/GameScreen'], function(
             renderer.render(scene, camera);
         }
 
-        return scene;
+        store.scene = scene;
+        store.renderer = renderer;
+        
+        return store;
     };
 
     var vector = new THREE.Vector3();
