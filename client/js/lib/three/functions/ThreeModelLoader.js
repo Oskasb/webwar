@@ -95,6 +95,12 @@ define([
             model.rotation.x = trf.rot[0]*Math.PI;
             model.rotation.y = trf.rot[1]*Math.PI;
             model.rotation.z = trf.rot[2]*Math.PI;
+            model.scale.x =    trf.scale[0];
+            model.scale.y =    trf.scale[1];
+            model.scale.z =    trf.scale[2];
+            
+            
+            
         };
 
         var setup
@@ -162,20 +168,10 @@ define([
 
             return new THREE.Mesh( geometry, material );
         };
-
-        var count = 0;
-        var rootObjs = [];
-
-
-
-
+        
         ThreeModelLoader.loadGroundMesh = function(modelId, rootObject, ThreeSetup) {
 
             var setup = ThreeSetup;
-
-            count++
-
-            console.log(count);
 
             var attachModel = function(model) {
 
@@ -194,7 +190,7 @@ define([
                 transformModel(terrainList[modelId].transform, model);
             };
 
-            attachModel(new THREE.Mesh(new THREE.PlaneGeometry( terrainList[modelId].transform.scale[0],  terrainList[modelId].transform.scale[2], 10 ,10)));
+            attachModel(new THREE.Mesh(new THREE.PlaneGeometry( 200,  200, 10 ,10)));
             return rootObject;
         };
 

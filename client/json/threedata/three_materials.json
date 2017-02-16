@@ -41,20 +41,26 @@
           }]
         },{
           "id":"ground_grass",
-          "shader":"MeshStandardMaterial",
+          "shader":"MeshPhongMaterial",
           "settings":{
             "blending":"NoBlending",
-            "color":{"r":0.5, "g":0.5, "b":0.5}
+            "color":{"r":0.5, "g":0.5, "b":0.5},
+            "specular":{"r":1, "g":1, "b":1},
+            "reflectivity":5,
+            "shininess":2
           },
           "textures":[{
             "map":"./client/assets/images/textures/grass.png",
-            "normalMap":"./client/assets/images/textures/grass_nm.png"
+            "normalMap":"./client/assets/images/textures/grass_nm_strong.png"
           }]
         },{
           "id":"natrue_alphakill",
-          "shader":"MeshStandardMaterial",
+          "shader":"MeshPhongMaterial",
           "settings":{
             "blending":"NoBlending",
+            "alphaTest": 0.5,
+            "shininess":0.1,
+            "reflectivity":0.4,
             "color":{"r":0.5, "g":0.5, "b":0.5}
           },
           "textures":[{
@@ -63,9 +69,12 @@
           }]
         },{
           "id":"nature_opaque",
-          "shader":"MeshStandardMaterial",
+          "shader":"MeshPhongMaterial",
           "settings":{
             "blending":"NoBlending",
+            "alphaTest": 0.5,
+            "shininess":0.1,
+            "reflectivity":0.4,
             "color":{"r":0.5, "g":0.5, "b":0.5}
           },
           "textures":[{

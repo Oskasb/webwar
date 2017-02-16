@@ -128,9 +128,9 @@
               0
             ],
             "scale": [
-              1,
-              1,
-              1
+              0.6,
+              0.6,
+              0.6
             ]
           }
         },
@@ -150,9 +150,97 @@
               0
             ],
             "scale": [
-              1,
-              1,
-              1
+              0.6,
+              0.6,
+              0.6
+            ]
+          }
+        },
+        {
+          "id": "tree_trunk_2",
+          "material": "nature_opaque",
+          "url": "./client/assets/models/tree_trunk_2",
+          "transform": {
+            "pos": [
+              0,
+              0,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              0.4,
+              0.4,
+              0.4
+            ]
+          }
+        },
+        {
+          "id": "tree_leaves_2",
+          "material": "natrue_alphakill",
+          "url": "./client/assets/models/tree_leaves_2",
+          "transform": {
+            "pos": [
+              0,
+              0,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              0.4,
+              0.4,
+              0.4
+            ]
+          }
+        },
+        {
+          "id": "tree_trunk_3",
+          "material": "nature_opaque",
+          "url": "./client/assets/models/tree_trunk_3",
+          "transform": {
+            "pos": [
+              0,
+              0,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+             0.5,
+             0.5,
+             0.5
+            ]
+          }
+        },
+        {
+          "id": "tree_leaves_3",
+          "material": "natrue_alphakill",
+          "url": "./client/assets/models/tree_leaves_3",
+          "transform": {
+            "pos": [
+              0,
+              0,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              0.5,
+              0.5,
+              0.5
             ]
           }
         }
@@ -166,7 +254,7 @@
         {
           "id": "plain_ground",
           "material": "ground_grass",
-          "repeat":[10, 10],
+          "repeat":[5, 5],
           "transform": {
             "pos": [
               0,
@@ -179,9 +267,9 @@
               0
             ],
             "scale": [
-              200,
               1,
-              200
+              1,
+              1
             ]
           }
         }

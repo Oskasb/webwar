@@ -53,6 +53,61 @@
       }
     },
 
+    "tree_trunk_2_module":{
+      "id":"tree_trunk_2_module",
+      "type":"hull",
+      "size":8,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "remove_effect":"shell_detonate",
+        "three_model":"tree_trunk_2"
+      }
+    },
+
+    "tree_leaves_2_module":{
+      "id":"tree_leaves_2_module",
+      "type":"hull",
+      "size":8,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "remove_effect":"shell_detonate",
+        "three_model":"tree_leaves_2"
+      }
+    },
+    "tree_trunk_3_module":{
+      "id":"tree_trunk_3_module",
+      "type":"hull",
+      "size":8,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "remove_effect":"shell_detonate",
+        "three_model":"tree_trunk_3"
+      }
+    },
+
+    "tree_leaves_3_module":{
+      "id":"tree_leaves_3_module",
+      "type":"hull",
+      "size":8,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "remove_effect":"shell_detonate",
+        "three_model":"tree_leaves_3"
+      }
+    },
+
     "big_tree_module":{
       "id":"big_tree_module",
       "type":"hull",
