@@ -47,11 +47,12 @@
             "color":{"r":0, "g":0, "b":0},
             "specular":{"r":0, "g":0, "b":0},
             "reflectivity":0,
-            "shininess":16
+            "shininess":25
           },
           "textures":[{
             "map":"./client/assets/images/textures/grass.png",
-            "normalMap":"./client/assets/images/textures/grass_nm_strong.png"
+            "normalMap":"./client/assets/images/textures/grass_nm_strong.png",
+            "specularMap":"./client/assets/images/textures/mud.png"
           }]
         },{
           "id":"natrue_alphakill",
