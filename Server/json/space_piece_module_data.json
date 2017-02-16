@@ -107,7 +107,19 @@
         "three_model":"tree_leaves_3"
       }
     },
-
+    "rock_10m_module":{
+      "id":"rock_10m_module",
+      "type":"hull",
+      "size":8,
+      "source":"initiate",
+      "initState": true,
+      "applies": {
+        "type": "string",
+        "state": true,
+        "three_model": "rock_10m",
+        "remove_effect": "shell_detonate"
+      }
+    },
     "big_tree_module":{
       "id":"big_tree_module",
       "type":"hull",
@@ -133,7 +145,6 @@
       "applies":{
         "type":"string",
         "state":true,
-        "game_effect":"medium_tree_effect",
         "effect_data":{
           "intensity":1
         },
@@ -149,13 +160,13 @@
       "applies":{
         "type":"string",
         "state":true,
-        "game_effect":"small_tree_effect",
         "effect_data":{
           "intensity":1
         },
         "remove_effect":"shell_detonate"
       }
     },
+
     "big_space_rock_module":{
       "id":"big_space_rock_module",
       "type":"hull",

@@ -168,7 +168,23 @@ define([
 
             return new THREE.Mesh( geometry, material );
         };
+
         
+        var setMaterialRepeat = function(materialId, txMap, modelId) {
+
+            var materials = terrainList[modelId].materials
+
+            for (var i = 0; i < materials.length; i++) {
+
+                if (materials[i].id === materialId) {
+                    txMap.repeat.x = materials[i].repeat[0];
+                    txMap.repeat.y = materials[i].repeat[1];
+                }
+
+            }
+
+        };
+
         ThreeModelLoader.loadGroundMesh = function(modelId, rootObject, ThreeSetup) {
 
             var setup = ThreeSetup;
@@ -177,16 +193,20 @@ define([
 
                 var attachMaterial = function(src, data) {
                     model.material = data;
+                    setMaterialRepeat(src, model.material.map, modelId);
 
-                    model.material.map.repeat.x = terrainList[modelId].repeat[0];
-                    model.material.map.repeat.y = terrainList[modelId].repeat[1];
                     //    model.material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
 
                     setup.addToScene(model);
                     rootObject.add(model);
                 };
 
-                new PipelineObject('THREE_MATERIAL', terrainList[modelId].material, attachMaterial);
+                var materials = terrainList[modelId].materials;
+                for (var i = 0; i < materials.length; i++) {
+                    new PipelineObject('THREE_MATERIAL', materials[i].id, attachMaterial);
+                }
+
+
                 transformModel(terrainList[modelId].transform, model);
             };
 

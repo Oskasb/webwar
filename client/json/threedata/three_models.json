@@ -113,6 +113,29 @@
           }
         },
         {
+          "id": "rock_10m",
+          "material": "nature_opaque",
+          "url": "./client/assets/models/rock_10m",
+          "transform": {
+            "pos": [
+              0,
+              0,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+
+        {
           "id": "tree_trunk_1",
           "material": "nature_opaque",
           "url": "./client/assets/models/tree_trunk_1",
@@ -253,8 +276,8 @@
       "THREE": [
         {
           "id": "plain_ground",
-          "material": "ground_grass",
-          "repeat":[5, 5],
+          "materials": [{"id":"ground_grass", "repeat":[5, 5]}],
+
           "transform": {
             "pos": [
               0,

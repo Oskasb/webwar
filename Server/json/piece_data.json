@@ -15,10 +15,10 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 2, 0]}}
         ],
         "default_modules":[
-          "plasma_blob_module"
+          "rock_10m_module"
         ]
       },
       "clay_blob_piece":{
@@ -37,7 +37,7 @@
           {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
         ],
         "default_modules":[
-          "clay_blob_module"
+          "rock_10m_module"
         ]
       },
       "ground_plane":{
@@ -72,10 +72,10 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 4, 0]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
         ],
         "default_modules":[
-          "big_space_rock_module"
+          "rock_10m_module"
         ]
       },
     "big_tree_piece":{
@@ -154,10 +154,10 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,    "transform":{"rot":[0, 0, 0], "pos":[0, 3, 0]}}
+          {"slot":"hull" ,    "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
         ],
         "default_modules":[
-          "small_space_rock_module"
+          "rock_10m_module"
         ]
       }
     }

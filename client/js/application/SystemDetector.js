@@ -54,7 +54,7 @@ define([
             return OSName;
         };
 
-
+        
         var SystemDetector = function() {
             detectBrowser();
 
@@ -63,12 +63,12 @@ define([
             var antialias = true;
 
             if (os == 'Android') {
-                renderScale = 0.5;
+                renderScale = window.devicePixelRatio;
                 antialias = false;
             }
 
             if (os == 'IOS') {
-                renderScale = 0.5;
+                renderScale = window.devicePixelRatio;
                 antialias = false;
             }
 

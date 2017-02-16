@@ -23,26 +23,35 @@ define([
     };
 
     ThreeController.setupThreeRenderer = function(clientTickCallback, ready) {
-        
-        var antialias = PipelineAPI.readCachedConfigKey('SETUP', 'ANTIALIAS');;
-        var downscale = PipelineAPI.readCachedConfigKey('SETUP', 'PX_SCALE');
 
-        ThreeAPI.initThreeScene(GameScreen.getElement(), clientTickCallback);
+
+        var pxRatio = window.devicePixelRatio;
+        var antialias = PipelineAPI.readCachedConfigKey('SETUP', 'ANTIALIAS');;
+        var pxRatio =  PipelineAPI.readCachedConfigKey('SETUP', 'PX_SCALE');
+
+        ThreeAPI.initThreeScene(GameScreen.getElement(), clientTickCallback, pxRatio, antialias);
 
         var adjustPxScale = function(value) {
             console.log("Adjust Px Scale: ", value);
-            downscale = value;
+            pxRatio = value;
         };
 
         Settings.addOnChangeCallback('display_pixel_scale', adjustPxScale);
 
+        var screenWidth;
+        var screenHeight;
+
+
+       
+
         var notifyRezize = function() {
+            
             setTimeout(function() {
-                ThreeAPI.updateWindowParameters(GameScreen.getWidth(), GameScreen.getHeight(), GameScreen.getAspect(), downscale);
+                ThreeAPI.updateWindowParameters(GameScreen.getWidth(), GameScreen.getHeight(), GameScreen.getAspect(), pxRatio);
                 evt.fire(evt.list().ENGINE_READY, {});
             }, 10);
         };
-        
+
     //    setTimeout(function() {
             ready()
     //    },20);

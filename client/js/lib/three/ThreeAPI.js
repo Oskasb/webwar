@@ -31,15 +31,15 @@ define([
             ThreeEnvironment.loadEnvironmentData();
         };
 
-        ThreeAPI.initThreeScene = function(containerElement, clientTickCallback) {
+        ThreeAPI.initThreeScene = function(containerElement, clientTickCallback, pxRatio, antialias) {
             var store = {}; 
-            store = ThreeSetup.initThreeRenderer(containerElement, clientTickCallback, store);
+            store = ThreeSetup.initThreeRenderer(pxRatio, antialias, containerElement, clientTickCallback, store);
             ThreeEnvironment.initEnvironment(store)
             
         };
 
-        ThreeAPI.updateWindowParameters = function(width, height, aspect, downscale) {
-            ThreeSetup.setRenderParams(width, height, aspect, downscale);
+        ThreeAPI.updateWindowParameters = function(width, height, aspect, pxRatio) {
+            ThreeSetup.setRenderParams(width, height, aspect, pxRatio);
         };
 
         ThreeAPI.registerUpdateCallback = function(callback) {

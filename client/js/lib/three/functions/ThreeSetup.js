@@ -19,7 +19,7 @@ define(['ui/GameScreen'], function(
 
 
 
-    ThreeSetup.initThreeRenderer = function(containerElement, clientTickCallback, store) {
+    ThreeSetup.initThreeRenderer = function(pxRatio, antialias, containerElement, clientTickCallback, store) {
         prerenderCallbacks.push(clientTickCallback);
         lastTime = 0;
         init();
@@ -35,7 +35,9 @@ define(['ui/GameScreen'], function(
             console.log("Three Camera:", camera);
             
 
-            renderer = new THREE.WebGLRenderer();
+            renderer = new THREE.WebGLRenderer( { antialias:antialias, devicePixelRatio: pxRatio });
+            renderer.setPixelRatio( pxRatio );
+
             containerElement.appendChild(renderer.domElement);
         }
 
@@ -141,8 +143,9 @@ define(['ui/GameScreen'], function(
         scene.remove(model);
     };
 
-    ThreeSetup.setRenderParams = function(width, height, aspect, downscale) {
-        renderer.setSize( width / downscale, height / downscale);
+    ThreeSetup.setRenderParams = function(width, height, aspect, pxRatio) {
+        renderer.setSize( width, height);
+        renderer.setPixelRatio( pxRatio );
         camera.aspect = aspect;
         camera.updateProjectionMatrix();
     };
