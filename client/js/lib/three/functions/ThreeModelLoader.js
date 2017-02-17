@@ -3,11 +3,13 @@
 define([
     'ThreeAPI',
     'PipelineAPI',
-    'PipelineObject'],
+    'PipelineObject',
+    'lib/three/functions/ThreeTerrain'],
     function(
         ThreeAPI,
         PipelineAPI,
-        PipelineObject
+        PipelineObject,
+        ThreeTerrain
     ) {
 
         var loadCollada = function(modelId) {
@@ -45,11 +47,8 @@ define([
                 } );
             });
         };
-
-
-
+        
         var modelList = {};
-        var terrainList = {};
 
         var ThreeModelLoader = function() {
 
@@ -64,6 +63,7 @@ define([
         };
 
         ThreeModelLoader.loadData = function() {
+            ThreeTerrain.loadData();
             var modelListLoaded = function(scr, data) {
                 for (var i = 0; i < data.length; i++){
                     modelList[data[i].id] = data[i]
@@ -71,15 +71,9 @@ define([
                 }
             };
 
+
+
             new PipelineObject("MODELS", "THREE", modelListLoaded);
-
-            var terrainListLoaded = function(scr, data) {
-                for (var i = 0; i < data.length; i++){
-                    terrainList[data[i].id] = data[i]
-                }
-            };
-
-            new PipelineObject("TERRAINS", "THREE", terrainListLoaded);
         };
 
 
@@ -106,11 +100,7 @@ define([
         var setup
 
 
-
-
-
-
-        var attachAsynchModel = function(modelId, rootObject, connectObects) {
+        var attachAsynchModel = function(modelId, rootObject) {
 
             var attachModel = function(src, cached) {
 
@@ -122,13 +112,11 @@ define([
                     setup.addToScene(model);
                     rootObject.add(model);
                     transformModel(modelList[modelId].transform, model);
-                    connectObects()
                 };
 
                 new PipelineObject('THREE_MATERIAL', modelList[modelId].material, attachMaterial);
             };
-
-
+            
             new PipelineObject('THREE_MODEL', modelId, attachModel);
         };
 
@@ -136,14 +124,8 @@ define([
         ThreeModelLoader.loadThreeMeshModel = function(modelId, rootObject, ThreeSetup) {
 
             setup = ThreeSetup;
-
-
-            var connectObects = function() {
-
-            };
-
-
-            attachAsynchModel(modelId, rootObject, connectObects);
+            
+            attachAsynchModel(modelId, rootObject);
 
             return rootObject;
         };
@@ -168,49 +150,9 @@ define([
 
             return new THREE.Mesh( geometry, material );
         };
-
         
-        var setMaterialRepeat = function(materialId, txMap, modelId) {
-
-            var materials = terrainList[modelId].materials
-
-            for (var i = 0; i < materials.length; i++) {
-
-                if (materials[i].id === materialId) {
-                    txMap.repeat.x = materials[i].repeat[0];
-                    txMap.repeat.y = materials[i].repeat[1];
-                }
-
-            }
-
-        };
-
         ThreeModelLoader.loadGroundMesh = function(modelId, rootObject, ThreeSetup) {
-
-            var setup = ThreeSetup;
-
-            var attachModel = function(model) {
-
-                var attachMaterial = function(src, data) {
-                    model.material = data;
-                    setMaterialRepeat(src, model.material.map, modelId);
-
-                    //    model.material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
-
-                    setup.addToScene(model);
-                    rootObject.add(model);
-                };
-
-                var materials = terrainList[modelId].materials;
-                for (var i = 0; i < materials.length; i++) {
-                    new PipelineObject('THREE_MATERIAL', materials[i].id, attachMaterial);
-                }
-
-
-                transformModel(terrainList[modelId].transform, model);
-            };
-
-            attachModel(new THREE.Mesh(new THREE.PlaneGeometry( 200,  200, 10 ,10)));
+            ThreeTerrain.loadTerrain(modelId, rootObject, ThreeSetup);
             return rootObject;
         };
 
