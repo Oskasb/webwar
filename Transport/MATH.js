@@ -27,6 +27,36 @@ if(typeof(MATH) == "undefined"){
 		return curve[index][1] + (value - curve[index][0]) / (curve[index+1][0] - curve[index][0])*(curve[index+1][1]-curve[index][1]);
 	};
 
+
+	MATH.triangleArea = function (t1, t2, t3) {
+		return Math.abs(t1.x * t2.y + t2.x * t3.y + t3.x * t1.y
+				- t2.y * t3.x - t3.y * t1.x - t1.y * t2.x) / 2;
+	};
+
+
+	MATH.barycentricInterpolation = function (t1, t2, t3, p) {
+		var t1Area = this.triangleArea(t2, t3, p);
+		var t2Area = this.triangleArea(t1, t3, p);
+		var t3Area = this.triangleArea(t1, t2, p);
+
+		// assuming the point is inside the triangle
+		var totalArea = t1Area + t2Area + t3Area;
+		if (!totalArea) {
+
+			if (p[0] === t1[0] && p[2] === t1[2]) {
+				return t1;
+			} else if (p[0] === t2[0] && p[2] === t2[2]) {
+				return t2;
+			} else if (p[0] === t3[0] && p[2] === t3[2]) {
+				return t3;
+			}
+		}
+
+		p.z = (t1Area * t1.z + t2Area * t2.z + t3Area * t3.z) / totalArea;
+		return p;
+	};
+
+
 	MATH.valueFromCurve = function(value, curve) {
 		for (i = 0; i < curve.length; i++) {
 			if (!curve[i+1]) {
@@ -242,6 +272,13 @@ if(typeof(MATH) == "undefined"){
 		return this;
 	};
 
+	MATH.Vec3.prototype.invert = function() {
+		this.data[0] *= -1;
+		this.data[1] *= -1;
+		this.data[2] *= -1;
+		return this;
+	};
+	
     MATH.Vec3.prototype.dotVec = function(vec3) {
         return this.data[0] * vec3.data[0] + this.data[1] * vec3.data[1] + this.data[2] * vec3.data[2];
 
@@ -254,7 +291,24 @@ if(typeof(MATH) == "undefined"){
 		    vec3.data[1] * this.data[0] - vec3.data[0] * this.data[1]
         )
 	};
-	
+
+
+	MATH.Vec3.prototype.normalize = function () {
+		var l = this.length();
+
+		if (l < 0.0000001) {
+			this.data[0] = 0;
+			this.data[1] = 0;
+			this.data[2] = 0;
+		} else {
+			l = 1.0 / l;
+			this.data[0] *= l;
+			this.data[1] *= l;
+			this.data[2] *= l;
+		}
+
+		return this;
+	};
 	
     MATH.Vec3.prototype.mulVec = function(vec3) {
         this.data[0] *= vec3.data[0];

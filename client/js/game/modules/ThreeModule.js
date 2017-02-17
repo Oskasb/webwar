@@ -40,7 +40,7 @@ define([
             }
 
             if (this.applies.three_terrain) {
-                this.model = ThreeAPI.loadGround(this.applies.three_terrain, this.parentObject3d);
+                this.model = ThreeAPI.loadGround(this.applies, this.module.state.value, this.parentObject3d);
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
             }
         };

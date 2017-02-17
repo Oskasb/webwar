@@ -208,9 +208,15 @@
       "source":"initiate",
       "initState": true,
       "applies":{
-        "type":"string",
+        "type":"array",
         "state":true,
-        "three_terrain":"plain_ground"
+        "three_terrain":"plain_ground",
+        "terrain_size":200,
+        "terrain_segments":31,
+        "max_height":15,
+        "min_height":-3,
+        "frequency":2.5,
+        "steps":4
       }
     },
 

@@ -24,7 +24,7 @@ GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sec
 
     this.activeSectorPieces = [];
 
-
+    this.groundPiece;
 
     this.configsUpdated(sectorConfigs);
 };
@@ -62,7 +62,8 @@ GridSector.prototype.spawnGround = function(spawnData) {
     var rot = 0; //Math.random()*MATH.TWO_PI;
     var rotVel = 0; // (Math.random()-0.5)*3;
     var piece = this.serverWorld.createWorldTerrainPiece(spawnData.pieceType, posx, posz, rot, rotVel);
-    this.activeSectorPieces.push(piece)
+    this.activeSectorPieces.push(piece);
+    this.groundPiece = piece;
 };
 
 GridSector.prototype.spawnSelection = function(spawnData) {

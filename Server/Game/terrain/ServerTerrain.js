@@ -326,15 +326,10 @@ THREE.Terrain = function(options) {
     delete options._mesh; // Remove the reference for GC
 
     // Assign elevation data to the terrain plane from a heightmap or function.
-    if (options.heightmap instanceof HTMLCanvasElement || options.heightmap instanceof Image) {
-        THREE.Terrain.fromHeightmap(mesh.geometry.vertices, options);
-    }
-    else if (typeof options.heightmap === 'function') {
-        options.heightmap(mesh.geometry.vertices, options);
-    }
-    else {
-        console.warn('An invalid value was passed for `options.heightmap`: ' + options.heightmap);
-    }
+        
+
+    options.heightmap(mesh.geometry.vertices, options);
+
     THREE.Terrain.Normalize(mesh, options);
 
     if (options.useBufferGeometry) {

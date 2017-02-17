@@ -126,8 +126,8 @@ define([
             return ThreeSetup.addToScene(model);
         };
 
-        ThreeAPI.loadGround = function(modelId, rootObject) {
-            var model = ThreeModelLoader.loadGroundMesh(modelId, rootObject, ThreeSetup);
+        ThreeAPI.loadGround = function(applies, array1d, rootObject) {
+            var model = ThreeModelLoader.loadGroundMesh(applies, array1d, rootObject, ThreeSetup);
             return ThreeSetup.addToScene(model);
         };
         

@@ -121,11 +121,11 @@ define([
         };
 
 
-        ThreeModelLoader.loadThreeMeshModel = function(modelId, rootObject, ThreeSetup) {
+        ThreeModelLoader.loadThreeMeshModel = function(applies, rootObject, ThreeSetup) {
 
             setup = ThreeSetup;
             
-            attachAsynchModel(modelId, rootObject);
+            attachAsynchModel(applies, rootObject);
 
             return rootObject;
         };
@@ -151,8 +151,8 @@ define([
             return new THREE.Mesh( geometry, material );
         };
         
-        ThreeModelLoader.loadGroundMesh = function(modelId, rootObject, ThreeSetup) {
-            ThreeTerrain.loadTerrain(modelId, rootObject, ThreeSetup);
+        ThreeModelLoader.loadGroundMesh = function(applies, array1d, rootObject, ThreeSetup) {
+            ThreeTerrain.loadTerrain(applies, array1d, rootObject, ThreeSetup);
             return rootObject;
         };
 

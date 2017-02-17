@@ -46,6 +46,7 @@ var SetupServer = function() {
 		'Server/io/ActiveClients',
 		'Server/DataHub',
 		'Server/Game/terrain/ServerTerrain',
+		'Server/Game/terrain/TerrainFunctions',
 		'Server/Game/ServerAttachmentPoint',
 		'Server/Game/ServerModule',
 		'Server/Game/GridSector',

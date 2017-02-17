@@ -1,4 +1,7 @@
+
+
 ServerWorld = function(sectorGrid) {
+    this.terrainFunctions = new TerrainFunctions();
     this.sectorGrid = sectorGrid;
     sectorGrid.setServerWorld(this);
 	this.players = {};
@@ -55,6 +58,8 @@ ServerWorld.prototype.applyControlModule = function(sourcePiece, moduleData, act
 ServerWorld.prototype.createWorldPiece = function(pieceType, posx, posz, rot, rotVel) {
     
     piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel);
+
+
     this.addWorldPiece(piece);
     return piece;
 };
@@ -63,6 +68,9 @@ ServerWorld.prototype.createWorldTerrainPiece = function(pieceType, posx, posz, 
 
     piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel);
     this.addWorldTerrainPiece(piece);
+
+    this.terrainFunctions.setupTerrainPiece(piece);
+    
     return piece;
 };
 
@@ -203,7 +211,10 @@ ServerWorld.prototype.updatePlayers = function(currentTime) {
 	this.playerCount = 0;
 	for (var key in this.players) {
 		this.players[key].piece.processServerState(currentTime);
-        this.players[key].piece.spatial.glueToGround();
+
+        this.players[key].piece.spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this.players[key]));
+
+    //    this.players[key].piece.spatial.glueToGround();
         this.updateSectorStatus(this.players[key]);
 		this.players[key].client.notifyDataFrame();
 		this.playerCount++;

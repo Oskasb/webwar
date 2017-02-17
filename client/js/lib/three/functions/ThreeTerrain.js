@@ -53,42 +53,41 @@ define([
             }
         };
         
-        var createTerrain = function(callback, material) {
+        var createTerrain = function(callback, applies, array1d, material) {
 
             var opts = {
                 after: null,
                 easing: THREE.Terrain.EaseInOut,
                 heightmap: THREE.Terrain.DiamondSquare,
                 material: material,
-                maxHeight: 25,
-                minHeight: -1,
+                maxHeight: applies.max_height,
+                minHeight: applies.min_height,
                 optimization: THREE.Terrain.NONE,
-                frequency: 2.5,
-                steps: 4,
+                frequency: applies.frequency,
+                steps: applies.steps,
                 stretch: true,
                 turbulent: false,
                 useBufferGeometry: false,
-                xSegments: 31,
-                xSize: 200,
-                ySegments: 31,
-                ySize: 200
+                xSegments: applies.terrain_segments,
+                xSize: applies.terrain_size,
+                ySegments: applies.terrain_segments,
+                ySize: applies.terrain_size
             };
             
             
             var terrain = new THREE.Terrain(opts);
         //    terrain;
             
-            
-            
-            THREE.Terrain.RadialEdges(terrain.children[0].geometry.vertices, opts, false, 25, THREE.Terrain.EaseInOut);
+            THREE.Terrain.fromArray1D(terrain.children[0].geometry.vertices, array1d);
+            terrain.children[0].needsUpdate = true;
             callback(terrain);
         };
 
 
-        ThreeTerrain.loadTerrain = function(modelId, rootObject, ThreeSetup) {
+        ThreeTerrain.loadTerrain = function(applies, array1d, rootObject, ThreeSetup) {
 
             var setup = ThreeSetup;
-
+            var modelId = applies.three_terrain;
 
             var attachMaterial = function(src, data) {
 
@@ -105,7 +104,7 @@ define([
 
 
                 //    model.material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
-                createTerrain(attachModel, data);
+                createTerrain(attachModel, applies, array1d, data);
 
             };
 
