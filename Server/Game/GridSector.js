@@ -1,5 +1,7 @@
 GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sectorConfigs) {
 
+    this.terrainFunctions = new TerrainFunctions();
+
     this.serverWorld = serverWorld;
 
     this.sectorConfig = null;
@@ -70,12 +72,15 @@ GridSector.prototype.spawnSelection = function(spawnData) {
 
     var amount = spawnData.min + Math.floor(Math.random()* spawnData.max);
 
+    var terrainModule = this.terrainFunctions.getPieceTerrainModule(this.groundPiece);
+
     for (var i = 0; i < amount; i++) {
         var posx = this.sectorData.minX + ((Math.random()*0.6)+0.4) * this.sectorData.size;
         var posz = this.sectorData.minY + ((Math.random()*0.8)+0.2) * this.sectorData.size;
         var rot = 0; //Math.random()*MATH.TWO_PI;
         var rotVel = 0; // (Math.random()-0.5)*3;
         var piece = this.serverWorld.createWorldPiece(spawnData.pieceType, posx, posz, rot, rotVel);
+        piece.spatial.pos.setY(this.terrainFunctions.getTerrainHeightAt(this.groundPiece, piece.spatial.pos));
         this.activeSectorPieces.push(piece)
     }
 

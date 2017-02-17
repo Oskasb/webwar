@@ -74,7 +74,7 @@ define([
 
             this.entity.transformComponent.updateWorldTransform();
             //    this.entity.transformComponent.worldTransform.rotation.toAngles(this.calcVec);
-            this.calcVec3.setDirect(pos[0], pos[1], pos[2]);
+            this.calcVec3.setXYZ(pos[0], pos[1], pos[2]);
             this.calcVec3.applyPost(this.entity.transformComponent.worldTransform.rotation);
             this.calcVec3.addVector(this.entity.transformComponent.worldTransform.translation);
             this.tempSpatial.setPosXYZ(this.calcVec3.x, this.calcVec3.y, this.calcVec3.z);
@@ -109,6 +109,14 @@ define([
         };
 
 
+        ThreeModule.prototype.matchRandomVertices = function(vertices, heightData) {
+
+
+        };
+
+
+
+
         ThreeModule.prototype.updateThreeModule = function(stateValue) {
 
 
@@ -129,6 +137,24 @@ define([
             if (this.applies.animate_texture) {
                 ThreeAPI.animateModelTexture(this.model, stateValue*this.applies.animate_texture[0]*this.applies.animate_speed_scale, stateValue*this.applies.animate_texture[1]*this.applies.animate_speed_scale);//
             }
+
+            if (this.applies.three_terrain) {
+
+                if (!this.model) return;
+                var verts = this.model.children[0].children[0].geometry.vertices;
+
+
+                if (!this.matchRandomVertices(verts, stateValue)) {
+
+                    for (var i = 0; i < verts.length; i++) {
+                        verts[i].z = stateValue[i];
+                    }
+                    this.model.children[0].children[0].geometry.needsUpdate = true;
+
+                };
+
+            }
+
 
             return;
 

@@ -163,9 +163,16 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
 	var timeouts = [];
 
 	for (var i = 0; i < this.pieces.length; i++) {
-		this.updateWorldPiece(this.pieces[i], currentTime);
 
-		if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.TIME_OUT) {
+
+        if (this.pieces[i].spatial.vel.getX() || this.pieces[i].spatial.vel.getX()) {
+            this.updateWorldPiece(this.pieces[i], currentTime);
+        } else {
+            this.pieces[i].spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this.pieces[i]));
+
+        }
+
+        if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.TIME_OUT) {
 			timeouts.push(this.pieces[i]);
 		}
 	}
