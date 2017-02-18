@@ -18,7 +18,7 @@
           {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 2, 0]}}
         ],
         "default_modules":[
-          "rock_10m_module"
+          "plasma_blob_module"
         ]
       },
       "clay_blob_piece":{

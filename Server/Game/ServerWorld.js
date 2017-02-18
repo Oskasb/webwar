@@ -55,9 +55,9 @@ ServerWorld.prototype.applyControlModule = function(sourcePiece, moduleData, act
     sourcePiece.networkDirty = true;
 };
 
-ServerWorld.prototype.createWorldPiece = function(pieceType, posx, posz, rot, rotVel) {
+ServerWorld.prototype.createWorldPiece = function(pieceType, posx, posz, rot, rotVel, posY) {
     
-    piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel);
+    piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel, posY);
 
 
     this.addWorldPiece(piece);
@@ -168,16 +168,20 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
         if (this.pieces[i].spatial.vel.getX() > 0.01 || this.pieces[i].spatial.vel.getZ() > 0.01) {
             this.updateWorldPiece(this.pieces[i], currentTime);
         } else if (this.pieces[i].groundPiece) {
-/*
-            var y = this.pieces[i].spatial.pos.getY();
-            this.pieces[i].spatial.pos.setY(this.terrainFunctions.getTerrainHeightAt(this.pieces[i].groundPiece, this.pieces[i].spatial.pos));
-            piece.processTemporalState(currentTime);
-            piece.spatial.updateSpatial(piece.temporal.stepTime);
 
-            if (this.pieces[i].spatial.posY() != y) {
-                this.broadcastPieceState(this.pieces[i]);
-            };
-*/
+            if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.SPAWN) {
+                this.pieces[i].setState(GAME.ENUMS.PieceStates.APPEAR)
+                var y = this.pieces[i].spatial.pos.getY();
+                this.pieces[i].spatial.pos.setY(this.terrainFunctions.getTerrainHeightAt(this.pieces[i].groundPiece, this.pieces[i].spatial.pos));
+                piece.processTemporalState(currentTime);
+                piece.spatial.updateSpatial(piece.temporal.stepTime);
+
+                if (this.pieces[i].spatial.posY() != y) {
+                    this.broadcastPieceState(this.pieces[i]);
+                };
+
+            }
+
         }
 
         if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.TIME_OUT) {

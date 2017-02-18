@@ -60,9 +60,11 @@ TerrainFunctions.prototype.setupTerrainPiece = function(piece) {
 
     var terrain = new THREE.Terrain(opts);
 
-    THREE.Terrain.Edges(terrain.children[0].geometry.vertices, opts, true, 2, THREE.Terrain.EaseInOut);
+    THREE.Terrain.RadialEdges(terrain.children[0].geometry.vertices, opts, false, 5, THREE.Terrain.EaseInOut);
 
     var vertices = THREE.Terrain.toArray1D(terrain.children[0].geometry.vertices);
+
+    module.terrain = terrain.children[0];
     module.setModuleState(vertices);
 
 };
@@ -94,8 +96,11 @@ TerrainFunctions.prototype.returnToWorldDimensions = function(axPos, axMin, axMa
 // get the value at the precise integer (x, y) coordinates
 TerrainFunctions.prototype.getAt = function(array1d, segments, x, y) {
 
-    var idx = [((y) * (segments)) + (segments-x)];
-    console.log(idx);
+    var yFactor = (y) * (segments+1);
+    var xFactor = x;
+
+    var idx = (yFactor + xFactor);
+    console.log(y, yFactor, xFactor, idx);
     return array1d[idx];
 };
 
@@ -115,8 +120,8 @@ var setTri = function(tri, x, y, z) {
 
 TerrainFunctions.prototype.getTriangleAt = function(array1d, segments, x, y) {
 
-    var xc = Math.ceil(x);
-    var xf = Math.floor(x);
+    var xf = Math.ceil(x);
+    var xc = Math.floor(x);
     var yc = Math.ceil(y);
     var yf = Math.floor(y);
 
@@ -128,9 +133,8 @@ TerrainFunctions.prototype.getTriangleAt = function(array1d, segments, x, y) {
     p1.x = xf;
     p1.y = yc;
 
-    console.log(xf, yc, x, y);
+    console.log(xf, yc);
     p1.z = this.getAt(array1d, segments, xf, yc);
-
 
 
     setTri(p1, xf, yc, this.getAt(array1d, segments,xf, yc));
@@ -162,7 +166,7 @@ TerrainFunctions.prototype.getHeightForPlayer = function(serverPlayer) {
     return this.getTerrainHeightAt(groundPiece, serverPlayer.piece.spatial.pos);
 };
 
-TerrainFunctions.prototype.getPreciseHeight = function(array1d, segments,x, y) {
+TerrainFunctions.prototype.getPreciseHeight = function(array1d, segments, x, y) {
     var tri = this.getTriangleAt(array1d, segments, x, y);
     console.log(tri);
     setTri(p0, x, 0, y);
@@ -177,26 +181,30 @@ TerrainFunctions.prototype.getTerrainHeightAt = function(groundPiece, pos) {
     var module = this.getPieceTerrainModule(groundPiece);
 //    return Math.random()* 2;
 
-    calcVec1.setVec(pos);
-    calcVec1.subVec(groundPiece.spatial.pos);
+  //  calcVec1.setXYZ(terrainSize*0.5, 0, terrainSize*0.5);
+
+    calcVec1.setVec(groundPiece.spatial.pos);
+
+    calcVec2.setVec(pos);
+    calcVec2.subVec(calcVec1);
+    console.log('x',pos.data[0], 'z',pos.data[2]);
 
 
     var terrainSize = this.getTerrainModuleSize(module);
     var segments = this.getTerrainSegmentse(module);
-    
+
 //
- //   calcVec2.setXYZ(terrainSize*0.5, 0, terrainSize*0.5);
- //   calcVec1.subVec(calcVec2);
-    return this.getHeightAt(calcVec1, module.state.value, terrainSize, segments)
+
+    return this.getHeightAt(module, calcVec2, module.state.value, terrainSize, segments)
 
 };
 
 
 
-TerrainFunctions.prototype.getHeightAt = function(posVec, array1d, terrainSize, segments) {
+TerrainFunctions.prototype.getHeightAt = function(module, posVec, array1d, terrainSize, segments) {
     pos = posVec.data;
 
-    var htP = terrainSize * 0.5;
+    var htP = terrainSize //  * 0.5;
     var htN = -htP;
 
     if (pos[0] < htN || pos[0] > htP || pos[2] < htN || pos[2] > htP) {
@@ -206,18 +214,24 @@ TerrainFunctions.prototype.getHeightAt = function(posVec, array1d, terrainSize, 
     }
 
 
+//    var quadSize = terrainSize / segments;
     
     // axPos, axMin, axMax, quadCount
 
-    var axMin = 0 // -terrainSize*0.5;
-    var axMax = terrainSize // *0.5;
+    var axMin = 0 // -terrainSize*0.5;htP
+    var axMax = terrainSize // *0.5;terrainSize
 
-    var tz = this.displaceAxisDimensions(pos[0], htN, htP, segments);
-    var tx = this.displaceAxisDimensions(pos[2], htN, htP, segments);
+    var tx = this.displaceAxisDimensions(2*pos[0]-terrainSize, htN, htP, segments);
+    var tz = this.displaceAxisDimensions(2*pos[2]-terrainSize, htN, htP, segments);
+
+    console.log("tz tn:",tz, tx)
 
  //  var tx = (terrainSize / segments) - ((pos[0]) / (terrainSize / segments)); // (terrainSize
  //  var tz = (pos[2]) / (terrainSize / segments);
  //
+
+
+
     return this.getPreciseHeight(array1d, segments, tx, tz);
 };
 
@@ -268,3 +282,4 @@ TerrainFunctions.prototype.getNormalAt = function(pos, array1d, terrainSize, sto
     return storeVec.setXYZ((topLeft - topRight), scale, (bottomLeft - topLeft)).normalize();
 
 };
+

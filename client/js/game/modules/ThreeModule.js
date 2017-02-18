@@ -148,14 +148,30 @@ define([
                 if (!this.model) return;
                 var verts = this.model.children[0].children[0].geometry.vertices;
 
+            //    this.model.children[0].position.x = 100;
+            //    this.model.children[0].position.z = 100;
+            //    this.model.rotation.y = -Math.PI*-0.5
 
-                if (!this.matchRandomVertices(verts, stateValue)) {
 
-                    for (var i = 0; i < verts.length; i++) {
-                        verts[i].set(verts[i].x, verts[i].y, stateValue[i] + Math.random());
-                    }
-                    this.model.children[0].children[0].geometry.vertices.needsUpdate = true;
+                if (Math.random() < 0.1) {
 
+                        var va = verts.length-1;
+                        var vb = verts.length-1;
+                        var vc = verts.length-1;
+                        var vd = verts.length-1;
+
+                        verts[0].set(verts[0].x, verts[0].y, stateValue[0] + 20 ); // Math.random());
+
+
+                        verts[va].set(verts[va].x, verts[va].y, stateValue[va] + 10 ); // Math.random());
+                        verts[vb].set(verts[vb].x, verts[vb].y, stateValue[vb] + 10 ); // Math.random());
+                        verts[vc].set(verts[vc].x, verts[vc].y, stateValue[vc] + 10 ); // Math.random());
+                        verts[vd].set(verts[vd].x, verts[vd].y, stateValue[vd] + 100 + Math.random()*50); // ;
+
+
+                    this.model.children[0].children[0].geometry.verticesNeedUpdate  = true;
+
+                //    this.model.children[0].children[0].rotation.y +=-Math.PI*-0.25
                 };
 
             }

@@ -522,6 +522,11 @@ THREE.Terrain.toArray1D = function(vertices) {
  *   A 1D array representing a heightmap to apply to the terrain.
  */
 THREE.Terrain.fromArray1D = function(vertices, src) {
+
+    if (vertices.length != src.length) {
+        console.log("Bad vertices")
+    }
+
     for (var i = 0, l = Math.min(vertices.length, src.length); i < l; i++) {
         vertices[i].z = src[i];
     }

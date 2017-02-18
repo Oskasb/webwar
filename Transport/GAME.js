@@ -268,7 +268,7 @@ if(typeof(GAME) == "undefined"){
 	GAME.Piece.prototype.teleportRandom = function() {
 		this.setState(GAME.ENUMS.PieceStates.TELEPORT);
 		this.spatial.stop();
-		this.spatial.setPosXYZ(Math.random()*100, 0, Math.random()*100);
+		this.spatial.setPosXYZ(2+Math.random()*1, 0, 195+Math.random()*3);
 	};
 
 	GAME.Piece.prototype.applyForwardControl = function(timeFactor) {

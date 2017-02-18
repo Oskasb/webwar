@@ -74,12 +74,15 @@ define([
                 ySize: applies.terrain_size
             };
             
-            
+
             var terrain = new THREE.Terrain(opts);
         //    terrain;
             
             THREE.Terrain.fromArray1D(terrain.children[0].geometry.vertices, array1d);
             terrain.children[0].needsUpdate = true;
+            terrain.children[0].position.x += applies.terrain_size*0.5;
+            terrain.children[0].position.y -= applies.terrain_size*0.5;
+
             callback(terrain);
         };
 

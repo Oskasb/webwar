@@ -49,6 +49,7 @@ GridSector.prototype.makeHidePacket = function(piece) {
 GridSector.prototype.activateSector = function() {
 
 
+
     for (var i = 0; i < this.sectorConfig.ground.length; i++) {
         this.spawnGround(this.sectorConfig.ground[i])
     }
@@ -56,13 +57,16 @@ GridSector.prototype.activateSector = function() {
     for (var i = 0; i < this.sectorConfig.spawn.length; i++) {
         this.spawnSelection(this.sectorConfig.spawn[i])
     }
+
 };
 
 GridSector.prototype.spawnGround = function(spawnData) {
 
+    
+    
     if (!this.groundPiece) {
-    var posx = this.sectorData.minX + 0.5 * this.sectorData.size;
-    var posz = this.sectorData.minY + 0.5 * this.sectorData.size;
+    var posx = this.sectorData.minX // + 0.5 * this.sectorData.size;
+    var posz = this.sectorData.minY // + 0.5 * this.sectorData.size;
     var rot = 0; //Math.random()*MATH.TWO_PI;
     var rotVel = 0; // (Math.random()-0.5)*3;
         var piece = this.groundPiece || this.serverWorld.createWorldTerrainPiece(spawnData.pieceType, posx, posz, rot, rotVel);
@@ -83,14 +87,17 @@ GridSector.prototype.spawnSelection = function(spawnData) {
     var terrainModule = this.terrainFunctions.getPieceTerrainModule(this.groundPiece);
 
     for (var i = 0; i < amount; i++) {
-        var posx = this.sectorData.minX + ((Math.random()*0.8)+0.1) * this.sectorData.size;
-        var posz = this.sectorData.minY + ((Math.random()*0.8)+0.1) * this.sectorData.size;
+        var posx = this.sectorData.minX + ((Math.random()*0.98)+0.01) * this.sectorData.size;
+        var posz = this.sectorData.minY + ((Math.random()*0.98)+0.01) * this.sectorData.size;
         var rot = 0; //Math.random()*MATH.TWO_PI;
         var rotVel = 0; // (Math.random()-0.5)*3;
-        var piece = this.serverWorld.createWorldPiece(spawnData.pieceType, posx, posz, rot, rotVel);
-    //    piece.spatial.pos.setY(this.terrainFunctions.getTerrainHeightAt(this.groundPiece, piece.spatial.pos));
+        
+        var posY = this.terrainFunctions.getTerrainHeightAt(this.groundPiece, {data:[posx, 0, posz]});
+        
+        var piece = this.serverWorld.createWorldPiece(spawnData.pieceType, posx, posz, rot, rotVel, posY);
+
         piece.spatial.updateSpatial(10);
-        piece.setState(GAME.ENUMS.PieceStates.APPEAR);
+        piece.setState(GAME.ENUMS.PieceStates.SPAWN);
         piece.groundPiece = this.groundPiece;
         this.activeSectorPieces.push(piece)
     }
