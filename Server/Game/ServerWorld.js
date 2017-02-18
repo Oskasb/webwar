@@ -165,11 +165,19 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
 	for (var i = 0; i < this.pieces.length; i++) {
 
 
-        if (this.pieces[i].spatial.vel.getX() || this.pieces[i].spatial.vel.getX()) {
+        if (this.pieces[i].spatial.vel.getX() > 0.01 || this.pieces[i].spatial.vel.getZ() > 0.01) {
             this.updateWorldPiece(this.pieces[i], currentTime);
-        } else {
-            this.pieces[i].spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this.pieces[i]));
+        } else if (this.pieces[i].groundPiece) {
+/*
+            var y = this.pieces[i].spatial.pos.getY();
+            this.pieces[i].spatial.pos.setY(this.terrainFunctions.getTerrainHeightAt(this.pieces[i].groundPiece, this.pieces[i].spatial.pos));
+            piece.processTemporalState(currentTime);
+            piece.spatial.updateSpatial(piece.temporal.stepTime);
 
+            if (this.pieces[i].spatial.posY() != y) {
+                this.broadcastPieceState(this.pieces[i]);
+            };
+*/
         }
 
         if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.TIME_OUT) {
@@ -185,7 +193,7 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
 ServerWorld.prototype.removeTerrain = function(piece) {
     this.terrains.splice(this.terrains.indexOf(piece), 1);
     this.broadcastPieceState(piece);
-    piece.setRemoved()
+//    piece.setRemoved()
 };
 
 ServerWorld.prototype.updateTerrains = function(currentTime) {
@@ -200,7 +208,7 @@ ServerWorld.prototype.updateTerrains = function(currentTime) {
     }
 
     for (var i = 0; i < timeouts.length; i++) {
-        this.removeTerrain(timeouts[i]);
+    //    this.removeTerrain(timeouts[i]);
     }
 
 };

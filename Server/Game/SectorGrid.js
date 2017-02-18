@@ -9,8 +9,8 @@ SectorGrid = function() {
     this.gridSectors = [];
 
     this.rows = [];
-    
-    
+
+    this.terrainFunctions = new TerrainFunctions();
     this.gridData = null;
 
     this.worldConfigs = null;

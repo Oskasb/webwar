@@ -60,7 +60,7 @@ TerrainFunctions.prototype.setupTerrainPiece = function(piece) {
 
     var terrain = new THREE.Terrain(opts);
 
-    THREE.Terrain.RadialEdges(terrain.children[0].geometry.vertices, opts, false, 25, THREE.Terrain.EaseInOut);
+    THREE.Terrain.Edges(terrain.children[0].geometry.vertices, opts, true, 2, THREE.Terrain.EaseInOut);
 
     var vertices = THREE.Terrain.toArray1D(terrain.children[0].geometry.vertices);
     module.setModuleState(vertices);
@@ -93,7 +93,8 @@ TerrainFunctions.prototype.returnToWorldDimensions = function(axPos, axMin, axMa
 
 // get the value at the precise integer (x, y) coordinates
 TerrainFunctions.prototype.getAt = function(array1d, segments, x, y) {
-    var idx = y*segments + (segments-x);
+
+    var idx = [((y) * (segments)) + (segments-x)];
     console.log(idx);
     return array1d[idx];
 };
@@ -184,8 +185,8 @@ TerrainFunctions.prototype.getTerrainHeightAt = function(groundPiece, pos) {
     var segments = this.getTerrainSegmentse(module);
     
 //
-    calcVec2.setXYZ(terrainSize*0.5, 0, terrainSize*0.5);
-    calcVec1.addVec(calcVec2);
+ //   calcVec2.setXYZ(terrainSize*0.5, 0, terrainSize*0.5);
+ //   calcVec1.subVec(calcVec2);
     return this.getHeightAt(calcVec1, module.state.value, terrainSize, segments)
 
 };
@@ -198,7 +199,7 @@ TerrainFunctions.prototype.getHeightAt = function(posVec, array1d, terrainSize, 
     var htP = terrainSize * 0.5;
     var htN = -htP;
 
-    if (pos[0] < 0 || pos[0] > terrainSize || pos[2] < 0 || pos[2] > terrainSize) {
+    if (pos[0] < htN || pos[0] > htP || pos[2] < htN || pos[2] > htP) {
 
         console.log("Terrain!", pos[0], pos[2], "Is Outside")
         return -1000;
@@ -211,8 +212,8 @@ TerrainFunctions.prototype.getHeightAt = function(posVec, array1d, terrainSize, 
     var axMin = 0 // -terrainSize*0.5;
     var axMax = terrainSize // *0.5;
 
-    var tx = this.displaceAxisDimensions(pos[0], 0, terrainSize, segments);
-    var tz = this.displaceAxisDimensions(pos[2], 0, terrainSize, segments);
+    var tz = this.displaceAxisDimensions(pos[0], htN, htP, segments);
+    var tx = this.displaceAxisDimensions(pos[2], htN, htP, segments);
 
  //  var tx = (terrainSize / segments) - ((pos[0]) / (terrainSize / segments)); // (terrainSize
  //  var tz = (pos[2]) / (terrainSize / segments);

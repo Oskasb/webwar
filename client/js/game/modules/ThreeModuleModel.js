@@ -21,8 +21,8 @@ define([
             this.parentEntity = parentEntity;
             this.moduleEntity;
             this.entityName;
-            this.baseRotation = new goo.Vector3();
-            this.baseTranslation = new goo.Vector3();
+            this.baseRotation = new THREE.Vector3();
+            this.baseTranslation = new THREE.Vector3();
         };
         
                 

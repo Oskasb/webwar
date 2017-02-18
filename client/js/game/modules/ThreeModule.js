@@ -111,7 +111,12 @@ define([
 
         ThreeModule.prototype.matchRandomVertices = function(vertices, heightData) {
 
-
+            for (var i = 0; i < 5; i++) {
+                if (vertices[i].z != heightData[i]) {
+                    return false;
+                }
+            }
+            return true;
         };
 
 
@@ -147,9 +152,9 @@ define([
                 if (!this.matchRandomVertices(verts, stateValue)) {
 
                     for (var i = 0; i < verts.length; i++) {
-                        verts[i].z = stateValue[i];
+                        verts[i].set(verts[i].x, verts[i].y, stateValue[i] + Math.random());
                     }
-                    this.model.children[0].children[0].geometry.needsUpdate = true;
+                    this.model.children[0].children[0].geometry.vertices.needsUpdate = true;
 
                 };
 

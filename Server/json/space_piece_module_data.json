@@ -213,10 +213,10 @@
         "three_terrain":"plain_ground",
         "terrain_size":200,
         "terrain_segments":31,
-        "max_height":15,
-        "min_height":-3,
-        "frequency":2.5,
-        "steps":4
+        "max_height":6,
+        "min_height":-8,
+        "frequency":0.5,
+        "steps":1
       }
     },
 

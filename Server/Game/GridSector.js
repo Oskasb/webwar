@@ -33,6 +33,7 @@ GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sec
 
 
 GridSector.prototype.makeAppearPacket = function(piece) {
+    piece.spatial.updateSpatial(piece.temporal.stepTime);
     var iAppearPacket = piece.makePacket();
     iAppearPacket.data.state = GAME.ENUMS.PieceStates.APPEAR;
     return iAppearPacket;
@@ -59,13 +60,20 @@ GridSector.prototype.activateSector = function() {
 
 GridSector.prototype.spawnGround = function(spawnData) {
 
+    if (!this.groundPiece) {
     var posx = this.sectorData.minX + 0.5 * this.sectorData.size;
     var posz = this.sectorData.minY + 0.5 * this.sectorData.size;
     var rot = 0; //Math.random()*MATH.TWO_PI;
     var rotVel = 0; // (Math.random()-0.5)*3;
-    var piece = this.serverWorld.createWorldTerrainPiece(spawnData.pieceType, posx, posz, rot, rotVel);
-    this.activeSectorPieces.push(piece);
-    this.groundPiece = piece;
+        var piece = this.groundPiece || this.serverWorld.createWorldTerrainPiece(spawnData.pieceType, posx, posz, rot, rotVel);
+
+        piece.spatial.updateSpatial(10);
+        piece.setState(GAME.ENUMS.PieceStates.APPEAR);
+        this.groundPiece = piece;
+    }
+
+    this.activeSectorPieces.push(this.groundPiece);
+
 };
 
 GridSector.prototype.spawnSelection = function(spawnData) {
@@ -75,12 +83,15 @@ GridSector.prototype.spawnSelection = function(spawnData) {
     var terrainModule = this.terrainFunctions.getPieceTerrainModule(this.groundPiece);
 
     for (var i = 0; i < amount; i++) {
-        var posx = this.sectorData.minX + ((Math.random()*0.6)+0.4) * this.sectorData.size;
-        var posz = this.sectorData.minY + ((Math.random()*0.8)+0.2) * this.sectorData.size;
+        var posx = this.sectorData.minX + ((Math.random()*0.8)+0.1) * this.sectorData.size;
+        var posz = this.sectorData.minY + ((Math.random()*0.8)+0.1) * this.sectorData.size;
         var rot = 0; //Math.random()*MATH.TWO_PI;
         var rotVel = 0; // (Math.random()-0.5)*3;
         var piece = this.serverWorld.createWorldPiece(spawnData.pieceType, posx, posz, rot, rotVel);
-        piece.spatial.pos.setY(this.terrainFunctions.getTerrainHeightAt(this.groundPiece, piece.spatial.pos));
+    //    piece.spatial.pos.setY(this.terrainFunctions.getTerrainHeightAt(this.groundPiece, piece.spatial.pos));
+        piece.spatial.updateSpatial(10);
+        piece.setState(GAME.ENUMS.PieceStates.APPEAR);
+        piece.groundPiece = this.groundPiece;
         this.activeSectorPieces.push(piece)
     }
 
@@ -225,6 +236,9 @@ GridSector.prototype.sectorBasedBroadcast = function(packet, recipients) {
 
 
 GridSector.prototype.configsUpdated = function(sectorConfigs) {
+
+  //  this.groundPiece.setState(GAME.ENUMS.PieceStates.TIME_OUT);
+  //  this.groundPiece = null;
 
     var data = sectorConfigs.data;
 
