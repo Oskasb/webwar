@@ -129,6 +129,25 @@ define([
             if (!this.applies) return;
             if (!this.transform) return;
 
+
+            if (this.applies.pitch_roll) {
+
+                    var spatial = this.piece.spatial;
+                    ThreeAPI.transformModel(
+                        this.parentObject3d, 0, 0, 0,
+                        spatial.pitch()*this.applies.pitch_roll[0],
+                        0,
+                        spatial.roll()*this.applies.pitch_roll[1]
+                    );
+
+                    this.model.needsUpdate = true;
+                    if (Math.random() < 0.01) {
+                        console.log(spatial.pitch());
+                    }
+                };
+
+
+
             if (this.applies.spatial_axis) {
                 var diff = this.angleDiffForAxis(stateValue, this.applies.spatial_axis);
 
@@ -152,7 +171,7 @@ define([
             //    this.model.children[0].position.z = 100;
             //    this.model.rotation.y = -Math.PI*-0.5
 
-
+  /*          *
                 if (Math.random() < 0.1) {
 
                         var va = verts.length-1;
@@ -173,7 +192,7 @@ define([
 
                 //    this.model.children[0].children[0].rotation.y +=-Math.PI*-0.25
                 };
-
+*/
             }
 
 

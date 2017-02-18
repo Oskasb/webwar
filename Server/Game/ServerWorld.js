@@ -231,8 +231,10 @@ ServerWorld.prototype.updatePlayers = function(currentTime) {
 	for (var key in this.players) {
 		this.players[key].piece.processServerState(currentTime);
 
-        this.players[key].piece.spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this.players[key]));
+        this.players[key].piece.spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this.players[key]), MATH.tempNormal);
 
+        this.players[key].piece.spatial.alignToGroundNormal(MATH.tempNormal);
+        
     //    this.players[key].piece.spatial.glueToGround();
         this.updateSectorStatus(this.players[key]);
 		this.players[key].client.notifyDataFrame();

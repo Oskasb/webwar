@@ -38,9 +38,9 @@ define([
 
         ThreePiece.prototype.sampleSpatial = function(spatial) {
             ThreeAPI.transformModel(this.parentObject3d, spatial.pos.getX(), spatial.pos.getY(), spatial.pos.getZ(), 0, -spatial.yaw(), 0);
+
         };
-
-
+        
         ThreePiece.prototype.updateThreePiece = function() {
             this.sampleSpatial(this.piece.spatial);
         };

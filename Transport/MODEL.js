@@ -28,6 +28,9 @@ if(typeof(MODEL) == "undefined"){
 		this.pos = new MATH.Vec3(0, 0, 0);
 		this.vel = new MATH.Vec3(0, 0, 0);
 		this.rot = new MATH.Vec3(0, 0, 0);
+		this.pitch 	= new MATH.Vec3(1, 0, 0);
+		this.yaw 	= new MATH.Vec3(0, 1, 0);
+		this.roll 	= new MATH.Vec3(0, 0, 1);;
 		this.rotVel = new MATH.Vec3(0, 0, 0);
 	};
 
@@ -115,6 +118,13 @@ if(typeof(MODEL) == "undefined"){
 		
 		
         return vec3;
+	};
+
+	MODEL.Spatial.prototype.getUpVector = function(vec3) {
+
+		vec3.setXYZ(Math.cos(this.yaw() -Math.PI*0.5), 0, Math.sin(this.yaw() -Math.PI*0.5));
+		return vec3;
+		
 	};
 
     MODEL.Spatial.prototype.getOffsetVector = function(vec3, store) {
@@ -227,9 +237,31 @@ if(typeof(MODEL) == "undefined"){
 
     };
 
+	MODEL.Spatial.prototype.alignToGroundNormal = function(normal) {
+
+		this.alignPitchToNormal(normal);
+		
+	//	this.setPitchVel(2);
+	};
 
 
-    MODEL.Spatial.prototype.addPitch = function(angle) {
+	MODEL.Spatial.prototype.alignPitchToNormal = function(normal) {
+		calcVec.setVec(this.rot);
+
+		
+
+		if (normal) {
+			MATH.applyNormalVectorToPitchAndRoll(normal, this.rot, calcVec);
+		}
+
+		this.setPitchVel(calcVec.getX()*0.001);
+		this.setRollVel(calcVec.getZ()*0.001);
+
+	};
+
+
+
+	MODEL.Spatial.prototype.addPitch = function(angle) {
 		this.setPitch(MATH.angleInsideCircle(this.pitch() + angle));
 	};
 
@@ -291,6 +323,7 @@ if(typeof(MODEL) == "undefined"){
 		this.addPitch(this.pitchVel() 	* tpf);
 		this.addYaw(  this.yawVel() 	* tpf);
 		this.addRoll( this.rollVel() 	* tpf);
+		this.rot.normalize();
 	};
 
 	MODEL.Spatial.prototype.updateSpatial = function(tpf) {

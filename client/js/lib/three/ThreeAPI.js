@@ -98,8 +98,8 @@ define([
         };
 
         ThreeAPI.transformModel = function(model, px, py, pz, rx, ry, rz) {
-            model.position.x = px; model.position.y = py; model.position.z = pz; 
-            model.rotation.x = rx; model.rotation.y = ry; model.rotation.x = rz;
+            model.position.set(px, py, pz);
+            model.rotation.set(rx, ry, rz);
         };
 
         ThreeAPI.createRootObject = function() {

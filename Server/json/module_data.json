@@ -11,6 +11,7 @@
       "applies":{
         "type":"string",
         "state":true,
+        "pitch_roll":[1, 1],
         "three_model":"sherman_hull"
       }
     },

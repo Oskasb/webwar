@@ -11,6 +11,8 @@ if(typeof(MATH) == "undefined"){
 
 	MATH.TWO_PI = 2.0 * Math.PI;
 
+
+	
 	MATH.interpolateFromTo = function(start, end, fraction) {
 		return start + (end-start)*fraction;
 	};
@@ -125,7 +127,20 @@ if(typeof(MATH) == "undefined"){
 	MATH.vectorXZToAngleAxisY = function(vec) {
 		return Math.atan2(vec.getX(), vec.getZ()) + Math.PI;
 	};
+
+	MATH.vectorXYToAngleAxisZ = function(vec) {
+		return Math.atan2(vec.getX(), vec.getY()) + Math.PI;
+	};
+
+	MATH.vectorZYToAngleAxisX = function(vec) {
+		return Math.atan2(vec.getY(), vec.getY()) + Math.PI;
+	};
 	
+	MATH.applyNormalVectorToPitchAndRoll = function(normalVec, rotVec, store) {
+		store.setX(MATH.subAngles(normalVec.getX(), rotVec.getX()));
+		store.setZ(MATH.subAngles(normalVec.getZ(), rotVec.getZ()));
+		
+	};
 	
 	MATH.radialClamp = function(value, min, max) {
 
@@ -294,7 +309,7 @@ if(typeof(MATH) == "undefined"){
 
 
 	MATH.Vec3.prototype.normalize = function () {
-		var l = this.length();
+		var l = this.getLength();
 
 		if (l < 0.0000001) {
 			this.data[0] = 0;
@@ -317,7 +332,11 @@ if(typeof(MATH) == "undefined"){
 
         return this;
     };
-    
+
+	MATH.Vec3.prototype.getLength = function() {
+		return Math.sqrt(this.dotVec(this));
+	};
+
     MATH.Vec3.prototype.getLengthSquared = function() {
         return this.dotVec(this);
     };
@@ -338,5 +357,9 @@ if(typeof(MATH) == "undefined"){
 	};
 
 	var calcVec3 = new MATH.Vec3(0, 0, 0);
+
+	MATH.AXIS_Y = new MATH.Vec3(0, 1, 0);
+	MATH.tempVec = new MATH.Vec3(0, 0, 0);
+	MATH.tempNormal = new MATH.Vec3(0, 1, 0);
 
 })(MATH);

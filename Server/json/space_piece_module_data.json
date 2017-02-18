@@ -212,11 +212,11 @@
         "state":true,
         "three_terrain":"plain_ground",
         "terrain_size":200,
-        "terrain_segments":15,
-        "max_height":25,
-        "min_height":-2,
-        "frequency":0.5,
-        "steps":2
+        "terrain_segments":31,
+        "max_height":35,
+        "min_height":-8,
+        "frequency":3.5,
+        "steps":1
       }
     },
 
