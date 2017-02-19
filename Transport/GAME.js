@@ -393,7 +393,7 @@ if(typeof(GAME) == "undefined"){
         this.networkDirty = false;
         this.temporal.setSendTemporal(networkState.temporal);
 
-		console.log(this.spatial.pitch());
+	//	console.log(this.spatial.pitch());
 
         if (networkState.state == GAME.ENUMS.PieceStates.TELEPORT || networkState.state == GAME.ENUMS.PieceStates.SPAWN || networkState.state == GAME.ENUMS.PieceStates.APPEAR) {
             this.spatial.setSendData(networkState.spatial);

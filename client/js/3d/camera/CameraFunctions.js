@@ -5,6 +5,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
 
 
+    var targetId;
     var pieces;
     var headingVec;
     var calcVec;
@@ -51,8 +52,8 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         this.influence = new THREE.Vector3(0, 0, -1);
 
 
-        this.masterCamLerp = 0.0001;
-        this.masterPosLerp = 0.0002;
+        this.masterCamLerp = 0.01;
+        this.masterPosLerp = 0.01;
         this.camLerpFactor = this.masterCamLerp;
 
         this.posLerpFactor = this.masterPosLerp;
@@ -71,32 +72,38 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
 
         pieces = PipelineAPI.readCachedConfigKey('GAME_DATA', 'PIECES');
+
+        var targetUpdated = function(src, data) {
+            console.log("TARGET UPDATED", data, src);
+
+            targetId = data;
+        }
+
+        var targetDelesected = function(src, data) {
+            console.log("TARGET DESELECT", data, src);
+            targetId = null;
+        };
+
+
+        PipelineAPI.subscribeToCategoryKey("CONTROL_STATE", "TOGGLE_TARGET_SELECTED", targetUpdated)
+        PipelineAPI.subscribeToCategoryKey("CONTROL_STATE", "TOGGLE_TARGET_DESLECTED", targetDelesected)
+
     };
 
 
     CameraFunctions.prototype.checkTarget = function() {
 
-        //
-        var id  = PipelineAPI.readCachedConfigKey("CONTROL_STATE", "TOGGLE_TARGET_SELECTED");
-
-
-        if (id) {
-            console.log("HAS TARGET ID")
-            if (pieces[id]) {
+        if (targetId) {
+       //     console.log("HAS TARGET ID")
+            if (pieces[targetId]) {
                 if (!hasTarget) {
-                    this.camLerpFactor += 0.001;
-                    this.posLerpFactor += 0.002;
                 }
                 hasTarget = true;
-                console.log("HAR TARGET")
-                return id;
+                return targetId;
             }
         }
 
         if (hasTarget) {
-            this.camLerpFactor += 0.001;
-            this.posLerpFactor += 0.002;
-       //     this.setToIdealFrame();
             console.log("DROP TARGET")
             hasTarget = false;
         }
@@ -135,9 +142,11 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
     CameraFunctions.prototype.calcIdealElevations = function() {
         this.calcVec.subVectors(this.cameraIdeal, this.targetPos);
-        var distance = Math.max(this.maxDist*0.2, this.calcVec.length()*0.01);
+
+        var distance = Math.max(this.maxDist*0.2, this.calcVec.length()*0.01)*0.1;
+
         this.targetIdeal.y += this.lookAtElevation.y+this.frameVel*0.05;
-        this.cameraIdeal.y = this.targetPos.y + this.elevation.y + distance + this.frameVel*0.05;
+        this.cameraIdeal.y = this.targetPos.y + this.elevation.y + distance + this.frameVel*0.25;
     };
 
 
@@ -180,17 +189,16 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
         if (target) {
             this.copyTargetPos(this.calcVec);
-            this.calcVec2.lerp(this.calcVec, 0.5)
-            targetDistance = this.calcVec2.length();
+            this.calcVec2.lerp(this.calcVec, 0.2)
+            targetDistance = this.headingMin + this.calcVec2.length()*0.2;
         } else {
-            targetDistance = 0;
+            targetDistance = this.headingMin;
         }
 
         this.targetIdeal.addVectors(this.targetPos, this.calcVec2);
     };
 
     CameraFunctions.prototype.calcCameraIdealPosition = function() {
-
 
         var target = this.checkTarget();
 
@@ -199,32 +207,44 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
             var distance = 4 + this.followMin+this.calcDistanceGain();
         } else {
             this.calcVec.copy(this.targetPos);
-            var distance = 4 + this.followMin+this.calcDistanceGain();
+            var distance = this.followMin+this.calcDistanceGain();
         }
 
-        MATH.radialToVector(MATH.addAngles(this.targetDir.y-Math.PI*0.5, this.targetRotVel.y*0.7), distance+targetDistance, calcVec);
-
+        MATH.radialToVector(MATH.addAngles(this.targetDir.y+Math.PI*0.5, this.targetRotVel.y*0.5), targetDistance, calcVec);
 
         this.calcVec.normalize();
-        this.calcVec.multiplyScalar(distance);
 
         this.calcVec2.x = calcVec.data[0];
         this.calcVec2.y = calcVec.data[1];
         this.calcVec2.z = calcVec.data[2];
 
         this.calcVec2.normalize();
-        this.calcVec.addVectors(this.calcVec, this.calcVec2);
+        this.calcVec2.subVectors(this.calcVec2, this.calcVec);
 
         this.calcVec2.multiplyScalar(distance);
         this.cameraIdeal.addVectors(this.targetPos, this.calcVec2);
+
     };
+
 
     CameraFunctions.prototype.mooch = function(ideal, final, lerpfac) {
 
+        ideal.subVectors(ideal, this.targetPos);
+        final.subVectors(final, this.targetPos);
+
+        final.lerp(ideal, lerpfac);
+        final.addVectors(this.targetPos, final);
+
+        return;
 
         this.moochVec.subVectors(ideal, final);
-        this.moochVec.lerp(this.moochVec, lerpfac);
-        final.addVectors(final, this.moochVec);
+
+        var dist = this.moochVec.length();
+       //   this.moochVec.multiplyScalar(lerpfac);
+
+        final.lerp(ideal, lerpfac);
+
+
     };
 
 

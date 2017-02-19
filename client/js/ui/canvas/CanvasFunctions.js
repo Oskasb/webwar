@@ -250,13 +250,13 @@ define([
                     } else {
                         PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_SELECTED", null);
                         PipelineAPI.setCategoryKeyValue('CONTROL_STATE', 'TOGGLE_ATTACK_ENABLED', false);
+                        PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_DESLECTED", "no_more_targets_here");
                     }
 
                 //    "event":{"category":"CONTROL_STATE", "key":"TOGGLE_TARGET_SELECTED", "type":"toggle"}
                     
                     canvasGuiApi.toggleGuiEnabled(false);
                     PipelineAPI.setCategoryKeyValue('GAME_DATA', 'CURRENT_HOVER', null);
-
                 }
 
             };
@@ -296,6 +296,9 @@ define([
                 } else if (canvasGuiApi.enabled) {
                     CanvasDraw.clearElement(ctx, configs.size);
                     canvasGuiApi.toggleGuiEnabled(false);
+
+
+
                 }
 
             };
