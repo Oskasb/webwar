@@ -2,150 +2,313 @@
 
 
 define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
-    
-    var Vector3 = goo.Vector3;
-    var playerPiece;
-    var forVec;
-    var calcVec = new Vector3();
-    var calcVec2 = new Vector3();
+
+
+
     var pieces;
+    var headingVec;
+    var calcVec;
+    var hasTarget;
+    var targetDistance = 0;
 
     var CameraFunctions = function() {
-        lastPos = new MATH.Vec3(0, 0, 0);
-        forVec = new MATH.Vec3(0, 0, 0);
+        headingVec = new MATH.Vec3(0, 0, 0);
+        calcVec = new MATH.Vec3(0, 0, 0);
+        this.cameraTarget;
+
+        this.distanceFactor = 0.001;
+        this.distanceLimit = 200;
+
+        this.velocityFactor = 1;
+
+        this.targetPos  = new THREE.Vector3(0, 0, 0);
+        this.targetVel = new THREE.Vector3(0, 0, 0);
+        this.targetDir = new THREE.Vector3(0, 0, 0);
+        this.targetRotVel = new THREE.Vector3(0, 0, 0);
+
+        this.targetIdeal = new THREE.Vector3(0, 0, 0);
+        this.finalTPos = new THREE.Vector3(0, 0, 0);
+
+        this.cameraIdeal = new THREE.Vector3(0, 0, 0);
+        this.finalCPos = new THREE.Vector3(0, 0, -10);
+
+
+        this.distance  = new THREE.Vector3(0, 0, 7);
+
+        this.frameCPos = new THREE.Vector3(0, 0, 0);
+        this.frameTPos = new THREE.Vector3(0, 0, 0);
+
+        this.moochVec  = new THREE.Vector3(0, 0, 0);
+        this.calcVec   = new THREE.Vector3(0, 10, 0);
+        this.forVec   = new THREE.Vector3(0, 10, 0);
+        this.calcVec2 = new THREE.Vector3(0, 10, 0);
+        this.calcVec3 = new THREE.Vector3(0, 10, 0);
+
+        this.lookAtElevation = new THREE.Vector3(0, 2, 0);
+        this.elevation = new THREE.Vector3(0, 3, 0);
+
+        this.passiveinfluence = new THREE.Vector3(0, 0, -1);
+        this.influence = new THREE.Vector3(0, 0, -1);
+
+
+        this.masterCamLerp = 0.0001;
+        this.masterPosLerp = 0.0002;
+        this.camLerpFactor = this.masterCamLerp;
+
+        this.posLerpFactor = this.masterPosLerp;
+
+        this.lerpLimit = 2;
+        this.rotVelFactor = 100;
+
+        this.rotVel = 0;
+
+        this.frameDist = 0;
+        this.frameVel = 0;
+        this.maxDist = 30;
+
+        this.headingMin = 3;
+        this.followMin = 7;
+
+
         pieces = PipelineAPI.readCachedConfigKey('GAME_DATA', 'PIECES');
     };
-    
-    var lastPos;
-    var lookAtPoint = new goo.Vector3();
-    var camPos = new goo.Vector3();
-    var lastLerpPos = new goo.Vector3();
-    var targetPos = new goo.Vector3();
-    var lastLookAtPoint = new goo.Vector3();
-
-    var frameStore = new goo.Vector3();
-  //  var targetPos = new goo.Vector3();
-
-    var elevFromVel = function(velVec, factor) {
-        return -velVec.getZ() * Math.sqrt(Math.abs(velVec.getZ() * factor));
-    };
 
 
-    var lookAtPointFromVel = function(velVec, factor) {
-        return -velVec.getZ() * Math.sqrt(Math.abs(velVec.getZ() * factor));
-    };
+    CameraFunctions.prototype.checkTarget = function() {
+
+        //
+        var id  = PipelineAPI.readCachedConfigKey("CONTROL_STATE", "TOGGLE_TARGET_SELECTED");
 
 
-    var lookAtPos = function(pos, store) {
-
-
-        store.x = pos.getX();
-        store.y = pos.getY();
-        store.z = pos.getZ();
-
-        return store;
-    };
-
-    var checkTarget = function() {
-
-        var id = PipelineAPI.readCachedConfigKey("CONTROL_STATE","TOGGLE_TARGET_SELECTED");
         if (id) {
-            if (pieces[id]) return id;
+            console.log("HAS TARGET ID")
+            if (pieces[id]) {
+                if (!hasTarget) {
+                    this.camLerpFactor += 0.001;
+                    this.posLerpFactor += 0.002;
+                }
+                hasTarget = true;
+                console.log("HAR TARGET")
+                return id;
+            }
         }
+
+        if (hasTarget) {
+            this.camLerpFactor += 0.001;
+            this.posLerpFactor += 0.002;
+       //     this.setToIdealFrame();
+            console.log("DROP TARGET")
+            hasTarget = false;
+        }
+
         return false;
     };
 
-    var getCurrentTarget = function(id) {
+    CameraFunctions.prototype.setCameraTargetPiece = function(piece) {
+        this.targetPiece = piece.piece;
+    };
 
-        return pieces[id].piece;
+    CameraFunctions.prototype.setToIdealFrame = function() {
+
+
+        this.frameTPos.x = this.targetIdeal.x;
+        this.frameTPos.y = this.targetIdeal.y;
+        this.frameTPos.z = this.targetIdeal.z;
+
+        this.frameCPos.x = this.cameraIdeal.x;
+        this.frameCPos.y = this.cameraIdeal.y;
+        this.frameCPos.z = this.cameraIdeal.z;
+
+    };
+
+    CameraFunctions.prototype.calcTargetIdealPosition = function() {
+        this.calcVec.addVectors(this.forVec, this.lookAtElevation);
+        this.targetIdeal.addVectors(this.target, this.calcVec);
     };
 
 
-    CameraFunctions.prototype.updateCamera = function(tpf, ownPiece) {
-        playerPiece = ownPiece.piece;
-        playerPiece.spatial.getForwardVector(forVec);
-        var speedFactor = Math.min(playerPiece.spatial.vel.getLengthSquared(), 20);
+    CameraFunctions.prototype.calcDistanceGain = function() {
+        return Math.sqrt(9+this.frameVel)-4 + this.rotVel*this.rotVel*this.rotVel*1.1 + Math.sqrt(this.frameVel*this.frameVel*this.frameVel*this.frameVel*0.005);
+    };
 
-        var distanceFactor = 0;
 
-        forVec.scale(0.5);
-        // forVec.addVec(playerPiece.spatial.vel);
-        // forVec.scale(0.4);
 
-        frameStore.setVector(lastLerpPos);
+    CameraFunctions.prototype.calcIdealElevations = function() {
+        this.calcVec.subVectors(this.cameraIdeal, this.targetPos);
+        var distance = Math.max(this.maxDist*0.2, this.calcVec.length()*0.01);
+        this.targetIdeal.y += this.lookAtElevation.y+this.frameVel*0.05;
+        this.cameraIdeal.y = this.targetPos.y + this.elevation.y + distance + this.frameVel*0.05;
+    };
 
-        lookAtPoint.lerp(lookAtPos(playerPiece.spatial.pos, calcVec), 0.1);
 
-        calcVec.setDirect(forVec.getX()*0.2 + forVec.getX()*speedFactor*0.05, forVec.getY(), forVec.getZ()*0.5 + Math.min(forVec.getZ()*0.2 + forVec.getZ()*speedFactor*0.01, 0.5));
-        calcVec.scale(0.7 + speedFactor*0.03);
 
-        lookAtPoint.add(calcVec);
-        lookAtPoint.y = MATH.clamp(elevFromVel(playerPiece.spatial.vel, 1)*0.2, 1, 3) + 2;
 
-    //    cameraEntity.lookAtPoint = lookAtPoint;
+    CameraFunctions.prototype.calcCameraOutOfBounds = function() {
 
-        var selectedTarget = checkTarget();
-        if (selectedTarget) {
-            var currentTarget = getCurrentTarget(selectedTarget);
-            targetPos.setDirect(currentTarget.spatial.posX(), currentTarget.spatial.posY(), currentTarget.spatial.posZ());
-            lookAtPos(playerPiece.spatial.pos, calcVec);
-            distanceFactor = targetPos.distance(calcVec)*0.1;
-            targetPos.sub(calcVec);
-            targetPos.scale(0.1);
+        this.frameDist = this.distanceFactor * this.camLerpFactor;
+        if (this.frameDist > this.lerpLimit) {
+            this.frameDist = this.lerpLimit
+        }
+
+    };
+
+    CameraFunctions.prototype.copyTargetPos = function(vec) {
+        var target = this.checkTarget();
+
+        if (target) {
+            var pos = pieces[target].piece.spatial.pos;
+
+            vec.x = pos.data[0];
+            vec.y = pos.data[1];
+            vec.z = pos.data[2];}
+
+    };
+
+
+
+    CameraFunctions.prototype.calcTargetIdealPosition = function() {
+
+        var distance = this.headingMin+this.calcDistanceGain();
+
+        MATH.radialToVector(MATH.addAngles(this.targetDir.y-Math.PI*0.5, this.targetRotVel.y*0.1), distance, calcVec);
+
+        this.calcVec2.x = calcVec.data[0];
+        this.calcVec2.y = calcVec.data[1];
+        this.calcVec2.z = calcVec.data[2];
+
+        var target = this.checkTarget();
+
+        if (target) {
+            this.copyTargetPos(this.calcVec);
+            this.calcVec2.lerp(this.calcVec, 0.5)
+            targetDistance = this.calcVec2.length();
         } else {
-            targetPos.set(0, 0, 0);
-            distanceFactor = 0;
+            targetDistance = 0;
+        }
+
+        this.targetIdeal.addVectors(this.targetPos, this.calcVec2);
+    };
+
+    CameraFunctions.prototype.calcCameraIdealPosition = function() {
+
+
+        var target = this.checkTarget();
+
+        if (target) {
+            this.copyTargetPos(this.calcVec);
+            var distance = 4 + this.followMin+this.calcDistanceGain();
+        } else {
+            this.calcVec.copy(this.targetPos);
+            var distance = 4 + this.followMin+this.calcDistanceGain();
+        }
+
+        MATH.radialToVector(MATH.addAngles(this.targetDir.y-Math.PI*0.5, this.targetRotVel.y*0.7), distance+targetDistance, calcVec);
+
+
+        this.calcVec.normalize();
+        this.calcVec.multiplyScalar(distance);
+
+        this.calcVec2.x = calcVec.data[0];
+        this.calcVec2.y = calcVec.data[1];
+        this.calcVec2.z = calcVec.data[2];
+
+        this.calcVec2.normalize();
+        this.calcVec.addVectors(this.calcVec, this.calcVec2);
+
+        this.calcVec2.multiplyScalar(distance);
+        this.cameraIdeal.addVectors(this.targetPos, this.calcVec2);
+    };
+
+    CameraFunctions.prototype.mooch = function(ideal, final, lerpfac) {
+
+
+        this.moochVec.subVectors(ideal, final);
+        this.moochVec.lerp(this.moochVec, lerpfac);
+        final.addVectors(final, this.moochVec);
+    };
+
+
+    CameraFunctions.prototype.moochIt = function() {
+        this.mooch(this.targetIdeal, this.frameTPos, this.posLerpFactor);
+        this.mooch(this.cameraIdeal, this.frameCPos, this.camLerpFactor);
+    };
+
+    CameraFunctions.prototype.updateCamera = function() {
+
+        var targetPos = this.targetPiece.spatial.pos;
+        this.targetPiece.spatial.getHeading(headingVec);
+        var targetVel = this.targetPiece.spatial.vel;
+        var targetRotVel = this.targetPiece.spatial.rotVel;
+        var targetRot = this.targetPiece.spatial.rot;
+
+        this.targetPos.x = targetPos.data[0];
+        this.targetPos.y = targetPos.data[1];
+        this.targetPos.z = targetPos.data[2];
+        this.targetVel.x = targetVel.data[0];
+        this.targetVel.y = targetVel.data[1];
+        this.targetVel.z = targetVel.data[2];
+
+        this.targetDir.x = Math.sin(headingVec.data[0]);
+        this.targetDir.y = targetRot.data[1];
+        this.targetDir.z = Math.sin(headingVec.data[2]);
+
+
+        this.targetRotVel.y = targetRotVel.data[1];
+
+        this.rotVel = this.targetRotVel.length();
+        this.frameVel = this.targetVel.length();
+
+
+        this.calcTargetIdealPosition();
+        this.calcCameraIdealPosition();
+
+        this.calcVec.subVectors(this.finalTPos, this.finalCPos);
+        this.distanceFactor = this.calcVec.length();
+
+        if (this.distanceFactor > this.maxDist) {
+            this.posLerpFactor = 0.04;
+            this.camLerpFactor = 0.01;
+            //    this.targetIdeal.x = this.targetPos.x;
+            //    this.targetIdeal.y = this.targetPos.y;
+            //    this.targetIdeal.z = this.targetPos.z;
+        } else {
+            this.posLerpFactor = this.masterPosLerp;
+            this.camLerpFactor = this.masterCamLerp;
         }
 
 
-        calcVec.set(lookAtPoint);
+        if (this.distanceFactor > this.distanceLimit) {
+            this.distanceFactor = this.distanceLimit;
+            //    this.setToIdealFrame();
+        }
 
-        calcVec.y = lookAtPoint.y + MATH.clamp(elevFromVel(playerPiece.spatial.vel, 2)*0.3 + 1, 1, 10) + 0.2 * speedFactor;
+        this.calcIdealElevations();
 
-        calcVec.addDirect(
-            -forVec.getX()*speedFactor-forVec.getX() - targetPos.x / Math.abs(targetPos.z+1),
-            -forVec.getY(), -Math.max(Math.sin(forVec.getZ())*-80, 0)
-            -forVec.getZ()*speedFactor-forVec.getZ()
-        );
+        this.moochIt();
 
-        //   camPos.z -= 12+playerPiece.spatial.vel.getZ();
+        this.finalTPos.x =  this.frameTPos.x;
+        this.finalTPos.y =  this.frameTPos.y;
+        this.finalTPos.z =  this.frameTPos.z;
+        this.finalCPos.x =  this.frameCPos.x;
+        this.finalCPos.y =  this.frameCPos.y;
+        this.finalCPos.z =  this.frameCPos.z;
 
-        calcVec.z -= MATH.clamp(-12 - playerPiece.spatial.vel.getZ()*4, 2, 40);
-
-        calcVec.z -= calcVec.y+ distanceFactor*0.01;
-
-        calcVec.z -= speedFactor*0.01 + distanceFactor*0.01 +Math.clamp(targetPos.z / Math.abs(targetPos.x +1)*5, -100, 2);
-
-        lastLerpPos.lerp(calcVec, 0.01);
-
-
-
-
-        calcVec.set(lookAtPoint);
-        calcVec.lerp(lookAtPoint, 0.001);
-
-        calcVec2.set(calcVec);
-        lastLookAtPoint.lerp(targetPos, 0.01);
-        calcVec2.add(lastLookAtPoint);
-
-
-        frameStore.lerp(lastLerpPos, 0.1);
 
         ThreeAPI.setCameraPos(
 
-            frameStore.x,
-            frameStore.y,
-            frameStore.z
-
+            this.finalCPos.x,
+            this.finalCPos.y,
+            this.finalCPos.z
 
         );
+
         ThreeAPI.cameraLookAt(
-            calcVec2.x,
-            calcVec2.y,
-            calcVec2.z
+            this.finalTPos.x,
+            this.finalTPos.y,
+            this.finalTPos.z
         )
     };
-    
+
 
     return CameraFunctions
 

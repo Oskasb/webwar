@@ -268,13 +268,15 @@ if(typeof(GAME) == "undefined"){
 	GAME.Piece.prototype.teleportRandom = function() {
 		this.setState(GAME.ENUMS.PieceStates.TELEPORT);
 		this.spatial.stop();
-		this.spatial.setPosXYZ(196+Math.random()*1, 0, 1+Math.random()*3);
+		this.spatial.setPosXYZ(56+Math.random()*25, 0, 45+Math.random()*15);
 	};
 
 	GAME.Piece.prototype.applyForwardControl = function(timeFactor) {
 		this.spatial.getForwardVector(this.calcVec);
 		this.calcVec.scale(this.pieceControls.actions.applyForward * timeFactor);
 		this.spatial.addVelVec(this.calcVec);
+		
+		
 	};
 
 	GAME.Piece.prototype.applyControlStates = function(tickDelta) {
@@ -296,18 +298,33 @@ if(typeof(GAME) == "undefined"){
 		}
 	};
 
-	GAME.Piece.prototype.updateServerSpatial = function(tickDelta) {
+	GAME.Piece.prototype.updateServerSpatial = function(tickDelta, terrainFunctions) {
 	//	var timeFactor = this.pieceControls.getTimeFactor(this.timeSinceInput);
 		this.applyControlStates(tickDelta);
 
+		
+		
 	//	if (this.pieceControls.inputState.throttle == 0) {
 			this.spatial.vel.scale(1 - (this.pieceControls.constants.velocityDrag*tickDelta));
 			this.spatial.rotVel.scale(1 - (this.pieceControls.constants.radialDrag*tickDelta));
 	//	}
 
 		this.spatial.updateSpatial(tickDelta);
+		if (typeof(terrainFunctions) == 'function') {
+			this.predictFutureElevation(terrainFunctions);
+		}
 	};
 
+
+	GAME.Piece.prototype.predictFutureElevation = function(terrainFunctions) {
+		
+		var currentElevation = this.spatial.pos.getY();
+		var nextFrameElevation = terrainFunctions.getHeightForPlayer(this.players[key]);
+		this.spatial.vel.setY((nextFrameElevation - currentElevation));
+		
+		
+	};
+	
 	GAME.Piece.prototype.processTemporalState = function(currentTime) {
 		this.temporal.predictUpdate(currentTime);
 
@@ -324,9 +341,10 @@ if(typeof(GAME) == "undefined"){
 	};
 
 	
-	GAME.Piece.prototype.processSpatialState = function(tickDelta) {
+	GAME.Piece.prototype.processSpatialState = function(tickDelta, terrainFunctions) {
 
-		this.updateServerSpatial(tickDelta);
+		this.updateServerSpatial(tickDelta, terrainFunctions);
+		this.spatial.updateGroundContact();
 		this.setState(GAME.ENUMS.PieceStates.MOVING);
 
 	};
@@ -339,12 +357,12 @@ if(typeof(GAME) == "undefined"){
     };
     
     
-	GAME.Piece.prototype.processServerState = function(currentTime) {
+	GAME.Piece.prototype.processServerState = function(currentTime, terrainFunctions) {
 		this.temporal.stepTime = MODEL.SimulationTime;
 		this.temporal.networkTime = MODEL.NetworkTime;
 		this.processTemporalState(currentTime, MODEL.SimulationTime);
 		this.processModuleStates();
-		this.processSpatialState(MODEL.SimulationTime);
+		this.processSpatialState(MODEL.SimulationTime, terrainFunctions);
 
 		if (this.networkDirty) {
 			this.broadcast(this.makePacket());
@@ -374,6 +392,8 @@ if(typeof(GAME) == "undefined"){
 
         this.networkDirty = false;
         this.temporal.setSendTemporal(networkState.temporal);
+
+		console.log(this.spatial.pitch());
 
         if (networkState.state == GAME.ENUMS.PieceStates.TELEPORT || networkState.state == GAME.ENUMS.PieceStates.SPAWN || networkState.state == GAME.ENUMS.PieceStates.APPEAR) {
             this.spatial.setSendData(networkState.spatial);

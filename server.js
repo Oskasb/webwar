@@ -35,6 +35,7 @@ var SetupServer = function() {
 	}
 
 	var files = [
+
 		'Transport/MATH',
 		'Transport/GAME',
 		'Transport/MODEL',
@@ -45,6 +46,7 @@ var SetupServer = function() {
 		'Server/io/ConnectedClient',
 		'Server/io/ActiveClients',
 		'Server/DataHub',
+		'Server/Game/physics/CannonAPI',
 		'Server/Game/terrain/ServerTerrain',
 		'Server/Game/terrain/TerrainFunctions',
 		'Server/Game/ServerAttachmentPoint',

@@ -1,3 +1,10 @@
+var THREE;
+
+
+if (typeof(THREE) == 'undefined'){
+	THREE = require('three');
+}
+
 if(typeof(MODEL) == "undefined"){
 	/**
 	 * @namespace Holds the functionality of the library
@@ -14,7 +21,16 @@ if(typeof(MODEL) == "undefined"){
     MODEL.SimulationTime = 1;
     MODEL.NetworkFPS = 1;
     MODEL.SimulationFPS = 1;
-    
+
+
+	var THREEVec1 = new THREE.Vector3();
+	var THREEVec2 = new THREE.Vector3();
+
+//	var THREEmatrix = new THREE.Matrix();
+	var THREEquat = new THREE.Quaternion();
+//	var THREEeuler = new THREE.Euler();
+	var THREEobj = new THREE.Object3D();
+
     
 	MODEL.Spatial = function() {
 		this.sendData = {
@@ -28,10 +44,8 @@ if(typeof(MODEL) == "undefined"){
 		this.pos = new MATH.Vec3(0, 0, 0);
 		this.vel = new MATH.Vec3(0, 0, 0);
 		this.rot = new MATH.Vec3(0, 0, 0);
-		this.pitch 	= new MATH.Vec3(1, 0, 0);
-		this.yaw 	= new MATH.Vec3(0, 1, 0);
-		this.roll 	= new MATH.Vec3(0, 0, 1);;
 		this.rotVel = new MATH.Vec3(0, 0, 0);
+		this.groundNormal = new MATH.Vec3(0, 1, 0);
 	};
 
     MODEL.Spatial.prototype.comparePositional = function(spatial) {
@@ -112,21 +126,57 @@ if(typeof(MODEL) == "undefined"){
 		this.setYawVel(MATH.radialLerp(MATH.radialClamp(steerVec.data[1] - this.yaw(), -rotVelClamp, rotVelClamp), steerVec.data[1], dt*radialLerp));
 	};
 
-	MODEL.Spatial.prototype.getForwardVector = function(vec3) {
-		
+	MODEL.Spatial.prototype.getHeading = function(vec3) {
 		vec3.setXYZ(Math.cos(this.yaw() -Math.PI*0.5), 0, Math.sin(this.yaw() -Math.PI*0.5));
-		
-		
+	};
+
+
+	MODEL.Spatial.prototype.getForwardVector = function(vec3) {
+
+
+		THREEVec1.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
+
+		//get the heading to figure out where it ends up in x/z
+		this.getHeading(calcVec);
+
+
+
+	//	vec3.setVec(calcVec)
+	//	return vec3;//;
+		// var normAng = calcVec.dotVev(this.groundNormal);
+
+		THREEobj.rotation.set(this.pitch(), this.yaw(), this.roll());
+
+	//	THREEquat.setFromEuler(THREEobj.rotation);
+
+		THREEVec1.set()
+
+	//	THREEobj.rotation.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
+
+		THREEobj.position.set(0, 0, 0);
+
+		// THREEobj.up.set(0, 0, 1);
+
+		THREEobj.up.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
+
+		// THREEeuler.fronAs();
+		THREEobj.translateZ(1);
+
+		vec3.setXYZ(THREEobj.position.x, THREEobj.position.y, -THREEobj.position.z );
+
         return vec3;
 	};
-
+//
 	MODEL.Spatial.prototype.getUpVector = function(vec3) {
-
-		vec3.setXYZ(Math.cos(this.yaw() -Math.PI*0.5), 0, Math.sin(this.yaw() -Math.PI*0.5));
+		vec3.setXYZ( 0, Math.cos(this.pitch() -Math.PI*0.5), Math.sin(this.pitch() -Math.PI*0.5));
 		return vec3;
-		
 	};
 
+	MODEL.Spatial.prototype.getBankVector = function(vec3) {
+		vec3.setXYZ(Math.cos(this.roll() -Math.PI*0.5), Math.sin(this.roll() -Math.PI*0.5), 0);
+		return vec3;
+	};
+	
     MODEL.Spatial.prototype.getOffsetVector = function(vec3, store) {
         vec3.setXYZ(Math.cos(this.rot.data[0] -Math.PI*0.5), 0, Math.sin(this.rot.data[0] -Math.PI*0.5));
         return store;
@@ -234,28 +284,25 @@ if(typeof(MODEL) == "undefined"){
 
     MODEL.Spatial.prototype.yawTowards = function(position) {
 
-
     };
 
-	MODEL.Spatial.prototype.alignToGroundNormal = function(normal) {
 
-		this.alignPitchToNormal(normal);
-		
-	//	this.setPitchVel(2);
+
+	MODEL.Spatial.prototype.alignToGroundNormal = function(normal) {
+	//	console.log(normal.data[0], normal.data[1], normal.data[2]);
+		this.groundNormal.setVec(normal);
 	};
 
 
 	MODEL.Spatial.prototype.alignPitchToNormal = function(normal) {
-		calcVec.setVec(this.rot);
-
-		
-
+		this.getUpVector(calcVec);
+				
 		if (normal) {
-			MATH.applyNormalVectorToPitchAndRoll(normal, this.rot, calcVec);
+			MATH.applyNormalVectorToPitch(normal, calcVec);
 		}
-
-		this.setPitchVel(calcVec.getX()*0.001);
-		this.setRollVel(calcVec.getZ()*0.001);
+3
+		this.setPitchVel(calcVec.getX()*0.1);
+	//	this.setRollVel(calcVec.getZ()*0.001);
 
 	};
 
@@ -276,12 +323,25 @@ if(typeof(MODEL) == "undefined"){
 	MODEL.Spatial.prototype.yawTowards = function(posVec, lerpFactor) {
         calcVec.setVec(posVec);
         calcVec.subVec(this.pos);
-        this.setYaw(MATH.radialLerp(this.yaw(), MATH.vectorXZToAngleAxisY(calcVec), lerpFactor));
-        this.applyYaw(this.yaw());
+        this.setYaw(MATH.subAngles(MATH.vectorXZToAngleAxisY(calcVec),this.yaw(),  lerpFactor) *0.1 );
+       // this.applyYaw(this.yaw());
 	};
-    	
 
+	MODEL.Spatial.prototype.rollTowards = function(normalVec, lerpFactor) {
+	calcVec.setVec(normalVec);
+	calcVec.subVec(this.pos);
+		this.addRoll(MATH.subAngles( MATH.vectorXYToAngleAxisZ(calcVec), this.roll(),lerpFactor)*0.1);
+		// this.applyYaw(this.yaw());
+	};
 
+	MODEL.Spatial.prototype.pitchTowards = function(normalVec, lerpFactor) {
+		calcVec.setVec(normalVec);
+		calcVec.subVec(this.pos);
+		//	this.addPitch(MATH.subAngles(MATH.vectorYZToAngleAxisX(calcVec) ,this.pitch())*1);
+
+		this.addPitch(MATH.subAngles(MATH.vectorYZToAngleAxisX(calcVec),this.pitch(),  lerpFactor));
+		// this.applyYaw(this.yaw());
+	};
 	
 	MODEL.Spatial.prototype.getVelVec = function() {
 		return this.vel;
@@ -323,7 +383,71 @@ if(typeof(MODEL) == "undefined"){
 		this.addPitch(this.pitchVel() 	* tpf);
 		this.addYaw(  this.yawVel() 	* tpf);
 		this.addRoll( this.rollVel() 	* tpf);
-		this.rot.normalize();
+	};
+
+	MODEL.Spatial.prototype.updateGroundContact = function() {
+
+
+		this.pitchTowards(this.groundNormal, 1);
+		this.rollTowards(this.groundNormal, 1);
+		return;
+
+		this.getForwardVector(calcVec);
+		THREEobj.position.set(0, 0, 0);
+
+		THREEobj.rotation.set(this.pitch(), this.roll(), this.pitchVel());
+
+		THREEVec2.set(calcVec.data[0], calcVec.data[1], calcVec.data[2]);
+
+		THREEVec1.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
+
+	THREEobj.up.set(0, 0, 1);
+		//		THREEobj.up.set(THREEVec1);
+
+
+		//	THREEobj.rotation.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
+
+
+	//	THREEobj.up.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
+		THREEobj.lookAt(THREEVec1);
+
+	//	THREEVec2.set(this.pitch(), this.roll(), this.pitchVel());
+
+	//	THREEquat.setFromAxisAngle(THREEVec2, THREEVec1);
+
+	//		THREEobj.rotation.makeRotationFromQuaternion(THREEquat);
+
+	//
+
+	//	THREEobj.up.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
+
+	//	THREEobj.up.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
+
+	//
+
+	//	THREEobj.updateMatrix();
+
+		// THREEeuler.fronAs();
+	//	THREEobj.translateZ(1);
+
+		calcVec.setXYZ(THREEobj.rotation.x, THREEobj.rotation.y, THREEobj.rotation.z );
+
+	//	console.log(THREEobj.rotation.x, THREEobj.rotation.y, -THREEobj.rotation.z)
+
+		this.setPitch(calcVec.getX());
+		this.setRoll(calcVec.getZ());
+
+	//	this.setPitchVel(MATH.subAngles(calcVec.getX() , this.pitch()));
+	//	this.setRollVel(MATH.subAngles(calcVec.getZ(),  this.roll()))
+
+		if (Math.random()< 0.1){
+			console.log(THREEobj.rotation.x,THREEobj.rotation.y, THREEobj.rotation.z) ;
+			console.log("rotations spatial:",this.pitch(), this.roll(), this.pitchVel(), this.rollVel() )
+			console.log("normal spatial:",this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2] )
+		}
+
+
+
 	};
 
 	MODEL.Spatial.prototype.updateSpatial = function(tpf) {
@@ -428,6 +552,7 @@ if(typeof(MODEL) == "undefined"){
 		this.playerName = "init";
 		this.selectedTarget = "init";
 	};
+
 
 	MODEL.InputState.prototype.setTrigger = function(trigger) {
 		this.trigger = trigger;

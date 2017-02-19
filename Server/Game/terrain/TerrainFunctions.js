@@ -100,7 +100,7 @@ TerrainFunctions.prototype.getAt = function(array1d, segments, x, y) {
     var xFactor = x;
 
     var idx = (yFactor + xFactor);
-    console.log(y, yFactor, xFactor, idx);
+//    console.log(y, yFactor, xFactor, idx);
     return array1d[idx];
 };
 
@@ -133,7 +133,7 @@ TerrainFunctions.prototype.getTriangleAt = function(array1d, segments, x, y) {
     p1.x = xf;
     p1.y = yc;
 
-    console.log(xf, yc);
+ //   console.log(xf, yc);
     p1.z = this.getAt(array1d, segments, xf, yc);
 
 
@@ -161,8 +161,7 @@ TerrainFunctions.prototype.getHeightForPlayer = function(serverPlayer, normalSto
     if (!gridSector) return 0;
 
     var groundPiece = gridSector.groundPiece;
-
-
+    
     return this.getTerrainHeightAt(groundPiece, serverPlayer.piece.spatial.pos, normalStore);
 };
 
@@ -173,21 +172,21 @@ TerrainFunctions.prototype.getPreciseHeight = function(array1d, segments, x, y, 
 
     setTri(p0, x, 0, y);
 
-    var tri = MATH.barycentricInterpolation(tri[0], tri[1], tri[2], p0);
+    var find = MATH.barycentricInterpolation(tri[0], tri[1], tri[2], p0);
 
 
     if (normalStore) {
         calcVec1.setXYZ((tri[1].x-tri[0].x), (tri[1].z-tri[0].z), (tri[1].y-tri[0].y));
         calcVec2.setXYZ((tri[2].x-tri[0].x), (tri[2].z-tri[0].z), (tri[2].y-tri[0].y));
-        calcVec1.dotVec(calcVec2);
+        calcVec1.crossVec(calcVec2);
         if (calcVec1.data[1] < 0) {
             calcVec1.invert();
         }
         calcVec1.normalize();
+        normalStore.setVec(calcVec1);
     }
 
-
-    return tri.z;
+    return find.z;
 };
 
 TerrainFunctions.prototype.getTerrainHeightAt = function(groundPiece, pos, normalStore) {
@@ -222,14 +221,17 @@ TerrainFunctions.prototype.getHeightAt = function(module, posVec, array1d, terra
     if (pos[0] < htN || pos[0] > htP || pos[2] < htN || pos[2] > htP) {
 
         console.log("Terrain!", pos[0], pos[2], "Is Outside")
-        return -1000;
+    //    return -1000;
+
+        pos[0] = MATH.clamp(pos[0], htN, htP);
+        pos[2] = MATH.clamp(pos[2], htN, htP);
     }
 
 
     var tx = this.displaceAxisDimensions(2*pos[0]-terrainSize, htN, htP, segments);
     var tz = this.displaceAxisDimensions(2*pos[2]-terrainSize, htN, htP, segments);
 
-    console.log("tz tn:",tz, tx)
+ //   console.log("tz tn:",tz, tx)
 
 
 

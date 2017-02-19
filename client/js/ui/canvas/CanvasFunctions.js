@@ -71,6 +71,7 @@ define([
             var inputVectorCallback = function(tpf, ctx) {
                 if (ownPiece) {
                     CanvasInputVector.drawInputVectors(ownPiece, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
+                    CanvasDraw.drawPitchAndRollState(ownPiece, ctx, configs, widgetConfigs);
                 }
             };
 

@@ -30,7 +30,7 @@ define(['ui/GameScreen'], function(
             scene = new THREE.Scene();
 
             camera = new THREE.PerspectiveCamera( 45, containerElement.innerWidth / containerElement.innerHeight, 0.5, 10000 );
-            camera.position.z = 1000;
+            camera.position.z = 10;
 
             console.log("Three Camera:", camera);
             
@@ -117,6 +117,8 @@ define(['ui/GameScreen'], function(
         camera.updateMatrix();
         camera.updateMatrixWorld();
         frustum.setFromMatrix(frustumMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
+        camera.needsUpdate = true;
+
     };
 
     ThreeSetup.addChildToParent = function(child, parent) {

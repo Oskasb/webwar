@@ -261,6 +261,26 @@ define([
         };
 
 
+        CanvasDraw.drawPitchAndRollState = function(gamePiece, ctx, confData, widgetConfigs) {
+
+                var size = confData.size;
+
+
+                ctx.strokeStyle = CanvasDraw.toRgba([0.6,0.7,0.9, 1]);
+                ctx.lineWidth = 1;
+
+                var pitch = gamePiece.piece.spatial.pitch();
+
+
+
+                ctx.beginPath();
+                CustomGraphCallbacks.addPointToGraph(ctx, 5 ,             pitch*size.height + size.height * 0.5);
+                CustomGraphCallbacks.addPointToGraph(ctx, size.width - 5 ,pitch*size.height + 0.5);
+                ctx.stroke();
+
+
+        };
+
         return CanvasDraw
 
     });

@@ -66,7 +66,7 @@ define([
         };
 
         ClientModule.prototype.notifyModuleStateForUi = function () {
-
+                        
             if (this.state.value) {
 
                 if (!this.on && this.clientPiece.isOwnPlayer) {

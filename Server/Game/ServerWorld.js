@@ -1,6 +1,12 @@
 
+var tempVec;
 
 ServerWorld = function(sectorGrid) {
+    this.cannonAPI = new CannonAPI();
+
+
+
+
     this.terrainFunctions = new TerrainFunctions();
     this.sectorGrid = sectorGrid;
     sectorGrid.setServerWorld(this);
@@ -22,6 +28,8 @@ ServerWorld = function(sectorGrid) {
     };
 
     this.serverPieceProcessor = new ServerPieceProcessor(broadcast);
+
+    tempVec = new MATH.Vec3(0, 0, 0);
 };
 
 ServerWorld.prototype.setPieceSpawner = function(pieceSpawner) {
@@ -30,6 +38,9 @@ ServerWorld.prototype.setPieceSpawner = function(pieceSpawner) {
 
 ServerWorld.prototype.initWorld = function(clients) {
 	this.connectedClients = clients;
+
+    this.cannonAPI.initServerPhysics();
+
 };
 
 ServerWorld.prototype.getPieceById = function(id) {
@@ -226,15 +237,16 @@ ServerWorld.prototype.updateSectorStatus = function(player) {
 
 };
 
+
+
 ServerWorld.prototype.updatePlayers = function(currentTime) {
 	this.playerCount = 0;
 	for (var key in this.players) {
-		this.players[key].piece.processServerState(currentTime);
-
-        this.players[key].piece.spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this.players[key]), MATH.tempNormal);
-
+     //   var currentY = this.terrainFunctions.getHeightForPlayer(this.players[key]);
+        this.players[key].piece.spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this.players[key], MATH.tempNormal));
         this.players[key].piece.spatial.alignToGroundNormal(MATH.tempNormal);
-        
+		this.players[key].piece.processServerState(currentTime, this.terrainFunctions);
+                
     //    this.players[key].piece.spatial.glueToGround();
         this.updateSectorStatus(this.players[key]);
 		this.players[key].client.notifyDataFrame();
@@ -244,6 +256,7 @@ ServerWorld.prototype.updatePlayers = function(currentTime) {
 
 
 ServerWorld.prototype.tickSimulationWorld = function(currentTime) {
+    this.cannonAPI.updatePhysicsSimulation(currentTime);
     this.updateTerrains(currentTime);
     this.updatePieces(currentTime);
     this.updatePlayers(currentTime);

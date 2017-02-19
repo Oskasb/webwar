@@ -118,6 +118,9 @@ if(typeof(MATH) == "undefined"){
 		return Math.atan2(sn,cs);
 	};
 
+	MATH.addAngles = function(a, b) {
+		return Math.atan2(Math.sin(MATH.nearestAngle(a+b)), Math.cos(MATH.nearestAngle(a+b)));
+	};
 	
 	MATH.radialToVector = function(angle, distance, store) {
 		store.data[0] = Math.cos(angle)*distance;
@@ -129,18 +132,22 @@ if(typeof(MATH) == "undefined"){
 	};
 
 	MATH.vectorXYToAngleAxisZ = function(vec) {
-		return Math.atan2(vec.getX(), vec.getY()) + Math.PI;
+		return Math.atan2(vec.getX(), vec.getY()) + Math.PI*0.5;
 	};
 
-	MATH.vectorZYToAngleAxisX = function(vec) {
-		return Math.atan2(vec.getY(), vec.getY()) + Math.PI;
+	MATH.vectorYZToAngleAxisX = function(vec) {
+		return Math.atan2(vec.getY(), vec.getZ()) + Math.PI;
 	};
 	
-	MATH.applyNormalVectorToPitchAndRoll = function(normalVec, rotVec, store) {
-		store.setX(MATH.subAngles(normalVec.getX(), rotVec.getX()));
-		store.setZ(MATH.subAngles(normalVec.getZ(), rotVec.getZ()));
-		
+	
+	MATH.applyNormalVectorToPitch = function(normalVec, upVec) {
+		upVec.setX(MATH.subAngles(upVec.getX() - normalVec.getX()));
 	};
+
+	MATH.applyNormalVectorToRoll = function(normalVec, tiltVec) {
+		tiltVec.setZ(MATH.subAngles(tiltVec.getZ(), normalVec.getZ()));
+	};
+
 	
 	MATH.radialClamp = function(value, min, max) {
 
@@ -360,6 +367,6 @@ if(typeof(MATH) == "undefined"){
 
 	MATH.AXIS_Y = new MATH.Vec3(0, 1, 0);
 	MATH.tempVec = new MATH.Vec3(0, 0, 0);
-	MATH.tempNormal = new MATH.Vec3(0, 1, 0);
+	MATH.tempNormal = new MATH.Vec3(0, 1, 0)
 
 })(MATH);
