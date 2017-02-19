@@ -123,7 +123,7 @@ if(typeof(MODEL) == "undefined"){
 	};
 
 	MODEL.Spatial.prototype.applySteeringVector = function(steerVec, dt,  rotVelClamp, radialLerp) {
-		this.setYawVel(MATH.radialLerp(MATH.radialClamp(steerVec.data[1] - this.yaw(), -rotVelClamp, rotVelClamp), steerVec.data[1], dt*radialLerp));
+		this.setYawVel(MATH.radialLerp(MATH.radialClamp(steerVec.data[1] -Math.PI, -rotVelClamp, rotVelClamp), steerVec.data[1], dt*radialLerp));
 	};
 
 	MODEL.Spatial.prototype.getHeading = function(vec3) {
@@ -576,6 +576,10 @@ if(typeof(MODEL) == "undefined"){
 
 	MODEL.InputState.prototype.setSteeringY = function(y) {
 		this.steering.setY(y);
+	};
+
+	MODEL.InputState.prototype.getSteeringY = function() {
+		return this.steering.getY();
 	};
 
 	MODEL.InputState.prototype.setSteeringZ = function(z) {

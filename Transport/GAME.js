@@ -71,12 +71,14 @@ if(typeof(GAME) == "undefined"){
         this.inputState.currentState[1] = state[1];
 
 		this.inputState.targetting += state[0];
+		
 	//	this.inputState.setSteeringX(Math.clamp((toX - fromX), -1, 1));
 	//	this.inputState.setSteeringY(Math.clamp((toY - fromY), -1, 1));
 
 	//	this.inputState.setThrottle(Math.min(MATH.lineDistance(fromX, fromY, toX, toY), this.constants.throttleLimit) * this.constants.throttleAmplitude);
-
-		this.inputState.setThrottle((state[1] / this.constants.throttleSegments) * this.constants.throttleAmplitude);
+		this.inputState.setSteeringY( Math.PI*-0.5 + MATH.TWO_PI * -state[0] / this.constants.radialSegments);
+		
+		this.inputState.setThrottle((state[1] / this.constants.throttleSegments) * this.constants.throttleAmplitude * (0.3 + 0.7*Math.sin(this.inputState.getSteeringY()-Math.PI*0.5)));
 
 		if (this.inputState.getThrottle() != 0) {
 			this.currentDrag = 1;
@@ -84,7 +86,7 @@ if(typeof(GAME) == "undefined"){
 			this.currentDrag = this.constants.velocityDrag;
 		}
 
-		this.inputState.setSteeringY( Math.PI*-0.5 + MATH.TWO_PI * -state[0] / this.constants.radialSegments);
+		
 
 	};
 
@@ -273,7 +275,7 @@ if(typeof(GAME) == "undefined"){
 
 	GAME.Piece.prototype.applyForwardControl = function(timeFactor) {
 		this.spatial.getForwardVector(this.calcVec);
-		this.calcVec.scale(this.pieceControls.actions.applyForward * timeFactor);
+		this.calcVec.scale(this.pieceControls.actions.applyForward * timeFactor );
 		this.spatial.addVelVec(this.calcVec);
 		
 		

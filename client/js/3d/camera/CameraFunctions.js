@@ -4,8 +4,6 @@
 define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
 
-
-    var targetId;
     var pieces;
     var headingVec;
     var calcVec;
@@ -52,8 +50,8 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         this.influence = new THREE.Vector3(0, 0, -1);
 
 
-        this.masterCamLerp = 0.01;
-        this.masterPosLerp = 0.1;
+        this.masterCamLerp = 0.03;
+        this.masterPosLerp = 0.03;
         this.camLerpFactor = this.masterCamLerp;
 
         this.posLerpFactor = this.masterPosLerp;
@@ -73,25 +71,12 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
         pieces = PipelineAPI.readCachedConfigKey('GAME_DATA', 'PIECES');
 
-        var targetUpdated = function(src, data) {
-            console.log("TARGET UPDATED", data, src);
-
-            targetId = data;
-        }
-
-        var targetDelesected = function(src, data) {
-            console.log("TARGET DESELECT", data, src);
-            targetId = null;
-        };
-
-
-        PipelineAPI.subscribeToCategoryKey("CONTROL_STATE", "TOGGLE_TARGET_SELECTED", targetUpdated)
-        PipelineAPI.subscribeToCategoryKey("CONTROL_STATE", "TOGGLE_TARGET_DESLECTED", targetDelesected)
-
     };
 
 
     CameraFunctions.prototype.checkTarget = function() {
+
+        var targetId = this.targetPiece.readServerModuleState('input_target_select')[0].value;
 
         if (targetId) {
        //     console.log("HAS TARGET ID")
@@ -189,7 +174,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
         if (target) {
             this.copyTargetPos(this.calcVec);
-            this.calcVec2.lerp(this.calcVec, 0.2)
+            this.calcVec2.lerp(this.calcVec, 0.1)
             targetDistance = this.headingMin + this.calcVec2.length()*0.2;
         } else {
             targetDistance = this.headingMin;

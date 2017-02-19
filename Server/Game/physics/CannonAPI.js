@@ -88,7 +88,7 @@ CannonAPI.prototype.updatePhysicsSimulation = function(currentTime) {
             var dt = (currentTime - this.lastTime) / 1000;
             this.world.step(this.fixedTimeStep, dt, this.maxSubSteps);
         }
-        console.log("Sphere z position: " + this.sphereBody.position.z);
+    //    console.log("Sphere z position: " + this.sphereBody.position.z);
         this.lastTime = currentTime;
 
 };

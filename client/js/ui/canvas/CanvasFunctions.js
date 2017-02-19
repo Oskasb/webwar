@@ -271,7 +271,6 @@ define([
             var currentTargetCallback = function(tpf, ctx) {
 
                 if (selectedTarget && pieces[selectedTarget.piece.id]) {
-                    PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_DESLECTED", selectedTarget.piece.id);
                     if (PipelineAPI.readCachedConfigKey("CONTROL_STATE","TOGGLE_ATTACK_ENABLED") == true) {
                         borderData = configs.attackBorder
                     } else {
@@ -303,7 +302,6 @@ define([
                     CanvasDraw.clearElement(ctx, configs.size);
                     canvasGuiApi.toggleGuiEnabled(false);
 
-                    PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_DESLECTED", "no_more_targets_here");
 
                 }
 

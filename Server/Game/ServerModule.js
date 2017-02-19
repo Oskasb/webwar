@@ -28,6 +28,11 @@ ServerModule.prototype.setModuleState = function(state) {
     }
 
     if (typeof(state) === 'undefined') {
+        if (this.id === "input_target_select") {
+       //     console.log("Server state undefined for module", "input_target_select");
+        } else {
+
+        }
         return;
     };
 
