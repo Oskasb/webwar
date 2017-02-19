@@ -53,7 +53,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
 
         this.masterCamLerp = 0.01;
-        this.masterPosLerp = 0.01;
+        this.masterPosLerp = 0.1;
         this.camLerpFactor = this.masterCamLerp;
 
         this.posLerpFactor = this.masterPosLerp;
@@ -67,8 +67,8 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         this.frameVel = 0;
         this.maxDist = 30;
 
-        this.headingMin = 3;
-        this.followMin = 7;
+        this.headingMin = 2;
+        this.followMin = 4;
 
 
         pieces = PipelineAPI.readCachedConfigKey('GAME_DATA', 'PIECES');
@@ -211,6 +211,8 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         }
 
         MATH.radialToVector(MATH.addAngles(this.targetDir.y+Math.PI*0.5, this.targetRotVel.y*0.5), targetDistance, calcVec);
+
+        this.camLerpFactor += this.targetRotVel.y*0.5;
 
         this.calcVec.normalize();
 

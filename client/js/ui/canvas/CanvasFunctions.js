@@ -229,7 +229,10 @@ define([
                         selectedTarget = hoverPiece;
 
                         canvasGuiApi.toggleGuiEnabled(false);
+
                         PipelineAPI.setCategoryKeyValue('GAME_DATA', 'CURRENT_HOVER', null);
+                    } else {
+
                     }
 
                     CanvasDraw.drawElementBorders(ctx, borderData, configs.size);
@@ -240,9 +243,11 @@ define([
 
                     if (selectedTarget) {
                         if (PipelineAPI.readCachedConfigKey("CONTROL_STATE","TOGGLE_TARGET_SELECTED") == selectedTarget.playerId) {
+
                             PipelineAPI.setCategoryKeyValue('CONTROL_STATE', 'TOGGLE_ATTACK_ENABLED', true);
                         } else {
                             PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_SELECTED", selectedTarget.playerId);
+
                             PipelineAPI.setCategoryKeyValue('CONTROL_STATE', 'TOGGLE_ATTACK_ENABLED', false);
 
                         }
@@ -250,22 +255,23 @@ define([
                     } else {
                         PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_SELECTED", null);
                         PipelineAPI.setCategoryKeyValue('CONTROL_STATE', 'TOGGLE_ATTACK_ENABLED', false);
-                        PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_DESLECTED", "no_more_targets_here");
+
                     }
 
                 //    "event":{"category":"CONTROL_STATE", "key":"TOGGLE_TARGET_SELECTED", "type":"toggle"}
                     
                     canvasGuiApi.toggleGuiEnabled(false);
                     PipelineAPI.setCategoryKeyValue('GAME_DATA', 'CURRENT_HOVER', null);
-                }
+                } else {
 
+                }
             };
 
             var borderData;
             var currentTargetCallback = function(tpf, ctx) {
 
                 if (selectedTarget && pieces[selectedTarget.piece.id]) {
-
+                    PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_DESLECTED", selectedTarget.piece.id);
                     if (PipelineAPI.readCachedConfigKey("CONTROL_STATE","TOGGLE_ATTACK_ENABLED") == true) {
                         borderData = configs.attackBorder
                     } else {
@@ -297,7 +303,7 @@ define([
                     CanvasDraw.clearElement(ctx, configs.size);
                     canvasGuiApi.toggleGuiEnabled(false);
 
-
+                    PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_DESLECTED", "no_more_targets_here");
 
                 }
 
