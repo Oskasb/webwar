@@ -110,6 +110,11 @@
     "rock_10m_module":{
       "id":"rock_10m_module",
       "type":"hull",
+      "rigid_body":{
+        "mass":5,
+        "shape":"Sphere",
+        "size":10
+      },
       "size":8,
       "source":"initiate",
       "initState": true,
@@ -213,8 +218,8 @@
         "three_terrain":"plain_ground",
         "terrain_size":200,
         "terrain_segments":31,
-        "max_height":35,
-        "min_height":-8,
+        "max_height":15,
+        "min_height":-2,
         "frequency":3.5,
         "steps":1
       }

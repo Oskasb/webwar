@@ -2,9 +2,10 @@ var THREE = require('three');
 
 var calcVec1;
 var calcVec2;
+var CannonAPI;
 
-
-TerrainFunctions = function() {
+TerrainFunctions = function(CNNAPI) {
+    this.CannonAPI = CNNAPI;
     calcVec1 = new MATH.Vec3();
     calcVec2 = new MATH.Vec3();
 };
@@ -67,6 +68,11 @@ TerrainFunctions.prototype.setupTerrainPiece = function(piece) {
     module.terrain = terrain.children[0];
     module.setModuleState(vertices);
 
+    var matrix = THREE.Terrain.toArray2D(terrain.children[0].geometry.vertices, opts);
+
+
+    this.CannonAPI.buildPhysicalTerrain(matrix, module.data.applies.terrain_size, piece.spatial.pos, module.data.applies.min_height,module.data.applies.max_height)
+    
 };
 
 
@@ -161,7 +167,7 @@ TerrainFunctions.prototype.getHeightForPlayer = function(serverPlayer, normalSto
     if (!gridSector) return 0;
 
     var groundPiece = gridSector.groundPiece;
-    
+
     return this.getTerrainHeightAt(groundPiece, serverPlayer.piece.spatial.pos, normalStore);
 };
 

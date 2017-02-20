@@ -8,6 +8,11 @@
       "source":"initiate",
       "initState": true,
       "size":4,
+      "rigid_body":{
+        "mass":5,
+        "shape":"Sphere",
+        "size":10
+      },
       "applies":{
         "type":"string",
         "state":true,

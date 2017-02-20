@@ -141,8 +141,8 @@ if(typeof(MODEL) == "undefined"){
 
 
 
-	//	vec3.setVec(calcVec)
-	//	return vec3;//;
+		vec3.setVec(calcVec)
+		return vec3;//;
 		// var normAng = calcVec.dotVev(this.groundNormal);
 
 		THREEobj.rotation.set(this.pitch(), this.yaw(), this.roll());
@@ -252,6 +252,18 @@ if(typeof(MODEL) == "undefined"){
 		this.rotVel.setZ(angleVelocity);
 	};
 
+	MODEL.Spatial.prototype.setRotVelAngles = function(x, y, z) {
+		this.rotVel.setX(x);
+		this.rotVel.setY(y);
+		this.rotVel.setZ(z);
+	};
+
+	MODEL.Spatial.prototype.setVelocity = function(x, y, z) {
+		this.vel.setX(x);
+		this.vel.setY(y);
+		this.vel.setZ(z);
+	};
+	
 	MODEL.Spatial.prototype.setPitch = function(angle) {
 		this.rot.setX(angle);
 	};
@@ -387,10 +399,10 @@ if(typeof(MODEL) == "undefined"){
 
 	MODEL.Spatial.prototype.updateGroundContact = function() {
 
-
+		return;
 		this.pitchTowards(this.groundNormal, 1);
 		this.rollTowards(this.groundNormal, 1);
-		return;
+
 
 		this.getForwardVector(calcVec);
 		THREEobj.position.set(0, 0, 0);

@@ -1,13 +1,11 @@
 
 var tempVec;
+var CnnAPI;
 
 ServerWorld = function(sectorGrid) {
     this.cannonAPI = new CannonAPI();
-
-
-
-
-    this.terrainFunctions = new TerrainFunctions();
+    CnnAPI = this.cannonAPI;
+    this.terrainFunctions = new TerrainFunctions(this.cannonAPI);
     this.sectorGrid = sectorGrid;
     sectorGrid.setServerWorld(this);
 	this.players = {};
@@ -66,6 +64,7 @@ ServerWorld.prototype.applyControlModule = function(sourcePiece, moduleData, act
     sourcePiece.networkDirty = true;
 };
 
+
 ServerWorld.prototype.createWorldPiece = function(pieceType, posx, posz, rot, rotVel, posY) {
     
     piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel, posY);
@@ -79,7 +78,7 @@ ServerWorld.prototype.createWorldTerrainPiece = function(pieceType, posx, posz, 
 
     piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel);
     this.addWorldTerrainPiece(piece);
-
+    
     this.terrainFunctions.setupTerrainPiece(piece);
     
     return piece;
@@ -96,6 +95,9 @@ ServerWorld.prototype.addWorldPiece = function(piece) {
     
     this.broadcastPieceState(piece);
     piece.setState(GAME.ENUMS.PieceStates.MOVING);
+    if (piece.physics) {
+        CnnAPI.attachPiecePhysics(piece);
+    }
 	this.pieces.push(piece);
 };
 
@@ -104,6 +106,10 @@ ServerWorld.prototype.getPlayer = function(playerId) {
 };
 
 ServerWorld.prototype.addPlayer = function(player) {
+    if (player.piece.physics) {
+        CnnAPI.attachPiecePhysics(player.piece);
+    }
+
 	this.players[player.id] = player;
 };
 
@@ -146,16 +152,23 @@ ServerWorld.prototype.updateWorldPiece = function(piece, currentTime) {
 
 	piece.processTemporalState(currentTime);
 
-    if (piece.spatial.pos.getY() > 0) {
-        this.applyGravity(piece);
+    if (piece.physics) {
+        
+        this.cannonAPI.updatePhysicalPiece(piece);
+        piece.setState(GAME.ENUMS.PieceStates.MOVING);
+        piece.networkDirty = true;
+    //    this.broadcastPieceState(piece);
+    } else {
+        if (piece.spatial.pos.getY() > 0) {
+            this.applyGravity(piece);
+        }
+
+
+        if (piece.spatial.pos.getY() < 0) {
+            piece.setState(GAME.ENUMS.PieceStates.TIME_OUT);
+        }
     }
-
-	piece.spatial.updateSpatial(piece.temporal.stepTime);
-
-    if (piece.spatial.pos.getY() < 0) {
-        piece.setState(GAME.ENUMS.PieceStates.TIME_OUT);
-    }
-
+    piece.spatial.updateSpatial(piece.temporal.stepTime);
 /*
     if (piece.networkDirty) {
         this.broadcastPieceState(piece);
@@ -242,10 +255,25 @@ ServerWorld.prototype.updateSectorStatus = function(player) {
 ServerWorld.prototype.updatePlayers = function(currentTime) {
 	this.playerCount = 0;
 	for (var key in this.players) {
-     //   var currentY = this.terrainFunctions.getHeightForPlayer(this.players[key]);
-        this.players[key].piece.spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this.players[key], MATH.tempNormal));
-        this.players[key].piece.spatial.alignToGroundNormal(MATH.tempNormal);
-		this.players[key].piece.processServerState(currentTime, this.terrainFunctions);
+        var piece = this.players[key].piece;
+
+        if (piece.physics.body_) {
+
+            console.log("Player Body")
+            this.cannonAPI.updatePhysicalPiece(piece);
+        //    piece.setState(GAME.ENUMS.PieceStates.MOVING);
+            piece.networkDirty = true;
+            //    this.broadcastPieceState(piece);
+        } else {
+
+
+            piece.spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this.players[key], MATH.tempNormal));
+        //    piece.spatial.alignToGroundNormal(MATH.tempNormal);
+        }
+
+        //   var currentY = this.terrainFunctions.getHeightForPlayer(this.players[key]);
+
+		piece.processServerState(currentTime, this.terrainFunctions);
                 
     //    this.players[key].piece.spatial.glueToGround();
         this.updateSectorStatus(this.players[key]);

@@ -10,7 +10,17 @@ ServerModule = function(moduleId, data, piece, serverModuleCallbacks) {
     this.time = 0;
     this.delay = data.applies.delay || 0.1;
     this.cooldown = data.applies.cooldown || 0.5;
+
+    if (this.data.rigid_body) {
+        this.attachRigidBody(this.data.rigid_body)
+    }
 };
+
+ServerModule.prototype.attachRigidBody = function(rigidBodyParams) {
+    this.piece.physics = {};
+    this.piece.physics.rigid_body = rigidBodyParams;
+};
+
 
 ServerModule.prototype.getModuleCooldown = function() {
     return this.cooldown;
