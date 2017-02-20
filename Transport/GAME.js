@@ -38,7 +38,7 @@ if(typeof(GAME) == "undefined"){
 
 	GAME.PieceControls = function() {
 		this.inputState = new MODEL.InputState();
-
+		this.inputState.setSteeringY(Math.PI);
 		this.actions = {};
 
 		this.calcVec = new MATH.Vec3(0, 0, 0);
@@ -75,10 +75,23 @@ if(typeof(GAME) == "undefined"){
 	//	this.inputState.setSteeringX(Math.clamp((toX - fromX), -1, 1));
 	//	this.inputState.setSteeringY(Math.clamp((toY - fromY), -1, 1));
 
-	//	this.inputState.setThrottle(Math.min(MATH.lineDistance(fromX, fromY, toX, toY), this.constants.throttleLimit) * this.constants.throttleAmplitude);
-		this.inputState.setSteeringY( Math.PI*-0.5 + MATH.TWO_PI * -state[0] / this.constants.radialSegments);
-		
-		this.inputState.setThrottle((state[1] / this.constants.throttleSegments) * this.constants.throttleAmplitude * (0.3 + 0.7*Math.sin(this.inputState.getSteeringY()-Math.PI*0.5)));
+		var inputAngle = Math.PI*-0.5 + MATH.TWO_PI * -state[0] / this.constants.radialSegments
+
+
+
+
+		//	this.inputState.setThrottle(Math.min(MATH.lineDistance(fromX, fromY, toX, toY), this.constants.throttleLimit) * this.constants.throttleAmplitude);
+	//	this.inputState.setSteeringY( Math.PI*-0.5 + MATH.TWO_PI * -state[0] / this.constants.radialSegments);
+		var throttleState = (state[1] / this.constants.throttleSegments);
+
+		var turnPenalty = throttleState *-Math.cos(inputAngle);
+
+		var amplifiedThrottle = turnPenalty * this.constants.throttleAmplitude;
+
+		this.inputState.setThrottle(amplifiedThrottle);
+
+
+		this.inputState.setSteeringY(inputAngle);
 
 		if (this.inputState.getThrottle() != 0) {
 			this.currentDrag = 1;
@@ -292,7 +305,15 @@ if(typeof(GAME) == "undefined"){
 
 		if (typeof(this.pieceControls.actions.applySteering) != undefined) {
 			this.pieceControls.getSteering(this.calcVec);
-			this.spatial.applySteeringVector(this.calcVec, tickDelta, this.pieceControls.constants.radialVelocityClamp, this.pieceControls.constants.radialLerpFactor);
+			
+			var yawTowards = this.pieceControls.inputState.yawTowards;
+			
+			var throttleState = (this.pieceControls.inputState.currentState[1] / this.pieceControls.constants.throttleSegments);
+			
+			this.spatial.applySteeringVector(this.calcVec, tickDelta, this.pieceControls.constants.radialVelocityClamp, (throttleState+0.5)*this.pieceControls.constants.radialLerpFactor);
+
+			
+			
 		}
 
 		if (typeof(this.pieceControls.actions.applyForward) != undefined) {

@@ -122,8 +122,13 @@ if(typeof(MODEL) == "undefined"){
 		this.rotVel.scale(0);
 	};
 
+
+	MODEL.Spatial.prototype.calcSteeringYawAngle = function(angle, dt,  rotVelClamp, radialLerp) {
+		return MATH.radialClamp(angle, angle+rotVelClamp, angle-rotVelClamp);
+	};
+
 	MODEL.Spatial.prototype.applySteeringVector = function(steerVec, dt,  rotVelClamp, radialLerp) {
-		this.setYawVel(MATH.radialLerp(MATH.radialClamp(steerVec.data[1] -Math.PI, -rotVelClamp, rotVelClamp), steerVec.data[1], dt*radialLerp));
+		this.yawTowards(MATH.addAngles(steerVec.data[1], this.yaw()), dt*radialLerp);
 	};
 
 	MODEL.Spatial.prototype.getHeading = function(vec3) {
@@ -294,11 +299,6 @@ if(typeof(MODEL) == "undefined"){
 		this.setRoll(z);
 	};
 
-    MODEL.Spatial.prototype.yawTowards = function(position) {
-
-    };
-
-
 
 	MODEL.Spatial.prototype.alignToGroundNormal = function(normal) {
 	//	console.log(normal.data[0], normal.data[1], normal.data[2]);
@@ -332,11 +332,8 @@ if(typeof(MODEL) == "undefined"){
 		this.setRoll(MATH.angleInsideCircle(this.roll() + angle));
 	};
 
-	MODEL.Spatial.prototype.yawTowards = function(posVec, lerpFactor) {
-        calcVec.setVec(posVec);
-        calcVec.subVec(this.pos);
-        this.setYaw(MATH.subAngles(MATH.vectorXZToAngleAxisY(calcVec),this.yaw(),  lerpFactor) *0.1 );
-       // this.applyYaw(this.yaw());
+	MODEL.Spatial.prototype.yawTowards = function(yawAngle, lerpFactor) {
+        this.setYawVel(MATH.subAngles(yawAngle+Math.PI, this.yaw(),  lerpFactor));
 	};
 
 	MODEL.Spatial.prototype.rollTowards = function(normalVec, lerpFactor) {
@@ -554,10 +551,10 @@ if(typeof(MODEL) == "undefined"){
 
 
 	MODEL.InputState = function() {
-        this.currentState = [0, 0]; // radial and distance sectors
+        this.currentState = [0, 1]; // radial and distance sectors
 		this.steering = new MATH.Vec3(0, 0, 0); //pitch, yaw, roll
 		this.targetting = 0;
-        this.yaw = 0;
+        this.yawTowards = 1;
 		this.throttle = 0;
 		this.trigger = false;
 		this.triggerShield = false;
@@ -588,6 +585,7 @@ if(typeof(MODEL) == "undefined"){
 
 	MODEL.InputState.prototype.setSteeringY = function(y) {
 		this.steering.setY(y);
+		this.yawTowards = MATH.angleInsideCircle(y + this.yawTowards);
 	};
 
 	MODEL.InputState.prototype.getSteeringY = function() {

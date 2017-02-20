@@ -9,7 +9,7 @@ var SYSTEM_SETUP = {
 require.config({
     paths: {
         shared:'./../../../Transport',
-        ThreeAPI:'./lib/three/ThreeAPI',
+        ThreeAPI:'./3d/three/ThreeAPI',
         PipelineAPI:'./lib/data_pipeline/src/PipelineAPI',
         gui:'./lib/canvas_gui/',
         particle_system:'./lib/particles',

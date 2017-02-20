@@ -44,14 +44,14 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         this.calcVec3 = new THREE.Vector3(0, 10, 0);
 
         this.lookAtElevation = new THREE.Vector3(0, 2, 0);
-        this.elevation = new THREE.Vector3(0, 3, 0);
+        this.elevation = new THREE.Vector3(0, 4, 0);
 
         this.passiveinfluence = new THREE.Vector3(0, 0, -1);
         this.influence = new THREE.Vector3(0, 0, -1);
 
 
-        this.masterCamLerp = 0.03;
-        this.masterPosLerp = 0.06;
+        this.masterCamLerp = 0.01;
+        this.masterPosLerp = 0.01;
         this.camLerpFactor = this.masterCamLerp;
 
         this.posLerpFactor = this.masterPosLerp;
@@ -66,7 +66,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         this.maxDist = 30;
 
         this.headingMin = 4;
-        this.followMin = 4;
+        this.followMin = 8;
 
 
         pieces = PipelineAPI.readCachedConfigKey('GAME_DATA', 'PIECES');
@@ -76,14 +76,14 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         var selected = function(src, data) {
 
             clearTimeout(clear, 1);
-
+            //    console.log("Target: ", data);
             targetId = data;
             clear = setTimeout(function() {
                 targetId = null;
             }, 4000);
 
         };
-        PipelineAPI.subscribeToCategoryKey("GAME_DATA", "TOGGLE_TARGET_SELECTED", selected);
+        PipelineAPI.subscribeToCategoryKey("CONTROL_STATE", "TOGGLE_TARGET_SELECTED", selected);
 
     };
     var targetId;
@@ -92,19 +92,12 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
          //this.targetPiece.readServerModuleState('input_target_select')[0].value;
 
+
         if (targetId) {
        //     console.log("HAS TARGET ID")
             if (pieces[targetId]) {
-                if (!hasTarget) {
-                }
-                hasTarget = true;
                 return targetId;
             }
-        }
-
-        if (hasTarget) {
-            console.log("DROP TARGET")
-            hasTarget = false;
         }
 
         return false;
@@ -134,7 +127,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
 
     CameraFunctions.prototype.calcDistanceGain = function() {
-        return Math.sqrt(9+this.frameVel)-4 + this.rotVel*this.rotVel*this.rotVel*1.1 + Math.sqrt(this.frameVel*this.frameVel*this.frameVel*this.frameVel*0.005);
+        return 0.1*this.frameVel * Math.sqrt(15+this.frameVel)-5 + Math.sqrt(this.rotVel*this.rotVel*this.rotVel*12) ;
     };
 
 
@@ -142,10 +135,10 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
     CameraFunctions.prototype.calcIdealElevations = function() {
         this.calcVec.subVectors(this.cameraIdeal, this.targetPos);
 
-        var distance = Math.max(this.maxDist*0.2, this.calcVec.length()*0.01)*0.1;
+        var distance = Math.min(this.maxDist*0.5, this.calcVec.length()*0.1)*0.5;
 
-        this.targetIdeal.y += this.lookAtElevation.y+this.frameVel*0.05;
-        this.cameraIdeal.y = this.targetPos.y + this.elevation.y + distance + this.frameVel*0.25;
+        this.targetIdeal.y += this.lookAtElevation.y+ distance*1.7 + this.frameVel*0.05;
+        this.cameraIdeal.y = this.targetPos.y + this.elevation.y + distance*2*distance + this.frameVel*0.05;
     };
 
 
@@ -176,7 +169,9 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
     CameraFunctions.prototype.calcTargetIdealPosition = function() {
 
-        var distance = this.headingMin+this.calcDistanceGain();
+        var distance = this.headingMin+this.calcDistanceGain()*0.01;
+
+        // var distance = this.headingMin+this.calcDistanceGain()*0.01;
 
         MATH.radialToVector(MATH.addAngles(this.targetDir.y-Math.PI*0.5, this.targetRotVel.y*0.1), distance, calcVec);
 
@@ -188,7 +183,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
         if (target) {
             this.copyTargetPos(this.calcVec);
-            this.calcVec2.lerp(this.calcVec, 0.5);
+            this.calcVec2.lerp(this.calcVec, 0.33);
             targetDistance = this.headingMin + this.calcVec2.length()*0.2;
         } else {
             targetDistance = this.headingMin;
@@ -203,26 +198,37 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
         if (target) {
             this.copyTargetPos(this.calcVec);
-            var distance = 4 + this.followMin+this.calcDistanceGain();
+            var distance = this.followMin*2+this.calcDistanceGain()*1;
+        //    this.calcVec2.subVectors(this.targetPos, this.calcVec);
+            this.calcVec2.normalize();
+            this.calcVec2.multiplyScalar(-1);
         } else {
-            this.calcVec.copy(this.targetPos);
-            var distance = this.followMin+this.calcDistanceGain();
+            this.calcVec.copy(this.targetIdeal);
+            var distance = this.followMin+this.calcDistanceGain()*2;
+
+
+            MATH.radialToVector(MATH.addAngles(this.targetDir.y+Math.PI*0.5, this.targetRotVel.y*0.2), distance, calcVec);
+            this.calcVec2.x = calcVec.data[0];
+            this.calcVec2.y = calcVec.data[1];
+            this.calcVec2.z = calcVec.data[2];
+
+        //    this.calcVec.normalize();
+        //    this.calcVec2.normalize();
+        //    this.calcVec2.subVectors(this.calcVec, this.calcVec2);
         }
 
-        MATH.radialToVector(MATH.addAngles(this.targetDir.y+Math.PI*0.5, this.targetRotVel.y*0.5), targetDistance, calcVec);
-
-        this.camLerpFactor += this.targetRotVel.y*0.5;
-
-        this.calcVec.normalize();
-
-        this.calcVec2.x = calcVec.data[0];
-        this.calcVec2.y = calcVec.data[1];
-        this.calcVec2.z = calcVec.data[2];
 
         this.calcVec2.normalize();
-        this.calcVec2.subVectors(this.calcVec2, this.calcVec);
+   //    this.calcVec3.copy(this.targetPos);;
 
-        this.calcVec2.multiplyScalar(distance);
+
+   //     this.calcVec2.lerp(this.calcVec, 0.5);
+
+    //    this.calcVec3.copy(this.targetVel);
+    //    this.calcVec2.lerp(this.calcVec3, -0.5);
+
+        this.calcVec2.multiplyScalar(MATH.clamp(Math.min0(distance+this.rotVel*1.2, this.maxDist), -this.maxDist, this.maxDist));
+    //    this.calcVec3.addVectors(this.calcVec2, this.t0argetPos);
         this.cameraIdeal.addVectors(this.targetPos, this.calcVec2);
 
     };
@@ -286,16 +292,10 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         this.calcVec.subVectors(this.finalTPos, this.finalCPos);
         this.distanceFactor = this.calcVec.length();
 
-        if (this.distanceFactor > this.maxDist) {
-            this.posLerpFactor = 0.04;
-            this.camLerpFactor = 0.01;
-            //    this.targetIdeal.x = this.targetPos.x;
-            //    this.targetIdeal.y = this.targetPos.y;
-            //    this.targetIdeal.z = this.targetPos.z;
-        } else {
+
             this.posLerpFactor = this.masterPosLerp;
             this.camLerpFactor = this.masterCamLerp;
-        }
+
 
 
         if (this.distanceFactor > this.distanceLimit) {
