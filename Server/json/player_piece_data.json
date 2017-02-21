@@ -8,8 +8,8 @@
           "data":{
             "radialSegments":12,
             "distanceSegments":3,
-            "radius":350,
-            "width":110,
+            "radius":80,
+            "width":80,
             "streamTimeout":0.2
           }
         },
@@ -27,7 +27,7 @@
           "velocityDrag":3.1,
           "radialDrag":1.45,
           "radialVelocityClamp":0.2,
-          "radialLerpFactor":0.2,
+          "radialLerpFactor":0.1,
           "throttleLimit": 0.6,
           "throttleAmplitude": 25
         }

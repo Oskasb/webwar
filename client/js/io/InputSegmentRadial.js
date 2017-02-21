@@ -163,7 +163,9 @@ define([
 
             this.line = line;
 
-            var distanceSegment = Math.min(this.configs.distanceSegments, Math.floor(this.configs.distanceSegments * line.w / this.configs.radius));
+            var distanceSegment = Math.min(this.configs.distanceSegments, Math.floor(this.configs.distanceSegments * (line.w / this.configs.radius)* (line.w / this.configs.radius)));
+
+
 
             if (this.currentState[1]!=distanceSegment) {
                 this.currentState[1] = distanceSegment;
@@ -176,6 +178,7 @@ define([
             }
             
             var radians = ((line.zrot + Math.PI) * (this.configs.radialSegments) / MATH.TWO_PI);
+
 
 
             var selection = MATH.moduloPositive(Math.clamp(Math.round(radians), 0 ,this.configs.radialSegments), this.configs.radialSegments) ;
@@ -223,8 +226,8 @@ define([
             var angle = MATH.TWO_PI / count;
 
             for (var i = 0; i < this.vectors.length; i++) {
-                var addx = (radius*0.2 / this.configs.distanceSegments) * Math.cos(angle*i);
-                var addy = (radius*0.2 / this.configs.distanceSegments) * Math.sin(angle*i);
+                var addx = (radius*0.2 / this.configs.distanceSegments) * Math.sin(angle*i);
+                var addy = (radius*0.2 / this.configs.distanceSegments) * Math.cos(angle*i);
                 //    this.vectors[i].renderPosRadial(this.pointer.x + addx, this.pointer.y + addy, radius, angle*i);
 
                 var color = 'MAGENTA';

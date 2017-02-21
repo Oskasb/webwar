@@ -317,8 +317,8 @@ if(typeof(GAME) == "undefined"){
 			
 			var throttleState = (this.pieceControls.inputState.currentState[1] / this.pieceControls.constants.throttleSegments);
 			
-			this.spatial.applySteeringVector(this.calcVec, tickDelta, this.pieceControls.constants.radialVelocityClamp, (throttleState+0.5)*this.pieceControls.constants.radialLerpFactor);
-
+		//	this.spatial.applySteeringVector(this.calcVec, tickDelta, this.pieceControls.constants.radialVelocityClamp, (throttleState+0.5)*this.pieceControls.constants.radialLerpFactor);
+			this.spatial.yawTowards(this.calcVec.data[1], (0.5+throttleState+0.5)*this.pieceControls.constants.radialLerpFactor);
 			
 			
 		}

@@ -551,7 +551,7 @@ if(typeof(MODEL) == "undefined"){
 
 
 	MODEL.InputState = function() {
-        this.currentState = [0, 1]; // radial and distance sectors
+        this.currentState = [0, 0]; // radial and distance sectors
 		this.steering = new MATH.Vec3(0, 0, 0); //pitch, yaw, roll
 		this.targetting = 0;
         this.yawTowards = 1;
