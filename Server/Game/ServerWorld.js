@@ -264,16 +264,20 @@ ServerWorld.prototype.updatePlayers = function(currentTime) {
         //    piece.setState(GAME.ENUMS.PieceStates.MOVING);
             piece.networkDirty = true;
             //    this.broadcastPieceState(piece);
+            piece.processServerState(currentTime);
+            console.log(piece.spatial.posX(), piece.spatial.posY(), piece.spatial.posZ()  )
         } else {
 
 
             piece.spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this.players[key], MATH.tempNormal));
         //    piece.spatial.alignToGroundNormal(MATH.tempNormal);
+
+            piece.processServerState(currentTime, this.terrainFunctions);
         }
 
         //   var currentY = this.terrainFunctions.getHeightForPlayer(this.players[key]);
 
-		piece.processServerState(currentTime, this.terrainFunctions);
+		
                 
     //    this.players[key].piece.spatial.glueToGround();
         this.updateSectorStatus(this.players[key]);

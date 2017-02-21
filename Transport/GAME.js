@@ -286,6 +286,8 @@ if(typeof(GAME) == "undefined"){
 	};
 
 	GAME.Piece.prototype.teleportRandom = function() {
+		console.log("teleport");
+
 		this.setState(GAME.ENUMS.PieceStates.TELEPORT);
 		this.spatial.stop();
 		this.spatial.setPosXYZ(56+Math.random()*25, 0, 45+Math.random()*15);
@@ -377,7 +379,18 @@ if(typeof(GAME) == "undefined"){
 
 	};
 
-    GAME.Piece.prototype.requestTeleport = function() {
+	GAME.Piece.prototype.processPhysicsServerSpatialState = function(tickDelta, terrainFunctions) {
+
+
+
+		this.setState(GAME.ENUMS.PieceStates.MOVING);
+
+	};
+
+
+
+
+	GAME.Piece.prototype.requestTeleport = function() {
 
         this.teleportRandom();
         this.broadcast(this.makePacket());
@@ -390,7 +403,19 @@ if(typeof(GAME) == "undefined"){
 		this.temporal.networkTime = MODEL.NetworkTime;
 		this.processTemporalState(currentTime, MODEL.SimulationTime);
 		this.processModuleStates();
-		this.processSpatialState(MODEL.SimulationTime, terrainFunctions);
+
+		if (this.physics_) {
+			this.physics.body.calcVec.x = 1001;
+			this.physics.body.calcVec.y = 0;
+			this.physics.body.calcVec.z = 0;
+			this.physics.body.calcVec2.x = 0.1;
+			this.physics.body.calcVec2.y = 0.1;
+			this.physics.body.calcVec2.z = 0;
+			this.physics.body.applyLocalForce(this.physics.body.calcVec, this.physics.body.calcVec);
+			this.processPhysicsServerSpatialState(MODEL.SimulationTime);
+		} else {
+			this.processSpatialState(MODEL.SimulationTime, terrainFunctions);
+		}
 
 		if (this.networkDirty) {
 			this.broadcast(this.makePacket());

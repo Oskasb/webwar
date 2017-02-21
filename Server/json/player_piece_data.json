@@ -6,7 +6,7 @@
         "input": {
           "pointer":"InputSegmentRadial",
           "data":{
-            "radialSegments":32,
+            "radialSegments":12,
             "distanceSegments":3,
             "radius":350,
             "width":110,
@@ -22,12 +22,12 @@
         },
         "constants":{
           "shieldEnergy":50,
-          "radialSegments":32,
-          "throttleSegments": 5,
-          "velocityDrag":2.1,
-          "radialDrag":0.45,
-          "radialVelocityClamp":1.8,
-          "radialLerpFactor":1,
+          "radialSegments":12,
+          "throttleSegments": 3,
+          "velocityDrag":3.1,
+          "radialDrag":1.45,
+          "radialVelocityClamp":0.2,
+          "radialLerpFactor":0.2,
           "throttleLimit": 0.6,
           "throttleAmplitude": 25
         }

@@ -127,7 +127,7 @@ PhysicsFunctions.prototype.updateCannonWorld = function(world) {
         var dt = (currentTime - lastTime) / 1000;
         world.step(fixedTimeStep, dt, maxSubSteps);
     }
- //   console.log("Sphere z position: " + sphereBody.position.z);
+    console.log("Sphere z position: " + sphereBody.position.z);
     lastTime = currentTime;
 
 };
@@ -166,6 +166,8 @@ PhysicsFunctions.prototype.buildCannonBody = function(world, pos, bodyParams) {
 
         var ridigBody = new CANNON.Body(body);
     //    world.addBody(ridigBody);
+        ridigBody.calcVec = new CANNON.Vec3();
+        ridigBody.calcVec2 = new CANNON.Vec3();
         return ridigBody;
     }
 
