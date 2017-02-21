@@ -13,9 +13,7 @@ define([
 		InteractiveSurface,
 		GuiConstants
 		) {
-
-		var SystemBus = goo.SystemBus;
-		
+				
 		var guiStates = {
 			hidden:'hidden',
 			passive:'passive',

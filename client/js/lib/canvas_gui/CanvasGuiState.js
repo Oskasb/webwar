@@ -14,7 +14,6 @@ define([
 		GameDataPipeline
 		) {
 
-		var SystemBus = goo.SystemBus;
 
 		var CanvasGuiState = function(canvasCalls, cursor) {
 			this.uiParent = canvasCalls.uiParent;
@@ -141,7 +140,7 @@ define([
 
 		CanvasGuiState.prototype.registerListeners = function() {
 
-
+			return;
 
 
 			var handleRegisterElementId = function(args) {

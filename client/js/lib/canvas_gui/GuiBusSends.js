@@ -4,7 +4,7 @@ define([],
 
 	function() {
 
-		var SystemBus = goo.SystemBus;
+	//	var SystemBus = goo.SystemBus;
 		
 		var GuiBusSends = function(data) {
 			this.data = data;

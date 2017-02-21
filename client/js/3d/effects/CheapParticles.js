@@ -8,14 +8,14 @@ function(
 ) {
 
 
-	var Vector3 = goo.Vector3;
-	var MathUtils = goo.MathUtils;
-	var MeshData = goo.MeshData;
-	var Shader = goo.Shader;	
-	var Material = goo.Material;
-	var TextureCreator = goo.TextureCreator;
-	var Camera = goo.Camera;	
-	var BoundingSphere = goo.BoundingSphere;
+	var Vector3 = THREE.Vector3;
+//	var MathUtils = goo.MathUtils;
+//	var MeshData = goo.MeshData;
+//	var Shader = goo.Shader;
+//	var Material = goo.Material;
+//	var TextureCreator = goo.TextureCreator;
+//	var Camera = goo.Camera;
+//	var BoundingSphere = goo.BoundingSphere;
 
 
 	var path = "./client/assets/images/effects/";

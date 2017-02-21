@@ -6,9 +6,7 @@ define([
 	function(
 		GameScreen
 		) {
-
-		var SystemBus = goo.SystemBus;
-		
+				
 		var VisualCursor = function() {
 			this.x = 0;
 			this.y = 0;

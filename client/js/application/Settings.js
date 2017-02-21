@@ -9,8 +9,7 @@ define([
 		event
 		) {
 
-	var SystemBus = goo.SystemBus;		
-		
+
 		var curves = {
 			"zeroToOne":    [[0, 0], [1, 1]],
 			"oneToZero":    [[0, 1], [1, 0]],
@@ -94,7 +93,6 @@ define([
 		};
 
 		Setting.prototype.onStateChange = function() {
-			SystemBus.emit("message_to_gui", {channel:'system_channel', message:["Setting Change", this.params.name+": "+this.processedValue]});
 			Settings.fireOnChangeCallbacks(this.id, this.processedValue);
 
 			this.saveSetting(this.id, this.params);

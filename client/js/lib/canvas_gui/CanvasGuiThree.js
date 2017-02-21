@@ -150,7 +150,7 @@ define([
 		CanvasGuiThree.prototype.setElementPos = function(x, y) {
 
 			this.guiConfig.element.pos[0] = x;
-			this.guiConfig.element.pos[1] = -y;
+			this.guiConfig.element.pos[1] = y;
 
 			this.uiQuad.position.x = this.guiConfig.element.pos[0];
 			this.uiQuad.position.y = this.guiConfig.element.pos[1];
