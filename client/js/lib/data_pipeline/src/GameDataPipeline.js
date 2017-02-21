@@ -3,14 +3,12 @@
 define([
 		'data_pipeline/pipes/JsonPipe',
 		'data_pipeline/pipes/SvgPipe',
-		'data_pipeline/pipes/ImagePipe',
-		'data_pipeline/pipes/GooPipe'
+		'data_pipeline/pipes/ImagePipe'
 	],
 	function(
 		JsonPipe,
 		SvgPipe,
-		ImagePipe,
-		GooPipe
+		ImagePipe
 	) {
 
 		var GameDataPipeline = function() {

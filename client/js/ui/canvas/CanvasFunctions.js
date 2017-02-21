@@ -29,7 +29,7 @@ define([
         var ownPiece;
         var widgetConfigs;
         var selectedTarget;
-        var pointerFrustumPos = new goo.Vector3();
+        var pointerFrustumPos = new THREE.Vector3();
 
         var CanvasFunctions = function(canvasGuiApi) {
 
@@ -119,7 +119,7 @@ define([
 
                     CanvasDraw.drawElementBorders(ctx, configs.elementBorder, configs.size);
 
-                    pointerFrustumPos.setDirect(
+                    pointerFrustumPos.set(
                         ((mouseState.x-GameScreen.getLeft()) / GameScreen.getWidth() - 0.5),
                         -((mouseState.y-GameScreen.getTop()) / GameScreen.getHeight()) + 0.5,
                         0
@@ -172,10 +172,10 @@ define([
                 
                 fitView(frustumCoordinates);
 
-                distsq = goo.Vector3.distanceSquared(frustumCoordinates, pointerFrustumPos);
+                distsq = frustumCoordinates.distanceToSquared(pointerFrustumPos);
 
                 if (pointerDistance > distsq) {
-                    hoverCoords.setVector(frustumCoordinates);
+                    hoverCoords.copy(frustumCoordinates);
                     pointerDistance = distsq;
                     hoverPiece = piece;
                 }
@@ -184,8 +184,8 @@ define([
 
 
             var hoverPiece;
-            var frustumCoordinates = new goo.Vector3(0, 0, 0);
-            var hoverCoords = new goo.Vector3(0, 0, 0);
+            var frustumCoordinates = new THREE.Vector3(0, 0, 0);
+            var hoverCoords = new THREE.Vector3(0, 0, 0);
             var pointerDistance;
 
             var selectRange = 0.025;

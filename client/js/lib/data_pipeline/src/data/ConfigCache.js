@@ -1,12 +1,10 @@
 "use strict";
 
 define([
-		'data_pipeline/GameDataPipeline',
-		'data_pipeline/goodata/GooEntityCache'
+		'data_pipeline/GameDataPipeline'
 	],
 	function(
 		GameDataPipeline,
-		GooEntityCache
 	) {
 		var configs = {
 			urls:{}
@@ -23,8 +21,7 @@ define([
 		var requestedUrls = [];
 		var loadedUrls = [];
 		var remainingUrls = [];
-
-		var gooEntityCache = new GooEntityCache();
+		
 
 		var ConfigCache = function() {
 

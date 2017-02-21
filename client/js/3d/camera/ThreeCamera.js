@@ -3,13 +3,11 @@
 
 define(['Events',
     'PipelineAPI',
-    'EnvironmentAPI',
     '3d/camera/CameraFunctions',
-    'ui/GameScreen',
+    'ui/GameScreen'
 ], function(
     evt,
     PipelineAPI,
-    EnvironmentAPI,
     CameraFunctions,
     GameScreen
 ) {

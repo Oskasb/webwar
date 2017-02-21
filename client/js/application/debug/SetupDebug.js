@@ -4,11 +4,11 @@
 define([
     'application/debug/StatusMonitor',
     'application/debug/ModuleMonitor',
-    'application/debug/GooMonitor'
+    'application/debug/ThreeMonitor'
 ], function(
     StatusMonitor,
     ModuleMonitor,
-    GooMonitor
+    ThreeMonitor
 ) {
 
     
@@ -16,7 +16,7 @@ define([
     var SetupDebug = function() {
         new StatusMonitor();
         new ModuleMonitor();
-        new GooMonitor();
+        new ThreeMonitor();
     };
 
     return SetupDebug;
