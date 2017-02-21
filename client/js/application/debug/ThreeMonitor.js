@@ -49,19 +49,24 @@ define([
             calcVec4 = new Vector3();
         };
 
+        function setVector(threeVec, x, y, z) {
+            threeVec.x = x;
+            threeVec.y = y;
+            threeVec.z = z;
+        }
 
         function frameGraph() {
 
-            calcVec.setDirect(posLeft-padding, posTop, 0);
-            calcVec2.setDirect(posLeft+padding, posTop, 0);
+            setVector(calcVec,posLeft-padding, posTop, 0);
+            setVector(calcVec2,posLeft+padding, posTop, 0);
             screenSpaceLine(calcVec, calcVec2, lineRenderSystem.GREY);
 
-            calcVec.setDirect(posLeft, posTop-padding, 0);
-            calcVec2.setDirect(posLeft, posTop+height+padding, 0);
+            setVector(calcVec,posLeft, posTop-padding, 0);
+            setVector(calcVec2,osLeft, posTop+height+padding, 0);
             screenSpaceLine(calcVec, calcVec2, lineRenderSystem.GREY);
 
-            calcVec.setDirect(posLeft-padding, posTop+height, 0);
-            calcVec2.setDirect(posLeft+padding, posTop+height, 0);
+            setVector(calcVec,posLeft-padding, posTop+height, 0);
+            setVector( calcVec2, posLeft+padding, posTop+height, 0);
             screenSpaceLine(calcVec, calcVec2, lineRenderSystem.GREY);
         }
 
@@ -73,8 +78,8 @@ define([
 
             for (var i = 0; i < dataArray.length-1; i++) {
                 step = width / dataArray.length;
-                calcVec.setDirect(offsetY + posLeft+i*step, offset + posTop + dataArray[i][0]*height*scale, 0);
-                calcVec2.setDirect(offsetY + posLeft+(i+1)*step, offset + posTop + dataArray[i+1][0]*height*scale, 0);
+                setVector( calcVec,offsetY + posLeft+i*step, offset + posTop + dataArray[i][0]*height*scale, 0);
+                setVector(calcVec2, offsetY + posLeft+(i+1)*step, offset + posTop + dataArray[i+1][0]*height*scale, 0);
                 screenSpaceLine(calcVec, calcVec2, lineRenderSystem[color]);
             }
         }
@@ -104,20 +109,6 @@ define([
             screenSpaceLine(calcVec3, calcVec4, lineRenderSystem[evt.args(e).color]);
         }
 
-        function drawWorldBounds() {
-            calcVec.setDirect(0, 0, 0);
-            calcVec2.setDirect(100, 0, 0);
-            lineRenderSystem.drawLine(calcVec, calcVec2, lineRenderSystem.DARKPURP);
-
-            calcVec.setDirect(100, 100, 0);
-            lineRenderSystem.drawLine(calcVec2, calcVec, lineRenderSystem.DARKPURP);
-
-            calcVec2.setDirect(0, 100, 0);
-            lineRenderSystem.drawLine(calcVec, calcVec2, lineRenderSystem.DARKPURP);
-
-            calcVec.setDirect(0, 0, 0);
-            lineRenderSystem.drawLine(calcVec2, calcVec, lineRenderSystem.DARKPURP);
-        }
 
         var anchors = {
             bottom_right:[18, -18, 0],
@@ -132,7 +123,7 @@ define([
         }
 
         function drawRelativePosRad(e) {
-            calcVec3.setDirect(evt.args(e).x, evt.args(e).y, 0);
+            setVector(calcVec3, evt.args(e).x, evt.args(e).y, 0);
             MATH.radialToVector(evt.args(e).angle, evt.args(e).distance, calcVec4);
 
             if (anchors[evt.args(e).anchor]) {
@@ -235,15 +226,15 @@ define([
 
 
         function drawLine(from, to, color) {
-            calcVec.setDirect(from.data[0], from.data[1], from.data[2]);
-            calcVec2.setDirect(to.data[0], to.data[1], to.data[2]);
+            setVector(calcVec, from.data[0], from.data[1], from.data[2]);
+            setVector(calcVec2, to.data[0], to.data[1], to.data[2]);
             
             lineRenderSystem.drawLine(calcVec, calcVec2, lineRenderSystem[color] || lineRenderSystem.WHITE);
         }
 
         function drawCross(vec3, color) {
 
-            calcVec.setDirect(vec3.data[0], vec3.data[1], vec3.data[2]);
+            setVector(calcVec, vec3.data[0], vec3.data[1], vec3.data[2]);
             lineRenderSystem.drawCross(vec3, lineRenderSystem[color] || lineRenderSystem.WHITE, 1);
         }
 
@@ -263,7 +254,7 @@ define([
                 lineRenderSystem.passive = false
             } else {
                 if (linerendering) return;
-                g00.setRenderSystem(lineRenderSystem);
+                console.log("Line Render System Missing. MAKE ONE ! Enable")
             }
             linerendering = true;
         }
@@ -277,13 +268,13 @@ define([
         function handleCameraReady(e) {
             //    return
             calcVec9 = new MATH.Vec3(0, 0, 0);
-            g00 = evt.args(e).goo;
-            world = evt.args(e).goo.world;
-            cameraEntity = evt.args(e).camera;
+        //    g00 = evt.args(e).goo;
+        //    world = evt.args(e).goo.world;
+        //    cameraEntity = evt.args(e).camera;
 
             gooFpsGraph = new GooFpsGraph();
             gooTrafficGraph = new GooTrafficGraph();
-            lineRenderSystem = new LineRenderSystem(world);
+        //    lineRenderSystem = new LineRenderSystem(world);
 
             function debugLoaded(key, setupData) {
                 trackersEnable(setupData);
@@ -301,7 +292,7 @@ define([
 
         evt.fire(evt.list().MONITOR_STATUS, {CAMERA:'No Cam'});
 
-        evt.once(evt.list().CAMERA_READY, handleCameraReady);
+        evt.once(evt.list().ENGINE_READY, handleCameraReady);
 
         return ThreeMonitor;
 
