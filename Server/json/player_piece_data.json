@@ -7,9 +7,9 @@
           "pointer":"InputSegmentRadial",
           "data":{
             "radialSegments":32,
-            "distanceSegments":5,
-            "radius":150,
-            "width":20,
+            "distanceSegments":3,
+            "radius":350,
+            "width":110,
             "streamTimeout":0.2
           }
         },

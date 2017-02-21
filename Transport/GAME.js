@@ -84,14 +84,19 @@ if(typeof(GAME) == "undefined"){
 	//	this.inputState.setSteeringY( Math.PI*-0.5 + MATH.TWO_PI * -state[0] / this.constants.radialSegments);
 		var throttleState = (state[1] / this.constants.throttleSegments);
 
-		var turnPenalty = throttleState *-Math.cos(inputAngle);
+		var turnPenalty = throttleState -Math.cos(inputAngle);
+
+		throttleState = throttleState;
+
 
 		var amplifiedThrottle = turnPenalty * this.constants.throttleAmplitude;
 
 		this.inputState.setThrottle(amplifiedThrottle);
 
 
-		this.inputState.setSteeringY(inputAngle);
+		var currentSteering = this.inputState.getSteeringY();
+
+		this.inputState.setSteeringY(MATH.radialLerp(currentSteering, inputAngle, 0.1 + throttleState));
 
 		if (this.inputState.getThrottle() != 0) {
 			this.currentDrag = 1;

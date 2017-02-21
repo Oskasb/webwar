@@ -50,8 +50,8 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         this.influence = new THREE.Vector3(0, 0, -1);
 
 
-        this.masterCamLerp = 0.01;
-        this.masterPosLerp = 0.01;
+        this.masterCamLerp = 0.02;
+        this.masterPosLerp = 0.02;
         this.camLerpFactor = this.masterCamLerp;
 
         this.posLerpFactor = this.masterPosLerp;
@@ -73,18 +73,29 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
         var clear;
 
+        var lastTarget;
+        var attackStarted = function(src, data) {
+            clearTimeout(clear, 1);
+            targetId = data;
+            if (!data) {
+                targetId = lastTarget;
+            }
+
+        };
+
         var selected = function(src, data) {
 
             clearTimeout(clear, 1);
             //    console.log("Target: ", data);
             targetId = data;
             clear = setTimeout(function() {
+                lastTarget = data;
                 targetId = null;
-            }, 4000);
+            }, 2000);
 
         };
         PipelineAPI.subscribeToCategoryKey("CONTROL_STATE", "TOGGLE_TARGET_SELECTED", selected);
-
+        PipelineAPI.subscribeToCategoryKey("CONTROL_STATE", "TOGGLE_ATTACK_ENABLED", selected);
     };
     var targetId;
 
@@ -207,7 +218,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
             var distance = this.followMin+this.calcDistanceGain()*2;
 
 
-            MATH.radialToVector(MATH.addAngles(this.targetDir.y+Math.PI*0.5, this.targetRotVel.y*0.2), distance, calcVec);
+            MATH.radialToVector(MATH.addAngles(this.targetDir.y+Math.PI*0.5, this.targetRotVel.y*0.7), distance, calcVec);
             this.calcVec2.x = calcVec.data[0];
             this.calcVec2.y = calcVec.data[1];
             this.calcVec2.z = calcVec.data[2];
@@ -227,7 +238,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
     //    this.calcVec3.copy(this.targetVel);
     //    this.calcVec2.lerp(this.calcVec3, -0.5);
 
-        this.calcVec2.multiplyScalar(MATH.clamp(Math.min0(distance+this.rotVel*1.2, this.maxDist), -this.maxDist, this.maxDist));
+        this.calcVec2.multiplyScalar(MATH.clamp(Math.min(distance+this.rotVel*1.2, this.maxDist), -this.maxDist, this.maxDist));
     //    this.calcVec3.addVectors(this.calcVec2, this.t0argetPos);
         this.cameraIdeal.addVectors(this.targetPos, this.calcVec2);
 
