@@ -294,7 +294,7 @@ define([
 
         evt.fire(evt.list().MONITOR_STATUS, {CAMERA:'No Cam'});
 
-        evt.once(evt.list().CONNECTION_OPEN, handleCameraReady);
+        evt.once(evt.list().PLAYER_READY, handleCameraReady);
 
         return ThreeMonitor;
 

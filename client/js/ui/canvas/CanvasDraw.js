@@ -34,6 +34,7 @@ define([
 
         CanvasDraw.vectorToY = function(vec, size) {
 
+            
             if (vec.x) {
                 return size.width - vec.x * size.width*0.01;
             } else {

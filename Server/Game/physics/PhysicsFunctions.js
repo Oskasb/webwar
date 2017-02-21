@@ -127,7 +127,7 @@ PhysicsFunctions.prototype.updateCannonWorld = function(world) {
         var dt = (currentTime - lastTime) / 1000;
         world.step(fixedTimeStep, dt, maxSubSteps);
     }
-    console.log("Sphere z position: " + sphereBody.position.z);
+    console.log("Sphere z position: " + sphereBody.position.y);
     lastTime = currentTime;
 
 };

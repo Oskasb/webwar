@@ -150,14 +150,11 @@ define([
             //    evt.removeListener(evt.list().PARTICLES_READY, particlesReady);
         //    };
 
-
             function connectClient() {
                 console.log('connectClient')
                 client.initiateClient(new SocketMessages(), connectionReady);
             }
-
-
-
+            
 
             var loadStateChange = function(state) {
             //    console.log('loadStateChange', state)
@@ -167,8 +164,7 @@ define([
 
                     _this.preloadImages();
                 }
-
-
+                
 
                 if (state == _this.getStates().COMPLETED) {
 
@@ -180,18 +176,13 @@ define([
                     setTimeout(function() {
                         initClient(clientReady);
                     }, 10);
-                    
 
                 }
 
             };
 
             evt.fire(evt.list().MESSAGE_UI, {channel:'pipeline_message', message:window.location.href});
-
-
-
-
-
+            
             function pipelineCallback(started, remaining, loaded) {
                 console.log("SRL", started, remaining, loaded);
 
