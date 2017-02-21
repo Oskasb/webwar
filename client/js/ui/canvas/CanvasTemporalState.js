@@ -9,7 +9,7 @@ define([
         CanvasDraw
     ) {
 
-        var Vector3 = goo.Vector3;
+        var Vector3 = THREE.Vector3;
         var rangeX;
         var rangeY;
 
