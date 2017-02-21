@@ -193,7 +193,7 @@ define([
 
 
             function pipelineCallback(started, remaining, loaded) {
-            //    console.log("SRL", started, remaining, loaded);
+                console.log("SRL", started, remaining, loaded);
 
                 evt.fire(evt.list().MONITOR_STATUS, {FILE_CACHE:loaded});
 
@@ -204,27 +204,19 @@ define([
                     loadState = loadStates.COMPLETED;
                     PipelineAPI.setCategoryData('STATUS', {PIPELINE:pipelineOn});
                     PipelineAPI.subscribeToCategoryKey('setup', 'DEBUG', setDebug);
-
                     loadStateChange(loadState);
-
                 }
 
                 if (loadState == loadStates.CONFIGS && remaining == 0) {
                     console.log( "json files loaded.. go for the heavy stuff next.")
                     loadState = loadStates.IMAGES;
-
                     loadStateChange(loadState);
-
                 }
 
                 if (loadState == loadStates.SHARED_FILES && remaining == 0) {
                     console.log( "shared loaded....")
                     loadState = loadStates.CONFIGS;
-
                     loadStateChange(loadState);
-
-
-
                 }
             }
 
@@ -232,7 +224,8 @@ define([
 
 
             var sharedFilesLoaded = function() {
-        //        console.log('sharedFilesLoaded')
+         //       console.log('sharedFilesLoaded')
+                evt.fire(evt.list().SHARED_LOADED, {});
                 function pipelineError(src, e) {
                     console.log("Pipeline error Ready", src, e);
                     evt.fire(evt.list().MESSAGE_UI, {channel:'pipeline_error', message:'Pipeline Error '+src+' '+e});

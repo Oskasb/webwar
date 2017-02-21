@@ -1,14 +1,14 @@
 define([
-		'ui/lines/LineRenderer'
+		'application/debug/lines/LineRenderer'
 	],
 	function (
 			  LineRenderer
 			  ) {
 		'use strict';
 		
-		var System= goo.System;
-		var	SystemBus = goo.SystemBus;
-		var	Vector3 = goo.Vector3;
+		var System= {update:function(){}};
+	//	var	SystemBus = goo.SystemBus;
+		var	Vector3 = THREE.Vector3;
 
 
 
@@ -44,7 +44,7 @@ define([
 			}.bind(this));
 		}
 
-		LineRenderSystem.prototype = Object.create(System.prototype);
+	//	LineRenderSystem.prototype = Object.create(System.prototype);
 		LineRenderSystem.prototype.constructor = LineRenderSystem;
 
 		var tmpVec1 = new Vector3();

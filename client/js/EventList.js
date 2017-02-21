@@ -38,10 +38,10 @@ define(function() {
 		CURSOR_RELEASE_FAST:{type:'CURSOR_RELEASE_FAST', args:{data:{}}},
 		
 		PARTICLE_TEXT:{type:'PARTICLE_TEXT', args:{}},
+
+		SHARED_LOADED:{type:'SHARED_LOADED', args:{}},
 		
 		GAME_EFFECT:{type:'GAME_EFFECT', args:{effect:"string", pos:{data:[0, 0, 0]}, vel:{data:[0, 0, 0]}, callbacks:{}}},
-
-		ATTACH_BUNDLE_ENTITY:{type:'ATTACH_BUNDLE_ENTITY', args:{parent:{}, entityName:''}},
 
 		INPUT_PLAYER_CONTROL:{type:'INPUT_PLAYER_CONTROL', args:{data:{}}},
 		CONTROLLED_PIECE_UPDATED:{type:'CONTROLLED_PIECE_UPDATED', args:{}},

@@ -5,13 +5,15 @@ define([
         'Events',
         'ui/GooFpsGraph',
         'ui/GooTrafficGraph',
-        'PipelineAPI'
+        'PipelineAPI',
+    'application/debug/lines/LineRenderSystem'
     ],
     function(
         evt,
         GooFpsGraph,
         GooTrafficGraph,
-        PipelineAPI
+        PipelineAPI,
+        LineRenderSystem
     ) {
 
 
@@ -292,7 +294,7 @@ define([
 
         evt.fire(evt.list().MONITOR_STATUS, {CAMERA:'No Cam'});
 
-        evt.once(evt.list().ENGINE_READY, handleCameraReady);
+        evt.once(evt.list().CONNECTION_OPEN, handleCameraReady);
 
         return ThreeMonitor;
 

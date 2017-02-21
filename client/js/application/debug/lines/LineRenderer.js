@@ -2,11 +2,11 @@ define([],
 	function ( ) {
 		'use strict';
 
-		var Material = goo.Material;
-		var MeshData = goo.MeshData;
-		var ShaderLib = goo.ShaderLib;
-		var Shader = goo.Shader;
-		var Transform = goo.Transform;
+	//	var Material = goo.Material;
+	//	var MeshData = goo.MeshData;
+	//	var ShaderLib = goo.ShaderLib;
+	//	var Shader = goo.Shader;
+	//	var Transform = goo.Transform;
 
 
 
@@ -31,7 +31,7 @@ define([],
                 materials: [this._material]
             };
 
-            this._rendering = false;
+            this._rendering = false;//
 
             this._numRenderingLines = 0;
             this._meshData.vertexCount = 0;
@@ -40,17 +40,18 @@ define([],
         }
 
         LineRenderer.ATTRIBUTE_MAP = {
-            POSITION: MeshData.createAttribute(3, 'Float'),
-            RGB_COLOR: MeshData.createAttribute(3, 'Float')
+     //       POSITION: MeshData.createAttribute(3, 'Float'),
+     //       RGB_COLOR: MeshData.createAttribute(3, 'Float')
         };
-
+/*
         LineRenderer.COLORED_LINE_SHADER = {
+
             attributes: {
                 vertexPosition: 'POSITION',
                 vertexColor: 'RGB_COLOR'
             },
             uniforms: {
-                viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX
+                viewProjectionMatrix: THREE.VIEW_PROJECTION_MATRIX
             },
             vshader: [
                 'attribute vec3 vertexPosition;',
@@ -76,7 +77,7 @@ define([],
         };
 
         LineRenderer.MAX_NUM_LINES = 65536;
-
+*/
         /**
          * Used internally to update the vertexData in meshData.
          */
