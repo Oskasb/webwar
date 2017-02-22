@@ -453,6 +453,31 @@ THREE.Terrain.POLYGONREDUCTION = 3;
  *   A 2D array representing the terrain's heightmap.
  */
 THREE.Terrain.toArray2D = function(vertices, options) {
+
+
+
+    var matrix = [];
+    var sizeX = Math.sqrt(vertices.length);
+    var sizeY = Math.sqrt(vertices.length);
+
+    var idx = 0;
+
+    for (var i = 0; i < sizeX; i++) {
+        matrix.push([]);
+        for (var j = 0; j < sizeY; j++) {
+
+            matrix[i].push(-vertices[idx].z);
+
+            idx++;
+        }
+    //    console.log(matrix[i])
+    }
+
+    console.log("INDEXES BUILT:", idx, i, j, matrix.length);
+
+    return matrix;
+
+
     var tgt = new Array(options.xSegments),
         xl = options.xSegments + 1,
         yl = options.ySegments + 1,
@@ -460,7 +485,7 @@ THREE.Terrain.toArray2D = function(vertices, options) {
     for (i = 0; i < xl; i++) {
         tgt[i] = new Float64Array(options.ySegments);
         for (j = 0; j < yl; j++) {
-            tgt[i][j] = vertices[j * xl + i].z;
+            tgt[i][j] = -vertices[j * xl + i].z;
         }
     }
     return tgt;
@@ -477,6 +502,9 @@ THREE.Terrain.toArray2D = function(vertices, options) {
  *   A 2D array representing a heightmap to apply to the terrain.
  */
 THREE.Terrain.fromArray2D = function(vertices, src) {
+
+
+
     for (var i = 0, xl = src.length; i < xl; i++) {
         for (var j = 0, yl = src[i].length; j < yl; j++) {
             vertices[j * xl + i].z = src[i][j];

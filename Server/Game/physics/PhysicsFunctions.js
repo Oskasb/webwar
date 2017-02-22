@@ -13,13 +13,48 @@ var wheelMaterial;
 var wheelGroundContactMaterial;
 
 
+var fixedTimeStep = 1.0 / 60.0; // seconds
+var maxSubSteps = 3;
+// Global settings
+var settings = {
+    stepFrequency: 60,
+    quatNormalizeSkip: 2,
+    quatNormalizeFast: true,
+    gx: 0,
+    gy: 0,
+    gz: 0,
+    iterations: 3,
+    tolerance: 0.0001,
+    k: 1e6,
+    d: 3,
+    scene: 0,
+    paused: false,
+    rendermode: "solid",
+    constraints: false,
+    contacts: false,  // Contact points
+    cm2contact: false, // center of mass to contact points
+    normals: false, // contact normals
+    axes: false, // "local" frame axes
+    particleSize: 0.1,
+    shadows: false,
+    aabbs: false,
+    profiling: false,
+    maxSubSteps:3
+};
+
+
 PhysicsFunctions.prototype.createCannonWorld = function() {
+
+
 
     this.calcVec = new CANNON.Vec3();
     
     var world = new CANNON.World();
 
-    world.broadphase = new CANNON.SAPBroadphase(world);
+     world.broadphase = new CANNON.SAPBroadphase(world);
+
+    //  world.broadphase = new CANNON.NaiveBroadphase();
+
     world.defaultContactMaterial.friction = 0;
 
     groundMaterial = new CANNON.Material("groundMaterial");
@@ -34,56 +69,34 @@ PhysicsFunctions.prototype.createCannonWorld = function() {
     world.addContactMaterial(wheelGroundContactMaterial);
 
 
-    world.gravity.set(0, -9.82, 0); // m/s²
+    world.gravity.set(0,  0, -9.82); // m/s²
     world = world;
 // Create a sphere
     var radius = 1; // m
     sphereBody = new CANNON.Body({
         mass: 5, // kg
-        position: new CANNON.Vec3(0, 0, 510), // m
+        position: new CANNON.Vec3(10, 10, 2), // m
         shape: new CANNON.Sphere(radius)
     });
     world.addBody(sphereBody);
 
 // Create a plane
     var groundBody = new CANNON.Body({
-        mass: 0 // mass == 0 makes the body static
+        mass: 0, // mass == 0 makes the body static
+        allowSleep:false
     });
 
     var groundShape = new CANNON.Plane();
     groundBody.addShape(groundShape);
-    world.addBody(groundBody);
+//    world.addBody(groundBody);
+
+//    groundBody.quaternion.setFromEuler(1, 1, 0, 'XYZ');
 
     fixedTimeStep = 1.0 / 60.0; // seconds
     maxSubSteps = 3;
 
 
-    // Global settings
-    var settings = this.settings = {
-        stepFrequency: 60,
-        quatNormalizeSkip: 2,
-        quatNormalizeFast: true,
-        gx: 0,
-        gy: 0,
-        gz: 0,
-        iterations: 3,
-        tolerance: 0.0001,
-        k: 1e6,
-        d: 3,
-        scene: 0,
-        paused: false,
-        rendermode: "solid",
-        constraints: false,
-        contacts: false,  // Contact points
-        cm2contact: false, // center of mass to contact points
-        normals: false, // contact normals
-        axes: false, // "local" frame axes
-        particleSize: 0.1,
-        shadows: false,
-        aabbs: false,
-        profiling: false,
-        maxSubSteps:3
-    };
+
 
     function makeSureNotZero(vec){
         if(vec.x===0.0){
@@ -113,41 +126,41 @@ PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
         console.log("No body on", piece.id);
     }
     body.quaternion.toEuler(this.calcVec);
-    piece.spatial.setPosXYZ(body.position.x, body.position.y, body.position.z);
-    piece.spatial.fromAngles(this.calcVec.x, this.calcVec.y, this.calcVec.z);
-    piece.spatial.setVelocity(body.velocity.x, body.velocity.y, body.velocity.z);
-    piece.spatial.setRotVelAngles(body.angularVelocity.x, body.velocity.y, body.velocity.z);
+    piece.spatial.setPosXYZ(body.position.x,                body.position.z, body.position.y);
+    piece.spatial.fromAngles(this.calcVec.x,                 this.calcVec.z , this.calcVec.y );
+    piece.spatial.setVelocity(body.velocity.x,              body.velocity.z, body.velocity.y);
+    piece.spatial.setRotVelAngles(body.angularVelocity.x,   body.velocity.z, body.velocity.y);
 
 };
 
-PhysicsFunctions.prototype.updateCannonWorld = function(world) {
+PhysicsFunctions.prototype.updateCannonWorld = function(world, currentTime) {
 
 
     if(lastTime !== undefined){
-        var dt = (currentTime - lastTime) / 1000;
+        var dt = (currentTime - lastTime);
         world.step(fixedTimeStep, dt, maxSubSteps);
     }
-    console.log("Sphere z position: " + sphereBody.position.y);
+ //   console.log("Sphere xyz position: "+ sphereBody.position.x +' _ '+ sphereBody.position.y+' _ '+ sphereBody.position.z);
     lastTime = currentTime;
 
 };
 
 
 
-PhysicsFunctions.prototype.createCannonTerrain = function(world, data, totalSize, pos, minHeight, maxHeight) {
+PhysicsFunctions.prototype.createCannonTerrain = function(world, data, totalSize, posx, posz,minHeight, maxHeight) {
 
+    console.log("POS:",  posx, posz, totalSize, minHeight)
+    var matrix = data;
 
-    var size = totalSize / data.length;
+    var hfShape = new CANNON.Heightfield(matrix, {
+        elementSize: totalSize / data.length
+    });
+    var hfBody = new CANNON.Body({ mass: 0 });
+    hfBody.addShape(hfShape);
+    hfBody.position.set(posx, posz, minHeight);
 
-    console.log(size)
-    // Create the heightfield shape
+    world.addBody(hfBody);
 
-    var heightfieldShape = new CANNON.Heightfield(data, {elementSize: size }); // Distance between the data points in X and Y directions});
-    var heightfieldBody = new CANNON.Body();
-    heightfieldBody.addShape(heightfieldShape);
-    heightfieldBody.position.set(pos[0],  minHeight, pos[2]);
-    world.addBody(heightfieldBody);
- //   console.log(size , Math.sqrt(data.length));
 };
 
 
@@ -160,7 +173,7 @@ PhysicsFunctions.prototype.buildCannonBody = function(world, pos, bodyParams) {
         var shape = new CANNON[bodyParams.shape](bodyParams.size);
         var body = {
             mass: 5, // kg
-            position: new CANNON.Vec3(pos[0], pos[1], pos[2]), // m
+            position: new CANNON.Vec3(pos[0], pos[2], pos[1]), // m
             shape: shape
         };
 

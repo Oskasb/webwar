@@ -11,8 +11,8 @@ CannonAPI.prototype.initServerPhysics = function() {
 };
 
 
-CannonAPI.prototype.buildPhysicalTerrain = function(data, size, pos, min_height, max_height) {
-    this.physicsFunctions.createCannonTerrain(this.world, data, size, pos, min_height, max_height)
+CannonAPI.prototype.buildPhysicalTerrain = function(data, size, posx, posz, min_height, max_height) {
+    this.physicsFunctions.createCannonTerrain(this.world, data, size, posx, posz, min_height, max_height)
 };
 
 CannonAPI.prototype.attachPiecePhysics = function(piece) {
@@ -46,6 +46,6 @@ CannonAPI.prototype.updatePhysicalPiece = function(piece) {
 };
 
 
-CannonAPI.prototype.updatePhysicsSimulation = function() {
-    this.physicsFunctions.updateCannonWorld(this.world)
+CannonAPI.prototype.updatePhysicsSimulation = function(currentTime) {
+    this.physicsFunctions.updateCannonWorld(this.world, currentTime)
 };

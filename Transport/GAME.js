@@ -290,15 +290,25 @@ if(typeof(GAME) == "undefined"){
 
 		this.setState(GAME.ENUMS.PieceStates.TELEPORT);
 		this.spatial.stop();
-		this.spatial.setPosXYZ(56+Math.random()*25, 0, 45+Math.random()*15);
+		this.spatial.setPosXYZ(5+Math.random()*20, 0, 5+Math.random()*15);
+
+		if (this.physics) {
+			this.physics.body.position.x = this.spatial.posX();
+			this.physics.body.position.z = this.spatial.posY();
+			this.physics.body.position.y = this.spatial.posZ();
+			this.physics.body.angularVelocity.x = 0;
+			this.physics.body.angularVelocity.z = 10;
+			this.physics.body.angularVelocity.y = 0;
+			this.physics.body.velocity.x = 0;
+			this.physics.body.velocity.z = 0;
+			this.physics.body.velocity.y = 0;
+		}
 	};
 
 	GAME.Piece.prototype.applyForwardControl = function(timeFactor) {
 		this.spatial.getForwardVector(this.calcVec);
 		this.calcVec.scale(this.pieceControls.actions.applyForward * timeFactor );
 		this.spatial.addVelVec(this.calcVec);
-		
-		
 	};
 
 	GAME.Piece.prototype.applyControlStates = function(tickDelta) {
@@ -379,10 +389,9 @@ if(typeof(GAME) == "undefined"){
 
 	};
 
-	GAME.Piece.prototype.processPhysicsServerSpatialState = function(tickDelta, terrainFunctions) {
+	GAME.Piece.prototype.processPhysicsServerSpatialState = function(tickDelta) {
 
-
-
+	//	this.updateServerSpatial(tickDelta, terrainFunctions);
 		this.setState(GAME.ENUMS.PieceStates.MOVING);
 
 	};
