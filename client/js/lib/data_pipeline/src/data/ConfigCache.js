@@ -4,7 +4,7 @@ define([
 		'data_pipeline/GameDataPipeline'
 	],
 	function(
-		GameDataPipeline,
+		GameDataPipeline
 	) {
 		var configs = {
 			urls:{}
