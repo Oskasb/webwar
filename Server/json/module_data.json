@@ -9,9 +9,9 @@
       "initState": true,
       "size":4,
       "rigid_body":{
+        "shape":"Vehicle",
         "mass":5,
-        "shape":"Sphere",
-        "size":10
+        "size":4
       },
       "applies":{
         "type":"string",

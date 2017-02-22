@@ -17,6 +17,7 @@ ServerModule = function(moduleId, data, piece, serverModuleCallbacks) {
 };
 
 ServerModule.prototype.attachRigidBody = function(rigidBodyParams) {
+    console.log("Attach RB", this.data.rigid_body);
     this.piece.physics = {};
     this.piece.physics.rigid_body = rigidBodyParams;
 };

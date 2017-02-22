@@ -1,5 +1,5 @@
 [{
-  "dataType":"_GRID_SECTORS",
+  "dataType":"GRID_SECTORS",
   "sectors":{
     "data":[
 
@@ -7,14 +7,14 @@
         "weight":1000,
         "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
         "spawn":[
-          {"pieceType":"big_space_rock_piece", "min":5, "max":15},
-          {"pieceType":"small_space_rock_piece", "min":5, "max":5}
+          {"pieceType":"big_space_rock_piece", "min":0, "max":0},
+          {"pieceType":"small_space_rock_piece", "min":0, "max":0}
         ]}
     ]
 
   }
 },{
-  "dataType":"GRID_SECTORS",
+  "dataType":"_GRID_SECTORS",
   "sectors":{
     "data":[
 

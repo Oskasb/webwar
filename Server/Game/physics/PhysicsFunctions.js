@@ -1,7 +1,14 @@
 var CANNON = require('./cannon.js');
 
-PhysicsFunctions = function() {
+var THREE = require('three');
 
+var threeEuler;
+var threeEuler2;
+
+PhysicsFunctions = function() {
+    threeQuat = new THREE.Quaternion();
+    threeEuler = new THREE.Euler(0, 0, 0, 'XZY');
+    threeEuler2 = new THREE.Euler();
 };
 
 var lastTime;
@@ -11,6 +18,8 @@ var currentTime;
 var groundMaterial;
 var wheelMaterial;
 var wheelGroundContactMaterial;
+
+var threeQuat;
 
 
 var fixedTimeStep = 1.0 / 60.0; // seconds
@@ -124,12 +133,49 @@ PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
     
     if (!body) {
         console.log("No body on", piece.id);
+        return;
+
+    } else {
+    //    console.log(body.position.x, body.position.z, body.position.y)
     }
+
     body.quaternion.toEuler(this.calcVec);
-    piece.spatial.setPosXYZ(body.position.x,                body.position.z, body.position.y);
-    piece.spatial.fromAngles(this.calcVec.x,                 this.calcVec.z , this.calcVec.y );
+
+
+
+    threeEuler.x = this.calcVec.x;
+    threeEuler.y = this.calcVec.y;
+    threeEuler.z = this.calcVec.z;
+
+
+    threeQuat.setFromEuler(threeEuler);
+
+ //   threeQuat.x = body.quaternion.x;
+ //   threeQuat.y = body.quaternion.y;
+ //   threeQuat.z = body.quaternion.z;
+ //   threeQuat.w = body.quaternion.w;
+
+    threeEuler2.setFromQuaternion(threeQuat, 'XYZ');
+ //   threeEuler.reorder('XZY');
+    
+    /*
+    piece.spatial.setPosXYZ(body.position.x,                body.position.y,               body.position.z);
+    piece.spatial.fromAngles(this.calcVec.x,                this.calcVec.y,                 this.calcVec.z );
+    piece.spatial.setVelocity(body.velocity.x,              body.velocity.y,               body.velocity.z);
+    piece.spatial.setRotVelAngles(body.angularVelocity.x,   body.angularVelocity.y, body.angularVelocity.z);
+     */
+
+    console.log(threeEuler2.x ,          threeEuler2.z, threeEuler2.y);
+
+    piece.spatial.setPosXYZ(body.position.x,                 body.position.z, body.position.y);
+
+    piece.spatial.fromAngles(threeEuler2.x,          threeEuler2.z -Math.PI*0.5, threeEuler2.y );
+
+    //    piece.spatial.fromAngles(this.calcVec.x,                this.calcVec.z-Math.PI*0.5,                 this.calcVec.y );
+
     piece.spatial.setVelocity(body.velocity.x,              body.velocity.z, body.velocity.y);
-    piece.spatial.setRotVelAngles(body.angularVelocity.x,   body.velocity.z, body.velocity.y);
+
+ //   piece.spatial.setRotVelAngles(body.angularVelocity.x,   body.angularVelocity.z, body.angularVelocity.y);
 
 };
 
@@ -164,16 +210,22 @@ PhysicsFunctions.prototype.createCannonTerrain = function(world, data, totalSize
 };
 
 
-PhysicsFunctions.prototype.buildCannonBody = function(world, pos, bodyParams) {
+PhysicsFunctions.prototype.buildCannonBody = function(world, spatial, bodyParams) {
+    
+    console.log("ELEVATION FOR BODY:", spatial.pos.data, bodyParams.size);
 
     if (bodyParams.shape == 'Vehicle') {
-     return createVehicle(world, pos)
+        var rigidBody = createVehicle(world, spatial, bodyParams);
+        return rigidBody;
+
+
 
     } else {
+
         var shape = new CANNON[bodyParams.shape](bodyParams.size);
         var body = {
-            mass: 5, // kg
-            position: new CANNON.Vec3(pos[0], pos[2], pos[1]), // m
+            mass: bodyParams.mass, // kg
+            position: new CANNON.Vec3(spatial.posX(), spatial.posZ(), spatial.posY()+bodyParams.size), // m
             shape: shape
         };
 
@@ -181,27 +233,33 @@ PhysicsFunctions.prototype.buildCannonBody = function(world, pos, bodyParams) {
     //    world.addBody(ridigBody);
         ridigBody.calcVec = new CANNON.Vec3();
         ridigBody.calcVec2 = new CANNON.Vec3();
+        world.addBody(ridigBody);
         return ridigBody;
     }
 
 };
 
 
-var createVehicle = function(world, pos) {
+var createVehicle = function(world, spatial, bodyParams) {
 
-    var mass = 150;
+    var mass = 550;
     var vehicle;
 
-    var groundMaterial = new CANNON.Material("groundMaterial");
-    var wheelMaterial = new CANNON.Material("wheelMaterial");
-    
+ //   var groundMaterial = new CANNON.Material("groundMaterial");
+ //   var wheelMaterial = new CANNON.Material("wheelMaterial");
+
+    var width = 2;
+    var length = 3;
+    var clearance = 0.5;
 
     var chassisShape;
-    chassisShape = new CANNON.Box(new CANNON.Vec3(2, 1,0.5));
+    chassisShape = new CANNON.Box(new CANNON.Vec3(length*2, width*2, 0.7));
     var chassisBody = new CANNON.Body({ mass: mass });
     chassisBody.addShape(chassisShape);
-    chassisBody.position.set(pos[0], pos[1]+3, pos[2]);
-    chassisBody.angularVelocity.set(0, 0, 0.5);
+    chassisBody.position.set(spatial.posX(), spatial.posZ(), spatial.posY()+bodyParams.size);
+    chassisBody.angularVelocity.set(0, 0, 0.2);
+
+
 
 
     var options = {
@@ -214,28 +272,30 @@ var createVehicle = function(world, pos) {
         dampingCompression: 4.4,
         maxSuspensionForce: 100000,
         rollInfluence:  0.01,
-        axleLocal: new CANNON.Vec3(0, 1, 0),
-        chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0),
-        maxSuspensionTravel: 0.3,
-        customSlidingRotationalSpeed: -30,
+        axleLocal: new CANNON.Vec3(0, -1, 0),
+        chassisConnectionPointLocal: new CANNON.Vec3(length, length, 0),
+        maxSuspensionTravel: 0.5,
+        customSlidingRotationalSpeed: -20,
         useCustomSlidingRotationalSpeed: true
     };
 
     // Create the vehicle
     vehicle = new CANNON.RaycastVehicle({
-        chassisBody: chassisBody,
+        chassisBody: chassisBody,//
     });
 
-    options.chassisConnectionPointLocal.set(1, 1, 0);
+    chassisBody.vehicle = vehicle;
+
+    options.chassisConnectionPointLocal.set(-width, -length, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(1, -1, 0);
+    options.chassisConnectionPointLocal.set(-width, length, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(-1, 1, 0);
+    options.chassisConnectionPointLocal.set(width, -length, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(-1, -1, 0);
+    options.chassisConnectionPointLocal.set(width, length, -clearance);
     vehicle.addWheel(options);
 
     vehicle.addToWorld(world);
@@ -278,38 +338,8 @@ var createVehicle = function(world, pos) {
     var maxSteerVal = 0.5;
     var maxForce = 1000;
     var brakeForce = 1000000;
-
-    switch('controls'){
-
-        case 38: // forward
-            vehicle.applyEngineForce(up ? 0 : -maxForce, 2);
-            vehicle.applyEngineForce(up ? 0 : -maxForce, 3);
-            break;
-
-        case 40: // backward
-            vehicle.applyEngineForce(up ? 0 : maxForce, 2);
-            vehicle.applyEngineForce(up ? 0 : maxForce, 3);
-            break;
-
-        case 66: // b
-            vehicle.setBrake(brakeForce, 0);
-            vehicle.setBrake(brakeForce, 1);
-            vehicle.setBrake(brakeForce, 2);
-            vehicle.setBrake(brakeForce, 3);
-            break;
-
-        case 39: // right
-            vehicle.setSteeringValue(up ? 0 : -maxSteerVal, 0);
-            vehicle.setSteeringValue(up ? 0 : -maxSteerVal, 1);
-            break;
-
-        case 37: // left
-            vehicle.setSteeringValue(up ? 0 : maxSteerVal, 0);
-            vehicle.setSteeringValue(up ? 0 : maxSteerVal, 1);
-            break;
-
-    }
-    return vehicle;
+    
+    return chassisBody;
     
 };
 

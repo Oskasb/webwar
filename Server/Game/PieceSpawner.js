@@ -74,6 +74,23 @@ PieceSpawner.prototype.spawnPlayerPiece = function(client, data, clients, simula
 };
 
 
+
+PieceSpawner.prototype.spawnPhysicsPiece = function(pieceType, posx, posz, rot, rotVel, posY) {
+    this.pieceCount++;
+
+    var piece = new GAME.Piece(pieceType, pieceType+' '+this.pieceCount, new Date().getTime(), Number.MAX_VALUE);
+    var config = this.buildPieceData(pieceType, this.gameConfigs);
+
+    piece.applyConfig(config);
+
+    this.addAttachmentPoints(piece, config, this.gameConfigs);
+
+    piece.setState(GAME.ENUMS.PieceStates.SPAWN);
+
+    return piece;
+
+};
+
 PieceSpawner.prototype.spawnWorldPiece = function(pieceType, posx, posz, rot, rotVel, posY) {
     this.pieceCount++;
     
@@ -85,7 +102,7 @@ PieceSpawner.prototype.spawnWorldPiece = function(pieceType, posx, posz, rot, ro
     this.addAttachmentPoints(piece, config, this.gameConfigs);
 
     piece.setState(GAME.ENUMS.PieceStates.SPAWN);
-    piece.spatial.setPosXYZ(posx, posY || 0, posz);
+    piece.spatial.setPosXYZ(posx, posY, posz);
     piece.spatial.setYaw(rot);
     piece.spatial.setYawVel(rotVel);
     return piece;

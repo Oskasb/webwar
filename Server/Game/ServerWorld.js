@@ -66,8 +66,10 @@ ServerWorld.prototype.applyControlModule = function(sourcePiece, moduleData, act
 
 
 ServerWorld.prototype.createWorldPiece = function(pieceType, posx, posz, rot, rotVel, posY) {
-    
-    piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel, posY);
+
+
+        piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel, posY);
+
 
 
     this.addWorldPiece(piece);
@@ -153,10 +155,10 @@ ServerWorld.prototype.updateWorldPiece = function(piece, currentTime) {
 	piece.processTemporalState(currentTime);
 
     if (piece.physics) {
-        
+    //    console.log("phys piece")
         this.cannonAPI.updatePhysicalPiece(piece);
         piece.setState(GAME.ENUMS.PieceStates.MOVING);
-        piece.networkDirty = true;
+    //    piece.networkDirty = true;
     //    this.broadcastPieceState(piece);
     } else {
         if (piece.spatial.pos.getY() > 0) {
@@ -187,6 +189,11 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
 	var timeouts = [];
 
 	for (var i = 0; i < this.pieces.length; i++) {
+
+
+        if (this.pieces[i].physics) {
+            this.cannonAPI.updatePhysicalPiece(this.pieces[i]);
+        };
 
 
         if (this.pieces[i].spatial.vel.getX() > 0.01 || this.pieces[i].spatial.vel.getZ() > 0.01) {
@@ -257,15 +264,15 @@ ServerWorld.prototype.updatePlayers = function(currentTime) {
 	for (var key in this.players) {
         var piece = this.players[key].piece;
 
-        if (piece.physics.body_) {
+        if (piece.physics.body) {
 
-            console.log("Player Body")
+            //    console.log("Player Body")
             this.cannonAPI.updatePhysicalPiece(piece);
         //    piece.setState(GAME.ENUMS.PieceStates.MOVING);
             piece.networkDirty = true;
             //    this.broadcastPieceState(piece);
             piece.processServerState(currentTime);
-            console.log(piece.spatial.posX(), piece.spatial.posY(), piece.spatial.posZ()  )
+    //        console.log(piece.spatial.posX(), piece.spatial.posY(), piece.spatial.posZ()  )
         } else {
 
 

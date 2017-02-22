@@ -583,6 +583,11 @@ if(typeof(MODEL) == "undefined"){
 		this.steering.setX(x);
 	};
 
+	MODEL.InputState.prototype.addSteeringY = function(y) {
+		this.setSteeringY(MATH.angleInsideCircle(y + this.getSteeringY()));
+	};
+	
+
 	MODEL.InputState.prototype.setSteeringY = function(y) {
 		this.steering.setY(y);
 		this.yawTowards = MATH.angleInsideCircle(y + this.yawTowards);

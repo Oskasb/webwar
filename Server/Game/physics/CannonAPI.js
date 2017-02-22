@@ -18,8 +18,8 @@ CannonAPI.prototype.buildPhysicalTerrain = function(data, size, posx, posz, min_
 CannonAPI.prototype.attachPiecePhysics = function(piece) {
     
     if (piece.physics.rigid_body) {
-        console.log("PiecePhysics", piece.id, piece.physics.ridig_body)
-        var rb = body = this.buildRigidBody(piece.spatial.pos, piece.physics.rigid_body);
+        console.log("PiecePhysics", piece.id, piece.physics.rigid_body, piece.spatial)
+        var rb = body = this.buildRigidBody(piece.spatial, piece.physics.rigid_body);
 
         piece.physics.body = rb;
     } else {
@@ -31,9 +31,8 @@ CannonAPI.prototype.attachPiecePhysics = function(piece) {
 };
 
 
-CannonAPI.prototype.buildRigidBody = function(pos, bodyParams) {
-    body =  this.physicsFunctions.buildCannonBody(this.world, pos, bodyParams)
-    this.world.addBody(body);
+CannonAPI.prototype.buildRigidBody = function(spatial, bodyParams) {
+    body =  this.physicsFunctions.buildCannonBody(this.world, spatial, bodyParams)
     return body;
 };
 

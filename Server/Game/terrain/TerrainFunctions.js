@@ -24,10 +24,15 @@ TerrainFunctions.prototype.getTerrainModuleSize = function(module) {
     return module.data.applies.terrain_size;
 };
 
-TerrainFunctions.prototype.getTerrainModuleOpts = function(module) {
+TerrainFunctions.prototype.getTerrainModuleEdges = function(applies) {
+    return {
+        invert: applies.invert_hill,
+        edgeSize: applies.terrain_edge_size,
+        easingFunc:applies.edge_easing
+    }
+};
 
-    var applies = module.data.applies;
-
+TerrainFunctions.prototype.getTerrainModuleOpts = function(applies) {
     return {
         after: null,
         easing: THREE.Terrain.EaseInOut,
@@ -46,7 +51,6 @@ TerrainFunctions.prototype.getTerrainModuleOpts = function(module) {
         ySegments: applies.terrain_segments,
         ySize: applies.terrain_size
     }
-
 };
 
 
@@ -54,14 +58,17 @@ TerrainFunctions.prototype.getTerrainModuleOpts = function(module) {
 
 // get a height at point from matrix
 TerrainFunctions.prototype.setupTerrainPiece = function(piece, posx, posz) {
-
-
     var module = this.getPieceTerrainModule(piece);
-    var opts = this.getTerrainModuleOpts(module);
+
+    var applies = module.data.applies;
+
+    var edges = this.getTerrainModuleEdges(applies);
+    var opts = this.getTerrainModuleOpts(applies);
 
     var terrain = new THREE.Terrain(opts);
 
-    THREE.Terrain.RadialEdges(terrain.children[0].geometry.vertices, opts, false, 2, THREE.Terrain.EaseInOut);
+
+    THREE.Terrain.RadialEdges(terrain.children[0].geometry.vertices, opts, edges.invert, edges.edgeSize, THREE.Terrain[edges.easingFunc]);
 
     var vertices = THREE.Terrain.toArray1D(terrain.children[0].geometry.vertices);
 

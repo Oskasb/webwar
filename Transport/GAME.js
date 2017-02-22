@@ -75,7 +75,7 @@ if(typeof(GAME) == "undefined"){
 	//	this.inputState.setSteeringX(Math.clamp((toX - fromX), -1, 1));
 	//	this.inputState.setSteeringY(Math.clamp((toY - fromY), -1, 1));
 
-		var inputAngle = Math.PI*-0.5 + MATH.TWO_PI * -state[0] / this.constants.radialSegments
+		var inputAngle = Math.PI*0.5 + MATH.TWO_PI * state[0] / this.constants.radialSegments
 
 
 
@@ -96,7 +96,7 @@ if(typeof(GAME) == "undefined"){
 
 		var currentSteering = this.inputState.getSteeringY();
 
-		this.inputState.setSteeringY(MATH.radialLerp(currentSteering, inputAngle, 0.1 + throttleState));
+		this.inputState.setSteeringY(Math.sin(inputAngle));
 
 		if (this.inputState.getThrottle() != 0) {
 			this.currentDrag = 1;
@@ -311,26 +311,65 @@ if(typeof(GAME) == "undefined"){
 		this.spatial.addVelVec(this.calcVec);
 	};
 
+	GAME.Piece.prototype.applyPhysicsVehicleControls = function(timeFactor) {
+
+	//	if (typeof(this.pieceControls.actions.applySteering) != undefined) {
+		this.pieceControls.getSteering(this.calcVec);
+
+		var throttleState = this.pieceControls.inputState.getThrottle();
+
+		var yawState = this.pieceControls.inputState.getSteeringY()
+
+		vehicle = this.physics.body.vehicle;
+
+		var brakeForce = 0;
+		if (throttleState < 0.1) {
+			brakeForce = 100;
+		}
+
+	//	var maxSteerVal = 0.5;
+	//	var maxForce = 1000;
+
+
+	//	console.log(throttleState, brakeForce, yawState);
+
+		vehicle.applyEngineForce(throttleState*20, 2);
+		vehicle.applyEngineForce(throttleState*20, 3);
+
+		vehicle.setBrake(brakeForce, 0);
+		vehicle.setBrake(brakeForce, 1);
+		vehicle.setBrake(brakeForce, 2);
+		vehicle.setBrake(brakeForce, 3);
+
+		vehicle.setSteeringValue(yawState, 0);
+		vehicle.setSteeringValue(yawState, 1);
+
+		vehicle.setSteeringValue(-yawState, 2);
+		vehicle.setSteeringValue(-yawState, 3);
+
+	};
+
+
 	GAME.Piece.prototype.applyControlStates = function(tickDelta) {
+
+
+		if (this.physics) {
+			if (this.physics.body.vehicle) {
+				this.applyPhysicsVehicleControls(tickDelta);
+			} else {
+				console.log("No vehicle on control physics")
+			}
+			return;
+		}
+
 		if (typeof(this.pieceControls.actions.applyThrottle) != undefined) {
-		//	if ((Math.round((this.pieceControls.inputState.getThrottle() - this.pieceControls.inputState.getThrottle() * timeFactor)*0.3) != 0)) {
-		//		this.networkDirty = true;
-		//	}
-	//		this.pieceControls.inputState.setThrottle(this.pieceControls.inputState.getThrottle()); //  * timeFactor);
 
 		}
 
 		if (typeof(this.pieceControls.actions.applySteering) != undefined) {
 			this.pieceControls.getSteering(this.calcVec);
-			
-			var yawTowards = this.pieceControls.inputState.yawTowards;
-			
 			var throttleState = (this.pieceControls.inputState.currentState[1] / this.pieceControls.constants.throttleSegments);
-			
-		//	this.spatial.applySteeringVector(this.calcVec, tickDelta, this.pieceControls.constants.radialVelocityClamp, (throttleState+0.5)*this.pieceControls.constants.radialLerpFactor);
 			this.spatial.yawTowards(this.calcVec.data[1], (0.5+throttleState+0.5)*this.pieceControls.constants.radialLerpFactor);
-			
-			
 		}
 
 		if (typeof(this.pieceControls.actions.applyForward) != undefined) {
