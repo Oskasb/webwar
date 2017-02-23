@@ -122,7 +122,7 @@ var p2  = {x:0, y:0, z:0};
 var p3  = {x:0, y:0, z:0};
 
 
-var points = []
+var points = [];
 
 var setTri = function(tri, x, y, z) {
     tri.x = x;

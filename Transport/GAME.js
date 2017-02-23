@@ -84,7 +84,7 @@ if(typeof(GAME) == "undefined"){
 	//	this.inputState.setSteeringY( Math.PI*-0.5 + MATH.TWO_PI * -state[0] / this.constants.radialSegments);
 		var throttleState = (state[1] / this.constants.throttleSegments);
 
-		var turnPenalty = throttleState -Math.cos(inputAngle);
+		var turnPenalty = throttleState // -Math.cos(inputAngle)*0.3;
 
 		throttleState = throttleState;
 
@@ -323,30 +323,46 @@ if(typeof(GAME) == "undefined"){
 		vehicle = this.physics.body.vehicle;
 
 		var brakeForce = 0;
-		if (throttleState < 0.1) {
-			brakeForce = 100;
+		if (throttleState < 0.01) {
+		//	brakeForce = 10;
 		}
 
 	//	var maxSteerVal = 0.5;
 	//	var maxForce = 1000;
 
+		var trackForce = throttleState*10;
+
+		var trackYawL = 1 // + yawState*2// ;
+		var trackYawR = 1 // - yawState*2// ;
 
 	//	console.log(throttleState, brakeForce, yawState);
-
-		vehicle.applyEngineForce(throttleState*20, 2);
-		vehicle.applyEngineForce(throttleState*20, 3);
+		vehicle.applyEngineForce(trackForce*trackYawR, 0);
+		vehicle.applyEngineForce(trackForce*trackYawL, 1);
+		vehicle.applyEngineForce(trackForce*trackYawR, 2);
+		vehicle.applyEngineForce(trackForce*trackYawL, 3);
+		vehicle.applyEngineForce(trackForce*trackYawR, 4);
+		vehicle.applyEngineForce(trackForce*trackYawL, 5);
+		vehicle.applyEngineForce(trackForce*trackYawR, 6);
+		vehicle.applyEngineForce(trackForce*trackYawL, 7);
 
 		vehicle.setBrake(brakeForce, 0);
 		vehicle.setBrake(brakeForce, 1);
 		vehicle.setBrake(brakeForce, 2);
 		vehicle.setBrake(brakeForce, 3);
+		vehicle.setBrake(brakeForce, 4);
+		vehicle.setBrake(brakeForce, 5);
 
-		vehicle.setSteeringValue(yawState, 0);
-		vehicle.setSteeringValue(yawState, 1);
 
-		vehicle.setSteeringValue(-yawState, 2);
-		vehicle.setSteeringValue(-yawState, 3);
+		vehicle.setSteeringValue(yawState*2, 0);
+		vehicle.setSteeringValue(yawState*2, 1);
+		vehicle.setSteeringValue(yawState, 2);
+		vehicle.setSteeringValue(yawState, 3);
 
+
+		vehicle.setSteeringValue(-yawState, 4);
+		vehicle.setSteeringValue(-yawState, 5);
+		vehicle.setSteeringValue(-yawState*2, 6);
+		vehicle.setSteeringValue(-yawState*2, 7);
 	};
 
 

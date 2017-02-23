@@ -456,23 +456,27 @@ THREE.Terrain.toArray2D = function(vertices, options) {
 
 
 
-    var matrix = [];
+
     var sizeX = Math.sqrt(vertices.length);
     var sizeY = Math.sqrt(vertices.length);
 
-    var idx = 0;
+    var idx = 0 //vertices.length-1;
+    var matrix = new Array(sizeX);
 
     for (var i = 0; i < sizeX; i++) {
-        matrix.push([]);
+        matrix[i] = new Array(sizeY);;
         for (var j = 0; j < sizeY; j++) {
 
-            matrix[i].push(-vertices[idx].z);
+            matrix[i][j] = vertices[idx].z;
 
             idx++;
         }
     //    console.log(matrix[i])
+       matrix[i].reverse()
+
     }
 
+     matrix.reverse()
     console.log("INDEXES BUILT:", idx, i, j, matrix.length);
 
     return matrix;

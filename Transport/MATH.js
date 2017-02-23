@@ -58,6 +58,65 @@ if(typeof(MATH) == "undefined"){
 		return p;
 	};
 
+	MATH.getAt = function(array1d, segments, x, y) {
+
+		var yFactor = (y) * (segments+1);
+		var xFactor = x;
+
+		var idx = (yFactor + xFactor);
+//    console.log(y, yFactor, xFactor, idx);
+		return array1d[idx];
+	};
+
+	var p1  = {x:0, y:0, z:0};
+	var p2  = {x:0, y:0, z:0};
+	var p3  = {x:0, y:0, z:0};
+
+
+	var setTri = function(tri, x, y, z) {
+		tri.x = x;
+		tri.y = y;
+		tri.z = z;
+	};
+	
+	
+	
+	var points = []
+
+	MATH.getTriangleAt = function(array1d, segments, x, y) {
+
+		var xc = Math.ceil(x);
+		var xf = Math.floor(x);
+		var yc = Math.ceil(y);
+		var yf = Math.floor(y);
+
+		var fracX = x - xf;
+		var fracY = y - yf;
+
+
+
+		p1.x = xf;
+		p1.y = yc;
+
+		//   console.log(xf, yc);
+		p1.z = this.getAt(array1d, segments, xf, yc);
+
+
+		setTri(p1, xf, yc, this.getAt(array1d, segments,xf, yc));
+		setTri(p2, xc, yf, this.getAt(array1d, segments,xc, yf));
+
+
+		if (fracX < 1-fracY) {
+			setTri(p3,xf,yf,this.getAt(array1d, segments,xf, yf));
+		} else {
+			setTri(p3, xc, yc, this.getAt(array1d, segments,xc, yc));
+		}
+
+		points[0] = p1;
+		points[1] = p2;
+		points[2] = p3;
+		return points;
+	};
 
 	MATH.valueFromCurve = function(value, curve) {
 		for (i = 0; i < curve.length; i++) {

@@ -9051,15 +9051,67 @@ Heightfield.prototype.getIndexOfPosition = function (x, y, result, clamp) {
     return true;
 };
 
-Heightfield.prototype.getHeightAt = function(x, y, edgeClamp){
+    var setTri = function(tri, x, y, z) {
+        tri.x = x;
+        tri.y = y;
+        tri.z = z;
+    };
+    var p1  = {x:0, y:0, z:0};
+    var p2  = {x:0, y:0, z:0};
+    var p3  = {x:0, y:0, z:0};
+    var points = []
     var idx = [];
-    this.getIndexOfPosition(x, y, idx, edgeClamp);
+
+Heightfield.prototype.getHeightAt = function(xScaled, yScaled, edgeClamp){
+
+    this.getIndexOfPosition(xScaled, yScaled, idx, edgeClamp);
 
     // TODO: get upper or lower triangle, then use barycentric interpolation to get the height in the triangle.
-    var minmax = [];
-    this.getRectMinMax(idx[0], idx[1] + 1, idx[0], idx[1] + 1, minmax);
+ //   var minmax = [];
+ //   this.getRectMinMax(idx[0], idx[1] + 1, idx[0], idx[1] + 1, minmax);
 
-    return (minmax[0] + minmax[1]) / 2; // average
+ //   return (minmax[0] + minmax[1]) / 2; // average
+
+    var x = xScaled/w;
+    var y = yScaled/w;
+
+    var w = this.elementSize;
+    var data = this.data;
+    var xi = idx[0];
+    var yi = idx[1]; // Math.floor(y);
+
+
+
+    var xc = xi; //Math.ceil(x);
+    var xf = xi+1; //Math.floor(x);
+    var yc = yi; // Math.ceil(y);
+    var yf = yi+1; // Math.floor(y);
+
+    var fracX = x - xf;
+    var fracY = y - yf;
+
+    setTri(p1,xf,yf, this.data[xf][yf]) // this.getAt(array1d, segments,xf, yf));
+    setTri(p2, xc, yc, this.data[xc][yc]) // this.getAt(array1d, segments,xc, yc));
+
+
+
+    if (fracY > 1-fracX) {
+
+        setTri(p3, xf, yc, this.data[xf][yc]) // this.getAt(array1d, segments,xf, yc));
+
+    } else {
+        setTri(p3, xc, yf, this.data[xc][yf]) // this.getAt(array1d, segments,xc, yf));
+    }
+
+    points[0] = p1;
+    points[1] = p2;
+    points[2] = p3;
+
+    setTri(p0, x, 0, y);
+
+    var find = MATH.barycentricInterpolation(tri[0], tri[1], tri[2], p0);
+
+    return find.z;
 };
 
 Heightfield.prototype.getCacheConvexTrianglePillarKey = function(xi, yi, getUpperTriangle){
