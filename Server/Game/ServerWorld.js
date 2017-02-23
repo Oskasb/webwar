@@ -117,6 +117,13 @@ ServerWorld.prototype.addPlayer = function(player) {
 
 ServerWorld.prototype.removePlayer = function(playerId) {
     this.players[playerId].currentGridSector.notifyPlayerLeave(this.players[playerId]);
+    
+    if (this.players[playerId].piece.physics) {
+        this.cannonAPI.removePhysicsPiece(this.players[playerId].piece)
+    }
+    
+    
+    
 	delete this.players[playerId];
 };
 

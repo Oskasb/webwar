@@ -37,6 +37,13 @@ CannonAPI.prototype.buildRigidBody = function(spatial, bodyParams) {
 };
 
 
+CannonAPI.prototype.removePhysicsPiece = function(piece) {
+    console.log("REMOVE RIGID BODY:", piece.physics.rigid_body);
+    this.world.removeBody(piece.physics.body);
+
+};
+
+
 
 
 CannonAPI.prototype.updatePhysicalPiece = function(piece) {
