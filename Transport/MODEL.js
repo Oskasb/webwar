@@ -37,13 +37,15 @@ if(typeof(MODEL) == "undefined"){
 			pos:[0, 0, 0],
 			vel:[0, 0, 0],
 			rot:[0, 0, 0],
-			rotVel:[0, 0, 0]
+			rotVel:[0, 0, 0],
+			quat:[0, 0, 0, 1]
 		};
 		this.size = new MATH.Vec3(0, 0, 0);
 		this.extents = new MATH.Vec3(0, 0, 0);
 		this.pos = new MATH.Vec3(0, 0, 0);
 		this.vel = new MATH.Vec3(0, 0, 0);
 		this.rot = new MATH.Vec3(0, 0, 0);
+		this.quat = [0, 0, 0, 1];
 		this.rotVel = new MATH.Vec3(0, 0, 0);
 		this.groundNormal = new MATH.Vec3(0, 1, 0);
 	};
@@ -94,6 +96,10 @@ if(typeof(MODEL) == "undefined"){
         this.vel.setArray(sendData.vel);
 		this.rot.setArray(sendData.rot);
         this.rotVel.setArray(sendData.rotVel);
+		this.quat[0] = sendData.quat[0];
+		this.quat[1] = sendData.quat[1];
+		this.quat[2] = sendData.quat[2];
+		this.quat[3] = sendData.quat[3];
     };
 
     MODEL.Spatial.prototype.getSendSpatial = function() {
@@ -101,6 +107,12 @@ if(typeof(MODEL) == "undefined"){
         this.vel.getArray(this.sendData.vel);
 		this.rot.getArray(this.sendData.rot);
 		this.rotVel.getArray(this.sendData.rotVel);
+
+		this.sendData.quat[0] = this.quat[0];
+		this.sendData.quat[1] = this.quat[1];
+		this.sendData.quat[2] = this.quat[2];
+		this.sendData.quat[3] = this.quat[3];
+
         return this.sendData;
     };
 
@@ -110,6 +122,10 @@ if(typeof(MODEL) == "undefined"){
 		this.rot.setVec(spatial.rot);
 		this.rotVel.setVec(spatial.rotVel);
         this.size.setVec(spatial.size);
+		this.quat[0] = spatial.quat[0];
+		this.quat[1] = spatial.quat[1];
+		this.quat[2] = spatial.quat[2];
+		this.quat[3] = spatial.quat[3];
 	};
 
 	MODEL.Spatial.prototype.addSpatial = function(spatial) {
@@ -298,6 +314,16 @@ if(typeof(MODEL) == "undefined"){
 		this.setYaw(y);
 		this.setRoll(z);
 	};
+
+	
+
+	MODEL.Spatial.prototype.setQuat = function(x, y, z, w) {
+		this.quat[0] = x;
+		this.quat[1] = y;
+		this.quat[2] = z;
+		this.quat[3] = w;
+	};
+
 
 
 	MODEL.Spatial.prototype.alignToGroundNormal = function(normal) {

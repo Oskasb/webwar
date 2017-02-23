@@ -16,7 +16,7 @@ define([
     ThreeCamera,
     GameScreen
 ) {
-
+    var pxRatio;
 
     var ThreeController = function() {
         new ThreeCamera();
@@ -25,9 +25,9 @@ define([
     ThreeController.setupThreeRenderer = function(clientTickCallback, ready) {
 
 
-        var pxRatio = window.devicePixelRatio;
+        pxRatio = window.devicePixelRatio;
         var antialias = PipelineAPI.readCachedConfigKey('SETUP', 'ANTIALIAS');;
-        var pxRatio =  PipelineAPI.readCachedConfigKey('SETUP', 'PX_SCALE');
+        pxRatio =  PipelineAPI.readCachedConfigKey('SETUP', 'PX_SCALE');
 
         ThreeAPI.initThreeScene(GameScreen.getElement(), clientTickCallback, pxRatio, antialias);
 
@@ -38,26 +38,22 @@ define([
 
         Settings.addOnChangeCallback('display_pixel_scale', adjustPxScale);
 
-        var screenWidth;
-        var screenHeight;
 
+        setTimeout(function() {
+            ready();
+            evt.fire(evt.list().ENGINE_READY, {});
+        },20);
 
-       
-
-        var notifyRezize = function() {
-            
-            setTimeout(function() {
-                ThreeAPI.updateWindowParameters(GameScreen.getWidth(), GameScreen.getHeight(), GameScreen.getAspect(), pxRatio);
-                evt.fire(evt.list().ENGINE_READY, {});
-            }, 10);
-        };
-
-    //    setTimeout(function() {
-            ready()
-    //    },20);
-        
         window.addEventListener('resize', notifyRezize);
-        notifyRezize();
+        monkeypatchCustomEngine();
+
+    };
+
+    var notifyRezize = function() {
+        ThreeAPI.updateWindowParameters(GameScreen.getWidth(), GameScreen.getHeight(), GameScreen.getAspect(), pxRatio);
+        setTimeout(function() {
+            ThreeAPI.updateWindowParameters(GameScreen.getWidth(), GameScreen.getHeight(), GameScreen.getAspect(), pxRatio);
+        }, 100);
     };
 
     var monkeypatchCustomEngine = function() {
@@ -77,7 +73,6 @@ define([
         var handleResize = function() {
             width = window.innerWidth;
             height = window.innerHeight;
-            
 
             if (width > height) {
                 document.getElementById('game_window').style.left = '122em';
@@ -104,7 +99,7 @@ define([
             height = document.getElementById('game_window').offsetHeight;
             GameScreen.notifyResize();
             PipelineAPI.setCategoryData('SETUP', {SCREEN:[width, height], LANDSCAPE:landscape});
-            
+            notifyRezize();
         };
 
         window.addEventListener('resize', handleResize);
@@ -119,7 +114,7 @@ define([
 
     };
 
-    monkeypatchCustomEngine();
+
 
     return ThreeController;
 

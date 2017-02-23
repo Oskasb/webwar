@@ -8,7 +8,7 @@ define([
     ) {
 
         var path = [];
-        
+
         var CanvasDraw = function() {
 
         };
@@ -34,7 +34,7 @@ define([
 
         CanvasDraw.vectorToY = function(vec, size) {
 
-            
+
             if (vec.x) {
                 return size.width - vec.x * size.width*0.01;
             } else {
@@ -67,10 +67,10 @@ define([
 
                 ctx.strokeStyle = CanvasDraw.randomizedColor(worldSection.borderColor, worldSection.flicker);
 
-           //    tempRect.left 	= CanvasDraw.vectorToCanvasY(startVec, pos, size);
-           //    tempRect.top 	= CanvasDraw.vectorToCanvasX(startVec, pos, size);
-           //    tempRect.width 	= CanvasDraw.vectorToCanvasY(sizeVec, pos, size);
-           //    tempRect.height = CanvasDraw.vectorToCanvasX(sizeVec, pos, size);
+                //    tempRect.left 	= CanvasDraw.vectorToCanvasY(startVec, pos, size);
+                //    tempRect.top 	= CanvasDraw.vectorToCanvasX(startVec, pos, size);
+                //    tempRect.width 	= CanvasDraw.vectorToCanvasY(sizeVec, pos, size);
+                //    tempRect.height = CanvasDraw.vectorToCanvasX(sizeVec, pos, size);
 
                 ctx.beginPath();
                 CustomGraphCallbacks.addPointToGraph(ctx, tempRect.left  ,tempRect.top );
@@ -182,8 +182,8 @@ define([
 
                     CustomGraphCallbacks.startGraph(ctx, 0, i*2);
 
-                //    pathVec.data[0] = path[i]+centerX;
-                //    pathVec.data[1] = path[i]+centerY;
+                    //    pathVec.data[0] = path[i]+centerX;
+                    //    pathVec.data[1] = path[i]+centerY;
 
                     CustomGraphCallbacks.addPointToGraph(ctx, size.width, i*2);
                     ctx.stroke();
@@ -262,23 +262,167 @@ define([
         };
 
 
+        CanvasDraw.drawPitchState = function(gamePiece, ctx, confData, widgetConfigs) {
+            ctx.strokeStyle = CanvasDraw.toRgba([0.0,0.4,0.9, 1]);
+            ctx.lineWidth = 1;
+
+            var pitch = gamePiece.piece.spatial.pitch();
+
+            ctx.beginPath();
+            CustomGraphCallbacks.addPointToGraph(ctx, left+15     , (pitch+(roll*0.85))*h*size.height / MATH.TWO_PI + size.height * 0.5);
+            CustomGraphCallbacks.addPointToGraph(ctx, left+35     , (pitch+(roll*0.55))*h*size.height / MATH.TWO_PI + size.height * 0.5);
+            CustomGraphCallbacks.moveToPoint(ctx,     right - 35  , (pitch-(roll*0.55))*h*size.height / MATH.TWO_PI + size.height * 0.5);
+            CustomGraphCallbacks.addPointToGraph(ctx, right - 15  , (pitch-(roll*0.85))*h*size.height / MATH.TWO_PI + size.height * 0.5);
+
+            ctx.stroke();
+
+            var pitchVel = gamePiece.piece.spatial.pitchVel();
+
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+
+            CustomGraphCallbacks.addPointToGraph(ctx, left+3          , ((pitch+(roll*0.97))+pitchVel)*h*size.height / MATH.TWO_PI + size.height * 0.5);
+            CustomGraphCallbacks.addPointToGraph(ctx, left+15         , ((pitch+(roll*0.85))+pitchVel)*h*size.height / MATH.TWO_PI + size.height * 0.5);
+            CustomGraphCallbacks.moveToPoint(ctx,     right - 15      , ((pitch-(roll*0.85))+pitchVel)*h*size.height / MATH.TWO_PI + size.height * 0.5);
+            CustomGraphCallbacks.addPointToGraph(ctx, right - 3       , ((pitch-(roll*0.97))+pitchVel)*h*size.height / MATH.TWO_PI + size.height * 0.5);
+
+            ctx.stroke();
+
+        };
+
+
+        CanvasDraw.drawYawState = function(gamePiece, ctx, confData, widgetConfigs) {
+
+            var size = confData.size;
+
+            ctx.font = widgetConfigs.playerNames.font;
+            ctx.strokeStyle = CanvasDraw.toRgba([0.1,0.2,0.6, 0.4]);
+            ctx.fillStyle = CanvasDraw.toRgba([0.1,0.2,0.6, 0.4]);
+            ctx.lineWidth = 1;
+
+            var yaw = gamePiece.piece.spatial.yaw();
+            var yawVel = gamePiece.piece.spatial.yawVel()*10;
+
+            var w = 0.9;
+            var left = size.width - size.width*w;
+            var right = size.width - left;
+
+            var h = 0.85;
+            var bottom = size.height*h;
+
+            var textFloor = -9;
+            var pointFloor = 0;
+
+
+            ctx.beginPath();
+            CustomGraphCallbacks.addPointToGraph(ctx, size.width*0.5    , bottom-0);
+            CustomGraphCallbacks.addPointToGraph(ctx, size.width*0.5    , bottom-15);
+            CustomGraphCallbacks.addPointToGraph(ctx, size.width*0.5+yawVel    , bottom-15);
+
+            CustomGraphCallbacks.moveToPoint(ctx,     left    , bottom-10);
+            CustomGraphCallbacks.addPointToGraph(ctx, left    , bottom-2);
+
+            CustomGraphCallbacks.addPointToGraph(ctx, right    , bottom-2);
+            CustomGraphCallbacks.addPointToGraph(ctx, right    , bottom-10);
+
+            ctx.stroke();
+
+            CustomGraphCallbacks.drawPointAt(ctx, size.width*0.5+yawVel    , bottom-15, 3);
+
+            ctx.lineWidth = 3;
+            
+
+            var angleN =  MATH.angleInsideCircle(-yaw)   / MATH.TWO_PI;
+            var pl = left+w*(right * angleN);
+
+            CustomGraphCallbacks.drawPointAt(ctx, pl, bottom-pointFloor, 3);
+            CustomGraphCallbacks.addTextAt(ctx, 'N' , pl ,bottom-textFloor, null);
+
+            var angleW = MATH.angleInsideCircle(-yaw-Math.PI*0.5) / MATH.TWO_PI;
+            pl = left+w*(right * angleW);
+
+            CustomGraphCallbacks.drawPointAt(ctx, pl , bottom-pointFloor, 3);
+            CustomGraphCallbacks.addTextAt(ctx, 'W' , pl ,bottom-textFloor, null);
+
+            var angleS = MATH.angleInsideCircle(-yaw-Math.PI)     / MATH.TWO_PI;
+            pl = left+w*(right * angleS);
+
+            CustomGraphCallbacks.drawPointAt(ctx, pl, bottom-pointFloor, 3);
+            CustomGraphCallbacks.addTextAt(ctx, 'S' , pl,bottom-textFloor, null);
+
+            var angleE = MATH.angleInsideCircle(-yaw+Math.PI*0.5) / MATH.TWO_PI;
+            pl = left+w*(right * angleE);
+            CustomGraphCallbacks.drawPointAt(ctx, pl, bottom-pointFloor, 3);
+            CustomGraphCallbacks.addTextAt(ctx, 'E' , pl,bottom-textFloor, null);
+
+
+
+            var angleNW =  MATH.angleInsideCircle(-yaw-Math.PI*0.25)   / MATH.TWO_PI;
+            pl = left+w*(right * angleNW);
+
+            CustomGraphCallbacks.drawPointAt(ctx, pl, bottom-pointFloor, 2);
+
+
+            var angleSW = MATH.angleInsideCircle(-yaw-Math.PI*0.75) / MATH.TWO_PI;
+            pl = left+w*(right * angleSW);
+
+            CustomGraphCallbacks.drawPointAt(ctx, pl , bottom-pointFloor, 2);
+
+
+            var angleSE = MATH.angleInsideCircle(-yaw+Math.PI*0.75)     / MATH.TWO_PI;
+            pl = left+w*(right * angleSE);
+
+            CustomGraphCallbacks.drawPointAt(ctx, pl, bottom-pointFloor, 2);
+
+
+            var angleNE = MATH.angleInsideCircle(-yaw+Math.PI*0.25) / MATH.TWO_PI;
+            pl = left+w*(right * angleNE);
+            CustomGraphCallbacks.drawPointAt(ctx, pl, bottom-pointFloor, 2);
+
+        };
+
         CanvasDraw.drawPitchAndRollState = function(gamePiece, ctx, confData, widgetConfigs) {
 
-                var size = confData.size;
+            var size = confData.size;
+
+            ctx.strokeStyle = CanvasDraw.toRgba([0.1,0.2,0.6, 0.4]);
+            ctx.lineWidth = 1;
+
+            var pitch = gamePiece.piece.spatial.pitch();
+            var roll = gamePiece.piece.spatial.roll();
+            var pitchVel = gamePiece.piece.spatial.pitchVel();
+
+            var w = 0.9;
+            var h = 0.8;
+            var left = size.width - size.width*w;
+            var right = size.width - left;
 
 
-                ctx.strokeStyle = CanvasDraw.toRgba([0.6,0.7,0.9, 1]);
-                ctx.lineWidth = 1;
+            ctx.beginPath();
 
-                var pitch = gamePiece.piece.spatial.pitch();
+            CustomGraphCallbacks.addPointToGraph(ctx, left+15     , (pitch+(roll*0.85))*h*size.height / MATH.TWO_PI + size.height * 0.5);
+            CustomGraphCallbacks.addPointToGraph(ctx, left+35     , (pitch+(roll*0.55))*h*size.height / MATH.TWO_PI + size.height * 0.5);
+            CustomGraphCallbacks.addPointToGraph(ctx, left+35     , (size.height+(roll*0.85)) * 0.5);
+
+            CustomGraphCallbacks.moveToPoint(ctx,     right-35    , (size.height-(roll*0.85)) * 0.5);
+            CustomGraphCallbacks.addPointToGraph(ctx, right - 35  , (pitch-(roll*0.55))*h*size.height / MATH.TWO_PI + size.height * 0.5);
+            CustomGraphCallbacks.addPointToGraph(ctx, right - 15  , (pitch-(roll*0.85))*h*size.height / MATH.TWO_PI + size.height * 0.5);
 
 
+            ctx.stroke();
 
-                ctx.beginPath();
-                CustomGraphCallbacks.addPointToGraph(ctx, 5 ,             pitch*size.height + size.height * 0.5);
-                CustomGraphCallbacks.addPointToGraph(ctx, size.width - 5 ,pitch*size.height + 0.5);
-                ctx.stroke();
 
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+
+            CustomGraphCallbacks.addPointToGraph(ctx, left+3          , ((pitch+(roll*0.97))+pitchVel)*h*size.height / MATH.TWO_PI + size.height * 0.5);
+            CustomGraphCallbacks.addPointToGraph(ctx, left+12         , ((pitch+(roll*0.85))+pitchVel)*h*size.height / MATH.TWO_PI + size.height * 0.5);
+            CustomGraphCallbacks.moveToPoint(ctx,     right - 12      , ((pitch-(roll*0.85))+pitchVel)*h*size.height / MATH.TWO_PI + size.height * 0.5);
+            CustomGraphCallbacks.addPointToGraph(ctx, right - 3       , ((pitch-(roll*0.97))+pitchVel)*h*size.height / MATH.TWO_PI + size.height * 0.5);
+
+            ctx.stroke();
 
         };
 

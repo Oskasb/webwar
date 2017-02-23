@@ -3481,6 +3481,10 @@ var Equation = _dereq_('./Equation');
  * @param {number} [options.maxForce]
  * @extends Equation
  */
+
+var xVec = new Vec3(1, 0, 0);
+    var yVec = new Vec3(0, 1, 0);
+
 function RotationalEquation(bodyA, bodyB, options){
     options = options || {};
     var maxForce = typeof(options.maxForce) !== 'undefined' ? options.maxForce : 1e6;
@@ -3860,7 +3864,7 @@ Mat3.prototype.setTrace = function(vec3){
  * @return {Vec3}
  */
 Mat3.prototype.getTrace = function(target){
-    var target = target || new Vec3();
+    var target = target || calcVec;
     var e = this.elements;
     target.x = e[0];
     target.y = e[4];
@@ -3874,7 +3878,7 @@ Mat3.prototype.getTrace = function(target){
  * @param {Vec3} target Optional, target to save the result in.
  */
 Mat3.prototype.vmult = function(v,target){
-    target = target || new Vec3();
+    target = target || calcVec;
 
     var e = this.elements,
         x = v.x,
@@ -3905,7 +3909,7 @@ Mat3.prototype.smult = function(s){
  * @return {Mat3} The result.
  */
 Mat3.prototype.mmult = function(m,target){
-    var r = target || new Mat3();
+    var r = target || calcMat;
     for(var i=0; i<3; i++){
         for(var j=0; j<3; j++){
             var sum = 0.0;
@@ -3944,8 +3948,11 @@ Mat3.prototype.scale = function(v,target){
  * @return {Vec3} The solution x
  * @todo should reuse arrays
  */
+
+var calcVec = new Vec3();
+
 Mat3.prototype.solve = function(b,target){
-    target = target || new Vec3();
+    target = target || calcVec;
 
     // Construct equations
     var nr = 3; // num rows
@@ -4057,9 +4064,11 @@ Mat3.prototype.toString = function(){
  * @param {Mat3} target Optional. Target matrix to save in.
  * @return {Mat3} The solution x
  */
+var calcMat = new Mat3()
+
 Mat3.prototype.reverse = function(target){
 
-    target = target || new Mat3();
+    target = target || calcMat;
 
     // Construct equations
     var nr = 3; // num rows

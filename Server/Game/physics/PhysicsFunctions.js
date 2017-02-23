@@ -152,7 +152,10 @@ PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
 
     piece.spatial.setPosXYZ(body.position.x,                 body.position.z, body.position.y);
 
-    piece.spatial.fromAngles(threeEuler2.x,          threeEuler2.z -Math.PI*0.5, threeEuler2.y );
+    piece.spatial.fromAngles(-threeEuler2.x * 0,               threeEuler2.z -Math.PI*0.5, -threeEuler2.y);
+
+
+    // piece.spatial.fromAngles(this.calcVec.x*0,               this.calcVec.z -Math.PI*0.5, this.calcVec.y*0);
 
     piece.spatial.setVelocity(body.velocity.x,              body.velocity.z, body.velocity.y);
 

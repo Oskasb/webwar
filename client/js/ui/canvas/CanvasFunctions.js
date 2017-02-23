@@ -72,6 +72,7 @@ define([
                 if (ownPiece) {
                     CanvasInputVector.drawInputVectors(ownPiece, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
                     CanvasDraw.drawPitchAndRollState(ownPiece, ctx, configs, widgetConfigs);
+                    CanvasDraw.drawYawState(ownPiece, ctx, configs, widgetConfigs);
                 }
             };
 

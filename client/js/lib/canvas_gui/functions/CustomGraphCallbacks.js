@@ -164,9 +164,45 @@ define([],
 			ctx.moveTo(left, top)
 		};
 
+		CustomUiGraphs.moveToPoint = function(ctx, left, top) {
+			ctx.moveTo(left, top)
+		};
+
 		CustomUiGraphs.addPointToGraph = function(ctx, left, top) {
 			ctx.lineTo(left, top)
 		};
+
+		CustomUiGraphs.drawPointAt = function(ctx, left, top, size) {
+
+			tempRect.left 	= left-size*0.5;
+			tempRect.top 	= top - size *0.5;
+			tempRect.width 	= size;
+			tempRect.height = size;
+
+			ctx.fillRect(
+				tempRect.left ,
+				tempRect.top  ,
+				tempRect.width,
+				tempRect.height
+			);
+		};
+
+		CustomUiGraphs.addTextAt = function(ctx, text, left, top, font) {
+			
+			if (font) {
+				ctx.font = font;	
+			}
+			
+			ctx.textAlign = "center";
+			ctx.fillText(
+				text,
+				left,
+				top
+			);
+			
+		};
+		
+
 
 		CustomUiGraphs.renderGraph = function(valueArray, pos, size, offset, topValue,  ctx, element) {
 			var count = valueArray.length;

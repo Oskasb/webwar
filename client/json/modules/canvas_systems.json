@@ -27,9 +27,9 @@
 
       "serverRadial":{
         "on":true,
-        "color":[0.9,0.3,0.0,0.4],
+        "color":[0.9,0.1,0.3,0.3],
         "clockRadius":125,
-        "timeColor":[0.5, 0.6, 1, 1],
+        "timeColor":[0.2, 0.3, 1, 0.7],
         "timeSize":0.03,
         "timeWidth":35,
         "width":3,
