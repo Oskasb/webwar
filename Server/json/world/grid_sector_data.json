@@ -1,5 +1,5 @@
 [{
-  "dataType":"GRID_SECTORS",
+  "dataType":"_GRID_SECTORS",
   "sectors":{
     "data":[
 
@@ -14,7 +14,7 @@
 
   }
 },{
-  "dataType":"_GRID_SECTORS",
+  "dataType":"GRID_SECTORS",
   "sectors":{
     "data":[
 
@@ -32,7 +32,6 @@
         "spawn":[
           {"pieceType":"small_tree_piece", "min":4, "max":8},
           {"pieceType":"medium_tree_piece", "min":4, "max":8},
-          {"pieceType":"big_space_rock_piece", "min":1, "max":2},
           {"pieceType":"plasma_blob_piece", "min":1, "max":1}
         ]},
 
@@ -43,7 +42,6 @@
           {"pieceType":"small_tree_piece", "min":1, "max":8},
           {"pieceType":"medium_tree_piece", "min":1, "max":8},
           {"pieceType":"big_tree_piece", "min":5, "max":13},
-          {"pieceType":"big_space_rock_piece", "min":1, "max":4},
           {"pieceType":"plasma_blob_piece", "min":1, "max":3}
         ]},
 
@@ -55,7 +53,6 @@
           {"pieceType":"medium_tree_piece", "min":1, "max":8},
           {"pieceType":"big_tree_piece", "min":3, "max":8},
           {"pieceType":"small_space_rock_piece", "min":4, "max":5},
-          {"pieceType":"big_space_rock_piece", "min":1, "max":3},
           {"pieceType":"plasma_blob_piece", "min":1, "max":3}
         ]},
       {"id":"plasmatic",
@@ -65,8 +62,6 @@
           {"pieceType":"small_tree_piece", "min":1, "max":8},
           {"pieceType":"medium_tree_piece", "min":1, "max":8},
           {"pieceType":"big_tree_piece", "min":2, "max":3},
-          {"pieceType":"small_space_rock_piece", "min":2, "max":5},
-          {"pieceType":"big_space_rock_piece", "min":1, "max":2},
           {"pieceType":"plasma_blob_piece", "min":3, "max":8}
         ]},
       {"id":"rockness",
@@ -77,7 +72,6 @@
           {"pieceType":"medium_tree_piece", "min":1, "max":8},
           {"pieceType":"big_tree_piece", "min":2, "max":3},
           {"pieceType":"small_space_rock_piece", "min":2, "max":5},
-          {"pieceType":"big_space_rock_piece", "min":1, "max":2},
           {"pieceType":"plasma_blob_piece", "min":2, "max":7}
         ]}
     ]

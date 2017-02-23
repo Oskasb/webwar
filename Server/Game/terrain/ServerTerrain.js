@@ -454,7 +454,17 @@ THREE.Terrain.POLYGONREDUCTION = 3;
  */
 THREE.Terrain.toArray2D = function(vertices, options) {
 
-
+    var tgt = new Array(options.xSegments+1),
+        xl = options.xSegments + 1,
+        yl = options.ySegments + 1,
+        i, j;
+    for (i = 0; i < xl; i++) {
+        tgt[i] = new Float64Array(options.ySegments+1);
+        for (j = 0; j < yl; j++) {
+            tgt[i][j] = vertices[j * xl + i].z;
+        }
+    }
+    return tgt;
 
 
     var sizeX = Math.sqrt(vertices.length);
@@ -482,17 +492,7 @@ THREE.Terrain.toArray2D = function(vertices, options) {
     return matrix;
 
 
-    var tgt = new Array(options.xSegments),
-        xl = options.xSegments + 1,
-        yl = options.ySegments + 1,
-        i, j;
-    for (i = 0; i < xl; i++) {
-        tgt[i] = new Float64Array(options.ySegments);
-        for (j = 0; j < yl; j++) {
-            tgt[i][j] = -vertices[j * xl + i].z;
-        }
-    }
-    return tgt;
+
 };
 
 /**

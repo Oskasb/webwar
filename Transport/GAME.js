@@ -318,7 +318,7 @@ if(typeof(GAME) == "undefined"){
 
 		var throttleState = this.pieceControls.inputState.getThrottle();
 
-		var yawState = this.pieceControls.inputState.getSteeringY()
+		var yawState = this.pieceControls.inputState.getSteeringY()*0.6
 
 		vehicle = this.physics.body.vehicle;
 
@@ -330,7 +330,7 @@ if(typeof(GAME) == "undefined"){
 	//	var maxSteerVal = 0.5;
 	//	var maxForce = 1000;
 
-		var trackForce = throttleState*10;
+		var trackForce = throttleState*12;
 
 		var trackYawL = 1 // + yawState*2// ;
 		var trackYawR = 1 // - yawState*2// ;

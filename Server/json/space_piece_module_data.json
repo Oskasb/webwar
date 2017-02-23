@@ -217,14 +217,14 @@
         "state":true,
         "three_terrain":"plain_ground",
         "terrain_size":200,
-        "terrain_segments":32,
+        "terrain_segments":15,
         "invert_hill":false,
         "terrain_edge_size":1,
         "edge_easing":"EaseInOut",
-        "max_height":6,
+        "max_height":26,
         "min_height":0,
         "frequency":1.4,
-        "steps":3
+        "steps":1
       }
     },
 

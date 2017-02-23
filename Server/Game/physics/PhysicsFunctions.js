@@ -180,7 +180,7 @@ PhysicsFunctions.prototype.createCannonTerrain = function(world, data, totalSize
     var matrix = data;
 
     var hfShape = new CANNON.Heightfield(matrix, {
-        elementSize: totalSize / (data.length-1)
+        elementSize: ((totalSize+1) / (data.length-1))
     });
     var hfBody = new CANNON.Body({ mass: 0 });
     hfBody.addShape(hfShape);
@@ -230,11 +230,11 @@ var createVehicle = function(world, spatial, bodyParams) {
  //   var wheelMaterial = new CANNON.Material("wheelMaterial");
 
     var width = 3;
-    var length = 2;
-    var clearance = 0.4;
+    var length = 4;
+    var clearance = 0.2;
 
     var chassisShape;
-    chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, clearance));
+    chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, 0.5));
     var chassisBody = new CANNON.Body({ mass: mass });
     chassisBody.addShape(chassisShape);
     chassisBody.position.set(spatial.posX(), spatial.posZ(), spatial.posY()+bodyParams.size);
@@ -246,17 +246,17 @@ var createVehicle = function(world, spatial, bodyParams) {
     var options = {
         radius: 0.4,
         directionLocal: new CANNON.Vec3(0, 0, -1),
-        suspensionStiffness: 20,
-        suspensionRestLength: 0.5,
-        frictionSlip: 4,
+        suspensionStiffness: 40,
+        suspensionRestLength: 0.4,
+        frictionSlip: 16,
         dampingRelaxation: 1.3,
-        dampingCompression: 2.4,
-        maxSuspensionForce: 10000,
+        dampingCompression: 3.4,
+        maxSuspensionForce: 70000,
         rollInfluence:  0.01,
         axleLocal: new CANNON.Vec3(0, -1, 0),
-        chassisConnectionPointLocal: new CANNON.Vec3(length, length, 0),
-        maxSuspensionTravel: 0.6,
-        customSlidingRotationalSpeed: -10,
+        chassisConnectionPointLocal: new CANNON.Vec3(width, length*2, 0.5),
+        maxSuspensionTravel: 0.3,
+        customSlidingRotationalSpeed: -20,
         useCustomSlidingRotationalSpeed: true
     };
 
@@ -274,16 +274,16 @@ var createVehicle = function(world, spatial, bodyParams) {
     options.chassisConnectionPointLocal.set(-width, length, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(-width, -length*0.7, -clearance);
+    options.chassisConnectionPointLocal.set(-width, -length*0.5, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(-width, length*0.7, -clearance);
+    options.chassisConnectionPointLocal.set(-width, length*0.5, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(width,  -length*0.7, -clearance);
+    options.chassisConnectionPointLocal.set(width,  -length*0.5, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(width,  length*0.7, -clearance);
+    options.chassisConnectionPointLocal.set(width,  length*0.5, -clearance);
     vehicle.addWheel(options);
 
     options.chassisConnectionPointLocal.set(width,  -length, -clearance);
