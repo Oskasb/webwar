@@ -4514,29 +4514,50 @@ Quaternion.prototype.toEuler = function(target,order){
     var x = this.x, y = this.y, z = this.z, w = this.w;
 
     switch(order){
-    case "YZX":
-        var test = x*y + z*w;
-        if (test > 0.499) { // singularity at north pole
-            heading = 2 * Math.atan2(x,w);
-            attitude = Math.PI/2;
-            bank = 0;
-        }
-        if (test < -0.499) { // singularity at south pole
-            heading = -2 * Math.atan2(x,w);
-            attitude = - Math.PI/2;
-            bank = 0;
-        }
-        if(isNaN(heading)){
-            var sqx = x*x;
-            var sqy = y*y;
-            var sqz = z*z;
-            heading = Math.atan2(2*y*w - 2*x*z , 1 - 2*sqy - 2*sqz); // Heading
-            attitude = Math.asin(2*test); // attitude
-            bank = Math.atan2(2*x*w - 2*y*z , 1 - 2*sqx - 2*sqz); // bank
-        }
-        break;
-    default:
-        throw new Error("Euler order "+order+" not supported yet.");
+        case "YZX":
+            var test = x*y + z*w;
+            if (test > 0.499) { // singularity at north pole
+                heading = 2 * Math.atan2(x,w);
+                attitude = Math.PI/2;
+                bank = 0;
+            }
+            if (test < -0.499) { // singularity at south pole
+                heading = -2 * Math.atan2(x,w);
+                attitude = - Math.PI/2;
+                bank = 0;
+            }
+            if(isNaN(heading)){
+                var sqx = x*x;
+                var sqy = y*y;
+                var sqz = z*z;
+                heading = Math.atan2(2*y*w - 2*x*z , 1 - 2*sqy - 2*sqz); // Heading
+                attitude = Math.asin(2*test); // attitude
+                bank = Math.atan2(2*x*w - 2*y*z , 1 - 2*sqx - 2*sqz); // bank
+            }
+        case "XYZ":
+            var test = x*z + y*w;
+            if (test > 0.499) { // singularity at north pole
+                heading = 2 * Math.atan2(x,w);
+                attitude = Math.PI/2;
+                bank = 0;
+            }
+            if (test < -0.499) { // singularity at south pole
+                heading = -2 * Math.atan2(x,w);
+                attitude = - Math.PI/2;
+                bank = 0;
+            }
+            if(isNaN(heading)){
+                var sqx = x*x;
+                var sqy = y*y;
+                var sqz = z*z;
+                bank = Math.atan2(2*y*w - 2*x*y , 1 - 2*sqz - 2*sqy); // Heading
+                attitude = Math.asin(2*test); // attitude
+                heading = Math.atan2(2*x*w - 2*y*z , 1 - 2*sqx - 2*sqy); // bank
+            }
+
+            break;
+        default:
+            throw new Error("Euler order "+order+" not supported yet.");
     }
 
     target.y = heading;

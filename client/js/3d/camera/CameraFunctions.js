@@ -50,8 +50,8 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         this.influence = new THREE.Vector3(0, 0, -1);
 
 
-        this.masterCamLerp = 0.02;
-        this.masterPosLerp = 0.02;
+        this.masterCamLerp = 0.05;
+        this.masterPosLerp = 0.05;
         this.camLerpFactor = this.masterCamLerp;
 
         this.posLerpFactor = this.masterPosLerp;
@@ -66,7 +66,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         this.maxDist = 30;
 
         this.headingMin = 4;
-        this.followMin = 8;
+        this.followMin = 18;
 
 
         pieces = PipelineAPI.readCachedConfigKey('GAME_DATA', 'PIECES');
@@ -184,7 +184,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
         // var distance = this.headingMin+this.calcDistanceGain()*0.01;
 
-        MATH.radialToVector(MATH.addAngles(this.targetDir.y-Math.PI*0.5, this.targetRotVel.y*0.1), distance, calcVec);
+        MATH.radialToVector(MATH.addAngles(this.targetDir.y+Math.PI, this.targetRotVel.y*0.1), distance, calcVec);
 
         this.calcVec2.x = calcVec.data[0];
         this.calcVec2.y = calcVec.data[1];
@@ -218,7 +218,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
             var distance = this.followMin+this.calcDistanceGain()*2;
 
 
-            MATH.radialToVector(MATH.addAngles(this.targetDir.y+Math.PI*0.5, this.targetRotVel.y*0.7), distance, calcVec);
+            MATH.radialToVector(MATH.addAngles(this.targetDir.y-Math.PI*0, this.targetRotVel.y*0.7), distance, calcVec);
             this.calcVec2.x = calcVec.data[0];
             this.calcVec2.y = calcVec.data[1];
             this.calcVec2.z = calcVec.data[2];

@@ -37,7 +37,7 @@ define([
         };
 
         ThreePiece.prototype.sampleSpatial = function(spatial) {
-            ThreeAPI.transformModel(this.parentObject3d, spatial.pos.getX(), spatial.pos.getY(), spatial.pos.getZ(), 0, -spatial.yaw(), 0);
+            ThreeAPI.transformModel(this.parentObject3d, spatial.pos.getX(), spatial.pos.getY(), spatial.pos.getZ(), spatial.pitch(), spatial.yaw(), spatial.roll());
 
         };
         

@@ -318,7 +318,7 @@ if(typeof(GAME) == "undefined"){
 
 		var throttleState = this.pieceControls.inputState.getThrottle();
 
-		var yawState = this.pieceControls.inputState.getSteeringY()*0.6
+		var yawState = this.pieceControls.inputState.getSteeringY()*0.3
 
 		vehicle = this.physics.body.vehicle;
 

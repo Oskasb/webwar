@@ -130,7 +130,7 @@ define([
             if (!this.transform) return;
 
 
-            if (this.applies.pitch_roll) {
+            if (this.applies.pitch_roll__) {
 
                     var spatial = this.piece.spatial;
                     ThreeAPI.transformModel(

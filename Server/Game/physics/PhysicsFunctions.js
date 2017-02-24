@@ -4,8 +4,12 @@ var THREE = require('three');
 
 var threeEuler;
 var threeEuler2;
+var threeObj;
+var threeObj2;
 
 PhysicsFunctions = function() {
+    threeObj = new THREE.Object3D();
+    threeObj2 = new THREE.Object3D();
     threeQuat = new THREE.Quaternion();
     threeEuler = new THREE.Euler(0, 0, 0, 'XZY');
     threeEuler2 = new THREE.Euler();
@@ -139,23 +143,53 @@ PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
     //    console.log(body.position.x, body.position.z, body.position.y)
     }
 
-    body.quaternion.toEuler(this.calcVec);
+  //  body.quaternion.toEuler(this.calcVec, 'XYZ');
 
 
-    threeEuler.x = this.calcVec.x;
-    threeEuler.y = this.calcVec.y;
-    threeEuler.z = this.calcVec.z;
+  //  threeEuler.x = MATH.angleInsideCircle(this.calcVec.x+Math.PI);
+  //  threeEuler.y = MATH.angleInsideCircle(this.calcVec.z-Math.PI*0.5);//
+  //  threeEuler.z = MATH.angleInsideCircle(this.calcVec.y-Math.PI*0.5);
 
-    threeQuat.setFromEuler(threeEuler);
 
-    threeEuler2.setFromQuaternion(threeQuat, 'XYZ');
+    threeObj.setRotationFromQuaternion(body.quaternion);
+
+  //  threeObj.rotation.reorder('YZX');
+  //  threeObj.rotateX(-Math.PI*0.5);
+ //   threeObj.rotateZ(-Math.PI*0.5);
+
+    threeObj2.rotation.x = threeObj.rotation.x;
+    threeObj2.rotation.y = threeObj.rotation.y;
+    threeObj2.rotation.z = threeObj.rotation.z;
+
+
+  //  threeObj2.rotateX(threeObj.rotation.y);
+  //  threeObj2.rotateZ(threeObj.rotation.x);
+    //
+ //   threeObj2.rotateY(Math.PI*0.5);
+
+ //   threeObj.updateMatrixWorld();
+
+  //  threeEuler.reorder('XZY');
+
+ //   threeEuler.setFromQuaternion(body.quaternion, 'XYZ');
+
+    threeQuat.copy(threeObj2.quaternion);
+
+
+//    threeQuat.setFromAxisAngle(this.calcVec, 1);
+
+//    threeEuler2.setFromQuaternion(threeQuat, 'XYZ');
 
     piece.spatial.setPosXYZ(body.position.x,                 body.position.z, body.position.y);
 
-    piece.spatial.fromAngles(-threeEuler2.x * 0,               threeEuler2.z -Math.PI*0.5, -threeEuler2.y);
+//    piece.spatial.fromAngles(-threeEuler2.x * 0,               threeEuler2.z -Math.PI*0.5, -threeEuler2.y);
+
+    piece.spatial.setQuatXYZW(threeQuat.x, threeQuat.z, threeQuat.y, threeQuat.w);
+    
+    piece.spatial.fromAngles(threeObj2.rotation.x, threeObj2.rotation.y, threeObj2.rotation.z);
 
 
-    // piece.spatial.fromAngles(this.calcVec.x*0,               this.calcVec.z -Math.PI*0.5, this.calcVec.y*0);
+ //   piece.spatial.fromAngles(this.calcVec.x,     this.calcVec.y, this.calcVec.z);
 
     piece.spatial.setVelocity(body.velocity.x,              body.velocity.z, body.velocity.y);
 

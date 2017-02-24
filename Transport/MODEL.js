@@ -28,7 +28,7 @@ if(typeof(MODEL) == "undefined"){
 
 //	var THREEmatrix = new THREE.Matrix();
 	var THREEquat = new THREE.Quaternion();
-//	var THREEeuler = new THREE.Euler();
+	var THREEeuler = new THREE.Euler();
 	var THREEobj = new THREE.Object3D();
 
     
@@ -38,14 +38,14 @@ if(typeof(MODEL) == "undefined"){
 			vel:[0, 0, 0],
 			rot:[0, 0, 0],
 			rotVel:[0, 0, 0],
-			quat:[0, 0, 0, 1]
+			quat:[0, 1, 0, 1]
 		};
 		this.size = new MATH.Vec3(0, 0, 0);
 		this.extents = new MATH.Vec3(0, 0, 0);
 		this.pos = new MATH.Vec3(0, 0, 0);
 		this.vel = new MATH.Vec3(0, 0, 0);
 		this.rot = new MATH.Vec3(0, 0, 0);
-		this.quat = [0, 0, 0, 1];
+		this.quat = [0, 1, 0, 1];
 		this.rotVel = new MATH.Vec3(0, 0, 0);
 		this.groundNormal = new MATH.Vec3(0, 1, 0);
 	};
@@ -94,12 +94,19 @@ if(typeof(MODEL) == "undefined"){
 	MODEL.Spatial.prototype.setSendData = function(sendData) {
         this.pos.setArray(sendData.pos);
         this.vel.setArray(sendData.vel);
-		this.rot.setArray(sendData.rot);
+		//		this.rot.setArray(sendData.rot);
         this.rotVel.setArray(sendData.rotVel);
 		this.quat[0] = sendData.quat[0];
 		this.quat[1] = sendData.quat[1];
 		this.quat[2] = sendData.quat[2];
 		this.quat[3] = sendData.quat[3];
+		THREEquat.x = this.quat[0];
+		THREEquat.y = this.quat[1];
+		THREEquat.z = this.quat[2];
+		THREEquat.w = this.quat[3];
+		THREEeuler.setFromQuaternion(THREEquat);
+			this.rot.setXYZ(THREEeuler.x, THREEeuler.y,THREEeuler.z);
+
     };
 
     MODEL.Spatial.prototype.getSendSpatial = function() {
@@ -315,9 +322,9 @@ if(typeof(MODEL) == "undefined"){
 		this.setRoll(z);
 	};
 
-	
 
-	MODEL.Spatial.prototype.setQuat = function(x, y, z, w) {
+
+	MODEL.Spatial.prototype.setQuatXYZW = function(x, y, z, w) {
 		this.quat[0] = x;
 		this.quat[1] = y;
 		this.quat[2] = z;

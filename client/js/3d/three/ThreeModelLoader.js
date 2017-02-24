@@ -126,6 +126,7 @@ define([
             setup = ThreeSetup;
             
             attachAsynchModel(applies, rootObject);
+            
 
             return rootObject;
         };
