@@ -184,7 +184,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
         // var distance = this.headingMin+this.calcDistanceGain()*0.01;
 
-        MATH.radialToVector(MATH.addAngles(this.targetDir.y+Math.PI, this.targetRotVel.y*0.1), distance, calcVec);
+        MATH.radialToVector(MATH.addAngles(-this.targetDir.y-Math.PI*0.5, this.targetRotVel.y*0.1), distance, calcVec);
 
         this.calcVec2.x = calcVec.data[0];
         this.calcVec2.y = calcVec.data[1];
@@ -218,7 +218,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
             var distance = this.followMin+this.calcDistanceGain()*2;
 
 
-            MATH.radialToVector(MATH.addAngles(this.targetDir.y-Math.PI*0, this.targetRotVel.y*0.7), distance, calcVec);
+            MATH.radialToVector(MATH.addAngles(-this.targetDir.y+Math.PI*0.5, this.targetRotVel.y*0.7), distance, calcVec);
             this.calcVec2.x = calcVec.data[0];
             this.calcVec2.y = calcVec.data[1];
             this.calcVec2.z = calcVec.data[2];

@@ -94,7 +94,7 @@ if(typeof(MODEL) == "undefined"){
 	MODEL.Spatial.prototype.setSendData = function(sendData) {
         this.pos.setArray(sendData.pos);
         this.vel.setArray(sendData.vel);
-		//		this.rot.setArray(sendData.rot);
+		this.rot.setArray(sendData.rot);
         this.rotVel.setArray(sendData.rotVel);
 		this.quat[0] = sendData.quat[0];
 		this.quat[1] = sendData.quat[1];
@@ -105,7 +105,7 @@ if(typeof(MODEL) == "undefined"){
 		THREEquat.z = this.quat[2];
 		THREEquat.w = this.quat[3];
 		THREEeuler.setFromQuaternion(THREEquat);
-			this.rot.setXYZ(THREEeuler.x, THREEeuler.y,THREEeuler.z);
+		//			this.rot.setXYZ(THREEeuler.x, THREEeuler.y,THREEeuler.z);
 
     };
 

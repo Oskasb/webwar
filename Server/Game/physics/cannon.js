@@ -3928,8 +3928,11 @@ Mat3.prototype.mmult = function(m,target){
  * @param {Vec3} v
  * @return {Mat3} The result.
  */
+
+var scaleMat = new Mat3();
+
 Mat3.prototype.scale = function(v,target){
-    target = target || new Mat3();
+    target = target || scaleMat;
     var e = this.elements,
         t = target.elements;
     for(var i=0; i!==3; i++){
@@ -4383,9 +4386,12 @@ Quaternion.prototype.mult = function(q,target){
  * @param {Quaternion} target
  * @return {Quaternion}
  */
+
+var invQuat = new Quaternion();
+
 Quaternion.prototype.inverse = function(target){
     var x = this.x, y = this.y, z = this.z, w = this.w;
-    target = target || new Quaternion();
+    target = target || invQuat;
 
     this.conjugate(target);
     var inorm2 = 1/(x*x + y*y + z*z + w*w);
@@ -4403,8 +4409,10 @@ Quaternion.prototype.inverse = function(target){
  * @param {Quaternion} target
  * @return {Quaternion}
  */
+
+var conjQuat = new Quaternion();
 Quaternion.prototype.conjugate = function(target){
-    target = target || new Quaternion();
+    target = target || conjQuat;
 
     target.x = -this.x;
     target.y = -this.y;
@@ -4462,8 +4470,11 @@ Quaternion.prototype.normalizeFast = function () {
  * @param {Vec3} target Optional
  * @return {Vec3}
  */
+
+var mulVec = new Vec3();
+
 Quaternion.prototype.vmult = function(v,target){
-    target = target || new Vec3();
+    target = target || mulVec;
 
     var x = v.x,
         y = v.y,
@@ -4507,6 +4518,11 @@ Quaternion.prototype.copy = function(source){
  * @param {Vec3} target
  * @param string order Three-character string e.g. "YZX", which also is default.
  */
+
+var calcInvQuat = new Quaternion();
+    var calcInvVec = new Vec3();
+    var solveVec = new Vec3();
+
 Quaternion.prototype.toEuler = function(target,order){
     order = order || "YZX";
 
@@ -4534,28 +4550,8 @@ Quaternion.prototype.toEuler = function(target,order){
                 attitude = Math.asin(2*test); // attitude
                 bank = Math.atan2(2*x*w - 2*y*z , 1 - 2*sqx - 2*sqz); // bank
             }
-        case "XYZ":
-            var test = x*z + y*w;
-            if (test > 0.499) { // singularity at north pole
-                heading = 2 * Math.atan2(x,w);
-                attitude = Math.PI/2;
-                bank = 0;
-            }
-            if (test < -0.499) { // singularity at south pole
-                heading = -2 * Math.atan2(x,w);
-                attitude = - Math.PI/2;
-                bank = 0;
-            }
-            if(isNaN(heading)){
-                var sqx = x*x;
-                var sqy = y*y;
-                var sqz = z*z;
-                bank = Math.atan2(2*y*w - 2*x*y , 1 - 2*sqz - 2*sqy); // Heading
-                attitude = Math.asin(2*test); // attitude
-                heading = Math.atan2(2*x*w - 2*y*z , 1 - 2*sqx - 2*sqy); // bank
-            }
 
-            break;
+    break;
         default:
             throw new Error("Euler order "+order+" not supported yet.");
     }
