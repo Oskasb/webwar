@@ -23,7 +23,7 @@
             "callbacks":["temporalState", "tpfMonitor", "inputVector"],
             "element":{
               "pos":[0.62, -0.60],
-              "size":[1.7, 1.7],
+              "size":[1.9, 1.9],
               "blendMode":"AdditiveBlending"
             }
           }

@@ -27,8 +27,11 @@ define([
 
             this.line = {
                 w:0,
-                zrot:0
-
+                zrot:0,
+                fromX:0,
+                fromY:0,
+                toX:0,
+                toY:0
             };
 
             this.offsetX = 20;
@@ -163,9 +166,11 @@ define([
 
             this.line = line;
 
-            var distanceSegment = Math.min(this.configs.distanceSegments, Math.floor(this.configs.distanceSegments * (line.w / this.configs.radius)* (line.w / this.configs.radius)));
+            var distanceSegment = Math.min(this.configs.distanceSegments, Math.floor(this.configs.distanceSegments * (line.w / this.configs.radius*2)* (line.w / this.configs.radius*2)));
 
+            var segs = this.configs.distanceSegments;
 
+            var distanceSegment = Math.clamp(Math.round((line.fromX - line.toX ) / this.configs.radius) / segs, - 1, 1) ;
 
             if (this.currentState[1]!=distanceSegment) {
                 this.currentState[1] = distanceSegment;

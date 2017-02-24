@@ -38,7 +38,7 @@ if(typeof(GAME) == "undefined"){
 
 	GAME.PieceControls = function() {
 		this.inputState = new MODEL.InputState();
-		this.inputState.setSteeringY(Math.PI);
+		this.inputState.setSteeringY(0);
 		this.actions = {};
 
 		this.calcVec = new MATH.Vec3(0, 0, 0);
@@ -94,7 +94,7 @@ if(typeof(GAME) == "undefined"){
 		this.inputState.setThrottle(amplifiedThrottle);
 
 
-		var currentSteering = this.inputState.getSteeringY();
+	//	var currentSteering = this.inputState.getSteeringY();
 
 		this.inputState.setSteeringY(Math.sin(inputAngle));
 

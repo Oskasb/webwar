@@ -85,13 +85,13 @@ define([
 
             for (var i = 0; i < controls.length; i++) {
 
-        //        ctx.fillStyle = CanvasDraw.randomizedColor(widgetConfigs.inputRadial.thrColor, widgetConfigs.inputRadial.flicker);
+                ctx.fillStyle = CanvasDraw.randomizedColor(widgetConfigs.inputRadial.thrColor, widgetConfigs.inputRadial.flicker);
                 ctx.strokeStyle = CanvasDraw.randomizedColor(widgetConfigs.inputRadial.thrColor, widgetConfigs.inputRadial.flicker);
 
         //        ctx.font = widgetConfigs.inputRadial.font;
         //        ctx.textAlign = "center";
 
-                ctx.lineWidth = widgetConfigs.serverRadial.width;
+
 /*
                 ctx.fillText(
                     'Thr:'+controls[i].value[1],
@@ -99,12 +99,52 @@ define([
                      size.height * widgetConfigs.inputRadial.top
                 );
 */
+
+                ctx.lineWidth = widgetConfigs.inputRadial.thrWidth;
+
+                var thrL = widgetConfigs.inputRadial.left;
+                var thrT = widgetConfigs.inputRadial.top;
+                var thrH = size.height * widgetConfigs.inputRadial.height;
+                var l = size.width * thrL;
+                var r = size.width - l;
+                var h = size.height * thrT ;
+
+
+
+                CustomGraphCallbacks.drawPointAt(ctx,     l-6 ,  h, 3);
                 ctx.beginPath();
-                CustomGraphCallbacks.addPointToGraph(ctx, size.width - 8 , size.height - 8);
-                CustomGraphCallbacks.addPointToGraph(ctx, size.width - 8 , size.height - 12 - 35*controls[i].value[1]);
+                CustomGraphCallbacks.addPointToGraph(ctx, l-6 ,  h);
+                CustomGraphCallbacks.addPointToGraph(ctx, l-2 ,  h - thrH * 0.5*controls[i].value[1]);
+                CustomGraphCallbacks.addPointToGraph(ctx, l   ,  h - thrH * 0.5*controls[i].value[1] - 2);
+
+                CustomGraphCallbacks.moveToPoint(ctx,     l-2 ,  h - thrH * 0.5 - 2);
+                CustomGraphCallbacks.addPointToGraph(ctx, l+4 ,  h - thrH * 0.5 - 2);
+                CustomGraphCallbacks.addPointToGraph(ctx, l+4 ,  h + thrH * 0.5 + 2);
+                CustomGraphCallbacks.addPointToGraph(ctx, l-2 ,  h + thrH * 0.5 + 2);
                 ctx.stroke();
+                CustomGraphCallbacks.drawPointAt(ctx,     l+3 ,  h - thrH * 0.5*controls[i].value[1] - 2, 4);
+
+
+
+                CustomGraphCallbacks.drawPointAt(ctx,     r + 6, h, 3);
+                ctx.beginPath();
+                CustomGraphCallbacks.addPointToGraph(ctx, r + 6, h);
+                CustomGraphCallbacks.addPointToGraph(ctx, r + 2, h - thrH * 0.5*controls[i].value[1]);
+                CustomGraphCallbacks.addPointToGraph(ctx, r ,    h - thrH * 0.5*controls[i].value[1] - 2);
+
+                CustomGraphCallbacks.moveToPoint(ctx,     r+2 ,  h - thrH * 0.5 - 2);
+                CustomGraphCallbacks.addPointToGraph(ctx, r-4 ,  h - thrH * 0.5 - 2);
+                CustomGraphCallbacks.addPointToGraph(ctx, r-4 ,  h + thrH * 0.5 + 2);
+                CustomGraphCallbacks.addPointToGraph(ctx, r+2 ,  h + thrH * 0.5 + 2);
+                ctx.stroke();
+                CustomGraphCallbacks.drawPointAt(ctx,     r-3 ,  h - thrH * 0.5*controls[i].value[1] - 2, 4);
+
+
 
                 ctx.strokeStyle = CanvasDraw.randomizedColor(widgetConfigs.serverRadial.color, widgetConfigs.serverRadial.flicker);
+
+
+                ctx.lineWidth = widgetConfigs.serverRadial.width;
 
                 var angle = MATH.TWO_PI / gamePiece.inputSegmentRadial.configs.radialSegments;
                 var radius = widgetConfigs.serverRadial.range * (controls[i].value[1] + 1)* size.width / gamePiece.inputSegmentRadial.configs.distanceSegments;

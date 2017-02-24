@@ -6,23 +6,25 @@
         "on":true,
         "color":[1,0.0,0.0,1],
 
-        "spatialColor":[0.0, 1, 0.1, 1],
+        "spatialColor":[0.0, 3, 0.5, 0.3],
         "spatialWidth": 1,
 
-        "extrapColor":[0.2, 0.3, 1, 1],
+        "extrapColor":[0.2, 0.3, 1, 0.4],
         "extrapWidth": 1,
 
         "targetColor":[1, 0.0, 0.0, 0.5],
         "targetWidth": 2,
 
-        "width":5,
+        "width":1,
         "range":0.11,
         "flicker":0.5,
 
-        "thrColor":[0.4,0.0,0.6,0.5],
+        "thrWidth":1,
+        "thrColor":[0.2, 0.4, 1,0.4],
         "font":"9px Russo One",
-        "top":0.93,
-        "left":0.88
+        "height":0.4,
+        "top":0.6,
+        "left":0.94
       },
 
       "serverRadial":{
@@ -125,11 +127,11 @@
         "id":"canvas_input_monitor_3d",
         "data":{
           "resolution":128,
-          "attenuation":[0.13, 0.16, 0.4, 0.11],
+          "attenuation":[0.02, 0.18, 0.3, 0.11],
           "size":{"height":128, "width":128},
           "zoom":80,
           "pos":{"top":0, "left":0},
-          "worldSection":{"probability":0.8, "color":[0.5,0.4,0.1,0.2], "borderColor":[0.9,0.55,0.2,0.4], "flicker":0.3,  "width":4},
+          "worldSection":{"probability":0.8, "color":[0.5,0.4,0.1,0.2], "borderColor":[0.9,0.55,0.2,0.4], "flicker":0.3,  "width":2},
           "elementBorder":{"probability":0.95, "color":[0.1,0.1,0.4,0.2], "flicker":0.1, "margin":1, "width":2},
           "raster":{"probability":0.01, "color":[0.9,0.7,0.8,0.1], "flicker":0.9, "width":15},
           "tpf":0.01

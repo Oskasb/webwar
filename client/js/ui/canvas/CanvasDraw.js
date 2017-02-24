@@ -226,7 +226,7 @@ define([
             ctx.arc(
                 tempRect.left,
                 tempRect.top,
-                radius,
+                Math.abs(radius),
                 direction,
                 angle
             );
@@ -302,7 +302,7 @@ define([
             ctx.lineWidth = 1;
 
             var yaw = gamePiece.piece.spatial.yaw();
-            var yawVel = gamePiece.piece.spatial.yawVel()*10;
+            var yawVel = gamePiece.piece.spatial.yawVel()*15;
 
             var w = 0.9;
             var left = size.width - size.width*w;
@@ -318,65 +318,62 @@ define([
             ctx.beginPath();
             CustomGraphCallbacks.addPointToGraph(ctx, size.width*0.5    , bottom-0);
             CustomGraphCallbacks.addPointToGraph(ctx, size.width*0.5    , bottom-15);
-            CustomGraphCallbacks.addPointToGraph(ctx, size.width*0.5+yawVel    , bottom-15);
+            CustomGraphCallbacks.addPointToGraph(ctx, size.width*0.5-yawVel    , bottom-15);
 
-            CustomGraphCallbacks.moveToPoint(ctx,     left    , bottom-10);
-            CustomGraphCallbacks.addPointToGraph(ctx, left    , bottom-2);
+            CustomGraphCallbacks.moveToPoint(ctx,     left-1    , bottom+6);
+            CustomGraphCallbacks.addPointToGraph(ctx, left -1   , bottom-2);
 
-            CustomGraphCallbacks.addPointToGraph(ctx, right    , bottom-2);
-            CustomGraphCallbacks.addPointToGraph(ctx, right    , bottom-10);
+            CustomGraphCallbacks.addPointToGraph(ctx, right  +1  , bottom-2);
+            CustomGraphCallbacks.addPointToGraph(ctx, right    +1, bottom+6);
 
             ctx.stroke();
 
-            CustomGraphCallbacks.drawPointAt(ctx, size.width*0.5+yawVel    , bottom-15, 3);
+            CustomGraphCallbacks.drawPointAt(ctx, size.width*0.5-yawVel    , bottom-15, 3);
 
             ctx.lineWidth = 3;
             
 
-            var angleN =  MATH.angleInsideCircle(-yaw)   / MATH.TWO_PI;
+            var angleN =  MATH.angleInsideCircle(yaw)   / MATH.TWO_PI;
             var pl = left+w*(right * angleN);
-
             CustomGraphCallbacks.drawPointAt(ctx, pl, bottom-pointFloor, 3);
             CustomGraphCallbacks.addTextAt(ctx, 'N' , pl ,bottom-textFloor, null);
 
-            var angleW = MATH.angleInsideCircle(-yaw-Math.PI*0.5) / MATH.TWO_PI;
+            var angleW = MATH.angleInsideCircle(yaw-Math.PI*0.5) / MATH.TWO_PI;
             pl = left+w*(right * angleW);
-
             CustomGraphCallbacks.drawPointAt(ctx, pl , bottom-pointFloor, 3);
             CustomGraphCallbacks.addTextAt(ctx, 'W' , pl ,bottom-textFloor, null);
 
-            var angleS = MATH.angleInsideCircle(-yaw-Math.PI)     / MATH.TWO_PI;
+            var angleS = MATH.angleInsideCircle(yaw-Math.PI)     / MATH.TWO_PI;
             pl = left+w*(right * angleS);
-
             CustomGraphCallbacks.drawPointAt(ctx, pl, bottom-pointFloor, 3);
             CustomGraphCallbacks.addTextAt(ctx, 'S' , pl,bottom-textFloor, null);
 
-            var angleE = MATH.angleInsideCircle(-yaw+Math.PI*0.5) / MATH.TWO_PI;
+            var angleE = MATH.angleInsideCircle(yaw+Math.PI*0.5) / MATH.TWO_PI;
             pl = left+w*(right * angleE);
             CustomGraphCallbacks.drawPointAt(ctx, pl, bottom-pointFloor, 3);
             CustomGraphCallbacks.addTextAt(ctx, 'E' , pl,bottom-textFloor, null);
 
 
 
-            var angleNW =  MATH.angleInsideCircle(-yaw-Math.PI*0.25)   / MATH.TWO_PI;
+            var angleNW =  MATH.angleInsideCircle(yaw-Math.PI*0.25)   / MATH.TWO_PI;
             pl = left+w*(right * angleNW);
 
             CustomGraphCallbacks.drawPointAt(ctx, pl, bottom-pointFloor, 2);
 
 
-            var angleSW = MATH.angleInsideCircle(-yaw-Math.PI*0.75) / MATH.TWO_PI;
+            var angleSW = MATH.angleInsideCircle(yaw-Math.PI*0.75) / MATH.TWO_PI;
             pl = left+w*(right * angleSW);
 
             CustomGraphCallbacks.drawPointAt(ctx, pl , bottom-pointFloor, 2);
 
 
-            var angleSE = MATH.angleInsideCircle(-yaw+Math.PI*0.75)     / MATH.TWO_PI;
+            var angleSE = MATH.angleInsideCircle(yaw+Math.PI*0.75)     / MATH.TWO_PI;
             pl = left+w*(right * angleSE);
 
             CustomGraphCallbacks.drawPointAt(ctx, pl, bottom-pointFloor, 2);
 
 
-            var angleNE = MATH.angleInsideCircle(-yaw+Math.PI*0.25) / MATH.TWO_PI;
+            var angleNE = MATH.angleInsideCircle(yaw+Math.PI*0.25) / MATH.TWO_PI;
             pl = left+w*(right * angleNE);
             CustomGraphCallbacks.drawPointAt(ctx, pl, bottom-pointFloor, 2);
 
@@ -390,7 +387,7 @@ define([
             ctx.lineWidth = 1;
 
             var pitch = gamePiece.piece.spatial.pitch();
-            var roll = gamePiece.piece.spatial.roll();
+            var roll = gamePiece.piece.spatial.roll()*Math.PI;
             var pitchVel = gamePiece.piece.spatial.pitchVel();
 
             var w = 0.9;
