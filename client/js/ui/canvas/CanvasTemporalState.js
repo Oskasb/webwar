@@ -118,7 +118,7 @@ define([
             tmpColor[1] = 0.1*timeProgress;
             tmpColor[2] = 1-timeProgress;
             tmpColor[3] *= (1-timeProgress);
-            ctx.strokeStyle = CanvasDraw.randomizedColor(tmpColor, widgetConfigs.serverRadial.flicker);
+            ctx.strokeStyle = CanvasDraw.toRgba(tmpColor);
 
             ctx.lineWidth = widgetConfigs.inputRadial.width;
 

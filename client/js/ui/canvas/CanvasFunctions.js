@@ -59,7 +59,11 @@ define([
             var configs = conf;
             
             var radarCallback = function(tpf, ctx) {
-                CanvasRadar.drawRadarContent(pieces, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
+
+                if (ownPiece) {
+                    CanvasRadar.drawRadarContent(pieces, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
+                }
+
             };
 
             var temporalStateCallback = function(tpf, ctx) {
