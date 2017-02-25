@@ -269,6 +269,23 @@
           },
           "text":"DEV"
         }
+      },{
+        "id":"buttonContainer4",
+        "data":{
+          "parentId":"leftRoot",
+          "style":["main_button_container", "coloring_container_main_panel"]
+        }
+      },{
+        "id":"button4",
+        "data":{
+          "parentId":"buttonContainer4",
+          "style":["panel_button", "coloring_button_main_panel"],
+          "button":{
+            "id":"panel_button",
+            "event":{"category":"STATUS", "key":"FULL_SCREEN", "type":"toggle"}
+          },
+          "text":"FULL SCREEN"
+        }
       }, {
         "id": "radar_3d2",
         "data": {

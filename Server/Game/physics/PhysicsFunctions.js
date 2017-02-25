@@ -154,11 +154,11 @@ PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
     threeObj2.rotation.y = threeObj.rotation.z+Math.PI*0.5;
     
 
-    threeObj2.rotation.z = threeObj.rotation.y  // * (Math.sin(threeObj.rotation.x)) // - Math.asin(threeObj.rotation.x);
+    threeObj2.rotation.z = threeObj.rotation.y  * (Math.sin(-threeObj.rotation.z)) // - Math.asin(threeObj.rotation.x);
 
     threeObj.setRotationFromQuaternion(body.quaternion);
 
-    threeObj2.rotation.x = -threeObj.rotation.x * (Math.cos(threeObj.rotation.y));
+    threeObj2.rotation.x = -threeObj.rotation.x * (Math.cos(threeObj.rotation.y)) // - Math.sin(threeObj.rotation.y);
 
 
 
@@ -244,8 +244,8 @@ var createVehicle = function(world, spatial, bodyParams) {
  //   var groundMaterial = new CANNON.Material("groundMaterial");
  //   var wheelMaterial = new CANNON.Material("wheelMaterial");
 
-    var width = 1.8;
-    var length = 2.8;
+    var width = 2.8;
+    var length = 4.8;
     var clearance = 0.5;
 
     var chassisShape;
@@ -291,16 +291,16 @@ var createVehicle = function(world, spatial, bodyParams) {
     options.chassisConnectionPointLocal.set(-width, length, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(-width, -length*0.5, -clearance);
+    options.chassisConnectionPointLocal.set(-width, -length*0.3, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(-width, length*0.5, -clearance);
+    options.chassisConnectionPointLocal.set(-width, length*0.3, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(width,  -length*0.5, -clearance);
+    options.chassisConnectionPointLocal.set(width,  -length*0.3, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(width,  length*0.5, -clearance);
+    options.chassisConnectionPointLocal.set(width,  length*0.3, -clearance);
     vehicle.addWheel(options);
 
     options.chassisConnectionPointLocal.set(width,  -length, -clearance);

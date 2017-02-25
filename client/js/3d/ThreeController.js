@@ -18,6 +18,8 @@ define([
 ) {
     var pxRatio;
 
+    var fireResize;
+
     var ThreeController = function() {
         new ThreeCamera();
     };
@@ -42,6 +44,12 @@ define([
         setTimeout(function() {
             ready();
             evt.fire(evt.list().ENGINE_READY, {});
+
+            setTimeout(function() {
+
+                fireResize();
+            }, 10)
+
         },20);
 
         window.addEventListener('resize', notifyRezize);
@@ -52,7 +60,7 @@ define([
     var notifyRezize = function() {
         ThreeAPI.updateWindowParameters(GameScreen.getWidth(), GameScreen.getHeight(), GameScreen.getAspect(), pxRatio);
         setTimeout(function() {
-            ThreeAPI.updateWindowParameters(GameScreen.getWidth(), GameScreen.getHeight(), GameScreen.getAspect(), pxRatio);
+    //        ThreeAPI.updateWindowParameters(GameScreen.getWidth(), GameScreen.getHeight(), GameScreen.getAspect(), pxRatio);
         }, 100);
     };
 
@@ -69,8 +77,12 @@ define([
         var width = window.innerWidth;
         var height = window.innerHeight;
         var landscape = false;
-        
+        var timeout;
+
         var handleResize = function() {
+
+
+
             width = window.innerWidth;
             height = window.innerHeight;
 
@@ -97,19 +109,37 @@ define([
 
             width = document.getElementById('game_window').offsetWidth;
             height = document.getElementById('game_window').offsetHeight;
-            GameScreen.notifyResize();
+
             PipelineAPI.setCategoryData('SETUP', {SCREEN:[width, height], LANDSCAPE:landscape});
-            notifyRezize();
+            GameScreen.notifyResize();
+            setTimeout(function() {
+                GameScreen.notifyResize();
+                notifyRezize();
+
+            }, 1)
+
+
         };
 
-        window.addEventListener('resize', handleResize);
+        fireResize = function() {
+         //   setTimeout(function() {
+                handleResize();
+         //   }, 1)
+
+            clearTimeout(timeout, 1);
+            timeout = setTimeout(function() {
+                handleResize();
+            }, 10)
+        };
+
+        window.addEventListener('resize', fireResize);
 
         window.addEventListener('load', function() {
-            handleResize()
+            fireResize()
         });
 
         setTimeout(function() {
-            handleResize();
+            fireResize();
         }, 100);
 
     };

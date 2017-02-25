@@ -62,7 +62,7 @@ define([
                 state.value = !state.active;
 
                 data[buttonData.event.key] = state.value;
-                evt.fire(evt.list().BUTTON_EVENT, {category:buttonData.event.category, data:data});
+                evt.fire(evt.list().BUTTON_EVENT, {category:buttonData.event.category, data:data, element:domElem.element});
             };
 
 

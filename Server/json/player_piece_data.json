@@ -6,10 +6,10 @@
         "input": {
           "pointer":"InputSegmentRadial",
           "data":{
-            "radialSegments":32,
-            "distanceSegments":5,
-            "radius":45,
-            "width":45,
+            "radialSegments":16,
+            "distanceSegments":3,
+            "radius":25,
+            "width":25,
             "streamTimeout":0.2
           }
         },
@@ -22,8 +22,8 @@
         },
         "constants":{
           "shieldEnergy":50,
-          "radialSegments":32,
-          "throttleSegments": 5,
+          "radialSegments":16,
+          "throttleSegments": 3,
           "velocityDrag":3.1,
           "radialDrag":1.45,
           "radialVelocityClamp":0.2,

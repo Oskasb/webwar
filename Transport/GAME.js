@@ -326,34 +326,32 @@ if(typeof(GAME) == "undefined"){
 
 		var brakeForce = 20*(1/Math.abs(throttleState));
 		if (Math.abs(throttleState) < 0.1) {
-			brakeForce = 60;
+			brakeForce = 20;
 
 			if (Math.abs(yawState) < 0.2) {
 				throttleState = 0;
 				brakeForce = 260;
 				yawState = 0;
 			}
-
-
 		}
 
 		var speed = this.spatial.vel.getLengthSquared()+1;
 		var speedFactor = Math.sqrt(500000 / speed) + 5000 / speed;
 
 	//	var maxSteerVal = 0.5;//	var maxForce = 1000;
-		var trackForce = (throttleState+ Math.abs(yawState)) * speedFactor ;
+		var trackForce = (throttleState + Math.abs(yawState)) * speedFactor ;
 
-		var trackYawL = + yawState*0;
-		var trackYawR = + yawState*0;
+		var trackYawL = - yawState*22.3*speedFactor;
+		var trackYawR = + yawState*22.3*speedFactor;
 	//	console.log(throttleState, brakeForce, yawState);
-		vehicle.applyEngineForce(trackForce*trackYawR, 0);
-		vehicle.applyEngineForce(trackForce*trackYawR, 1);
-		vehicle.applyEngineForce(trackForce, 2);
-		vehicle.applyEngineForce(trackForce, 3);
-		vehicle.applyEngineForce(trackForce, 4);
-		vehicle.applyEngineForce(trackForce, 5);
-		vehicle.applyEngineForce(trackForce*trackYawL, 6);
-		vehicle.applyEngineForce(trackForce*trackYawL, 7);
+		vehicle.applyEngineForce(trackForce+ trackYawL, 0);
+		vehicle.applyEngineForce(trackForce+ trackYawR, 1);
+		vehicle.applyEngineForce(trackForce + trackYawL, 2);
+		vehicle.applyEngineForce(trackForce + trackYawR, 3);
+		vehicle.applyEngineForce(trackForce + trackYawL, 4);
+		vehicle.applyEngineForce(trackForce + trackYawR, 5);
+		vehicle.applyEngineForce(trackForce+ trackYawL, 6);
+		vehicle.applyEngineForce(trackForce+ trackYawR, 7);
 
 		vehicle.setBrake(brakeForce, 0);
 		vehicle.setBrake(brakeForce, 1);
@@ -363,16 +361,19 @@ if(typeof(GAME) == "undefined"){
 		vehicle.setBrake(brakeForce, 5);
 
 
-		vehicle.setSteeringValue(yawState*0.8, 0);
-		vehicle.setSteeringValue(yawState*0.8, 1);
-		vehicle.setSteeringValue(yawState*0.4, 2);
-		vehicle.setSteeringValue(yawState*0.4, 3);
+		var forward = MATH.clamp(trackForce+1, -1, 1);
+
+	//	yawState = 0;
+		vehicle.setSteeringValue(yawState*forward, 0);//
+		vehicle.setSteeringValue(yawState*forward, 1);
+		vehicle.setSteeringValue(yawState*forward*0.3, 2);
+		vehicle.setSteeringValue(yawState*forward*0.3, 3);
 
 
-		vehicle.setSteeringValue(-yawState*0.6, 4);
-		vehicle.setSteeringValue(-yawState*0.6, 5);
-		vehicle.setSteeringValue(-yawState, 6);
-		vehicle.setSteeringValue(-yawState, 7);
+		vehicle.setSteeringValue(-yawState*forward*0.3, 4);
+		vehicle.setSteeringValue(-yawState*forward*0.3, 5);
+		vehicle.setSteeringValue(-yawState*forward, 6);
+		vehicle.setSteeringValue(-yawState*forward, 7);
 	};
 
 
