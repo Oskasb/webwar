@@ -146,7 +146,7 @@ PieceSpawner.prototype.spawnBullet = function(sourcePiece, cannonModuleData, now
 
     if (apply.yaw_module) {
     //    console.log(sourcePiece)
-        bullet.spatial.addYaw(-sourcePiece.getModuleById(apply.yaw_module).state.value);
+        bullet.spatial.addYaw(sourcePiece.getModuleById(apply.yaw_module).state.value);
     }
 
 
@@ -156,7 +156,9 @@ PieceSpawner.prototype.spawnBullet = function(sourcePiece, cannonModuleData, now
 
     if (apply.pitch_module) {
         //    console.log(sourcePiece)
-        bullet.spatial.vel.setY(sourcePiece.getModuleById(apply.pitch_module).state.value * 20);
+        bullet.spatial.addPitch(sourcePiece.getModuleById(apply.pitch_module).state.value);
+
+    //    bullet.spatial.vel.setY(sourcePiece.getModuleById(apply.pitch_module).state.value * 20);
 
     //    bullet.spatial.vel.setY(10);
     }

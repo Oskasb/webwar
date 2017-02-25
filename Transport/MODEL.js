@@ -142,38 +142,8 @@ if(typeof(MODEL) == "undefined"){
 
 	MODEL.Spatial.prototype.getForwardVector = function(vec3) {
 
-
-		THREEVec1.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
-
-		//get the heading to figure out where it ends up in x/z
-		this.getHeading(calcVec);
-
-
-
-		vec3.setVec(calcVec)
+		vec3.setXYZ(-Math.sin(this.yaw()), Math.sin(this.pitch()), -Math.cos(this.yaw()));
 		return vec3;//;
-		// var normAng = calcVec.dotVev(this.groundNormal);
-
-		THREEobj.rotation.set(this.pitch(), this.yaw(), this.roll());
-
-	//	THREEquat.setFromEuler(THREEobj.rotation);
-
-		THREEVec1.set()
-
-	//	THREEobj.rotation.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
-
-		THREEobj.position.set(0, 0, 0);
-
-		// THREEobj.up.set(0, 0, 1);
-
-		THREEobj.up.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
-
-		// THREEeuler.fronAs();
-		THREEobj.translateZ(1);
-
-		vec3.setXYZ(THREEobj.position.x, THREEobj.position.y, -THREEobj.position.z );
-
-        return vec3;
 	};
 //
 	MODEL.Spatial.prototype.getUpVector = function(vec3) {
@@ -401,66 +371,6 @@ if(typeof(MODEL) == "undefined"){
 	};
 
 	MODEL.Spatial.prototype.updateGroundContact = function() {
-
-		return;
-		this.pitchTowards(this.groundNormal, 1);
-		this.rollTowards(this.groundNormal, 1);
-
-
-		this.getForwardVector(calcVec);
-		THREEobj.position.set(0, 0, 0);
-
-		THREEobj.rotation.set(this.pitch(), this.roll(), this.pitchVel());
-
-		THREEVec2.set(calcVec.data[0], calcVec.data[1], calcVec.data[2]);
-
-		THREEVec1.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
-
-	THREEobj.up.set(0, 0, 1);
-		//		THREEobj.up.set(THREEVec1);
-
-
-		//	THREEobj.rotation.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
-
-
-	//	THREEobj.up.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
-		THREEobj.lookAt(THREEVec1);
-
-	//	THREEVec2.set(this.pitch(), this.roll(), this.pitchVel());
-
-	//	THREEquat.setFromAxisAngle(THREEVec2, THREEVec1);
-
-	//		THREEobj.rotation.makeRotationFromQuaternion(THREEquat);
-
-	//
-
-	//	THREEobj.up.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
-
-	//	THREEobj.up.set(this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2]);
-
-	//
-
-	//	THREEobj.updateMatrix();
-
-		// THREEeuler.fronAs();
-	//	THREEobj.translateZ(1);
-
-		calcVec.setXYZ(THREEobj.rotation.x, THREEobj.rotation.y, THREEobj.rotation.z );
-
-	//	console.log(THREEobj.rotation.x, THREEobj.rotation.y, -THREEobj.rotation.z)
-
-		this.setPitch(calcVec.getX());
-		this.setRoll(calcVec.getZ());
-
-	//	this.setPitchVel(MATH.subAngles(calcVec.getX() , this.pitch()));
-	//	this.setRollVel(MATH.subAngles(calcVec.getZ(),  this.roll()))
-
-		if (Math.random()< 0.1){
-			console.log(THREEobj.rotation.x,THREEobj.rotation.y, THREEobj.rotation.z) ;
-			console.log("rotations spatial:",this.pitch(), this.roll(), this.pitchVel(), this.rollVel() )
-			console.log("normal spatial:",this.groundNormal.data[0], this.groundNormal.data[1], this.groundNormal.data[2] )
-		}
-
 
 
 	};

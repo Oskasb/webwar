@@ -151,18 +151,16 @@ PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
 
     threeObj.setRotationFromQuaternion(invQuat);
  //   threeObj.rotateY(Math.PI*0.5);
-    threeObj2.rotation.y = threeObj.rotation.z+Math.PI*0.5;
-    
+    threeObj2.rotation.y = MATH.addAngles(threeObj.rotation.z, Math.PI*0.5);
 
-    threeObj2.rotation.z = threeObj.rotation.y  * (Math.sin(-threeObj.rotation.z)) // - Math.asin(threeObj.rotation.x);
+    threeObj2.rotation.z = threeObj.rotation.y  * (Math.sin(-threeObj.rotation.z)); // - Math.asin(threeObj.rotation.x);
 
     threeObj.setRotationFromQuaternion(body.quaternion);
 
-    threeObj2.rotation.x = -threeObj.rotation.x * (Math.cos(threeObj.rotation.y)) // - Math.sin(threeObj.rotation.y);
+    threeObj2.rotation.x = -threeObj.rotation.x * (Math.cos(threeObj.rotation.y)); // - Math.sin(threeObj.rotation.y);
 
 
-
-    threeQuat.copy(threeObj2.quaternion);
+ //   threeQuat.copy(threeObj2.quaternion);
 
 
     piece.spatial.setPosXYZ(body.position.x,                 body.position.z, body.position.y);

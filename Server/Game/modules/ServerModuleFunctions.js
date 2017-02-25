@@ -93,7 +93,7 @@ ServerModuleFunctions.prototype.applyModuleYaw = function(sourcePiece, moduleDat
 
             var worldAngle = this.serverPieceProcessor.getAngleFromPieceToTarget(sourcePiece, target) ; //  moduleData.transform.rot[moduleData.applies.rotation_axis];
 
-            worldAngle = MATH.angleInsideCircle(sourcePiece.spatial.yaw() + worldAngle);
+            worldAngle = MATH.subAngles(worldAngle, sourcePiece.spatial.yaw());
 
             if (isNaN(sourcePiece.getModuleById(moduleData.id).state.value)) {
                 console.log("NAN MODULE STATE")
