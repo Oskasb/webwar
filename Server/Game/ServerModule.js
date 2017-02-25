@@ -1,5 +1,6 @@
-ServerModule = function(moduleId, data, piece, serverModuleCallbacks) {
+ServerModule = function(attachmentPoint, moduleId, data, piece, serverModuleCallbacks) {
     this.id = moduleId;
+    this.attachmentPoint = attachmentPoint;
     this.data = data;
     this.piece = piece;
     this.serverModuleCallbacks = serverModuleCallbacks;
@@ -31,6 +32,9 @@ ServerModule.prototype.getModuleDelay = function() {
     return this.delay;
 };
 
+ServerModule.prototype.getAttachmentPoint= function() {
+    return this.attachmentPoint;
+};
 
 ServerModule.prototype.setModuleState = function(state) {
 

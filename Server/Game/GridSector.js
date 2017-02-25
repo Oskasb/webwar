@@ -63,20 +63,45 @@ GridSector.prototype.activateSector = function() {
 GridSector.prototype.spawnGround = function(spawnData) {
 
     
-    
     if (!this.groundPiece) {
     var posx = this.sectorData.minX // + 0.5 * this.sectorData.size;
     var posz = this.sectorData.minY // + 0.5 * this.sectorData.size;
     var rot = 0; //Math.random()*MATH.TWO_PI;
     var rotVel = 0; // (Math.random()-0.5)*3;
         var piece = this.groundPiece || this.serverWorld.createWorldTerrainPiece(spawnData.pieceType, posx, posz, rot, rotVel);
+        this.groundPiece = piece;
+    //    this.stitchTerrain();
 
         piece.spatial.updateSpatial(10);
         piece.setState(GAME.ENUMS.PieceStates.APPEAR);
-        this.groundPiece = piece;
+
     }
 
     this.activeSectorPieces.push(this.groundPiece);
+
+};
+
+GridSector.prototype.stitchTerrain = function() {
+
+    for (var i = 0; i < this.neighborSectors.length; i++) {
+        this.stitchTerrainToNeighbor(this.neighborSectors[i]);
+    }
+
+};
+
+GridSector.prototype.stitchTerrainToNeighbor = function(neightborSector) {
+    
+    if (!this.groundPiece) return;
+    if (!neightborSector.groundPiece) return;
+
+    var colOffset = neightborSector.column - this.column;
+    var rowOffset = neightborSector.row - this.row;
+
+    var vertsCenter = this.terrainFunctions.getPieceTerrainModule(this.groundPiece).state.value;
+
+    var vertsNeighbor = this.terrainFunctions.getPieceTerrainModule(neightborSector.groundPiece).state.value;
+
+    this.terrainFunctions.stitchEdgeVertices(vertsCenter, vertsNeighbor, colOffset, rowOffset);
 
 };
 
@@ -93,6 +118,7 @@ GridSector.prototype.spawnSelection = function(spawnData) {
         var rotVel = 0; // (Math.random()-0.5)*3;
         
         var posY = this.terrainFunctions.getTerrainHeightAt(this.groundPiece, {data:[posx, 0, posz]});
+
         
         var piece = this.serverWorld.createWorldPiece(spawnData.pieceType, posx, posz, rot, rotVel, posY);
 
@@ -101,7 +127,6 @@ GridSector.prototype.spawnSelection = function(spawnData) {
         piece.groundPiece = this.groundPiece;
         this.activeSectorPieces.push(piece)
     }
-
 };
 
 
@@ -115,12 +140,11 @@ GridSector.prototype.deactivateSector = function() {
     }
 
     this.activeSectorPieces.length = 0;
-
 };
 
-GridSector.prototype.addNeighborSector = function(neightborSector) {
 
-    this.neighborSectors.push(neightborSector);
+GridSector.prototype.addNeighborSector = function(neightborSector) {
+        this.neighborSectors.push(neightborSector);
 };
 
 

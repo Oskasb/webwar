@@ -155,6 +155,7 @@
         "bullet":"cannon_bullet",
         "exitVelocity":155,
         "lifeTime":7,
+        "barrel_length": 4,
         "three_model":"sherman_cannon"
       }
     },

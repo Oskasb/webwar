@@ -54,9 +54,40 @@ TerrainFunctions.prototype.getTerrainModuleOpts = function(applies) {
 };
 
 
+TerrainFunctions.prototype.setEdgeVerticeHeight = function(array1d, height) {
+
+    var sideVerts = Math.sqrt(array1d.length);
+    var totalVerts = array1d.length;
+
+    var bottomVert = 0;
+    var topVert = 0;
+    var leftVert = 0;
+    var rightVert = 0;
 
 
-// get a height at point from matrix
+        for (var i = 0; i < sideVerts; i++) {
+
+            bottomVert = i;
+            topVert = totalVerts - sideVerts + i;
+
+            leftVert = sideVerts * i;
+            rightVert = sideVerts * i + sideVerts - 1;
+
+            array1d[bottomVert] = height;
+            array1d[topVert] = height;
+            array1d[leftVert] = height;
+            array1d[rightVert] = height;
+        }
+
+};
+
+TerrainFunctions.prototype.buildPhysicsTerrain = function(matrixData, y, x) {
+
+
+};
+
+
+
 TerrainFunctions.prototype.setupTerrainPiece = function(piece, posx, posz) {
     var module = this.getPieceTerrainModule(piece);
 
@@ -72,14 +103,16 @@ TerrainFunctions.prototype.setupTerrainPiece = function(piece, posx, posz) {
 
     var vertices = THREE.Terrain.toArray1D(terrain.children[0].geometry.vertices);
 
+    this.setEdgeVerticeHeight(vertices, opts.minHeight);
+
+    THREE.Terrain.fromArray1D(terrain.children[0].geometry.vertices, vertices);
+
     module.terrain = terrain.children[0];
     module.setModuleState(vertices);
 
     var matrix = THREE.Terrain.toArray2D(terrain.children[0].geometry.vertices, opts);
 
-
     this.CannonAPI.buildPhysicalTerrain(matrix, module.data.applies.terrain_size, posx, posz, module.data.applies.min_height,module.data.applies.max_height)
-    
 };
 
 

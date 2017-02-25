@@ -132,7 +132,7 @@ SectorGrid.prototype.broadcastToGridSector = function(spatial, packet, recipient
 SectorGrid.prototype.getGridSectorForSpatial = function(spatial) {
     
     var row = Math.floor((spatial.pos.getX() - this.minX) / this.sectorSize);
-    var column = Math.floor((spatial.pos.getZ() - this.minY) / this.sectorSize)
+    var column = Math.floor((spatial.pos.getZ() - this.minY) / this.sectorSize);
     
     if (!this.rows[row]) {
         return false;

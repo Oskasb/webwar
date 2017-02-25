@@ -3,6 +3,7 @@ PieceSpawner = function(serverWorld, serverModuleCallbacks) {
     this.serverModuleCallbacks;
     this.pieceCount = 0;
     this.calcVec = new MATH.Vec3(0, 0, 0);
+    this.calcVec2 = new MATH.Vec3(0, 0, 0);
     this.gameConfigs;
 };
 
@@ -121,7 +122,6 @@ PieceSpawner.prototype.spawnBullet = function(sourcePiece, cannonModuleData, now
     var bullet = new GAME.Piece(apply.bullet, apply.bullet+' '+this.pieceCount, now, apply.lifeTime);
     bullet.registerParentPiece(sourcePiece);
 
-    //bullet.temporal.setSendTemporal(sourcePiece.temporal);
 
     var conf = {};
 
@@ -144,33 +144,44 @@ PieceSpawner.prototype.spawnBullet = function(sourcePiece, cannonModuleData, now
     bullet.spatial.pos.addVec(this.calcVec);
 
 
+    this.calcVec2.setXYZ(0, 0, 0);
+    
     if (apply.yaw_module) {
-    //    console.log(sourcePiece)
-        bullet.spatial.addYaw(sourcePiece.getModuleById(apply.yaw_module).state.value);
+        var yawModule = sourcePiece.getModuleById(apply.yaw_module);
+        bullet.spatial.addYaw(yawModule.state.value);
+        if (!apply.pitch_module) {
+            var ap = yawModule.getAttachmentPoint(); 
+            ap.getOffsetPosition(this.calcVec2);
+        }
     }
 
-
-    this.calcVec.setArray(cannonModuleData.transform.pos);
-
-    this.calcVec.rotateY(sourcePiece.spatial.yaw());
 
     if (apply.pitch_module) {
-        //    console.log(sourcePiece)
-        bullet.spatial.addPitch(sourcePiece.getModuleById(apply.pitch_module).state.value);
-
-    //    bullet.spatial.vel.setY(sourcePiece.getModuleById(apply.pitch_module).state.value * 20);
-
-    //    bullet.spatial.vel.setY(10);
+        var pitchModule = sourcePiece.getModuleById(apply.pitch_module);
+        bullet.spatial.addPitch(pitchModule.state.value);
+        
+        var ap = pitchModule.getAttachmentPoint();
+        ap.getOffsetPosition(this.calcVec2);
     }
 
-    bullet.spatial.pos.addVec(this.calcVec);
+
+    this.calcVec2.rotateX(sourcePiece.spatial.pitch());
+    this.calcVec2.rotateY(sourcePiece.spatial.yaw());
+    this.calcVec2.rotateZ(sourcePiece.spatial.roll());
+
+
+    bullet.spatial.pos.addVec(this.calcVec2);
 
     bullet.setState(GAME.ENUMS.PieceStates.SPAWN);
 
     bullet.spatial.updateSpatial(sourcePiece.temporal.stepTime * 10);
 
     bullet.spatial.setYawVel(0);
-    // bullet.spatial.rot[0] += sourcePiece.spatial.rotVel[0] * sourcePiece.temporal.stepTime * 3;
+
+
+    bullet.spatial.getForwardVector(this.calcVec);
+    this.calcVec.scale(apply.barrel_length);
+    bullet.spatial.pos.addVec(this.calcVec);
 
     bullet.pieceControls.actions.applyForward = apply.exitVelocity;
     bullet.applyForwardControl(MODEL.ReferenceTime);

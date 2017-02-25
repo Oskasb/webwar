@@ -189,7 +189,7 @@ PhysicsFunctions.prototype.updateCannonWorld = function(world, currentTime) {
 
 PhysicsFunctions.prototype.createCannonTerrain = function(world, data, totalSize, posx, posz,minHeight, maxHeight) {
 
-    console.log("POS:",  posx, posz, totalSize, minHeight)
+ //   console.log("POS:",  posx, posz, totalSize, minHeight)
     var matrix = data;
 
     var hfShape = new CANNON.Heightfield(matrix, {
@@ -206,7 +206,7 @@ PhysicsFunctions.prototype.createCannonTerrain = function(world, data, totalSize
 
 PhysicsFunctions.prototype.buildCannonBody = function(world, spatial, bodyParams) {
     
-    console.log("ELEVATION FOR BODY:", spatial.pos.data, bodyParams.size);
+//    console.log("ELEVATION FOR BODY:", spatial.pos.data, bodyParams.size);
 
     if (bodyParams.shape == 'Vehicle') {
         var rigidBody = createVehicle(world, spatial, bodyParams);
@@ -236,18 +236,18 @@ PhysicsFunctions.prototype.buildCannonBody = function(world, spatial, bodyParams
 
 var createVehicle = function(world, spatial, bodyParams) {
 
-    var mass = 2650;
+    var mass = 5650;
     var vehicle;
 
  //   var groundMaterial = new CANNON.Material("groundMaterial");
  //   var wheelMaterial = new CANNON.Material("wheelMaterial");
 
     var width = 2.8;
-    var length = 4.8;
-    var clearance = 0.5;
+    var length = 5.8;
+    var clearance = -0.2;
 
     var chassisShape;
-    chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, 0));
+    chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, 0.3));
     var chassisBody = new CANNON.Body({ mass: mass });
     chassisBody.addShape(chassisShape);
     chassisBody.position.set(spatial.posX(), spatial.posZ(), spatial.posY()+bodyParams.size);
@@ -260,15 +260,15 @@ var createVehicle = function(world, spatial, bodyParams) {
         radius: 0.4,
         directionLocal: new CANNON.Vec3(0, 0, -1),
         suspensionStiffness: 20,
-        suspensionRestLength: 0.3,
+        suspensionRestLength: 0.6,
         frictionSlip: 3.4,
-        dampingRelaxation: 1.3,
-        dampingCompression: 2.4,
-        maxSuspensionForce: 70000,
-        rollInfluence:  0.05,
+        dampingRelaxation: 2.3,
+        dampingCompression: 3.4,
+        maxSuspensionForce: 40000,
+        rollInfluence:  0.15,
         axleLocal: new CANNON.Vec3(0, -1, 0),
         chassisConnectionPointLocal: new CANNON.Vec3(width/2, length/2, -0.5),
-        maxSuspensionTravel: 0.3,
+        maxSuspensionTravel: 0.8,
         customSlidingRotationalSpeed: -60,
         useCustomSlidingRotationalSpeed: true
     };
@@ -280,9 +280,8 @@ var createVehicle = function(world, spatial, bodyParams) {
 
     chassisBody.vehicle = vehicle;
 
-    width += 0.5;
-    length += 0.5;
-
+    width -= 0.2;
+    length -= 0.2;
     options.chassisConnectionPointLocal.set(-width, -length, -clearance);
     vehicle.addWheel(options);
 

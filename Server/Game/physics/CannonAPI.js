@@ -18,7 +18,7 @@ CannonAPI.prototype.buildPhysicalTerrain = function(data, size, posx, posz, min_
 CannonAPI.prototype.attachPiecePhysics = function(piece) {
     
     if (piece.physics.rigid_body) {
-        console.log("PiecePhysics", piece.id, piece.physics.rigid_body, piece.spatial)
+//        console.log("PiecePhysics", piece.id, piece.physics.rigid_body, piece.spatial)
         var rb = body = this.buildRigidBody(piece.spatial, piece.physics.rigid_body);
 
         piece.physics.body = rb;
