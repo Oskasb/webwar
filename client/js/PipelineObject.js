@@ -1,8 +1,10 @@
 define([
-        'PipelineAPI'
+        'PipelineAPI',
+        'application/debug/ObjectComparator'
     ],
     function(
-        PipelineAPI
+        PipelineAPI,
+        ObjectComparator
     ) {
 
         var PipelineObject = function(category, key, onDataCallback, defaultValue) {
@@ -17,12 +19,23 @@ define([
             this.subscribe(onDataCallback);
         };
 
+        var compareDatas = function(stale, fresh) {
+            if (ObjectComparator.trueIfEqualObjects(stale, fresh)) {
+                return ObjectComparator.trueIfEqualObjects(fresh, stale);
+            };
+        };
+
         PipelineObject.prototype.subscribe = function(onDataCallback) {
 
             var dataCallback = function(src, data) {
                 if (data == src && data) {
                     console.log("No data at source", this.category, src, data)
                 } else {
+                    if (compareDatas(this.data, data)) {
+                        console.log("Data identical, skippping subscription push", this.category, this.key );
+                        // return;
+                    }
+
                     this.data = data;
                     if (typeof(onDataCallback) == 'function') {
                         onDataCallback(src, data);

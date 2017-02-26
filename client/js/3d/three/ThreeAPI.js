@@ -22,7 +22,8 @@ define([
     ) {
 
         var shaderBuilder;
-
+        var glContext;
+        
         var ThreeAPI = function() {
 
         };
@@ -33,15 +34,21 @@ define([
             ThreeTextureMaker.loadTextures();
             ThreeMaterialMaker.loadMaterialist();
             ThreeEnvironment.loadEnvironmentData();
-            shaderBuilder.loadShaderData();
+            
         };
 
         ThreeAPI.initThreeScene = function(containerElement, clientTickCallback, pxRatio, antialias) {
             var store = {}; 
             store = ThreeSetup.initThreeRenderer(pxRatio, antialias, containerElement, clientTickCallback, store);
-            ThreeEnvironment.initEnvironment(store)
-            
+            ThreeEnvironment.initEnvironment(store);
+            glContext = store.renderer.context;
+            shaderBuilder.loadShaderData(glContext);
         };
+
+        ThreeAPI.getContext = function() {
+            return glContext;
+        };
+
 
         ThreeAPI.updateWindowParameters = function(width, height, aspect, pxRatio) {
             ThreeSetup.setRenderParams(width, height, aspect, pxRatio);

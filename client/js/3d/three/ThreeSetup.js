@@ -37,7 +37,7 @@ define(['../../ui/GameScreen'], function(
 
             renderer = new THREE.WebGLRenderer( { antialias:antialias, devicePixelRatio: pxRatio });
             renderer.setPixelRatio( pxRatio );
-
+                        
             containerElement.appendChild(renderer.domElement);
         }
 

@@ -290,7 +290,7 @@ if(typeof(GAME) == "undefined"){
 
 		this.setState(GAME.ENUMS.PieceStates.TELEPORT);
 		this.spatial.stop();
-		this.spatial.setPosXYZ(5+Math.random()*20, 0, 5+Math.random()*15);
+		this.spatial.setPosXYZ(25+Math.random()*23, 4, 105+Math.random()*25);
 
 		if (this.physics) {
 			this.physics.body.position.x = this.spatial.posX();
