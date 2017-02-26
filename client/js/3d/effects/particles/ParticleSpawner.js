@@ -25,9 +25,10 @@ define([
         };
 
         ParticleSpawner.prototype.setupParticleRenderers = function() {
-                        
+            
             var renderersData = function(src, data) {
                 for (var i = 0; i < data.length; i++) {
+                    console.log("SETUP PARTICLE RENDERER", src, data[i]);
                     renderers[data[i].id] = new ParticleRenderer(data[i]);
                 }
             };

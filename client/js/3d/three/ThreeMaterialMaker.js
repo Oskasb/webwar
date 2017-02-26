@@ -113,17 +113,7 @@ define([
             };
 
             new PipelineObject("MATERIALS", "THREE", textureListLoaded);
-
-
-            var particleMaterialList = function(scr, data) {
-                for (var i = 0; i < data.length; i++){
-                    createMaterial(data[i].id, data[i]);
-                }
-                //    console.log("Material List", [data, materialList]);
-            };
-
-            new PipelineObject("PARTICLE_MATERIALS", "THREE", particleMaterialList);
-
+            
         };
 
 

@@ -184,7 +184,7 @@ define([
             evt.fire(evt.list().MESSAGE_UI, {channel:'pipeline_message', message:window.location.href});
             
             function pipelineCallback(started, remaining, loaded) {
-                console.log("SRL", started, remaining, loaded);
+            //    console.log("SRL", started, remaining, loaded);
 
                 evt.fire(evt.list().MONITOR_STATUS, {FILE_CACHE:loaded});
 

@@ -5,7 +5,7 @@
         {
           "id":"sprite_atlas_opaque",
           "shader":"SPE_PARTICLE_SHADER",
-          "map":"./client/assets/images/effects/particle_atlas.png"
+          "map":"./client/assets/images/effects/particle_atlas.png",
 
           "settings":{
             "tiles_x":12,
@@ -13,9 +13,8 @@
             "rotate":false,
             "default_frame_x":1,
             "default_frame-y":1,
-            "loop";1
-          },
-
+            "loop":1
+          }
 
         }
       ]

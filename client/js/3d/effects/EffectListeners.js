@@ -18,7 +18,7 @@ define([
         };
 
         var setupEffect = function(args) {
-            console.log("Setup FX:", args);
+        //    console.log("Setup FX:", args);
             posVec.x = args.pos.data[0];
             posVec.y = args.pos.data[1];
             posVec.z = args.pos.data[2];

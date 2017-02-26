@@ -12,8 +12,9 @@ define([
     ) {
 
         var utils = SPEutils();
+        var types = utils.types;
 
-        var configureTXSettings = function(txMatSettings) {
+        var configureTXSettings = function(txMatSettings, texture) {
             var options = utils.ensureTypedArg( txMatSettings, types.OBJECT, {} );
 
             var txSettings = {};
@@ -23,7 +24,7 @@ define([
                 framesVec = new THREE.Vector2(options.default_frame_x, options.default_frame_y);
             }
 
-            txSettings.texture           =  utils.ensureInstanceOf( options.texture, THREE.Texture, null );
+            txSettings.texture           =  utils.ensureInstanceOf( texture, THREE.Texture, null );
             txSettings.textureFrames     =  utils.ensureInstanceOf(framesVec, THREE.Vector2, new THREE.Vector2( 1, 1 ) );
             txSettings.textureFrameCount =  utils.ensureTypedArg( options.tiles_x * options.tiles_y, types.NUMBER, 1);
             txSettings.textureLoop       =  utils.ensureTypedArg( options.loop, types.NUMBER, 1 );
@@ -66,12 +67,10 @@ define([
             var _this = this;
 
             var applyTexture = function(src, data) {
-                txSettings.texture = data;
-                txSettings = configureTXSettings(txMatSettings);
-
+                txSettings = configureTXSettings(txMatSettings, data);
                 var applyShaders = function(src, data) {
                     txSettings.shaders = data;
-                    _this.createMaterial(options, txSettings);
+                    _this.createMaterial(options, txSettings, readyCallback);
                 };
 
                 new PipelineObject("SHADERS", txMatSettings.shader, applyShaders);
@@ -81,7 +80,7 @@ define([
         };
 
 
-        ParticleMaterial.prototype.createMaterial = function(options, txSettings) {
+        ParticleMaterial.prototype.createMaterial = function(options, txSettings, readyCallback) {
 
 
             this.fixedTimeStep = 0.016;
@@ -180,9 +179,12 @@ define([
                 fog: options.fog
             } );
 
+
+            readyCallback(this);
+
         };
 
-        
+
         ParticleMaterial.prototype.spawnParticleEffect = function(effectData, pos, vel) {
 
 

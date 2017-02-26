@@ -108,9 +108,8 @@ define([
 
                     for (var j = 0; j < data[i].textures.length; j++) {
                         for (var key in data[i].textures[j]) {
-                            var textureStore = {txType:key,url:data[i].textures[j][key], bufferData:null};
+                            var textureStore = {txType:key, url:data[i].textures[j][key], bufferData:null};
                             textureImages[data[i].textures[j][key]] = textureStore;
-
 
                             loadImage(textureStore);
                         }
@@ -119,8 +118,19 @@ define([
             //    console.log("Texture List", textureImages);
             };
 
+            var loadParticleTexture = function(src, data) {
+
+                for (var i = 0; i < data.length; i++){
+                    var textureStore = {txType:'map',url:data[i].map, bufferData:null};
+                    textureImages[data[i].map] = textureStore;
+                    loadImage(textureStore);
+                }
+
+                
+            };
+
             new PipelineObject("MATERIALS", "THREE", textureListLoaded);
-            new PipelineObject("PARTICLE_MATERIALS", "THREE", textureListLoaded);
+            new PipelineObject("PARTICLE_MATERIALS", "THREE", loadParticleTexture);
         };
 
 
