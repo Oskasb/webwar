@@ -47,9 +47,7 @@
           {"source":"SPE_CHUNKS", "chunk":"rotateTexture"},
           {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_fragment"},
           {"source":"SPE_CHUNKS", "chunk":"outgoingLight"},
-
           {"source":"THREE_CHUNKS", "chunk":"fog_fragment"},
-
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ]
 

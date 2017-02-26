@@ -58,7 +58,9 @@ define([
 
 
         var setupShaderMaterial = function(txSettings, options) {
-        
+
+            console.log("OPTIONS BUILT", options);
+
             var material = new THREE.RawShaderMaterial({
                 uniforms: {
                     map: {value:txSettings.texture},
@@ -68,7 +70,8 @@ define([
                 vertexShader: txSettings.shaders.vertex,
                 fragmentShader: txSettings.shaders.fragment,
                 depthTest: options.depthTest,
-                depthWrite: options.depthWrite
+                depthWrite: options.depthWrite,
+                blending: options.blending
 
             });
       

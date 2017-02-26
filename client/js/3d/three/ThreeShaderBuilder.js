@@ -85,7 +85,9 @@ define([
             new PipelineObject("SHADERS_THREE", "SPE_PARTICLE_SHADER", registerShaderProgram);
             new PipelineObject("SHADER_CHUNKS", "INSTANCING_CHUNKS", buildStringChunks);
             new PipelineObject("SHADER_PROGRAMS", "INSTANCING_PROGRAMS", buildStringChunks);
-            new PipelineObject("SHADERS_THREE", "INSTANCING_SHADER", registerShaderProgram)
+            new PipelineObject("SHADERS_THREE", "INSTANCING_RAW", registerShaderProgram),
+            new PipelineObject("SHADERS_THREE", "INSTANCING_COLOR", registerShaderProgram),
+            new PipelineObject("SHADERS_THREE", "INSTANCING_MIX", registerShaderProgram)
 
         };
 
