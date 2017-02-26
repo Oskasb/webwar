@@ -116,6 +116,16 @@
           "gl_FragColor = vec4( diffuseColor.xyz * HSLtoRGB(vec3(vScale/5.0, 1.0, 0.5)), diffuseColor.w );",
           "if ( diffuseColor.w < 0.5 ) discard;",
           ""
+        ],
+        "vertexColor":[
+          "vColor = customColor;",
+          "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
+          "gl_PointSize = size * ( 300.0 / -mvPosition.z );",
+          "gl_Position = projectionMatrix * mvPosition;"
+        ],
+        "fragmentColor":[
+          "gl_FragColor = vec4( color * vColor, 1.0 );",
+          "gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );"
         ]
       }
     }

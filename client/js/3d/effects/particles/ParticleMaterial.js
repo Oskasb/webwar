@@ -56,6 +56,28 @@ define([
             return opts;
         };
 
+
+        var setupShaderMaterial = function(txSettings, options) {
+        
+            var material = new THREE.RawShaderMaterial({
+                uniforms: {
+                    map: {value:txSettings.texture},
+                //    color: { value: new THREE.Color( 0xffffff ) },
+                    time: {value: 0.0}
+                },
+                vertexShader: txSettings.shaders.vertex,
+                fragmentShader: txSettings.shaders.fragment,
+                depthTest: options.depthTest,
+                depthWrite: options.depthWrite
+
+            });
+      
+
+            return material;
+        };
+        
+
+
         var ParticleMaterial = function(systemOptions, txMatSettings, readyCallback) {
 
             this.uuid = THREE.Math.generateUUID();
@@ -66,122 +88,30 @@ define([
 
             var _this = this;
 
+            this.attributes = {}  // setupAttributes();
+            
+
+            var createMaterial = function(opts, txSettings, readyCallback) {
+                _this.texture = txSettings.texture;
+                _this.vertexShader = txSettings.shaders.vertex;
+                _this.fragmentShader = txSettings.shaders.fragment;
+                _this.material = setupShaderMaterial(txSettings, opts);
+                readyCallback(_this);
+            };
+
+
+
             var applyTexture = function(src, data) {
                 txSettings = configureTXSettings(txMatSettings, data);
                 var applyShaders = function(src, data) {
                     txSettings.shaders = data;
-                    _this.createMaterial(options, txSettings, readyCallback);
+                    createMaterial(options, txSettings, readyCallback);
                 };
 
                 new PipelineObject("SHADERS", txMatSettings.shader, applyShaders);
             };
 
             new PipelineObject("THREE_TEXTURE", "map_"+txMatSettings.map, applyTexture);
-        };
-
-
-        ParticleMaterial.prototype.createMaterial = function(options, txSettings, readyCallback) {
-
-
-            this.fixedTimeStep = 0.016;
-
-            this.perspective = utils.ensureTypedArg( options.perspective, types.BOOLEAN, true );
-
-            // Map of uniforms to be applied to the ShaderMaterial instance.
-            this.uniforms = {
-                texture: {
-                    type: 't',
-                    value: txSettings.texture
-                },
-                textureAnimation: {
-                    type: 'v4',
-                    value: new THREE.Vector4(
-                        txSettings.textureFrames.x,
-                        txSettings.textureFrames.y,
-                        txSettings.textureFrameCount,
-                        Math.max( Math.abs( txSettings.textureLoop ), 1.0 )
-                    )
-                },
-                fogColor: {
-                    type: 'c',
-                    value: null
-                },
-                fogNear: {
-                    type: 'f',
-                    value: 10
-                },
-                fogFar: {
-                    type: 'f',
-                    value: 200
-                },
-                fogDensity: {
-                    type: 'f',
-                    value: 0.5
-                },
-                deltaTime: {
-                    type: 'f',
-                    value: 0
-                },
-                runTime: {
-                    type: 'f',
-                    value: 0
-                },
-                scale: {
-                    type: 'f',
-                    value: options.scale
-                }
-            };
-
-            var valueOverLifetimeLength = 4;
-
-            // Add some defines into the mix...
-            this.defines = {
-                HAS_PERSPECTIVE: options.perspective,
-                COLORIZE: options.colorize,
-                VALUE_OVER_LIFETIME_LENGTH: valueOverLifetimeLength,
-                SHOULD_ROTATE_TEXTURE: txSettings.rotate,
-                SHOULD_ROTATE_PARTICLES: options.rotate,
-                SHOULD_WIGGLE_PARTICLES: options.wiggle,
-                SHOULD_CALCULATE_SPRITE: txSettings.textureFrames.x > 1 || txSettings.textureFrames.y > 1
-            };
-
-            // Map of all attributes to be applied to the particles.
-            //
-            // See SPE.ShaderAttribute for a bit more info on this bit.
-            this.attributes = {
-                position:       new ShaderAttribute( 'v3', true ),
-                acceleration:   new ShaderAttribute( 'v4', true ), // w component is drag
-                velocity:       new ShaderAttribute( 'v3', true ),
-                rotation:       new ShaderAttribute( 'v4', true ),
-                rotationCenter: new ShaderAttribute( 'v3', true ),
-                params:         new ShaderAttribute( 'v4', true ), // Holds (alive, age, delay, wiggle)
-                size:           new ShaderAttribute( 'v4', true ),
-                angle:          new ShaderAttribute( 'v4', true ),
-                color:          new ShaderAttribute( 'v4', true ),
-                opacity:        new ShaderAttribute( 'v4', true )
-            };
-
-            this.attributeKeys = Object.keys( this.attributes );
-            this.attributeCount = this.attributeKeys.length;
-
-            // Create the ShaderMaterial instance that'll help render the
-            // particles.
-            this.material = new THREE.ShaderMaterial( {
-                uniforms:       this.uniforms,
-                defines:        this.defines,
-                vertexShader:   txSettings.shaders.vertex,
-                fragmentShader: txSettings.shaders.fragment,
-                blending:       options.blending,
-                transparent:    options.transparent,
-                alphaTest:      options.alphaTest,
-                depthWrite:     options.depthWrite,
-                depthTest:      options.depthTest,
-                fog:            options.fog
-            } );
-
-
-            readyCallback(this);
-
         };
 
 

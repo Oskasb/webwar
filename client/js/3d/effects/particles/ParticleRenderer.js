@@ -48,10 +48,15 @@ define([
             new PipelineObject("PARTICLE_MATERIALS", "THREE", particleMaterialData)
         };
 
-        ParticleRenderer.prototype.buildMeshBuffer = function(rendererConfig, mat) {
-            this.particleBuffer = new ParticleBuffer(rendererConfig, mat);
-            this.particleBuffer.addToScene();
-            this.on = true;
+        ParticleRenderer.prototype.buildMeshBuffer = function(rendererConfig) {
+            this.particleBuffer = new ParticleBuffer(rendererConfig, this.particleMaterial);
+
+            var _this = this;
+            setTimeout(function() {
+                _this.particleBuffer.addToScene();
+                _this.on = true;
+            }, 1000);
+
         };
         
         ParticleRenderer.prototype.getRendererMaterial = function() {
