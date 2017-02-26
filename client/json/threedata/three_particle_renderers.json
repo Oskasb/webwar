@@ -1,0 +1,18 @@
+[
+  {
+    "PARTICLE_RENDERERS": {
+      "SPRITE_ATLAS_OPAQUE":{
+        "material":"sprite_atlas_opaque",
+        "options":{
+          "vertexShader":"SPE_PARTICLE_SHADER",
+          "fragmentShader":"SPE_PARTICLE_SHADER",
+          "blending":"NoBlending",
+          "transparent":false,
+          "depthWrite":true,
+          "depthTest":false,
+          "fog":true
+        }
+      }
+    }
+  }
+]

@@ -120,6 +120,7 @@ define([
             };
 
             new PipelineObject("MATERIALS", "THREE", textureListLoaded);
+            new PipelineObject("PARTICLE_MATERIALS", "THREE", textureListLoaded);
         };
 
 

@@ -61,7 +61,7 @@ define([
         var addTexture = function(id, textureSettings, key, imageUrl, textureReady) {
 
             var attachPipeline = function(matId, txSettings, txType, imgUrl, onReadyCB) {
-                var includeTextureTexture = function(src, data) {
+                var includeTexture = function(src, data) {
                     var tx = data.clone();
         //            console.log("Apply THREE_TEXTURE", matId, txType+'_'+imgUrl ,src, [tx]);
                     tx.needsUpdate = true;
@@ -73,14 +73,12 @@ define([
                     onReadyCB(matId, txSettings);
                 };
 
-                materialPipeline[id][key+'_'+imageUrl] = new PipelineObject("THREE_TEXTURE", key+'_'+imageUrl, includeTextureTexture)
+                materialPipeline[id][key+'_'+imageUrl] = new PipelineObject("THREE_TEXTURE", key+'_'+imageUrl, includeTexture)
             };
 
             attachPipeline(id, textureSettings, key, imageUrl, textureReady)
         };
-
-
-
+        
 
         var createMaterial = function(id, data) {
 
@@ -103,7 +101,6 @@ define([
 
 
 
-
         ThreeMaterialMaker.loadMaterialist = function() {
             
             var textureListLoaded = function(scr, data) {
@@ -116,6 +113,16 @@ define([
             };
 
             new PipelineObject("MATERIALS", "THREE", textureListLoaded);
+
+
+            var particleMaterialList = function(scr, data) {
+                for (var i = 0; i < data.length; i++){
+                    createMaterial(data[i].id, data[i]);
+                }
+                //    console.log("Material List", [data, materialList]);
+            };
+
+            new PipelineObject("PARTICLE_MATERIALS", "THREE", particleMaterialList);
 
         };
 

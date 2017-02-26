@@ -84,7 +84,6 @@ define([
         EffectsComposer.initEffects = function() {
                         
             var group = EffectsComposer.buildEmitterGroup();
-            EffectsComposer.attachEmitterCount(group, 100);
 
         };
 

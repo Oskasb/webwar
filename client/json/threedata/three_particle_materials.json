@@ -1,0 +1,21 @@
+[
+  {
+    "PARTICLE_MATERIALS": {
+      "THREE":[
+        {
+          "id":"sprite_atlas_opaque",
+          "shader":"ShaderMaterial",
+
+          "settings":{
+            "tilesx":12,
+            "tilesy":12
+          },
+
+          "textures":[{
+            "map":"./client/assets/images/effects/particle_atlas.png"
+          }]
+        }
+      ]
+    }
+  }
+]
