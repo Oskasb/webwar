@@ -88,13 +88,15 @@
           "        vSpriteSheet.w = rowNorm;",
           "    #endif",
           "    gl_PointSize = pointSizePerspective;",
-          "    gl_Position = projectionMatrix * mvPosition;"
+          "    gl_Position = projectionMatrix * mvPosition;",
+          ""
         ],
         "particleFragmentMain":[
           "    vec3 outgoingLight = vColor.xyz;",
           "    #ifdef ALPHATEST",
           "       if ( vColor.w < float(ALPHATEST) ) discard;",
-          "    #endif"
+          "    #endif",
+          ""
         ]
       },
       "INSTANCING_PROGRAMS":{
@@ -106,12 +108,14 @@
           "scale = scale * 10.0 + 10.0;",
           "mvPosition.xyz += position * scale;",
           "vUv = uv;",
-          "gl_Position = projectionMatrix * mvPosition;"
+          "gl_Position = projectionMatrix * mvPosition;",
+          ""
         ],
         "particleFragmentMain":[
           "vec4 diffuseColor = texture2D( map, vUv );",
           "gl_FragColor = vec4( diffuseColor.xyz * HSLtoRGB(vec3(vScale/5.0, 1.0, 0.5)), diffuseColor.w );",
-          "if ( diffuseColor.w < 0.5 ) discard;"
+          "if ( diffuseColor.w < 0.5 ) discard;",
+          ""
         ]
       }
     }

@@ -3,14 +3,18 @@
     "SHADERS_THREE": {
       "SPE_PARTICLE_SHADER":{
         "vertex":[
+          {"source":"THREE_CHUNKS", "chunk":"common"},
+
 
           {"source":"SPE_CHUNKS", "chunk":"defines"},
           {"source":"SPE_CHUNKS", "chunk":"uniforms"},
           {"source":"SPE_CHUNKS", "chunk":"attributes"},
-          {"source":"SPE_CHUNKS", "chunk":"varyings"},
-          {"source":"THREE_CHUNKS", "chunk":"common"},
-          {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_pars_vertex"},
+          {"source":"SPE_CHUNKS", "chunk":"varying"},
+
           {"source":"THREE_CHUNKS", "chunk":"fog_pars_vertex"},
+
+          {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_pars_vertex"},
+
 
           {"source":"SPE_CHUNKS", "chunk":"branchAvoidanceFunctions"},
           {"source":"SPE_CHUNKS", "chunk":"unpackColor"},
@@ -30,11 +34,13 @@
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ],
         "fragment":[
-
-          {"source":"SPE_CHUNKS", "chunk":"uniforms"},
           {"source":"THREE_CHUNKS", "chunk":"common"},
-          {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_pars_vertex"},
-          {"source":"THREE_CHUNKS", "chunk":"fog_pars_vertex"},
+          {"source":"SPE_CHUNKS", "chunk":"uniforms"},
+          {"source":"THREE_CHUNKS", "chunk":"fog_pars_fragment"},
+          {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_pars_fragment"},
+
+          {"source":"SPE_CHUNKS", "chunk":"varying"},
+          {"source":"SPE_CHUNKS", "chunk":"branchAvoidanceFunctions"},
 
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
 

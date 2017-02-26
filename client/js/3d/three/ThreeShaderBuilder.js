@@ -20,7 +20,8 @@ define([
         var buildStringChunks = function(src, data) {
             var chunks = {}
             for (var key in data) {
-                chunks[key] = data[key].join( '\n' );
+                chunks[key] = "\n" + data[key].join( "\n" );
+                chunks[key]+="\n";
                 PipelineAPI.setCategoryKeyValue(src, key, chunks[key]);
             }
             notifyShaderDataUpdate();
@@ -31,7 +32,7 @@ define([
             var chunks = {}
             for (var key in THREE.ShaderChunk) {
                 chunks[key] = THREE.ShaderChunk[key];
-                PipelineAPI.setCategoryKeyValue("THREE_CHUNKS", key, chunks[key]);
+                PipelineAPI.setCategoryKeyValue("THREE_CHUNKS", key, "\n " + chunks[key] + " \n");
             }
         //    console.log("CACHE THREE CHUNKS:", chunks);
         };

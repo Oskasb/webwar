@@ -13,12 +13,12 @@ define([
         PipelineObject
     ) {
 
-        var ParticleBuffer = function(rendererConfig) {
-            this.buildGeometry(rendererConfig);
+        var ParticleBuffer = function(rendererConfig, particleMaterial) {
+            this.buildGeometry(rendererConfig, particleMaterial);
             this.time = 0;
         };
 
-        ParticleBuffer.prototype.buildGeometry = function(rendererConfig) {
+        ParticleBuffer.prototype.buildGeometry = function(rendererConfig, particleMaterial) {
 
             var geometry = new THREE.InstancedBufferGeometry();
             geometry.copy(new THREE.CircleBufferGeometry(1, 6));
@@ -39,6 +39,12 @@ define([
 
             var _this = this;
 
+            mesh = new THREE.Mesh(geometry, particleMaterial.material);
+            mesh.scale.set(500, 500, 500);
+            this.material = particleMaterial.material;
+            this.applyMesh(mesh);
+
+            return;
             var shaderReady = function(src, data) {
                 console.log("SHADER READY", src, data);
                 var material = new THREE.RawShaderMaterial({
@@ -65,26 +71,23 @@ define([
         };
 
         ParticleBuffer.prototype.applyMaterial = function(material) {
-                        
+
         };
         
         ParticleBuffer.prototype.addToScene = function() {
             ThreeAPI.addToScene(this.mesh);
         };
 
-
         ParticleBuffer.prototype.renderParticleBuffer = function(tpf) {
 
             this.time += tpf;
-            this.material.uniforms.time.value = this.time;
+            this.material.uniforms.runTime.value = this.time;
             this.mesh.rotation.x = this.time * 0.2;
             this.mesh.rotation.y = this.time * 0.4;
 
         };
-        
-        
+
 
         return ParticleBuffer;
-        
         
     });

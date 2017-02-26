@@ -149,16 +149,16 @@ define([
             //
             // See SPE.ShaderAttribute for a bit more info on this bit.
             this.attributes = {
-                position: new ShaderAttribute( 'v3', true ),
-                acceleration: new ShaderAttribute( 'v4', true ), // w component is drag
-                velocity: new ShaderAttribute( 'v3', true ),
-                rotation: new ShaderAttribute( 'v4', true ),
+                position:       new ShaderAttribute( 'v3', true ),
+                acceleration:   new ShaderAttribute( 'v4', true ), // w component is drag
+                velocity:       new ShaderAttribute( 'v3', true ),
+                rotation:       new ShaderAttribute( 'v4', true ),
                 rotationCenter: new ShaderAttribute( 'v3', true ),
-                params: new ShaderAttribute( 'v4', true ), // Holds (alive, age, delay, wiggle)
-                size: new ShaderAttribute( 'v4', true ),
-                angle: new ShaderAttribute( 'v4', true ),
-                color: new ShaderAttribute( 'v4', true ),
-                opacity: new ShaderAttribute( 'v4', true )
+                params:         new ShaderAttribute( 'v4', true ), // Holds (alive, age, delay, wiggle)
+                size:           new ShaderAttribute( 'v4', true ),
+                angle:          new ShaderAttribute( 'v4', true ),
+                color:          new ShaderAttribute( 'v4', true ),
+                opacity:        new ShaderAttribute( 'v4', true )
             };
 
             this.attributeKeys = Object.keys( this.attributes );
@@ -167,16 +167,16 @@ define([
             // Create the ShaderMaterial instance that'll help render the
             // particles.
             this.material = new THREE.ShaderMaterial( {
-                uniforms: this.uniforms,
-                defines: this.defines,
-                vertexShader: txSettings.shaders.vertex,
+                uniforms:       this.uniforms,
+                defines:        this.defines,
+                vertexShader:   txSettings.shaders.vertex,
                 fragmentShader: txSettings.shaders.fragment,
-                blending: options.blending,
-                transparent: options.transparent,
-                alphaTest: options.alphaTest,
-                depthWrite: options.depthWrite,
-                depthTest: options.depthTest,
-                fog: options.fog
+                blending:       options.blending,
+                transparent:    options.transparent,
+                alphaTest:      options.alphaTest,
+                depthWrite:     options.depthWrite,
+                depthTest:      options.depthTest,
+                fog:            options.fog
             } );
 
 

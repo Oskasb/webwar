@@ -217,7 +217,7 @@ define([
                 return;
             }
 
-            this.bufferAttribute = new THREE.BufferAttribute(this.typedArray.array, this.componentSize);
+            this.bufferAttribute = new THREE.InstancedBufferAttribute(this.typedArray.array, this.componentSize, 1);
             this.bufferAttribute.dynamic = this.dynamicBuffer;
         };
 

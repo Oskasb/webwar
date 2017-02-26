@@ -5,15 +5,17 @@
         "enterVoidMain":["void main(){"],
         "exitVoidMain":["}"],
         "defines":[
-          "#define PACKED_COLOR_SIZE 256.0",
-          "#define PACKED_COLOR_DIVISOR 255.0"
+          " #define PACKED_COLOR_SIZE 256.0",
+          " #define PACKED_COLOR_DIVISOR 255.0",
+          ""
         ],
         "uniforms": [
           "uniform float deltaTime;",
           "uniform float runTime;",
           "uniform sampler2D texture;",
           "uniform vec4 textureAnimation;",
-          "uniform float scale;"
+          "uniform float scale;",
+          ""
         ],
         "attributes": [
           "attribute vec4 acceleration;",
@@ -24,23 +26,26 @@
           "attribute vec4 size;",
           "attribute vec4 angle;",
           "attribute vec4 color;",
-          "attribute vec4 opacity;"
+          "attribute vec4 opacity;",
+          ""
         ],
 
-        "varyings": [
+        "varying": [
           "varying vec4 vColor;",
-          "#ifdef SHOULD_ROTATE_TEXTURE",
+          " #ifdef SHOULD_ROTATE_TEXTURE",
           "    varying float vAngle;",
-          "#endif",
+          " #endif ",
 
-          "#ifdef SHOULD_CALCULATE_SPRITE",
+          " #ifdef SHOULD_CALCULATE_SPRITE",
           "    varying vec4 vSpriteSheet;",
-          "#endif"
+          " #endif ",
+          ""
         ],
 
         "outgoingLight": [
           "    outgoingLight = vColor.xyz * rotatedTexture.xyz;",
-          "    gl_FragColor = vec4( outgoingLight.xyz, rotatedTexture.w * vColor.w );"
+          "    gl_FragColor = vec4( outgoingLight.xyz, rotatedTexture.w * vColor.w );",
+          ""
         ],
 
         "branchAvoidanceFunctions": [
@@ -70,7 +75,8 @@
 
           "float or(float a, float b) {",
           "    return min(a + b, 1.0);",
-          "}"
+          "}",
+          ""
         ],
         "unpackColor": [
           "vec3 unpackColor( in float hex ) {",
@@ -85,7 +91,8 @@
           "   c.b = b / PACKED_COLOR_DIVISOR;",
 
           "   return c;",
-          "}"
+          "}",
+          ""
         ],
 
         "unpackRotationAxis": [
@@ -104,7 +111,8 @@
           "   c -= vec3( 1.0 );",
 
           "   return c;",
-          "}"
+          "}",
+          ""
         ],
         "floatOverLifetime": [
           "float getFloatOverLifetime( in float positionInTime, in vec4 attr ) {",
@@ -121,7 +129,8 @@
           "    }",
           "",
           "    return value;",
-          "}"
+          "}",
+          ""
         ],
         "colorOverLifetime": [
           "vec3 getColorOverLifetime( in float positionInTime, in vec3 color1, in vec3 color2, in vec3 color3, in vec3 color4 ) {",
@@ -130,7 +139,8 @@
           "    value.y = getFloatOverLifetime( positionInTime, vec4( color1.y, color2.y, color3.y, color4.y ) );",
           "    value.z = getFloatOverLifetime( positionInTime, vec4( color1.z, color2.z, color3.z, color4.z ) );",
           "    return value;",
-          "}"
+          "}",
+          ""
         ],
 
         "paramFetchingFunctions": [
@@ -148,7 +158,8 @@
 
           "float getWiggle() {",
           "   return params.w;",
-          "}"
+          "}",
+          ""
         ],
         "forceFetchingFunctions": [
           "vec4 getPosition( in float age ) {",
@@ -161,7 +172,8 @@
 
           "vec3 getAcceleration( in float age ) {",
           "   return acceleration.xyz * age;",
-          "}"
+          "}",
+          ""
         ],
 
         "rotationFunctions": [
@@ -195,7 +207,8 @@
           "      rotationMatrix = getRotationMatrix( axis, angle );",
           "      return center - vec3( rotationMatrix * vec4( translated, 0.0 ) );",
           "   }",
-          "#endif"
+          "#endif ",
+          ""
         ],
         "rotateTexture": [
           "    vec2 vUv = vec2( gl_PointCoord.x, 1.0 - gl_PointCoord.y );",
@@ -207,7 +220,7 @@
           "       float s = sin( -vAngle );",
 
           "       vUv = vec2( c * x + s * y + 0.5, c * y - s * x + 0.5 );",
-          "    #endif",
+          "    #endif ",
           "",
           "    #ifdef SHOULD_CALCULATE_SPRITE",
           "        float framesX = vSpriteSheet.x;",
@@ -217,10 +230,11 @@
 
           "        vUv.x = gl_PointCoord.x * framesX + columnNorm;",
           "        vUv.y = 1.0 - (gl_PointCoord.y * framesY + rowNorm);",
-          "    #endif",
+          "    #endif ",
 
           "",
-          "    vec4 rotatedTexture = texture2D( texture, vUv );"
+          "    vec4 rotatedTexture = texture2D( texture, vUv );",
+          ""
         ]
       },
       "INSTANCING_CHUNKS":{
@@ -233,7 +247,8 @@
           "attribute vec2 uv;",
           "attribute vec3 translate;",
           "varying vec2 vUv;",
-          "varying float vScale;"
+          "varying float vScale;",
+          ""
         ],
         "fx_init":[
           "precision highp float;",
@@ -251,7 +266,8 @@
           "vec3 RGB = HUEtoRGB(HSL.x);",
           "float C = (1.0 - abs(2.0 * HSL.z - 1.0)) * HSL.y;",
           "return (RGB - 0.5) * C + HSL.z;",
-          "}"
+          "}",
+          ""
         ]
       }
     }

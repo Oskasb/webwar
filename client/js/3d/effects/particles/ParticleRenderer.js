@@ -15,7 +15,7 @@ define([
 
         var ParticleRenderer = function(rendererConfig) {
             this.id = rendererConfig.id;
-            this.material;
+            this.particleMaterial;
             this.particleBuffer;
             this.on = false;
             this.setupRendererMaterial(rendererConfig);
@@ -30,9 +30,9 @@ define([
             var _this = this;
 
             var materialReady = function(mat) {
-                _this.material = mat;
+                _this.particleMaterial = mat;
                 console.log("PARTICLE MATERIAL READY", mat);
-                _this.buildMeshBuffer(rendererConfig);               
+                _this.buildMeshBuffer(rendererConfig, mat);               
             };
 
             var particleMaterialData = function(src, data) {
@@ -48,8 +48,8 @@ define([
             new PipelineObject("PARTICLE_MATERIALS", "THREE", particleMaterialData)
         };
 
-        ParticleRenderer.prototype.buildMeshBuffer = function(rendererConfig) {
-            this.particleBuffer = new ParticleBuffer(rendererConfig);
+        ParticleRenderer.prototype.buildMeshBuffer = function(rendererConfig, mat) {
+            this.particleBuffer = new ParticleBuffer(rendererConfig, mat);
             this.particleBuffer.addToScene();
             this.on = true;
         };
