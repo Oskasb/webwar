@@ -2,6 +2,7 @@
 
 define([
         '3d/three/ThreeSetup',
+        '3d/three/ThreeShaderBuilder',
         '3d/three/ThreeModelLoader',
         '3d/three/ThreeTextureMaker',
         '3d/three/ThreeMaterialMaker',
@@ -11,6 +12,7 @@ define([
 ],
     function(
         ThreeSetup,
+        ThreeShaderBuilder,
         ThreeModelLoader,
         ThreeTextureMaker,
         ThreeMaterialMaker,
@@ -19,16 +21,19 @@ define([
         
     ) {
 
+        var shaderBuilder;
 
         var ThreeAPI = function() {
 
         };
 
         ThreeAPI.initThreeLoaders = function() {
+            shaderBuilder = new ThreeShaderBuilder();
             ThreeModelLoader.loadData();
             ThreeTextureMaker.loadTextures();
             ThreeMaterialMaker.loadMaterialist();
             ThreeEnvironment.loadEnvironmentData();
+            shaderBuilder.loadShaderData();
         };
 
         ThreeAPI.initThreeScene = function(containerElement, clientTickCallback, pxRatio, antialias) {
@@ -102,12 +107,15 @@ define([
             model.rotation.set(rx, ry, rz);
         };
 
+        ThreeAPI.addToScene = function(threeObject) {
+            ThreeSetup.addToScene(threeObject);
+        };
+
         ThreeAPI.createRootObject = function() {
             var object3d = ThreeModelLoader.createObject3D();
             ThreeSetup.addToScene(object3d);
             return object3d;
         };
-
 
         ThreeAPI.loadMeshModel = function(modelId, rootObject) {
             var model = ThreeModelLoader.loadThreeMeshModel(modelId, rootObject, ThreeSetup);

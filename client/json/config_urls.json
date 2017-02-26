@@ -34,6 +34,9 @@
       "threedata/three_materials.json",
       "threedata/three_models.json",
       "threedata/three_environment.json",
+      "threedata/three_shader_chunks.json",
+      "threedata/three_particle_shaders.json",
+      "threedata/three_shader_programs.json",
       "system_setup.json"
     ]
   }

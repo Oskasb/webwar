@@ -10,6 +10,7 @@ require.config({
     paths: {
         shared:'./../../../Transport',
         ThreeAPI:'./3d/three/ThreeAPI',
+        EffectsAPI:'./3d/effects/EffectsAPI',
         PipelineAPI:'./lib/data_pipeline/src/PipelineAPI',
         gui:'./lib/canvas_gui/',
         particle_system:'./lib/particles',

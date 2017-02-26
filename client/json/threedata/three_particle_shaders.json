@@ -1,0 +1,55 @@
+[
+  {
+    "SHADERS_THREE": {
+      "SPE_PARTICLE_SHADER":{
+        "vertex":[
+
+          {"source":"SPE_CHUNKS", "chunk":"defines"},
+          {"source":"SPE_CHUNKS", "chunk":"uniforms"},
+          {"source":"SPE_CHUNKS", "chunk":"attributes"},
+          {"source":"SPE_CHUNKS", "chunk":"varyings"},
+          {"source":"THREE_CHUNKS", "chunk":"common"},
+          {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_pars_vertex"},
+          {"source":"THREE_CHUNKS", "chunk":"fog_pars_vertex"},
+
+          {"source":"SPE_CHUNKS", "chunk":"branchAvoidanceFunctions"},
+          {"source":"SPE_CHUNKS", "chunk":"unpackColor"},
+          {"source":"SPE_CHUNKS", "chunk":"unpackRotationAxis"},
+          {"source":"SPE_CHUNKS", "chunk":"floatOverLifetime"},
+          {"source":"SPE_CHUNKS", "chunk":"colorOverLifetime"},
+          {"source":"SPE_CHUNKS", "chunk":"paramFetchingFunctions"},
+          {"source":"SPE_CHUNKS", "chunk":"forceFetchingFunctions"},
+          {"source":"SPE_CHUNKS", "chunk":"rotationFunctions"},
+
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+
+          {"source":"SPE_PROGRAMS", "chunk":"particleVertexMain"},
+          {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_vertex"},
+          {"source":"THREE_CHUNKS", "chunk":"fog_vertex"},
+
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ],
+        "fragment":[
+
+          {"source":"SPE_CHUNKS", "chunk":"uniforms"},
+          {"source":"THREE_CHUNKS", "chunk":"common"},
+          {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_pars_vertex"},
+          {"source":"THREE_CHUNKS", "chunk":"fog_pars_vertex"},
+
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+
+          {"source":"SPE_PROGRAMS", "chunk":"particleFragmentMain"},
+
+          {"source":"SPE_CHUNKS", "chunk":"rotateTexture"},
+          {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_fragment"},
+          {"source":"SPE_CHUNKS", "chunk":"outgoingLight"},
+
+          {"source":"THREE_CHUNKS", "chunk":"fog_fragment"},
+
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ]
+
+      }
+    }
+  }
+]

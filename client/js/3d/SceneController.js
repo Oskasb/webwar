@@ -2,10 +2,14 @@
 
 
 define([
-    '3d/ThreeController'
+    '3d/ThreeController',
+    'EffectsAPI',
+    '3d/effects/EffectListeners',
 
 ], function(
-    ThreeController
+    ThreeController,
+    EffectsAPI,
+    EffectListeners
 ) {
     
     var SceneController = function() {
@@ -14,8 +18,9 @@ define([
     
 
     SceneController.prototype.setup3dScene = function(clientTickCallback, ready) {
-        ThreeController.setupThreeRenderer(clientTickCallback, ready);
-
+        var scene = ThreeController.setupThreeRenderer(clientTickCallback, ready);
+        EffectsAPI.initEffects();
+        EffectListeners.setupListeners();
     };
 
     

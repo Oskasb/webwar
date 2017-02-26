@@ -9,7 +9,7 @@ define([
     'PipelineObject',
 	'PipelineAPI',
     'game/ClientModule',
-        'game/AttachmentPoint'
+	'game/AttachmentPoint'
 ],
 	function(
 		evt,
@@ -319,7 +319,7 @@ define([
 		//		evt.fire(evt.list().PARTICLE_TEXT, {text:'POP', textStyle:textStyle});
 
 			//	this.gooPiece.updateGooPiece();
-			//	evt.fire(evt.list().GAME_EFFECT, {effect:"spawn_pulse", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
+				evt.fire(evt.list().GAME_EFFECT, {effect:"spawn_pulse", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
 
 			}
 

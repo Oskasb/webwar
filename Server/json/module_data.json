@@ -208,7 +208,6 @@
           "intensity":0.3,
           "strength":10,
           "lifeSpan":0.4
-
         },
         "threshold":0.2,
         "message":"wroom",
@@ -235,7 +234,6 @@
           "intensity":0.3,
           "strength":10,
           "lifeSpan":0.4
-
         },
         "threshold":0.2,
         "message":"wroom",
