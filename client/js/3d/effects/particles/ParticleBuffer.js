@@ -24,27 +24,6 @@ define([
 
 
 
-            var geometry = new THREE.InstancedBufferGeometry();
-            geometry.copy(new THREE.PlaneBufferGeometry(1, 1, 1, 1));
-
-            var mesh;
-
-            var particleCount = 5000;
-            var translateArray = new Float32Array(particleCount * 3);
-            
-            for (var i = 0, i3 = 0, l = particleCount; i < l; i++, i3 += 3) {
-                translateArray[i3 + 0] = Math.random() * 2 - 1;
-                translateArray[i3 + 1] = Math.random() * 2 - 1;
-                translateArray[i3 + 2] = Math.random() * 2 - 1;
-            }
-
-            this.attributes = {};
-            this.attributes["translate"] = new THREE.InstancedBufferAttribute(translateArray, 3, 1)
-
-            geometry.addAttribute("translate", this.attributes["translate"]);
-
-             /*
-
             console.log("SETUP BUFFER SYSTEM",rendererConfig, particleMaterial);
             this.particles = 1000;
 
@@ -76,10 +55,10 @@ define([
             this.attributes["size"] = new THREE.InstancedBufferAttribute(sizes, 1, 1);
             
         //    geometry.addAttribute( 'position',      this.attributes["position"] );
-        //    geometry.addAttribute( 'customColor',   this.attributes["customColor"] );
+            geometry.addAttribute( 'customColor',   this.attributes["customColor"] );
             geometry.addAttribute( 'translate',     this.attributes["translate"] );
         //    geometry.addAttribute( 'size',          this.attributes["size"] );
-            */
+
             this.geometry = geometry;
 
             var mesh = new THREE.Mesh(geometry, particleMaterial.material);
@@ -137,10 +116,10 @@ define([
                 attrib.needsUpdate = true
             }
 
+             //
+             */
 
-
-
-        //    this.mesh.rotation.z = 0.01 * this.time;
+           this.mesh.rotation.z = 0.01 * this.time;
             var translate = this.geometry.attributes.translate.array;
 
             for ( var i = 0; i < this.particles; i++ ) {
@@ -149,7 +128,7 @@ define([
 
             }
             this.geometry.attributes.translate.needsUpdate = true;
-            */
+
 
             this.material.uniforms.time.value = this.time;
             this.mesh.rotation.x = this.time * 0.2;

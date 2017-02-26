@@ -80,14 +80,14 @@ define([
         ShaderBuilder.prototype.loadShaderData = function() {
 
             mapThreeShaderChunks();
-            new PipelineObject("SHADER_CHUNKS", "SPE_CHUNKS", buildStringChunks);
+            new PipelineObject("SHADER_CHUNKS",   "SPE_CHUNKS", buildStringChunks);
             new PipelineObject("SHADER_PROGRAMS", "SPE_PROGRAMS", buildStringChunks);
-            new PipelineObject("SHADERS_THREE", "SPE_PARTICLE_SHADER", registerShaderProgram);
-            new PipelineObject("SHADER_CHUNKS", "INSTANCING_CHUNKS", buildStringChunks);
+            new PipelineObject("SHADERS_THREE",   "SPE_PARTICLE_SHADER", registerShaderProgram);
+            new PipelineObject("SHADER_CHUNKS",   "INSTANCING_CHUNKS", buildStringChunks);
             new PipelineObject("SHADER_PROGRAMS", "INSTANCING_PROGRAMS", buildStringChunks);
-            new PipelineObject("SHADERS_THREE", "INSTANCING_RAW", registerShaderProgram),
-            new PipelineObject("SHADERS_THREE", "INSTANCING_COLOR", registerShaderProgram),
-            new PipelineObject("SHADERS_THREE", "INSTANCING_MIX", registerShaderProgram)
+            new PipelineObject("SHADERS_THREE",   "INSTANCING_RAW", registerShaderProgram);
+            new PipelineObject("SHADERS_THREE",   "INSTANCING_COLOR", registerShaderProgram);
+            new PipelineObject("SHADERS_THREE",   "INSTANCING_MIX", registerShaderProgram)
 
         };
 

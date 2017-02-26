@@ -4,7 +4,7 @@
       "THREE":[
         {
           "id":"sprite_atlas_opaque",
-          "shader":"INSTANCING_RAW",
+          "shader":"INSTANCING_MIX",
           "map":"./client/assets/images/effects/particle_atlas.png",
 
           "settings":{

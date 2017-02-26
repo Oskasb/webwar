@@ -64,7 +64,7 @@ define([
             var material = new THREE.RawShaderMaterial({
                 uniforms: {
                     map: {value:txSettings.texture},
-                //    color: { value: new THREE.Color( 0xffffff ) },
+                    color: { value: new THREE.Color( 0xffffff ) },
                     time: {value: 0.0}
                 },
                 vertexShader: txSettings.shaders.vertex,
@@ -74,7 +74,6 @@ define([
                 blending: options.blending
 
             });
-      
 
             return material;
         };
