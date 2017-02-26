@@ -49,6 +49,20 @@
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ]
 
+      },
+      "INSTANCING_SHADER": {
+        "vertex": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_init"},
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"particleVertexMain"},
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ],
+        "fragment": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_init"},
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"particleFragmentMain"},
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ]
       }
     }
   }

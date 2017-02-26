@@ -3,30 +3,36 @@
 define([
         '3d/effects/particles/SPEGroup',
         '3d/effects/particles/ParticleMaterial',
+        '3d/effects/particles/ParticleBuffer',
         'PipelineObject'
     ],
     function(
         SPEGroup,
         ParticleMaterial,
+        ParticleBuffer,
         PipelineObject
     ) {
 
         var ParticleRenderer = function(rendererConfig) {
             this.id = rendererConfig.id;
             this.material;
+            this.particleBuffer;
+            this.on = false;
             this.setupRendererMaterial(rendererConfig);
+            
         };
 
         ParticleRenderer.prototype.setupRendererMaterial = function(rendererConfig) {
 
-            console.log("PARTICLE setupRendererMaterial", rendererConfig)
+            console.log("PARTICLE setupRendererMaterial", rendererConfig);
             var matOpts = rendererConfig.material_options;
 
             var _this = this;
 
             var materialReady = function(mat) {
                 _this.material = mat;
-                console.log("PARTICLE MATERIAL READY", mat)
+                console.log("PARTICLE MATERIAL READY", mat);
+                _this.buildMeshBuffer(rendererConfig);               
             };
 
             var particleMaterialData = function(src, data) {
@@ -41,16 +47,30 @@ define([
 
             new PipelineObject("PARTICLE_MATERIALS", "THREE", particleMaterialData)
         };
-        
+
+        ParticleRenderer.prototype.buildMeshBuffer = function(rendererConfig) {
+            this.particleBuffer = new ParticleBuffer(rendererConfig);
+            this.particleBuffer.addToScene();
+            this.on = true;
+        };
         
         ParticleRenderer.prototype.getRendererMaterial = function() {
-            return this.material;
+            
+            
+            
         };
 
         ParticleRenderer.prototype.spawnParticleEffect = function(effectData, pos, vel) {
 
         };
 
+        ParticleRenderer.prototype.updateParticleRenderer = function(tpf) {
+            if (this.on) {
+                this.particleBuffer.renderParticleBuffer(tpf);
+            }
+            
+        };
+        
         return ParticleRenderer;
 
     });

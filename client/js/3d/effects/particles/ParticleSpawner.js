@@ -40,10 +40,15 @@ define([
         ParticleSpawner.prototype.spawnParticleEffect = function() {
 
             // this.setupParticleRenderers();
-
-
         };
 
+        ParticleSpawner.prototype.updateSpawnedParticles = function(tpf) {
+            for (var key in renderers) {
+                renderers[key].updateParticleRenderer(tpf);
+            }
+            // this.setupParticleRenderers();
+        };
+        
         return ParticleSpawner;
 
     });

@@ -29,7 +29,7 @@ define([
         };
 
         EffectsAPI.tickEffectSimulation = function(tpf) {
-            EffectsComposer.tickGroups(tpf);
+            particleSpawner.updateSpawnedParticles(tpf);
         };
         
         return EffectsAPI;
