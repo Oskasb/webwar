@@ -303,7 +303,7 @@ if(typeof(GAME) == "undefined"){
 			this.physics.body.velocity.z = 0;
 			this.physics.body.velocity.y = 0;
 		}
-	};
+	};4
 
 	GAME.Piece.prototype.applyForwardControl = function(timeFactor) {
 		this.spatial.getForwardVector(this.calcVec);
@@ -324,25 +324,25 @@ if(typeof(GAME) == "undefined"){
 
 		vehicle = this.physics.body.vehicle;
 
-		var brakeForce = 20*(1/Math.abs(throttleState));
+		var brakeForce = 70*(1/Math.abs(throttleState));
 		if (Math.abs(throttleState) < 0.1) {
-			brakeForce = 20;
+			brakeForce = 40;
 
 			if (Math.abs(yawState) < 0.2) {
 				throttleState = 0;
-				brakeForce = 260;
+				brakeForce = 1260;
 				yawState = 0;
 			}
 		}
 
 		var speed = this.spatial.vel.getLengthSquared()+1;
-		var speedFactor = Math.sqrt(500000 / speed) + 5000 / speed;
+		var speedFactor = Math.sqrt(2200000 / speed) + 8000 / speed;
 
 	//	var maxSteerVal = 0.5;//	var maxForce = 1000;
 		var trackForce = (throttleState + Math.abs(yawState)) * speedFactor ;
 
-		var trackYawL = - yawState*22.3*speedFactor;
-		var trackYawR = + yawState*22.3*speedFactor;
+		var trackYawL = - yawState*42.3*speedFactor;
+		var trackYawR = + yawState*42.3*speedFactor;
 	//	console.log(throttleState, brakeForce, yawState);
 		vehicle.applyEngineForce(trackForce+ trackYawL, 0);
 		vehicle.applyEngineForce(trackForce+ trackYawR, 1);

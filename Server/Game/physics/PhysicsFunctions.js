@@ -261,7 +261,7 @@ var createVehicle = function(world, spatial, bodyParams) {
         directionLocal: new CANNON.Vec3(0, 0, -1),
         suspensionStiffness: 8,
         suspensionRestLength: 0.5,
-        frictionSlip: 4.4,
+        frictionSlip: 14.4,
         dampingRelaxation: 1.01,
         dampingCompression: 2.4,
         maxSuspensionForce: 20000,

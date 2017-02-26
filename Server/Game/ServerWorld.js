@@ -164,7 +164,7 @@ ServerWorld.prototype.updateWorldPiece = function(piece, currentTime) {
     if (piece.physics) {
     //    console.log("phys piece")
         this.cannonAPI.updatePhysicalPiece(piece);
-        piece.setState(GAME.ENUMS.PieceStates.MOVING);
+    //    piece.setState(GAME.ENUMS.PieceStates.MOVING);
     //    piece.networkDirty = true;
     //    this.broadcastPieceState(piece);
     } else {
@@ -203,7 +203,7 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
         };
 
 
-        if (this.pieces[i].spatial.vel.getX() > 0.01 || this.pieces[i].spatial.vel.getZ() > 0.01) {
+        if (this.pieces[i].spatial.vel.getX() > 0.05 || this.pieces[i].spatial.vel.getZ() > 0.05) {
             this.updateWorldPiece(this.pieces[i], currentTime);
         } else if (this.pieces[i].groundPiece) {
 
@@ -276,7 +276,7 @@ ServerWorld.prototype.updatePlayers = function(currentTime) {
             //    console.log("Player Body")
             this.cannonAPI.updatePhysicalPiece(piece);
         //    piece.setState(GAME.ENUMS.PieceStates.MOVING);
-            piece.networkDirty = true;
+        //    piece.networkDirty = true;
             //    this.broadcastPieceState(piece);
             piece.processServerState(currentTime);
     //        console.log(piece.spatial.posX(), piece.spatial.posY(), piece.spatial.posZ()  )
