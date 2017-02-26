@@ -2,84 +2,105 @@
 
 define([
         '3d/effects/particles/SPEutils',
-        '3d/effects/particles/ShaderAttribute'
+        '3d/effects/particles/ShaderAttribute',
+        'PipelineObject'
     ],
     function(
         SPEutils,
-        ShaderAttribute
+        ShaderAttribute,
+        PipelineObject
     ) {
 
         var utils = SPEutils();
 
-        var ParticleMaterial = function(options) {
+        var configureTXSettings = function(txMatSettings) {
+            var options = utils.ensureTypedArg( txMatSettings, types.OBJECT, {} );
 
-            // Ensure we have a map of options to play with
-            options = utils.ensureTypedArg( options, types.OBJECT, {} );
-            options.texture = utils.ensureTypedArg( options.texture, types.OBJECT, {} );
+            var txSettings = {};
+            var framesVec;
 
-            // Assign a UUID to this instance
+            if (options.default_frame_x && options.default_frame_y) {
+                framesVec = new THREE.Vector2(options.default_frame_x, options.default_frame_y);
+            }
+
+            txSettings.texture           =  utils.ensureInstanceOf( options.texture, THREE.Texture, null );
+            txSettings.textureFrames     =  utils.ensureInstanceOf(framesVec, THREE.Vector2, new THREE.Vector2( 1, 1 ) );
+            txSettings.textureFrameCount =  utils.ensureTypedArg( options.tiles_x * options.tiles_y, types.NUMBER, 1);
+            txSettings.textureLoop       =  utils.ensureTypedArg( options.loop, types.NUMBER, 1 );
+            txSettings.rotate            = utils.ensureTypedArg( options.rotate, types.BOOLEAN, false );
+
+            txSettings.textureFrames.max(new THREE.Vector2(1, 1));
+
+            return txSettings;
+        };
+
+        var configureOptions = function(systemOptions) {
+
+            var options = utils.ensureTypedArg( systemOptions, types.OBJECT, {} );
+
+            var opts = {};
+            // Set properties used to define the ShaderMaterial's appearance.
+            opts.blending       = utils.ensureTypedArg( THREE[options.blending], types.NUMBER, THREE.AdditiveBlending );
+            opts.transparent    = utils.ensureTypedArg( options.transparent,     types.BOOLEAN, true );
+            opts.alphaTest      = parseFloat(utils.ensureTypedArg( options.alphaTest, types.NUMBER, 0.0 ) );
+            opts.depthWrite     = utils.ensureTypedArg( options.depthWrite, types.BOOLEAN, false );
+            opts.depthTest      = utils.ensureTypedArg( options.depthTest, types.BOOLEAN, true );
+            opts.fog            = utils.ensureTypedArg( options.fog, types.BOOLEAN, true );
+            opts.scale          = utils.ensureTypedArg( options.scale, types.NUMBER, 300 );
+            opts.colorize       = utils.ensureTypedArg( options.colorize, types.BOOLEAN, true );
+            opts.perspective    = utils.ensureTypedArg( options.hasPerspective, types.BOOLEAN, true );
+            opts.rotate         = utils.ensureTypedArg( options.rotate, types.BOOLEAN, false );
+            opts.wiggle         = utils.ensureTypedArg( options.wiggle, types.BOOLEAN, false );
+
+            return opts;
+        };
+
+        var ParticleMaterial = function(systemOptions, txMatSettings, readyCallback) {
+
             this.uuid = THREE.Math.generateUUID();
 
-            // If no `deltaTime` value is passed to the `SPE.Group.tick` function,
-            // the value of this property will be used to advance the simulation.
-            this.fixedTimeStep = utils.ensureTypedArg( options.fixedTimeStep, types.NUMBER, 0.016 );
+            var options = configureOptions(systemOptions);
+            // Ensure we have a map of options to play with
+            var txSettings;
 
-            // Set properties used in the uniforms map, starting with the
-            // texture stuff.
-            this.texture = utils.ensureInstanceOf( options.texture.value, THREE.Texture, null );
-            this.textureFrames = utils.ensureInstanceOf( options.texture.frames, THREE.Vector2, new THREE.Vector2( 1, 1 ) );
-            this.textureFrameCount = utils.ensureTypedArg( options.texture.frameCount, types.NUMBER, this.textureFrames.x * this.textureFrames.y );
-            this.textureLoop = utils.ensureTypedArg( options.texture.loop, types.NUMBER, 1 );
-            this.textureFrames.max( new THREE.Vector2( 1, 1 ) );
+            var _this = this;
 
-            this.hasPerspective = utils.ensureTypedArg( options.hasPerspective, types.BOOLEAN, true );
-            this.colorize = utils.ensureTypedArg( options.colorize, types.BOOLEAN, true );
+            var applyTexture = function(src, data) {
+                txSettings.texture = data;
+                txSettings = configureTXSettings(txMatSettings);
 
-            this.maxParticleCount = utils.ensureTypedArg( options.maxParticleCount, types.NUMBER, null );
+                var applyShaders = function(src, data) {
+                    txSettings.shaders = data;
+                    _this.createMaterial(options, txSettings);
+                };
+
+                new PipelineObject("SHADERS", txMatSettings.shader, applyShaders);
+            };
+
+            new PipelineObject("THREE_TEXTURE", "map_"+txMatSettings.map, applyTexture);
+        };
 
 
-            // Set properties used to define the ShaderMaterial's appearance.
-            this.blending = utils.ensureTypedArg( options.blending, types.NUMBER, THREE.AdditiveBlending );
-            this.transparent = utils.ensureTypedArg( options.transparent, types.BOOLEAN, true );
-            this.alphaTest = parseFloat( utils.ensureTypedArg( options.alphaTest, types.NUMBER, 0.0 ) );
-            this.depthWrite = utils.ensureTypedArg( options.depthWrite, types.BOOLEAN, false );
-            this.depthTest = utils.ensureTypedArg( options.depthTest, types.BOOLEAN, true );
-            this.fog = utils.ensureTypedArg( options.fog, types.BOOLEAN, true );
-            this.scale = utils.ensureTypedArg( options.scale, types.NUMBER, 300 );
+        ParticleMaterial.prototype.createMaterial = function(options, txSettings) {
 
-            // Where emitter's go to curl up in a warm blanket and live
-            // out their days.
-            this.emitters = [];
-            this.emitterIDs = [];
 
-            // Create properties for use by the emitter pooling functions.
-            this._pool = [];
-            this._poolCreationSettings = null;
-            this._createNewWhenPoolEmpty = 0;
+            this.fixedTimeStep = 0.016;
 
-            // Whether all attributes should be forced to updated
-            // their entire buffer contents on the next tick.
-            //
-            // Used when an emitter is removed.
-            this._attributesNeedRefresh = false;
-            this._attributesNeedDynamicReset = false;
-
-            this.particleCount = 0;
-
+            this.perspective = utils.ensureTypedArg( options.perspective, types.BOOLEAN, true );
 
             // Map of uniforms to be applied to the ShaderMaterial instance.
             this.uniforms = {
                 texture: {
                     type: 't',
-                    value: this.texture
+                    value: txSettings.texture
                 },
                 textureAnimation: {
                     type: 'v4',
                     value: new THREE.Vector4(
-                        this.textureFrames.x,
-                        this.textureFrames.y,
-                        this.textureFrameCount,
-                        Math.max( Math.abs( this.textureLoop ), 1.0 )
+                        txSettings.textureFrames.x,
+                        txSettings.textureFrames.y,
+                        txSettings.textureFrameCount,
+                        Math.max( Math.abs( txSettings.textureLoop ), 1.0 )
                     )
                 },
                 fogColor: {
@@ -108,24 +129,21 @@ define([
                 },
                 scale: {
                     type: 'f',
-                    value: this.scale
+                    value: options.scale
                 }
             };
-
 
             var valueOverLifetimeLength = 4;
 
             // Add some defines into the mix...
             this.defines = {
-                HAS_PERSPECTIVE: this.hasPerspective,
-                COLORIZE: this.colorize,
+                HAS_PERSPECTIVE: options.perspective,
+                COLORIZE: options.colorize,
                 VALUE_OVER_LIFETIME_LENGTH: valueOverLifetimeLength,
-
-                SHOULD_ROTATE_TEXTURE: false,
-                SHOULD_ROTATE_PARTICLES: false,
-                SHOULD_WIGGLE_PARTICLES: false,
-
-                SHOULD_CALCULATE_SPRITE: this.textureFrames.x > 1 || this.textureFrames.y > 1
+                SHOULD_ROTATE_TEXTURE: txSettings.rotate,
+                SHOULD_ROTATE_PARTICLES: options.rotate,
+                SHOULD_WIGGLE_PARTICLES: options.wiggle,
+                SHOULD_CALCULATE_SPRITE: txSettings.textureFrames.x > 1 || txSettings.textureFrames.y > 1
             };
 
             // Map of all attributes to be applied to the particles.
@@ -151,24 +169,20 @@ define([
             // particles.
             this.material = new THREE.ShaderMaterial( {
                 uniforms: this.uniforms,
-                vertexShader: SPE.shaders.vertex,
-                fragmentShader: SPE.shaders.fragment,
-                blending: this.blending,
-                transparent: this.transparent,
-                alphaTest: this.alphaTest,
-                depthWrite: this.depthWrite,
-                depthTest: this.depthTest,
                 defines: this.defines,
-                fog: this.fog
+                vertexShader: txSettings.shaders.vertex,
+                fragmentShader: txSettings.shaders.fragment,
+                blending: options.blending,
+                transparent: options.transparent,
+                alphaTest: options.alphaTest,
+                depthWrite: options.depthWrite,
+                depthTest: options.depthTest,
+                fog: options.fog
             } );
-            
-        };
-
-        ParticleMaterial.prototype.initParticleRenderer = function(effectData, pos, vel) {
-
 
         };
 
+        
         ParticleMaterial.prototype.spawnParticleEffect = function(effectData, pos, vel) {
 
 

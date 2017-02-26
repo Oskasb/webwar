@@ -4,16 +4,19 @@
       "THREE":[
         {
           "id":"sprite_atlas_opaque",
-          "shader":"ShaderMaterial",
+          "shader":"SPE_PARTICLE_SHADER",
+          "map":"./client/assets/images/effects/particle_atlas.png"
 
           "settings":{
-            "tilesx":12,
-            "tilesy":12
+            "tiles_x":12,
+            "tiles_y":12,
+            "rotate":false,
+            "default_frame_x":1,
+            "default_frame-y":1,
+            "loop";1
           },
 
-          "textures":[{
-            "map":"./client/assets/images/effects/particle_atlas.png"
-          }]
+
         }
       ]
     }

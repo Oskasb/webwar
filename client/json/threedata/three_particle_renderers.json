@@ -1,18 +1,26 @@
 [
   {
-    "PARTICLE_RENDERERS": {
-      "SPRITE_ATLAS_OPAQUE":{
-        "material":"sprite_atlas_opaque",
-        "options":{
-          "vertexShader":"SPE_PARTICLE_SHADER",
-          "fragmentShader":"SPE_PARTICLE_SHADER",
-          "blending":"NoBlending",
-          "transparent":false,
-          "depthWrite":true,
-          "depthTest":false,
-          "fog":true
+    "PARTICLE_SYSTEMS": {
+      "RENDERERS":[
+        {
+          "id":"opaque_atlas_renderer",
+          "material_id":"sprite_atlas_opaque",
+          "material_options":{
+            "blending":"NoBlending",
+            "transparent":false,
+            "colorize":true,
+            "alphaTest":0.5,
+            "depthWrite":true,
+            "depthTest":false,
+            "fog":true,
+            "scale":1,
+            "perspective":true,
+            "rotate":false,
+            "wiggle":false
+          }
         }
-      }
+      ]
+
     }
   }
 ]
