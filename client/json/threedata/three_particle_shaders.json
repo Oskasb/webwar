@@ -3,7 +3,7 @@
     "SHADERS_THREE": {
       "SPE_PARTICLE_SHADER":{
         "vertex":[
-
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
           {"source":"SPE_CHUNKS", "chunk":"defines"},
           {"source":"SPE_CHUNKS", "chunk":"uniforms"},
           {"source":"SPE_CHUNKS", "chunk":"attributes"},
@@ -31,7 +31,7 @@
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ],
         "fragment":[
-
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_view"},
           {"source":"SPE_CHUNKS", "chunk":"uniforms"},
           {"source":"THREE_CHUNKS", "chunk":"common"},
           {"source":"THREE_CHUNKS", "chunk":"fog_pars_fragment"},
@@ -54,12 +54,14 @@
       },
       "INSTANCING_RAW": {
         "vertex": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_init"},
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"particleVertexMain"},
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ],
         "fragment": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_view"},
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_init"},
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"particleFragmentMain"},
@@ -68,12 +70,14 @@
       },
       "INSTANCING_COLOR": {
         "vertex": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_attribute_color"},
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexColor"},
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ],
         "fragment": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_view"},
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_attribute_color"},
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentColor"},
@@ -82,6 +86,7 @@
       },
       "INSTANCING_MIX": {
         "vertex": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_init"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_attribute_color"},
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
@@ -90,6 +95,7 @@
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ],
         "fragment": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_view"},
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_init"},
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_attribute_color"},
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},

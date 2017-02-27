@@ -117,12 +117,12 @@
         "floatOverLifetime": [
           "float getFloatOverLifetime( in float positionInTime, in vec4 attr ) {",
           "    highp float value = 0.0;",
-          "    float deltaAge = positionInTime * float( VALUE_OVER_LIFETIME_LENGTH - 1 );",
+          "    float deltaAge = positionInTime * float( 4 - 1 );",
           "    float fIndex = 0.0;",
           "    float shouldApplyValue = 0.0;",
           "    value += attr[ 0 ] * when_eq( deltaAge, 0.0 );",
           "",
-          "    for( int i = 0; i < VALUE_OVER_LIFETIME_LENGTH - 1; ++i ) {",
+          "    for( int i = 0; i < 4 - 1; ++i ) {",
           "       fIndex = float( i );",
           "       shouldApplyValue = and( when_gt( deltaAge, fIndex ), when_le( deltaAge, fIndex + 1.0 ) );",
           "       value += shouldApplyValue * mix( attr[ i ], attr[ i + 1 ], deltaAge - fIndex );",
@@ -238,20 +238,24 @@
         ]
       },
       "INSTANCING_CHUNKS":{
-        "vx_init":[
+        "vx_view":[
           "precision highp float;",
           "uniform mat4 modelViewMatrix;",
           "uniform mat4 projectionMatrix;",
+          "attribute vec3 position;"
+        ],
+        "vx_init":[
           "uniform float time;",
-          "attribute vec3 position;",
           "attribute vec2 uv;",
           "attribute vec3 translate;",
           "varying vec2 vUv;",
           "varying float vScale;",
           ""
         ],
+        "fx_view":[
+          "precision highp float;"
+        ],
         "fx_init":[
-          "precision highp float;",
           "uniform sampler2D map;",
           "varying vec2 vUv;",
           "varying float vScale;",
