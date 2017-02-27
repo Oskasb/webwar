@@ -63,16 +63,16 @@ define([
 
             var material = new THREE.RawShaderMaterial({
                 uniforms: {
-                    map: {value:txSettings.texture},
-                    color: { value: new THREE.Color( 0xffffff ) },
-                    time: {value: 0.0}
+                    map:   {value:txSettings.texture},
+                    color: {value: new THREE.Color( 0xffffff ) },
+                    time:  {value: 0.0}
                 },
                 vertexShader: txSettings.shaders.vertex,
                 fragmentShader: txSettings.shaders.fragment,
                 depthTest: options.depthTest,
                 depthWrite: options.depthWrite,
-                blending: options.blending
-
+                blending: options.blending,
+                transparent: options.transparent
             });
 
             return material;

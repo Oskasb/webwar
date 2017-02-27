@@ -1,0 +1,13 @@
+[
+  {
+    "PARTICLE_EFFECTS": {
+      "THREE":[
+        {
+          "id":"test_effect",
+          "particle_id":"default"
+          
+        }
+      ]
+    }
+  }
+]

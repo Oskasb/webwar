@@ -5,10 +5,10 @@
         {
           "id":"opaque_atlas_renderer",
           "material_id":"sprite_atlas_opaque",
-          "particlePool":6181,
+          "particlePool":500,
           "material_options":{
-            "blending":"AdditiveBlending",
-            "transparent":true,
+            "blending":"NoBlending",
+            "transparent":false,
             "colorize":false,
             "alphaTest":0.5,
             "depthWrite":true,

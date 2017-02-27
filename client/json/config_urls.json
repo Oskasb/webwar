@@ -38,6 +38,9 @@
       "threedata/three_particle_shaders.json",
       "threedata/three_particle_renderers.json",
       "threedata/three_particle_materials.json",
+      "threedata/three_particle_effects.json",
+      "threedata/three_particle_sprites.json",
+      "threedata/three_particles.json",
       "threedata/three_shader_programs.json",
 
       "system_setup.json"
