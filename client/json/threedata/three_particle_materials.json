@@ -4,7 +4,6 @@
       "THREE":[
         {
           "id":"sprite_atlas_opaque",
-          "particles":1000,
           "shader":"INSTANCING_MIX",
           "attributes": [
             {"name":"translate",    "dimensions":3},
@@ -21,7 +20,6 @@
             "default_frame-y":1,
             "loop":1
           }
-
         }
       ]
     }

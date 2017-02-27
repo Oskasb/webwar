@@ -1,6 +1,7 @@
 "use strict";
 
 
+
 define(['../../ui/GameScreen'], function(
     GameScreen
 ) {
@@ -16,7 +17,18 @@ define(['../../ui/GameScreen'], function(
     };
 
 
+    function animate(time) {
 
+        requestAnimationFrame( animate );
+        tpf = (time - lastTime)*0.001;
+        lastTime = time;
+
+        for (var i = 0; i < prerenderCallbacks.length; i++) {
+            prerenderCallbacks[i](tpf);
+        }
+
+        renderer.render(scene, camera);
+    }
 
 
     ThreeSetup.initThreeRenderer = function(pxRatio, antialias, containerElement, clientTickCallback, store) {
@@ -41,24 +53,13 @@ define(['../../ui/GameScreen'], function(
             containerElement.appendChild(renderer.domElement);
         }
 
-        function animate(time) {
-
-            requestAnimationFrame( animate );
-            tpf = (time - lastTime)*0.001;
-            lastTime = time;
-
-            for (var i = 0; i < prerenderCallbacks.length; i++) {
-                prerenderCallbacks[i](tpf);
-            }
-
-            renderer.render(scene, camera);
-        }
-
         store.scene = scene;
         store.renderer = renderer;
         
         return store;
     };
+
+
 
     var vector = new THREE.Vector3();
     var tempObj = new THREE.Object3D();

@@ -28,7 +28,7 @@ define([
             txSettings.textureFrames     =  utils.ensureInstanceOf(framesVec, THREE.Vector2, new THREE.Vector2( 1, 1 ) );
             txSettings.textureFrameCount =  utils.ensureTypedArg( options.tiles_x * options.tiles_y, types.NUMBER, 1);
             txSettings.textureLoop       =  utils.ensureTypedArg( options.loop, types.NUMBER, 1 );
-            txSettings.rotate            = utils.ensureTypedArg( options.rotate, types.BOOLEAN, false );
+            txSettings.rotate            =  utils.ensureTypedArg( options.rotate, types.BOOLEAN, false );
 
             txSettings.textureFrames.max(new THREE.Vector2(1, 1));
 
@@ -77,49 +77,41 @@ define([
 
             return material;
         };
-        
 
 
-        var ParticleMaterial = function(systemOptions, txMatSettings, readyCallback) {
-
-            this.uuid = THREE.Math.generateUUID();
+        var ParticleMaterial = function(systemOptions, txMatSettings, store, readyCallback) {
 
             var options = configureOptions(systemOptions);
             // Ensure we have a map of options to play with
             var txSettings;
 
-            var _this = this;
 
-            this.attributes = {}  // setupAttributes();
-            
-
-            var createMaterial = function(opts, txSettings, readyCallback) {
-                _this.texture = txSettings.texture;
-                _this.vertexShader = txSettings.shaders.vertex;
-                _this.fragmentShader = txSettings.shaders.fragment;
-                _this.material = setupShaderMaterial(txSettings, opts);
-                readyCallback(_this);
+            var createMaterial = function(opts, txSettings) {
+                store.texture = txSettings.texture;
+                store.vertexShader = txSettings.shaders.vertex;
+                store.fragmentShader = txSettings.shaders.fragment;
+                store.material = setupShaderMaterial(txSettings, opts);
             };
 
 
+            var applyShaders = function(src, data) {
+                txSettings.shaders = data;
+                createMaterial(options, txSettings);
+                readyCallback()
+            };
 
             var applyTexture = function(src, data) {
                 txSettings = configureTXSettings(txMatSettings, data);
-                var applyShaders = function(src, data) {
-                    txSettings.shaders = data;
-                    createMaterial(options, txSettings, readyCallback);
-                };
+                this.shaderPipe = new PipelineObject("SHADERS", txMatSettings.shader, applyShaders);
+            }.bind(this);
 
-                new PipelineObject("SHADERS", txMatSettings.shader, applyShaders);
-            };
-
-            new PipelineObject("THREE_TEXTURE", "map_"+txMatSettings.map, applyTexture);
+            this.txPipe = new PipelineObject("THREE_TEXTURE", "map_"+txMatSettings.map, applyTexture);
         };
 
-
-        ParticleMaterial.prototype.spawnParticleEffect = function(effectData, pos, vel) {
-
-
+        ParticleMaterial.prototype.dispose = function() {
+            this.shaderPipe.removePipelineObject();
+            this.txPipe.removePipelineObject();
+            delete this;
         };
 
         return ParticleMaterial;
