@@ -5,11 +5,13 @@
 define([
         'ThreeAPI',
         '3d/effects/particles/ShaderAttribute',
+        '3d/effects/particles/AttributeBuilder',
         'PipelineObject'
     ],
     function(
         ThreeAPI,
         ShaderAttribute,
+        AttributeBuilder,
         PipelineObject
     ) {
 
@@ -22,15 +24,14 @@ define([
 
         ParticleBuffer.prototype.buildGeometry = function(rendererConfig, particleMaterial) {
 
-
-
             console.log("SETUP BUFFER SYSTEM",rendererConfig, particleMaterial);
             this.particles = 1000;
 
             var geometry = new THREE.InstancedBufferGeometry();
             geometry.copy(new THREE.PlaneBufferGeometry(1, 1, 1, 1));
 
-            var translateArray = new Float32Array(this.particles * 3);
+            var position = new Float32Array(this.particles * 3);
+            var translate = new Float32Array(this.particles * 3);
             var colors = new Float32Array( this.particles * 3 );
             var sizes = new Float32Array( this.particles );
             var color = new THREE.Color();
@@ -38,9 +39,10 @@ define([
 
             for ( var i = 0, i3 = 0; i < this.particles; i ++, i3 += 3 ) {
 
-                translateArray[i3 + 0] = Math.random() * 2 - 1;
-                translateArray[i3 + 1] = Math.random() * 2 - 1;
-                translateArray[i3 + 2] = Math.random() * 2 - 1;
+  
+                translate[i3 + 0] = 0;
+                translate[i3 + 1] = 0;
+                translate[i3 + 2] = 0;
 
                 color.setHSL( i / this.particles, 1.0, 0.5 );
                 colors[ i3 + 0 ] = color.r;
@@ -51,20 +53,32 @@ define([
 
             this.attributes = {};
             this.attributes["customColor"] = new THREE.InstancedBufferAttribute(colors, 3, 1);
-            this.attributes["translate"] = new THREE.InstancedBufferAttribute(translateArray, 3, 1)
+        //    this.attributes["position"] = new THREE.InstancedBufferAttribute(position, 3, 1)
+            this.attributes["translate"] = new THREE.InstancedBufferAttribute(translate, 3, 1)
             this.attributes["size"] = new THREE.InstancedBufferAttribute(sizes, 1, 1);
             
         //    geometry.addAttribute( 'position',      this.attributes["position"] );
             geometry.addAttribute( 'customColor',   this.attributes["customColor"] );
             geometry.addAttribute( 'translate',     this.attributes["translate"] );
-        //    geometry.addAttribute( 'size',          this.attributes["size"] );
+            geometry.addAttribute( 'size',          this.attributes["size"] );
 
             this.geometry = geometry;
 
             var mesh = new THREE.Mesh(geometry, particleMaterial.material);
-            mesh.scale.set(20, 20, 20);
+            mesh.frustumCulled = false;
+            mesh.scale.set(1, 1, 1);
 
             this.applyMesh(mesh);
+
+            var translate = this.geometry.attributes.translate.array;
+
+            for ( var i = 0; i < this.particles; i++ ) {
+
+                translate[ i ] = 10 * ( 1 + Math.sin( 0.1 * i + this.time ) );
+
+            }
+            this.geometry.attributes.translate.needsUpdate = true;
+
 
             this.material = particleMaterial.material;
 
@@ -121,14 +135,20 @@ define([
 
            this.mesh.rotation.z = 0.01 * this.time;
             var translate = this.geometry.attributes.translate.array;
+            var sizes = this.geometry.attributes.size.array;
+
+            var colors = this.geometry.attributes.customColor.array;
 
             for ( var i = 0; i < this.particles; i++ ) {
 
-                translate[ i ] = 10 * ( 1 + Math.sin( 0.1 * i + this.time ) );
-
+                translate[ i ] = 100 * ( 1 + Math.sin( 0.1 * i + this.time ) );
+                sizes[ i ] = ( 1 + Math.sin( 0.01 * i + this.time )*100 );
+                colors[ i ] = Math.cos(this.time*0.01 + i*0.01) * ( 0.5 + Math.sin(i + 0.01 * i + this.time*0.01 ));
             }
-            this.geometry.attributes.translate.needsUpdate = true;
 
+            this.geometry.attributes.translate.needsUpdate = true;
+            this.geometry.attributes.size.needsUpdate = true;
+            this.geometry.attributes.customColor.needsUpdate = true;
 
             this.material.uniforms.time.value = this.time;
             this.mesh.rotation.x = this.time * 0.2;

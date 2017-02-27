@@ -4,7 +4,13 @@
       "THREE":[
         {
           "id":"sprite_atlas_opaque",
+          "particles":1000,
           "shader":"INSTANCING_MIX",
+          "attributes": [
+            {"name":"translate",    "dimensions":3},
+            {"name":"customColor",  "dimensions":3},
+            {"name":"size",         "dimensions":1}
+          ],
           "map":"./client/assets/images/effects/particle_atlas.png",
 
           "settings":{

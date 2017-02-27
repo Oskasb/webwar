@@ -290,7 +290,7 @@ if(typeof(GAME) == "undefined"){
 
 		this.setState(GAME.ENUMS.PieceStates.TELEPORT);
 		this.spatial.stop();
-		this.spatial.setPosXYZ(25+Math.random()*23, 4, 105+Math.random()*25);
+		this.spatial.setPosXYZ(5+Math.random()*3, 4, 5+Math.random()*5);
 
 		if (this.physics) {
 			this.physics.body.position.x = this.spatial.posX();
@@ -303,7 +303,7 @@ if(typeof(GAME) == "undefined"){
 			this.physics.body.velocity.z = 0;
 			this.physics.body.velocity.y = 0;
 		}
-	};4
+	};
 
 	GAME.Piece.prototype.applyForwardControl = function(timeFactor) {
 		this.spatial.getForwardVector(this.calcVec);
@@ -326,11 +326,11 @@ if(typeof(GAME) == "undefined"){
 
 		var brakeForce = 70*(1/Math.abs(throttleState));
 		if (Math.abs(throttleState) < 0.1) {
-			brakeForce = 40;
+			brakeForce = 240;
 
 			if (Math.abs(yawState) < 0.2) {
 				throttleState = 0;
-				brakeForce = 1260;
+				brakeForce = 2260;
 				yawState = 0;
 			}
 		}

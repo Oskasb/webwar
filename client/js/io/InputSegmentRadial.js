@@ -170,7 +170,15 @@ define([
 
             var segs = this.configs.distanceSegments;
 
-            var distanceSegment = Math.clamp(Math.round((line.fromX - line.toX ) / this.configs.radius) / segs, - 1, 1) ;
+            var fromX = line.fromX;
+            var toX = line.toX;
+            if (Math.abs(fromX - toX) < 50) {
+                toX = fromX;
+            } else {
+                toX -= Math.clamp(toX-fromX, -50, 50);
+            }
+
+            var distanceSegment = Math.clamp(Math.round((fromX - toX ) / this.configs.radius) / segs, - 1, 1) ;
 
             if (this.currentState[1]!=distanceSegment) {
                 this.currentState[1] = distanceSegment;
