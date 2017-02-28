@@ -7,10 +7,10 @@
           "renderer_id":"opaque_atlas_renderer",
           "particle_key":"THREE",
           "particle_id":"default",
-          "count":5,
+          "count":1,
           "applies":[
             {"param":"age", "value":{"min":0, "max":3}},
-            {"param":"lifeTime", "value":{"min":5, "max":10}}
+            {"param":"lifeTime", "value":{"min":1, "max":4}}
           ],
           "simulators":[
             {"process":"age"},

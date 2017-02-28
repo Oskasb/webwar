@@ -9,16 +9,11 @@ define([
     ) {
 
         var textureImages = {};
-
         var textures = {};
-        var rgbLoader;
 
         var ThreeTextureMaker = function() {
 
         };
-
-
-
 
         var createBufferTexture = function(url, txType) {
 
@@ -79,8 +74,6 @@ define([
 
 
         ThreeTextureMaker.loadTextures = function() {
-
-            rgbLoader = new THREE.RGBELoader();
 
             var textureListLoaded = function(scr, data) {
                 for (var i = 0; i < data.length; i++){

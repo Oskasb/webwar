@@ -49,16 +49,9 @@ define(['3d/effects/particles/EffectSimulators'],
         };
 
         ParticleEffect.prototype.applyParamToParticle = function(particle, applies) {
-            if (!applies) {
-                console.log("No application", particle, applies);
-                return;
-            } else {
-                console.log("Applies", particle.particleIndex, applies);
-            }
             if (applies.value) {
                 particle.params[applies.param] = MATH.randomBetween(applies.value.min, applies.value.max);
             }
-
         };
 
         ParticleEffect.prototype.includeParticle = function(particle, index, allowedCount) {
@@ -66,20 +59,18 @@ define(['3d/effects/particles/EffectSimulators'],
             particle.setPosition(this.pos.x, this.pos.y, this.pos.z);
             
             var applies = this.effectData.effect.applies;
-            console.log("Apply", applies);
+
             for (var i = 0;i < applies.length; i++) {
                 this.applyParamToParticle(particle, applies[i])
             }
             
-        //    this.updateParticle(particle, this.lastTpf*(index/allowedCount));
+            this.updateParticle(particle, this.lastTpf*(index/allowedCount));
         };
-
-
 
 
         ParticleEffect.prototype.updateParticle = function(particle, tpf) {
             for (var i = 0; i < this.simulators.length; i++) {
-                EffectSimulators[this.simulators[i]](this.aliveParticles[i], tpf);
+                EffectSimulators[this.simulators[i]](particle, tpf);
             }
         };        
         
@@ -97,7 +88,7 @@ define(['3d/effects/particles/EffectSimulators'],
             }
 
             while (this.deadParticles.length) {
-                this.renderer.particles.push(this.deadParticles.pop());
+                this.renderer.particles.push(this.aliveParticles.splice(this.aliveParticles.indexOf(this.deadParticles.pop()), 1).pop());
             }
 
             this.lastTpf = tpf;
