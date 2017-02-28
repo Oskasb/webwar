@@ -66,7 +66,6 @@ define([
         };
 
         ParticleRenderer.prototype.buildParticleMaterial = function(rendererConfig, material_config, readyCB) {
-
              new ParticleMaterial(rendererConfig.material_options, material_config, this.particleMaterial, readyCB);
         };
 
@@ -97,50 +96,29 @@ define([
             }
         };
 
-        ParticleRenderer.prototype.setParticleBufferData = function(index, arrayBuffer, particleAttribute) {
-            for (var i = 0; i < particleAttribute.length; i++) {
-                arrayBuffer[index + i] = particleAttribute[i];
-            }
-        };
 
         ParticleRenderer.prototype.setUpdateBuffers = function() {
            for (var key in this.attributes) {
                this.attributes[key].needsUpdate = true;
            }
         };
+        
+        ParticleRenderer.prototype.calculateAllowance = function(requestSize) {
+            if (this.particles.length > requestSize * 1.5) {
+                return requestSize;
+            } else {
+                return Math.floor(0.5*this.particles.length);
+            }
+        };
+
+        ParticleRenderer.prototype.requestParticle = function() {
+            var particle = this.particles.pop();
+            particle.dead = false;
+            return particle;
+        };
 
         ParticleRenderer.prototype.updateParticleRenderer = function(tpf) {
-
-            if (this.on) {
-
-                var particles = this.particles;
-
-                this.time += tpf;
-
-                for ( var i = 0; i < particles.length; i++ ) {
-
-                    particles[i].setAttribute3D('translate',
-                        100 * ( 1 + Math.sin( 0.1 * i + this.time )),
-                        100 * ( 1 + Math.cos( 0.1 * i + this.time )),
-                        20 * ( 1 + Math.cos( 0.1 * i + this.time*0.7 )));
-
-                    particles[i].setAttribute1D('size',  1 + Math.sin( 0.01 * i + this.time )*100 );
-
-                    particles[i].setAttribute3D('customColor',
-                        Math.cos(this.time*0.01 + i*0.2) * ( 0.5 + Math.sin(i + 0.01 * i + this.time*0.01 )),
-                        Math.sin(this.time*0.01 + i*0.2) * ( 0.5 + Math.cos(i + 0.01 * i + this.time*0.01 )),
-                        Math.sin(this.time*0.01 + i*0.2) * ( 0.5 + Math.cos(i + 0.01 * i + this.time*0.022 ))
-                    );
-                    
-                    this.frameActiveParticles++;
-                }
-            } 
-
-            if (this.frameActiveParticles) {
-                this.setUpdateBuffers();
-            }
-            this.frameActiveParticles = 0;
-
+            this.setUpdateBuffers();
         };
 
         ParticleRenderer.prototype.dispose = function() {

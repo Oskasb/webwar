@@ -4,7 +4,7 @@
       "THREE":[
         {
           "id":"default",
-          "particle_sprite":"ATLAS",
+          "sprite_key":"ATLAS",
           "sprite_id":"flare_blue"
         }
       ]

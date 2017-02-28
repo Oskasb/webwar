@@ -9,6 +9,8 @@ define([],
             this.particleIndex = particleIndex;
             this.buffers = {};
             this.attributes = {};
+            this.age = 0;
+            this.dead = false;
         };
         
         Particle.prototype.bindAttribute = function(name, dimensions, bufferArray) {
@@ -26,6 +28,10 @@ define([],
         };
 
         Particle.prototype.setAttribute3D = function(name, value1, value2, value3) {
+            if (!this.buffers[name]) {
+                console.log("NO BUFFER AT", name, this.attributes[name])
+                return;
+            }
             this.buffers[name][this.attributes[name]] = value1;
             this.buffers[name][this.attributes[name]+1] = value2;
             this.buffers[name][this.attributes[name]+2] = value3;

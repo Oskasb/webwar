@@ -2,12 +2,10 @@
 
 define([
         '3d/effects/particles/SPEutils',
-        '3d/effects/particles/ShaderAttribute',
         'PipelineObject'
     ],
     function(
         SPEutils,
-        ShaderAttribute,
         PipelineObject
     ) {
 
