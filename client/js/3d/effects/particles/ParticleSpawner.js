@@ -61,7 +61,7 @@ define([
                 effect = new ParticleEffect()
             }
 
-            effect.setEffectPosition(100*Math.random(), 100*Math.random(), 100*Math.random());
+            effect.setEffectPosition(500*Math.random(), 500*Math.random(), 100*Math.random());
             this.particleEffectData.buildEffect(effect.effectData, 'THREE', id);
             effect.applyRenderer(this.getRendererById(effect.effectData.effect.renderer_id));
             
@@ -72,7 +72,7 @@ define([
 
         ParticleSpawner.prototype.updateSpawnedParticles = function(tpf) {
 
-            if (Math.random() < 0.05) {
+            if (Math.random() < 0.1) {
                 this.spawnParticleEffect('test_effect');
             }
 

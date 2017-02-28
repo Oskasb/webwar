@@ -56,9 +56,8 @@ define([],
             
             for (var i = 0; i < allowedCount; i++) {
                 var particle = renderer.requestParticle();
-                particle.setAttribute3D('translation', this.pos.x, this.pos.y, this.pos.z);
+                particle.setPosition(this.pos.x, this.pos.y, this.pos.z);
                 this.aliveParticles.push(particle);
-                
             }
             
         };
