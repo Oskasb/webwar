@@ -21,6 +21,10 @@ if(typeof(MATH) == "undefined"){
 		return (current-start) / (end-start);
 	};
 
+	MATH.randomBetween = function(min, max) {
+		return min + Math.random() * (max-min);
+	};
+
 	MATH.nearestHigherPowerOfTwo = function (value) {
 		return Math.floor(Math.pow(2, Math.ceil(Math.log(value) / Math.log(2))));
 	};

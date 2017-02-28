@@ -8,8 +8,15 @@
           "particle_key":"THREE",
           "particle_id":"default",
           "count":5,
-          "duration":10,
-          "simulation":{"process":"big_spin"}
+          "applies":[
+            {"param":"age", "value":{"min":0, "max":3}},
+            {"param":"lifeTime", "value":{"min":5, "max":10}}
+          ],
+          "simulators":[
+            {"process":"age"},
+            {"process":"big_spin"},
+            {"process":"lifeTime"}
+          ]
         }
       ]
     }

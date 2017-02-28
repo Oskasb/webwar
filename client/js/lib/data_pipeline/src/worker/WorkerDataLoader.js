@@ -1,20 +1,27 @@
 "use strict";
 
 define([
-	'data_pipeline/worker/DataComparator',
-	'data_pipeline/worker/XhrThing'
-],
+		'data_pipeline/worker/DataComparator',
+		'data_pipeline/worker/BufferParser',
+		'data_pipeline/worker/XhrThing'
+	],
 	function(
 		DataComparator,
+		BufferParser,
 		XhrThing
-		) {
+	) {
+
+		var bufferParser;
 
 		var WorkerDataLoader = function() {
 			this.dataComparator = new DataComparator();
 			this.xhrThing = new XhrThing();
+			bufferParser = new BufferParser();
 		};
 
+
 		var errorUrls = {};
+
 
 		WorkerDataLoader.prototype.fetchJson = function(url, dc) {
 			var packet = {
@@ -65,7 +72,12 @@ define([
 			};
 
 			var checkBinary = function(res) {
-				var byteArray = new Uint8Array(res)
+
+
+				var byteArray = new Uint8Array(res);
+			//	byteArray.slice(0, byteArray.length - 8);
+			//	console.log("SLICE IT",  Math.sqrt(byteArray.length));
+
 				dc.compareAndCacheBinary(url, byteArray);
 			};
 

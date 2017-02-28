@@ -9,7 +9,7 @@ define([],
             this.particleIndex = particleIndex;
             this.buffers = {};
             this.attributes = {};
-            this.age = 0;
+            this.params = {};
             this.dead = false;
         };
 

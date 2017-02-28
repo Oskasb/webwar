@@ -62,7 +62,8 @@ define([
             }
 
             effect.setEffectPosition(500*Math.random(), 500*Math.random(), 100*Math.random());
-            this.particleEffectData.buildEffect(effect.effectData, 'THREE', id);
+            effect.setEffectData(this.particleEffectData.buildEffect(effect.effectData, 'THREE', id));
+            effect.attachSimulators();
             effect.applyRenderer(this.getRendererById(effect.effectData.effect.renderer_id));
             
             
