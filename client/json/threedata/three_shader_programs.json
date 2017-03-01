@@ -106,7 +106,7 @@
           "float scale = 1.0 + 0.1 * (sin( trTime.x * 2.1 ) + sin( trTime.y * 3.2 ) + sin( trTime.z * 4.3 ));",
           "vScale = scale;",
           "scale = scale * 2.0 + 2.0;",
-          "mvPosition.xyz += position * scale;",
+          "mvPosition.xyz += position * scale * sizeFactor;",
           "vUv = uv;",
           "gl_Position = projectionMatrix * mvPosition;",
           ""

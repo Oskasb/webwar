@@ -8,7 +8,7 @@
           "attributes": [
             {"name":"translate",    "dimensions":3},
             {"name":"customColor",  "dimensions":3},
-            {"name":"size",         "dimensions":1}
+            {"name":"sizeFactor",   "dimensions":1}
           ],
           "map":"./client/assets/images/effects/particle_atlas.png",
 
