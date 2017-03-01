@@ -78,7 +78,11 @@ define([
             for (var key in this.attributes) {
                 this.particleBuffer.geometry.addAttribute( key, this.attributes[key] );
             }
-            
+
+            for (var key in this.particleBuffer.geometry.attributes) {
+                this.attributes[key] = this.particleBuffer.geometry.attributes[key];
+            }
+
            this.particleBuffer.addToScene();
            this.on = true;
         };
@@ -102,7 +106,7 @@ define([
                this.attributes[key].needsUpdate = true;
            }
         };
-        
+
         ParticleRenderer.prototype.calculateAllowance = function(requestSize) {
             if (this.particles.length > requestSize * 1.5) {
                 return requestSize;

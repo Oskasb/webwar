@@ -15,7 +15,7 @@
             {"param":"position",    "vec3":   {"x":0,     "y":0,      "z":0,      "spread":{"min":-0.5, "max":0.5}}},
             {"param":"translate",    "vec3":   {"x":0,     "y":0,      "z":0,      "spread":{"min":-0.5, "max":0.5}}},
             {"param":"velocity",    "vec3":   {"x":0,     "y":10.4,   "z":0,      "spread":{"min":-0.2, "max":0.2}}},
-            {"param":"sizeCurve",   "curve1D":["zeroToOne"], "amplitude":80,       "spread":{"min":-0, "max":0}},
+            {"param":"sizeCurve",   "curve1D":["quickInOut"], "amplitude":5,       "spread":{"min":-0, "max":0}},
             {"param":"colorCurve",  "curve3D":["zeroToOne", "attackIn",  "quickInOut"], "amplitudes":[0.8, 0.7, 0.5], "spread":{"min":-0.2, "max":0.2}},
             {"param":"customColor", "vec3":   {"x":0.5,   "y":0.5,    "z":0.5,    "spread":{"min":-0.5, "max":0.5}}}
 
@@ -24,9 +24,9 @@
             {"process":"age",           "source":"age"        , "target":"age"          },
 
             {"process":"curve3DtoVec3", "source":"colorCurve" , "target":"customColor"  },
-            {"process":"addVelocity",   "source":"position"  ,  "target":"position"     },
+            {"process":"addVelocity",   "source":"velocity"   ,  "target":"translate"     },
             {"process":"attrib3D",      "source":"customColor", "target":"customColor"  },
-            {"process":"attrib3D",      "source":"position"  ,  "target":"translate"    },
+            {"process":"attrib3D",      "source":"translate"   , "target":"translate"     },
             {"process":"curve1DtoValue","source":"sizeCurve"  , "target":"size"         },
             {"process":"attrib1D",      "source":"size"       , "target":"size"         },
             {"process":"lifeTime",      "source":"age"        , "target":"lifeTime"     }
