@@ -12,24 +12,25 @@
             {"param":"age",         "value":  {"min":0, "max":0}},
             {"param":"lifeTime",    "value":  {"min":1, "max":4}},
             {"param":"size",        "value":  {"min":0, "max":0.5}},
-            {"param":"position",    "vec3":   {"x":0,     "y":0,      "z":0,      "spread":{"min":-0.5, "max":0.5}}},
-            {"param":"translate",   "vec3":   {"x":0,     "y":0,      "z":0,      "spread":{"min":-0.5, "max":0.5}}},
-            {"param":"velocity",    "vec3":   {"x":1,     "y":1,      "z":1,      "spread":{"min":-0.2, "max":0.2}}},
+            {"param":"tile",        "vec2":   {"x":1,   "y":1}},
+            {"param":"position",    "vec3":   {"x":0,   "y":1,   "z":0,          "spread":{"min":-0.5, "max":0.5}}},
+            {"param":"offset",      "vec3":   {"x":0,   "y":1,   "z":0,          "spread":{"min":-0.5, "max":0.5}}},
+            {"param":"orientation", "quat":   {"x":0,   "y":1,   "z":0,  "w":1,  "spread":{"min":-0.5, "max":0.5}}},
+            {"param":"velocity",    "vec3":   {"x":1,   "y":1,   "z":1,          "spread":{"min":-0.2, "max":0.2}}},
             {"param":"sizeCurve",   "curve1D":["quickInOut"], "amplitude":0.41,       "spread":{"min":-0.2, "max":0.2}},
             {"param":"colorCurve",  "curve3D":["zeroToOne", "attackIn",  "quickInOut"], "amplitudes":[0.8, 0.7, 0.5], "spread":{"min":-0.2, "max":0.2}},
-            {"param":"customColor", "vec3":   {"x":0.5,   "y":0.5,    "z":0.5,    "spread":{"min":-0.5, "max":0.5}}}
+            {"param":"customColor", "vec3":   {"x":0.5, "y":0.5, "z":0.5,         "spread":{"min":-0.5, "max":0.5}}}
 
           ],
           "simulators":[
             {"process":"age",           "source":"age"        , "target":"age"          },
-
             {"process":"curve3DtoVec3", "source":"colorCurve" , "target":"customColor"  },
-            {"process":"addVelocity",   "source":"velocity"   ,  "target":"velocity"     },
-            {"process":"addVelocity",   "source":"velocity"   ,  "target":"translate"     },
-            {"process":"attrib3D",      "source":"customColor", "target":"customColor"  },
-            {"process":"attrib3D",      "source":"translate"   , "target":"translate"     },
+            {"process":"addVelocity",   "source":"velocity"   , "target":"velocity"     },
+            {"process":"addVelocity",   "source":"velocity"   , "target":"position"     },
+            {"process":"attrib4D",      "source":"orientation", "target":"orientation"  },
+            {"process":"attrib3D",      "source":"position"   , "target":"offset"       },
             {"process":"curve1DtoValue","source":"sizeCurve"  , "target":"size"         },
-            {"process":"attrib1D",      "source":"size"       , "target":"sizeFactor"   },
+            {"process":"attrib2D",      "source":"tile"       , "target":"tileindex"    },
             {"process":"lifeTime",      "source":"age"        , "target":"lifeTime"     }
           ]
         }

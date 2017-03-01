@@ -10,7 +10,6 @@ define([],
             this.buffers = {};
             this.attributes = {};
             this.params = {
-                translate:new THREE.Vector3(),
                 position:new THREE.Vector3(),
                 velocity:new THREE.Vector3(),
                 size:{value:1}
@@ -20,7 +19,7 @@ define([],
         };
 
         Particle.prototype.setPosition = function(pos) {
-            this.params.translate.copy(pos);
+            this.params.position.copy(pos);
         };
 
         Particle.prototype.setVelocity = function(vel) {

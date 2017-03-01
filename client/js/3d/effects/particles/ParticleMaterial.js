@@ -14,22 +14,8 @@ define([
 
         var configureTXSettings = function(txMatSettings, texture) {
             var options = utils.ensureTypedArg( txMatSettings, types.OBJECT, {} );
-
             var txSettings = {};
-            var framesVec;
-
-            if (options.default_frame_x && options.default_frame_y) {
-                framesVec = new THREE.Vector2(options.default_frame_x, options.default_frame_y);
-            }
-
             txSettings.texture           =  utils.ensureInstanceOf( texture, THREE.Texture, null );
-            txSettings.textureFrames     =  utils.ensureInstanceOf(framesVec, THREE.Vector2, new THREE.Vector2( 1, 1 ) );
-            txSettings.textureFrameCount =  utils.ensureTypedArg( options.tiles_x * options.tiles_y, types.NUMBER, 1);
-            txSettings.textureLoop       =  utils.ensureTypedArg( options.loop, types.NUMBER, 1 );
-            txSettings.rotate            =  utils.ensureTypedArg( options.rotate, types.BOOLEAN, false );
-
-            txSettings.textureFrames.max(new THREE.Vector2(1, 1));
-
             return txSettings;
         };
 
@@ -57,14 +43,15 @@ define([
 
         var setupShaderMaterial = function(txSettings, options) {
 
-            console.log("OPTIONS BUILT", options);
+            console.log("OPTIONS BUILT", txSettings, options);
+
+
 
             var material = new THREE.RawShaderMaterial({
                 uniforms: {
-                    map:   {value:txSettings.texture},
-                    color: {value: new THREE.Color( 0xffffff ) },
-                    time:  {value: 0.0}
+                    map:   {value:txSettings.texture}
                 },
+                side: THREE.FrontSide,
                 vertexShader: txSettings.shaders.vertex,
                 fragmentShader: txSettings.shaders.fragment,
                 depthTest: options.depthTest,

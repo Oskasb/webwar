@@ -7,7 +7,7 @@
           "material_id":"sprite_atlas_opaque",
           "particlePool":1000,
           "material_options":{
-            "blending":"NoBlending",
+            "blending":"NormalBlending",
             "transparent":false,
             "colorize":false,
             "alphaTest":0.5,

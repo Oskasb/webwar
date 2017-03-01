@@ -63,7 +63,7 @@ define([],
         };
 
         EffectSimulators.dead = function(particle, tpf) {
-            particle.setAttribute3D('translate', 5, Math.random()*tpf*100, 5);
+        //    particle.setAttribute3D('position', 5, Math.random()*tpf*100, 5);
         };
 
         EffectSimulators.vec3toCurve3D = function(particle, tpf, source, target) {
@@ -76,6 +76,15 @@ define([],
 
         EffectSimulators.curve1DtoValue = function(particle, tpf, source, target) {
             applyCurve1DFractionToValue(particle.params[source], particle.params[target], particle.progress)
+        };
+
+        EffectSimulators.attrib4D = function(particle, tpf, source, target) {
+            particle.setAttribute4D(target,
+                particle.params[source].x,
+                particle.params[source].y,
+                particle.params[source].z,
+                particle.params[source].w
+            )
         };
 
         EffectSimulators.attrib3D = function(particle, tpf, source, target) {

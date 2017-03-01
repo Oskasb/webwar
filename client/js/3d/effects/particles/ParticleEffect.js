@@ -61,6 +61,14 @@ define(['3d/effects/particles/EffectSimulators'],
                 particle.params[init_params.param] = {};
                 particle.params[init_params.param].value = MATH.randomBetween(init_params.value.min, init_params.value.max);
             }
+            if (init_params.vec2) {
+                if (!particle.params[init_params.param]) {
+                    particle.params[init_params.param] = new THREE.Vector2();
+                }
+                particle.params[init_params.param].x = init_params.vec2.x;
+                particle.params[init_params.param].y = init_params.vec2.y;
+            }
+
             if (init_params.vec3) {
                 if (!particle.params[init_params.param]) {
                     particle.params[init_params.param] = new THREE.Vector3();
@@ -71,6 +79,17 @@ define(['3d/effects/particles/EffectSimulators'],
                 particle.params[init_params.param].addVectors(particle.params[init_params.param], calcVec);
             }
 
+            if (init_params.quat) {
+                if (!particle.params[init_params.param]) {
+                    particle.params[init_params.param] = new THREE.Quaternion();
+                }
+                particle.params[init_params.param].x =MATH.randomBetween(init_params.quat.spread.min, init_params.quat.spread.max);
+                particle.params[init_params.param].y =MATH.randomBetween(init_params.quat.spread.min, init_params.quat.spread.max);
+                particle.params[init_params.param].z =MATH.randomBetween(init_params.quat.spread.min, init_params.quat.spread.max);
+                particle.params[init_params.param].w =MATH.randomBetween(init_params.quat.spread.min, init_params.quat.spread.max);
+                particle.params[init_params.param].normalize();
+            }
+            
             if (init_params.curve3D) {
                 particle.params[init_params.param] = [];
 

@@ -96,7 +96,7 @@ define([
                 var config = attributes_config[i];
                 this.attributeConfigs[config.name] = config;
                 var dimensions = config.dimensions;
-                this.attributes[config.name] = new THREE.InstancedBufferAttribute(new Float32Array(this.poolSize * dimensions), dimensions, 1);
+                this.attributes[config.name] = new THREE.InstancedBufferAttribute(new Float32Array(this.poolSize * dimensions), dimensions, 1).setDynamic( config.dynamic );;
             }
         };
 

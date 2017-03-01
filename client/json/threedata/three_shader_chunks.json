@@ -1,6 +1,10 @@
 [
   {
     "SHADER_CHUNKS": {
+      "LOAD_CHUNK_INDEX":[
+        "SPE_CHUNKS",
+        "INSTANCING_CHUNKS"
+      ],
       "SPE_CHUNKS":{
         "enterVoidMain":["void main(){"],
         "exitVoidMain":["}"],
@@ -238,12 +242,28 @@
         ]
       },
       "INSTANCING_CHUNKS":{
+
         "vx_view":[
           "precision highp float;",
           "uniform mat4 modelViewMatrix;",
-          "uniform mat4 projectionMatrix;",
-          "attribute vec3 position;",
-          "attribute float sizeFactor;"
+          "uniform mat4 projectionMatrix;"
+        ],
+        "fx_view":[
+          "precision highp float;"
+        ],
+        "vx_spatial":[
+          "attribute vec3 vertexPosition;",
+          "attribute vec3 offset;",
+          "attribute vec4 orientation;"
+        ],
+
+        "vx_uv":[
+          "attribute vec2 uv;",
+          "varying vec2 vUv;"
+        ],
+        "fx_uv":[
+          "uniform sampler2D map;",
+          "varying vec2 vUv;"
         ],
         "vx_init":[
           "uniform float time;",
@@ -251,11 +271,10 @@
           "attribute vec3 translate;",
           "varying vec2 vUv;",
           "varying float vScale;",
-          ""
+          "attribute vec3 position;",
+          "attribute float sizeFactor;"
         ],
-        "fx_view":[
-          "precision highp float;"
-        ],
+
         "fx_init":[
           "uniform sampler2D map;",
           "varying vec2 vUv;",

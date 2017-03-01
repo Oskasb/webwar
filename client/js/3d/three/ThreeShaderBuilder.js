@@ -68,9 +68,8 @@ define([
         var buildStringChunks = function(src, data) {
             var chunks = {}
             for (var key in data) {
-                chunks[key] = "\n" + data[key].join( "\n" );
-                chunks[key]+="\n";
-                PipelineAPI.setCategoryKeyValue(src, key, chunks[key]);
+                chunks[key] = data[key].join( "\n" );
+                PipelineAPI.setCategoryKeyValue(src, key, chunks[key]+"\n");
             }
             notifyShaderDataUpdate();
         //    console.log("CACHE STRING CHUNKS:", src, chunks);
@@ -80,7 +79,7 @@ define([
             var chunks = {}
             for (var key in THREE.ShaderChunk) {
                 chunks[key] = THREE.ShaderChunk[key];
-                PipelineAPI.setCategoryKeyValue("THREE_CHUNKS", key, "\n " + chunks[key] + " \n");
+                PipelineAPI.setCategoryKeyValue("THREE_CHUNKS", key, "\n" + chunks[key] + "\n");
             }
         //    console.log("CACHE THREE CHUNKS:", chunks);
         };
@@ -88,7 +87,7 @@ define([
         var combineProgramFromSources = function(sources) {
             var programString = '';
             for (var i = 0; i < sources.length; i++) {
-                programString += PipelineAPI.readCachedConfigKey(sources[i].source, sources[i].chunk);
+                programString += PipelineAPI.readCachedConfigKey(sources[i].source, sources[i].chunk) + "\n";
             }
             return programString;
         };
@@ -107,7 +106,7 @@ define([
                 if (cached) {
                     if (cached[key] != program[key]) {
                         if (!testShader(program[key], key)) {
-                            console.log("Broke Good Shader", src, key, data);
+                            console.log("Broke Good Shader", src, key, [PipelineAPI.getCachedConfigs()], data);
                             return;
                         }
                     } else {
@@ -153,19 +152,38 @@ define([
             }, 10);
         };
 
+        var loadChunkIndex = function(src, data) {
+            for (var i = 0; i < data.length; i++) {
+                new PipelineObject("SHADER_CHUNKS",   data[i], buildStringChunks)
+            }
+        };
+
+        var loadProgramIndex = function(src, data) {
+            for (var i = 0; i < data.length; i++) {
+                new PipelineObject("SHADER_PROGRAMS",   data[i], buildStringChunks)
+            }
+        };
+
+        var loadShaderIndex = function(src, data) {
+            for (var i = 0; i < data.length; i++) {
+                new PipelineObject("SHADERS_THREE",   data[i], registerShaderProgram)
+            }
+        };
+
         ShaderBuilder.prototype.loadShaderData = function(glContext) {
 
             gl = glContext;
 
             mapThreeShaderChunks();
-            new PipelineObject("SHADER_CHUNKS",   "SPE_CHUNKS", buildStringChunks);
-            new PipelineObject("SHADER_PROGRAMS", "SPE_PROGRAMS", buildStringChunks);
-            new PipelineObject("SHADERS_THREE",   "SPE_PARTICLE_SHADER", registerShaderProgram);
-            new PipelineObject("SHADER_CHUNKS",   "INSTANCING_CHUNKS", buildStringChunks);
-            new PipelineObject("SHADER_PROGRAMS", "INSTANCING_PROGRAMS", buildStringChunks);
-            new PipelineObject("SHADERS_THREE",   "INSTANCING_RAW", registerShaderProgram);
-            new PipelineObject("SHADERS_THREE",   "INSTANCING_COLOR", registerShaderProgram);
-            new PipelineObject("SHADERS_THREE",   "INSTANCING_MIX", registerShaderProgram)
+
+            new PipelineObject("SHADER_CHUNKS",   "LOAD_CHUNK_INDEX", loadChunkIndex);
+
+            new PipelineObject("SHADER_PROGRAMS", "LOAD_PROGRAM_INDEX", loadProgramIndex);
+
+            setTimeout(function() {
+                new PipelineObject("SHADERS_THREE",   "LOAD_SHADER_INDEX", loadShaderIndex);
+            }, 100);
+
 
         };
 

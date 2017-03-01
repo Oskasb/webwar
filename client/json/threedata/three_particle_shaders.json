@@ -1,6 +1,10 @@
 [
   {
     "SHADERS_THREE": {
+      "LOAD_SHADER_INDEX":[
+        "INSTANCING_SPATIAL_TEXTURED"
+
+      ],
       "SPE_PARTICLE_SHADER":{
         "vertex":[
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
@@ -50,7 +54,6 @@
           {"source":"THREE_CHUNKS", "chunk":"fog_fragment"},
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ]
-
       },
       "INSTANCING_RAW": {
         "vertex": [
@@ -101,6 +104,24 @@
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"particleFragmentMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentColor"},
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ]
+      },
+      "INSTANCING_SPATIAL_TEXTURED": {
+        "vertex": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_spatial"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv"},
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSpatialMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvMain"},
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ],
+        "fragment": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_view"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_uv"},
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentUvMain"},
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ]
       }
