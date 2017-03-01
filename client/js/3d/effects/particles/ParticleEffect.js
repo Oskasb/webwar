@@ -5,6 +5,7 @@
 define(['3d/effects/particles/EffectSimulators'],
     function(EffectSimulators) {
 
+        var calcVec = new THREE.Vector3();
         
         var ParticleEffect = function() {
             this.lastTpf = 0.016;
@@ -12,6 +13,7 @@ define(['3d/effects/particles/EffectSimulators'],
             this.renderer = null;
             this.aliveParticles = [];
             this.pos = new THREE.Vector3();
+            this.vel = new THREE.Vector3();
             this.deadParticles = [];
         };
 
@@ -19,10 +21,12 @@ define(['3d/effects/particles/EffectSimulators'],
             this.effectData = effectData;
         };
 
-        ParticleEffect.prototype.setEffectPosition = function(x, y, z) {
-            this.pos.x = x;
-            this.pos.y = y;
-            this.pos.z = z;
+        ParticleEffect.prototype.setEffectPosition = function(pos) {
+            this.pos.copy(pos);
+        };
+
+        ParticleEffect.prototype.setEffectVelocity = function(vel) {
+            this.vel.copy(vel);
         };
 
         ParticleEffect.prototype.attachSimulators = function() {
@@ -30,7 +34,7 @@ define(['3d/effects/particles/EffectSimulators'],
 
             this.simulators = [];
             for (var i = 0; i < effect.simulators.length; i++) {
-                this.simulators.push(effect.simulators[i].process)
+                this.simulators.push(effect.simulators[i])
             }
         };
 
@@ -48,20 +52,48 @@ define(['3d/effects/particles/EffectSimulators'],
             }
         };
 
-        ParticleEffect.prototype.applyParamToParticle = function(particle, applies) {
-            if (applies.value) {
-                particle.params[applies.param] = MATH.randomBetween(applies.value.min, applies.value.max);
+        function createCurveParam(curveId, amplitude, min, max) {
+            return new MATH.CurveState(MATH.curves[curveId], amplitude+MATH.randomBetween(min, max));
+        }
+
+        ParticleEffect.prototype.applyParamToParticle = function(particle, init_params) {
+            if (init_params.value) {
+                particle.params[init_params.param] = {};
+                particle.params[init_params.param].value = MATH.randomBetween(init_params.value.min, init_params.value.max);
             }
+            if (init_params.vec3) {
+                if (!particle.params[init_params.param]) {
+                    particle.params[init_params.param] = new THREE.Vector3();
+                }
+                calcVec.x = init_params.vec3.x + MATH.randomBetween(init_params.vec3.spread.min, init_params.vec3.spread.max);
+                calcVec.y = init_params.vec3.y + MATH.randomBetween(init_params.vec3.spread.min, init_params.vec3.spread.max);
+                calcVec.z = init_params.vec3.z + MATH.randomBetween(init_params.vec3.spread.min, init_params.vec3.spread.max);
+                particle.params[init_params.param].addVectors(particle.params[init_params.param], calcVec);
+            }
+
+            if (init_params.curve3D) {
+                particle.params[init_params.param] = [];
+
+                for (var i = 0; i < init_params.curve3D.length; i++) {
+                    particle.params[init_params.param][i] = createCurveParam(init_params.curve3D[i], init_params.amplitudes[i], init_params.spread.min, init_params.spread.max)
+                }
+            }
+
+            if (init_params.curve1D) {
+                particle.params[init_params.param] = createCurveParam(init_params.curve1D, init_params.amplitude, init_params.spread.min, init_params.spread.max)
+            }
+            
         };
 
         ParticleEffect.prototype.includeParticle = function(particle, index, allowedCount) {
-            
-            particle.setPosition(this.pos.x, this.pos.y, this.pos.z);
-            
-            var applies = this.effectData.effect.applies;
 
-            for (var i = 0;i < applies.length; i++) {
-                this.applyParamToParticle(particle, applies[i])
+            particle.setPosition(this.pos);
+            particle.setVelocity(this.vel);
+
+            var init_params = this.effectData.effect.init_params;
+
+            for (var i = 0;i < init_params.length; i++) {
+                this.applyParamToParticle(particle, init_params[i])
             }
             
             this.updateParticle(particle, this.lastTpf*(index/allowedCount));
@@ -70,7 +102,7 @@ define(['3d/effects/particles/EffectSimulators'],
 
         ParticleEffect.prototype.updateParticle = function(particle, tpf) {
             for (var i = 0; i < this.simulators.length; i++) {
-                EffectSimulators[this.simulators[i]](particle, tpf);
+                EffectSimulators[this.simulators[i].process](particle, tpf, this.simulators[i].source, this.simulators[i].target);
             }
         };        
         

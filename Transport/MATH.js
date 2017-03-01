@@ -11,8 +11,44 @@ if(typeof(MATH) == "undefined"){
 
 	MATH.TWO_PI = 2.0 * Math.PI;
 
+	MATH.curves = {
+		"constantOne":  [[0, 1], [1, 1]],
+		"zeroToOne":    [[0, 0], [1, 1]],
+		"oneToZero":    [[0, 1], [1, 0]],
+		"quickFadeOut": [[0, 1], [0.9,1], [1,   0]],
+		"quickFadeIn":  [[0, 0], [0.2,1], [1,   1]],
+		"attackIn":     [[0, 1], [0.1,0], [1,   0]],
+		"centerStep":   [[0, 0], [0.45,0],[0.55,1], [1, 1]],
+		"quickInOut":   [[0, 0], [0.1,1], [0.9, 1], [1, 0]],
+		"posToNeg":     [[0, 1], [1,-1]],
+		"negToPos":     [[0,-1], [1, 1]],
+		"zeroOneZero":  [[0, 0], [0.5,1], [1,  0]],
+		"oneZeroOne":   [[0, 1], [0.5,0], [1,  1]],
+		"growShrink":   [[0, 1], [0.5,0], [1, -2]],
+		"shrink":   	[[0, -0.3], [0.3, -1]]
+	};
 
-	
+	MATH.CurveState = function(curve, amplitude) {
+		this.curve = curve || MATH.curves.oneToZero;
+		this.amplitude = amplitude || 1;
+		this.fraction = 0;
+		this.value = 0
+	};
+
+	MATH.CurveState.prototype.setAmplitude = function(value) {
+		this.amplitude = value;
+	};
+
+	MATH.CurveState.prototype.setCurve = function(curve) {
+		this.curve = curve;
+	};
+
+	MATH.CurveState.prototype.amplitudeFromFraction = function(fraction) {
+		this.fraction = fraction;
+		this.value = MATH.valueFromCurve(this.fraction * (this.curve.length-1), this.curve);
+		return this.amplitude*this.value;
+	};
+
 	MATH.interpolateFromTo = function(start, end, fraction) {
 		return start + (end-start)*fraction;
 	};
@@ -125,13 +161,13 @@ if(typeof(MATH) == "undefined"){
 	MATH.valueFromCurve = function(value, curve) {
 		for (i = 0; i < curve.length; i++) {
 			if (!curve[i+1]) {
-				console.log("Curve out end value", curve[curve.length-1][1]);
+			//	console.log("Curve out end value", value, curve.length-1, curve[curve.length-1][1]);
 				return curve[curve.length-1][1];
 
 			}
 			if (curve[i+1][0] > value) return MATH.getInterpolatedInCurveAboveIndex(value, curve, i)
 		}
-		console.log("Curve out of bounds");
+		console.log("Curve out of bounds", curve.length-1 , value);
 		return curve[curve.length-1][1];
 	};
 

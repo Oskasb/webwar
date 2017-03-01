@@ -25,12 +25,13 @@ define([
         };
 
         EffectsAPI.requestParticleEffect = function(effectData, pos, vel) {
-        //    particleSpawner.spawnParticleEffect(effectData, pos, vel);
+            particleSpawner.spawnParticleEffect("test_effect", pos, vel);
         };
 
         EffectsAPI.tickEffectSimulation = function(tpf) {
             particleSpawner.updateSpawnedParticles(tpf);
         };
+
         
         return EffectsAPI;
 

@@ -9,14 +9,23 @@ define([],
             this.particleIndex = particleIndex;
             this.buffers = {};
             this.attributes = {};
-            this.params = {};
+            this.params = {
+                translate:new THREE.Vector3(),
+                position:new THREE.Vector3(),
+                velocity:new THREE.Vector3(),
+                size:{value:1}
+            };
+            this.progress = 0;
             this.dead = false;
         };
 
-        Particle.prototype.setPosition = function(x, y, z) {
-            this.setAttribute3D('translate', x, y, z);
+        Particle.prototype.setPosition = function(pos) {
+            this.params.translate.copy(pos);
         };
-        
+
+        Particle.prototype.setVelocity = function(vel) {
+            this.params.velocity.copy(vel);
+        };
         
         Particle.prototype.bindAttribute = function(name, dimensions, bufferArray) {
             this.buffers[name] = bufferArray;

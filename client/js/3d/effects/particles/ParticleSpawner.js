@@ -18,6 +18,7 @@ define([
         var renderers = {};
         var activeEffects = [];
         var idleEffects = [];
+        var endedEffects = [];
 
         var ParticleSpawner = function() {
             this.particleEffectData = new ParticleEffectData();
@@ -53,15 +54,16 @@ define([
         };
         
         
-        ParticleSpawner.prototype.spawnParticleEffect = function(id) {
+        ParticleSpawner.prototype.spawnParticleEffect = function(id, pos, vel) {
             var effect;
             if (idleEffects.length != 0) {
                 effect = idleEffects.pop();
             } else {
-                effect = new ParticleEffect()
+                effect = new ParticleEffect();
             }
 
-            effect.setEffectPosition(500*Math.random(), 500*Math.random(), 100*Math.random());
+            effect.setEffectPosition(pos);
+            effect.setEffectVelocity(vel);
             effect.setEffectData(this.particleEffectData.buildEffect(effect.effectData, 'THREE', id));
             effect.attachSimulators();
             effect.applyRenderer(this.getRendererById(effect.effectData.effect.renderer_id));
@@ -74,7 +76,7 @@ define([
         ParticleSpawner.prototype.updateSpawnedParticles = function(tpf) {
 
             if (Math.random() < 0.1) {
-                this.spawnParticleEffect('test_effect');
+            //    this.spawnParticleEffect('test_effect');
             }
 
             for (var i = 0; i < activeEffects.length; i++) {
@@ -84,16 +86,18 @@ define([
                 //
                     activeEffects[i].updateEffect(tpf);
                 } else {
-                    // remove it here...
-                    idleEffects.join(activeEffects.splice(i, 1));
-                    i--;
+                    // list for removal here...
+                    endedEffects.push(activeEffects[i]);
                 }
+            }
+
+            while (endedEffects.length) {
+                idleEffects.push(activeEffects.splice(activeEffects.indexOf(endedEffects.pop()), 1).pop());
             }
 
             for (var key in renderers) {
                 renderers[key].updateParticleRenderer(tpf);
             }
-            // this.setupParticleRenderers();
         };
         
         return ParticleSpawner;
