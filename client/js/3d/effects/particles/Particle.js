@@ -16,6 +16,7 @@ define([],
             };
             this.progress = 0;
             this.dead = false;
+            this.attributeBuffers = {};
         };
 
         Particle.prototype.setPosition = function(pos) {
@@ -25,9 +26,11 @@ define([],
         Particle.prototype.setVelocity = function(vel) {
             this.params.velocity.copy(vel);
         };
-        
-        Particle.prototype.bindAttribute = function(name, dimensions, bufferArray) {
-            this.buffers[name] = bufferArray;
+
+
+        Particle.prototype.bindAttribute = function(name, dimensions, attributeBuffer) {
+            this.buffers[name] = attributeBuffer.array;
+            this.attributeBuffers[name] = attributeBuffer;
             this.attributes[name] = this.particleIndex*dimensions;
 
             if (this.buffers[name].length < this.particleIndex*dimensions) {
@@ -37,11 +40,13 @@ define([],
                 
         Particle.prototype.setAttribute1D = function(name, value) {
             this.buffers[name][this.attributes[name]] = value;
+            this.attributeBuffers[name].needsUpdate = true;
         };
 
         Particle.prototype.setAttribute2D = function(name, value1, value2) {
             this.buffers[name][this.attributes[name]] = value1;
             this.buffers[name][this.attributes[name]+1] = value2;
+            this.attributeBuffers[name].needsUpdate = true;
         };
 
         Particle.prototype.setAttribute3D = function(name, value1, value2, value3) {
@@ -52,6 +57,7 @@ define([],
             this.buffers[name][this.attributes[name]] = value1;
             this.buffers[name][this.attributes[name]+1] = value2;
             this.buffers[name][this.attributes[name]+2] = value3;
+            this.attributeBuffers[name].needsUpdate = true;
         };
 
         Particle.prototype.addAttribute3D = function(name, value1, value2, value3) {
@@ -62,6 +68,7 @@ define([],
             this.buffers[name][this.attributes[name]] += value1;
             this.buffers[name][this.attributes[name]+1] += value2;
             this.buffers[name][this.attributes[name]+2] += value3;
+            this.attributeBuffers[name].needsUpdate = true;
         };
 
 
@@ -70,6 +77,7 @@ define([],
             this.buffers[name][this.attributes[name]+1] = value2;
             this.buffers[name][this.attributes[name]+2] = value3;
             this.buffers[name][this.attributes[name]+3] = value4;
+            this.attributeBuffers[name].needsUpdate = true;
         };
                 
         return Particle;

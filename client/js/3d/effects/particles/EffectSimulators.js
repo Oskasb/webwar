@@ -66,6 +66,13 @@ define([],
         //    particle.setAttribute3D('position', 5, Math.random()*tpf*100, 5);
         };
 
+        EffectSimulators.valueToQuat = function(particle, tpf, source, target) {
+        //    particle.params[target].x -= particle.params[source]*tpf;
+        //    particle.params[target].y += 0.001*Math.sin(particle.params[source]*tpf);
+        //    particle.params[target].z = Math.sin(particle.params[source]*tpf);
+            particle.params[target].normalize();
+        };
+        
         EffectSimulators.vec3toCurve3D = function(particle, tpf, source, target) {
             
         };

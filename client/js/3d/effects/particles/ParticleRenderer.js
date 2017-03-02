@@ -63,7 +63,7 @@ define([
             for (var i = 0; i < this.poolSize; i++) {
                 var particle = new Particle(i);
                 for (var key in this.attributeConfigs) {
-                    particle.bindAttribute(key, this.attributeConfigs[key].dimensions, this.attributes[key].array);
+                    particle.bindAttribute(key, this.attributeConfigs[key].dimensions, this.attributes[key]);
                 }
                 this.particles.push(particle);
             }
@@ -104,13 +104,7 @@ define([
             }
         };
 
-
-        ParticleRenderer.prototype.setUpdateBuffers = function() {
-           for (var key in this.attributes) {
-               this.attributes[key].needsUpdate = true;
-           }
-        };
-
+        
         ParticleRenderer.prototype.calculateAllowance = function(requestSize) {
             if (this.particles.length > requestSize * 1.5) {
                 return requestSize;
@@ -126,7 +120,7 @@ define([
         };
 
         ParticleRenderer.prototype.updateParticleRenderer = function(tpf) {
-            this.setUpdateBuffers();
+
         };
 
         ParticleRenderer.prototype.dispose = function() {
