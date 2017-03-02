@@ -15,7 +15,8 @@
 
           "settings":{
             "tiles_x":12,
-            "tiles_y":12
+            "tiles_y":12,
+            "flip_y":true
           }
         },{
           "id":"instancing_mix_opaque",

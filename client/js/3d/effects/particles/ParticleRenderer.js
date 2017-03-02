@@ -77,7 +77,7 @@ define([
             if (this.particleBuffer) {
                 this.particleBuffer.dispose();
             }
-           this.particleBuffer = new ParticleBuffer(txSettings, ParticleMesh.boxVerts(), ParticleMesh.boxUvs(), ParticleMesh.boxIndices());
+           this.particleBuffer = new ParticleBuffer(txSettings, ParticleMesh.cross3Verts(), ParticleMesh.boxUvs(), ParticleMesh.boxIndices());
 
             for (var key in this.attributes) {
                 this.particleBuffer.geometry.addAttribute( key, this.attributes[key] );

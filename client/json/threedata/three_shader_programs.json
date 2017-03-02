@@ -122,10 +122,10 @@
         "vertexUvTilesMain":[
           "vec2 tileScale = 1.0/tiles;",
 
-          "vec2 tileOffset = tileindex * tileScale;",
+          "vec2 tileOffset = vec2(tileindex.x * tileScale.x, (tiles.y - tileindex.y) * tileScale.y);",
           "vec2 scaledUv = uv*tileScale;",
 
-          "vUv = scaledUv + tileScale * tileindex;"
+          "vUv = scaledUv + tileOffset;"
         ],
 
         "fragmentUvTilesMain":[

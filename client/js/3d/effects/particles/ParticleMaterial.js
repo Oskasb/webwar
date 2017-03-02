@@ -19,7 +19,7 @@ define([
             txSettings.tiles_x = utils.ensureTypedArg( options.settings.tiles_x, types.NUMBER, 1 );
             txSettings.tiles_y = utils.ensureTypedArg( options.settings.tiles_y, types.NUMBER, 1 );
 
-            txSettings.texture.flipY = false;
+            txSettings.texture.flipY = options.settings.flip_y;
 
             return txSettings;
         };
