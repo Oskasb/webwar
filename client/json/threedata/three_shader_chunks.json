@@ -319,8 +319,8 @@
           "varying vec4 vColor;"
         ],
 
-        "fx_texture_txColor":[
-
+        "fx_alphaTest":[
+          "uniform float alphaTest;"
         ]
       }
     }

@@ -54,8 +54,9 @@ define([
 
             var material = new THREE.RawShaderMaterial({
                 uniforms: {
-                    map:   {value:txSettings.texture},
-                    tiles: {value:new THREE.Vector2(txSettings.tiles_x, txSettings.tiles_y)}
+                    alphaTest:  {value:options.alphaTest},
+                    map:        {value:txSettings.texture},
+                    tiles:      {value:new THREE.Vector2(txSettings.tiles_x, txSettings.tiles_y)}
                 },
                 side: THREE.FrontSide,
                 vertexShader: txSettings.shaders.vertex,

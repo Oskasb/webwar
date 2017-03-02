@@ -33,11 +33,11 @@ define(['3d/effects/particles/EffectSimulators',
         };
 
         ParticleEffect.prototype.attachSimulators = function() {
-            var effect = this.effectData.effect;
+            var simulation = this.effectData.simulation;
 
             this.simulators = [];
-            for (var i = 0; i < effect.simulators.length; i++) {
-                this.simulators.push(effect.simulators[i])
+            for (var i = 0; i < simulation.simulators.length; i++) {
+                this.simulators.push(simulation.simulators[i])
             }
         };
 
@@ -62,7 +62,7 @@ define(['3d/effects/particles/EffectSimulators',
             particle.setPosition(this.pos);
             particle.setVelocity(this.vel);
 
-            var init_params = this.effectData.effect.init_params;
+            var init_params = this.effectData.simulation.init_params;
 
             ParticleParamParser.applyEffectParams(particle, init_params);
             ParticleParamParser.applyEffectSprite(particle, this.effectData.sprite);

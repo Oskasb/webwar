@@ -10,14 +10,9 @@
             "blending":"AdditiveBlending",
             "transparent":true,
             "colorize":false,
-            "alphaTest":0.5,
+            "alphaTest":0.1,
             "depthWrite":false,
-            "depthTest":true,
-            "fog":false,
-            "scale":1,
-            "perspective":true,
-            "rotate":false,
-            "wiggle":false
+            "depthTest":true
           }
         }
       ]

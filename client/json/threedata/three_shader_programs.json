@@ -108,7 +108,7 @@
         ],
 
         "vertexSizeMain":[
-          "vPosition = vPosition + size;"
+          "vPosition = vPosition * size;"
         ],
 
         "vertexSpatialMain":[
@@ -158,6 +158,11 @@
         "fragmentBlendTxColorVertexColor":[
           "vec4 finalColor = txColor * vColor;"
         ],
+
+        "fragmentAlphaTest":[
+          "if (finalColor.a <= alphaTest) discard;"
+        ],
+
 
         "fragmentVColorFinal":[
           "gl_FragColor = finalColor;"

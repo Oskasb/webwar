@@ -8,6 +8,7 @@ define(['PipelineObject'],
         var sprites = {};
         var effect = {};
         var particles = {};
+        var simulations = {};
 
         var cacheSprites = function(src, data) {
             sprites[src] = {};
@@ -29,7 +30,14 @@ define(['PipelineObject'],
                 particles[src][data[i].id] = data[i];
             }
         };
-        
+
+        var cacheSimulations = function(src, data) {
+            simulations[src] = {};
+            for (var i = 0; i < data.length; i++) {
+                simulations[src][data[i].id] = data[i];
+            }
+        };
+
         var ParticleEffectData = function() {
 
         };
@@ -38,6 +46,7 @@ define(['PipelineObject'],
             new PipelineObject("PARTICLE_SPRITES", "ATLAS", cacheSprites);
             new PipelineObject("PARTICLE_SPRITES", "FONT",  cacheSprites);
             new PipelineObject("PARTICLE_EFFECTS", "THREE", cacheEffects);
+            new PipelineObject("PARTICLE_SIMULATIONS", "THREE", cacheSimulations);
             new PipelineObject("PARTICLES",        "THREE", cacheParticles);
         };
 
@@ -52,9 +61,14 @@ define(['PipelineObject'],
         ParticleEffectData.prototype.fetchSprite = function(imageId, id) {
             return sprites[imageId][id];
         };
-        
+
+        ParticleEffectData.prototype.fetchSimulation = function(imageId, id) {
+            return simulations[imageId][id];
+        };
+
         ParticleEffectData.prototype.buildEffect = function(store, key, id) {
             store.effect = this.fetchEffect(key, id);
+            store.simulation = this.fetchSimulation(store.effect.simulation_key, store.effect.simulation_id);
             store.particle = this.fetchParticle(store.effect.particle_key,store.effect.particle_id);
             store.sprite = this.fetchSprite(store.particle.sprite_key,store.particle.sprite_id);
             return store;

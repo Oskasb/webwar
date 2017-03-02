@@ -4,7 +4,7 @@
       "THREE":[
         {
           "id":"sprite_atlas_opaque",
-          "shader":"INSTANCING_SPATIAL_TEXTURED",
+          "shader":"INSTANCING_CPU_SPATIAL_TEXTURED",
           "attributes": [
             {"name":"offset",      "dimensions":3, "dynamic":true},
             {"name":"orientation", "dimensions":4, "dynamic":false},

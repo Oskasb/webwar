@@ -12,7 +12,7 @@ define([],
         };
 
         function createCurveParam(curveId, amplitude, min, max) {
-            return new MATH.CurveState(MATH.curves[curveId], amplitude+MATH.randomBetween(min, max));
+            return new MATH.CurveState(MATH.curves[curveId], amplitude+MATH.randomBetween(amplitude*min, amplitude*max));
         }
 
         ParticleParamParser.applyParamToParticle = function(particle, init_params) {
@@ -53,12 +53,20 @@ define([],
                 particle.params[init_params.param] = [];
 
                 for (var i = 0; i < init_params.curve3D.length; i++) {
-                    particle.params[init_params.param][i] = createCurveParam(init_params.curve3D[i], init_params.amplitudes[i], init_params.spread.min, init_params.spread.max)
+                    particle.params[init_params.param][i] = createCurveParam(
+                        init_params.curve3D[i],
+                        init_params.amplitudes[i],
+                        init_params.spread.min,
+                        init_params.spread.max
+                    )
                 }
             }
 
             if (init_params.curve1D) {
-                particle.params[init_params.param] = createCurveParam(init_params.curve1D, init_params.amplitude, init_params.spread.min, init_params.spread.max)
+                particle.params[init_params.param] = createCurveParam(init_params.curve1D,
+                    init_params.amplitude,
+                    init_params.spread.min,
+                    init_params.spread.max)
             }
 
         };

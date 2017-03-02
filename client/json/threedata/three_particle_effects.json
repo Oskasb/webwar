@@ -8,38 +8,8 @@
           "particle_key":"THREE",
           "particle_id":"default",
           "count":3,
-          "init_params":[
-            {"param":"age",         "value":  {"min":0, "max":0}},
-            {"param":"lifeTime",    "value":  {"min":1, "max":4}},
-            {"param":"size",        "value":  {"min":0, "max":0.5}},
-            {"param":"alpha",       "value":  {"x":1,   "y":1}},
-            {"param":"tiles",       "value":   {"min":0.5, "max":1}},
-
-            {"param":"position",    "vec3":   {"x":0,   "y":1,   "z":0,          "spread":{"min":-0.5, "max":0.5}}},
-            {"param":"offset",      "vec3":   {"x":0,   "y":0,   "z":0,          "spread":{"min":-0.2, "max":0.2}}},
-            {"param":"orientation", "quat":   {"x":0,   "y":1,   "z":0,  "w":1,  "spread":{"min":-0.5, "max":0.5}}},
-            {"param":"velocity",    "vec3":   {"x":0,   "y":0,   "z":0,          "spread":{"min":-0.2, "max":0.2}}},
-            {"param":"opacityCurve","curve1D":["quickInOut"], "amplitude":0.8,   "spread":{"min":-0.2, "max":0.2}},
-            {"param":"sizeCurve",   "curve1D":["quickInOut"], "amplitude":0.41,       "spread":{"min":-0.2, "max":0.2}},
-            {"param":"colorCurve",  "curve3D":["oneToZero", "oneZeroOne", "zeroToOne"], "amplitudes":[0.8, 0.8, 0.8], "spread":{"min":-0.2, "max":0.2}},
-            {"param":"vertexColor", "vec3":   {"x":0.5, "y":0.5, "z":0.5,         "spread":{"min":-0.5, "max":0.5}}}
-
-          ],
-          "simulators":[
-            {"process":"age",           "source":"age"        , "target":"age"          },
-            {"process":"curve3DtoVec3", "source":"colorCurve" , "target":"vertexColor"  },
-            {"process":"addVelocity",   "source":"velocity"   , "target":"position"     },
-            {"process":"valueToQuat",   "source":"age"        , "target":"orientation"  },
-            {"process":"curve1DtoValue","source":"sizeCurve"  , "target":"size"         },
-            {"process":"curve1DtoValue","source":"opacityCurve","target":"alpha"        },
-            {"process":"attrib1D",      "source":"size"       , "target":"size"         },
-            {"process":"attrib1D",      "source":"alpha"      , "target":"vertexAlpha"  },
-            {"process":"attrib2D",      "source":"tiles"      , "target":"tileindex"    },
-            {"process":"attrib4D",      "source":"orientation", "target":"orientation"  },
-            {"process":"attrib3D",      "source":"position"   , "target":"offset"       },
-            {"process":"attrib3D",      "source":"vertexColor", "target":"vertexColor"  },
-            {"process":"lifeTime",      "source":"age"        , "target":"lifeTime"     }
-          ]
+          "simulation_key":"THREE",
+          "simulation_id":"test_simulation"
         }
       ]
     }
