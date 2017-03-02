@@ -15,7 +15,10 @@ define([
         var configureTXSettings = function(txMatSettings, texture) {
             var options = utils.ensureTypedArg( txMatSettings, types.OBJECT, {} );
             var txSettings = {};
-            txSettings.texture  =  utils.ensureInstanceOf( texture, THREE.Texture, null );
+
+
+            txSettings.data_texture = utils.ensureInstanceOf( txMatSettings.data_texture, THREE.Texture, null );
+            txSettings.texture = utils.ensureInstanceOf( texture, THREE.Texture, null );
             txSettings.tiles_x = utils.ensureTypedArg( options.settings.tiles_x, types.NUMBER, 1 );
             txSettings.tiles_y = utils.ensureTypedArg( options.settings.tiles_y, types.NUMBER, 1 );
 
@@ -50,14 +53,18 @@ define([
 
             console.log("OPTIONS BUILT", txSettings, options);
 
+            var uniforms = {
+                alphaTest:  {value:options.alphaTest},
+                map:        {value:txSettings.texture},
+                tiles:      {value:new THREE.Vector2(txSettings.tiles_x, txSettings.tiles_y)}
+            };
 
+            if (txSettings.data_texture) {
+                uniforms.data_texture =  {value:txSettings.data_texture}
+            }
 
             var material = new THREE.RawShaderMaterial({
-                uniforms: {
-                    alphaTest:  {value:options.alphaTest},
-                    map:        {value:txSettings.texture},
-                    tiles:      {value:new THREE.Vector2(txSettings.tiles_x, txSettings.tiles_y)}
-                },
+                uniforms: uniforms,
                 side: THREE.DoubleSide,
                 vertexShader: txSettings.shaders.vertex,
                 fragmentShader: txSettings.shaders.fragment,
@@ -66,6 +73,8 @@ define([
                 blending: options.blending,
                 transparent: options.transparent
             });
+
+
 
             return material;
         };
@@ -97,7 +106,21 @@ define([
                 this.shaderPipe = new PipelineObject("SHADERS", txMatSettings.shader, applyShaders);
             }.bind(this);
 
-            this.txPipe = new PipelineObject("THREE_TEXTURE", "map_"+txMatSettings.map, applyTexture);
+            var bindDataTexture = function(src, data) {
+                txMatSettings.data_texture = data;
+                bindMapTexture();
+            };
+
+            var bindMapTexture = function() {
+                this.txPipe = new PipelineObject("THREE_TEXTURE", "map_"+txMatSettings.map, applyTexture);
+            }.bind(this);
+
+            if (txMatSettings.data_texture) {
+                new PipelineObject("THREE_TEXTURE", "data_texture_"+txMatSettings.data_texture, bindDataTexture);
+            } else {
+                bindMapTexture();
+            }
+
         };
 
         ParticleMaterial.prototype.dispose = function() {

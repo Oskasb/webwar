@@ -82,6 +82,20 @@
             "map":"./client/assets/images/textures/main_diff.png",
             "normalMap":"./client/assets/images/textures/main_nm.png"
           }]
+        },{
+          "id":"particle_atlas_data",
+          "shader":"MeshPhongMaterial",
+          "settings":{
+            "blending":"NoBlending",
+            "alphaTest": 0.5,
+            "shininess":0.1,
+            "reflectivity":0.4,
+            "color":{"r":0.5, "g":0.5, "b":0.5}
+          },
+          "textures":[{
+            "map":"./client/assets/images/effects/particle_atlas.png",
+            "data_texture":"./client/assets/images/effects/data_texture.png"
+          }]
         }
       ]
     }

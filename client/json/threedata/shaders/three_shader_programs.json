@@ -108,33 +108,62 @@
         ],
 
 
-
         "vertexSizeMain":[
           "vPosition = vPosition * size;"
         ],
 
+        "vertexSampledSizeMain":[
+          "vPosition = vPosition * sampledSizeFactor;"
+        ],
 
-        "vertexPredictiveMain":[
+        "vertexSampleTextureData":[
+          "progress = time / duration;",
+
+          "float sillyRandom1 = sin(progress*1000000.0 + time * 10000.2 + duration*progress*1000.1);",
+          "float sillyRandom2 = sin(progress*1400000.0 + time * 40000.1 + duration*progress*100.1);",
+          "float sillyRandom3 = sin(progress*40000.0 + time * 340000.1 + duration*progress*15100.1);",
+          "float sillyRandom4 = sin(progress*640000.0 + time * 34000.1 + duration*progress*11100.1);",
+
+          "velocityDiffusion = vec4(sillyRandom1 * diffusors.x, sillyRandom2 * diffusors.x, sillyRandom3 * diffusors.x, sillyRandom4 * diffusors.x);",
+          "accelerationDiffusion = vec4(sillyRandom3 * diffusors.y, sillyRandom1*diffusors.y, sillyRandom4*diffusors.y, sillyRandom2*diffusors.y);",
+
+
+
+          "sampledSizeFactor = size * sin(progress*2.14 + 1.0);",
+
+          "vec4 vertexColor = vec4(progress, 1.0-progress, sillyRandom1, 1.0);"
+
+
+        ],
+
+        "vertexPredictPositionMain":[
           "float verticalComponent = velocity.y * time  + 0.5 * acceleration.y * time * time;",
           "float xComponent = velocity.x * time  + 0.5 * acceleration.x * time * time;",
           "float zComponent = velocity.z * time  + 0.5 * acceleration.z * time * time;",
           "vec3 velInfluence = vec3(xComponent, verticalComponent, zComponent);",
+
+          "velInfluence = velInfluence+velInfluence * accelerationDiffusion.xyz;",
+
+          "vec3 acceleratedInfluence = velInfluence + velocityDiffusion.xyz;",
+
+          "velocityOffset = offset + acceleratedInfluence;"
+        ],
+
+
+        "vertexPredictRotationMain":[
 
           "float spinComponent = velocity.w * time  + 0.5 * acceleration.w * time * time;",
 
           "float rotation = spinComponent;",
           "float c = cos(rotation);",
           "float s = sin(rotation);",
-          "mat3 spinMatrix = mat3(c, s, 0.0, -s, c, 0.0, 0.0, 0.0, 1.0);",
+          "mat3 spinMatrix = mat3(c, s, 0.0, -s, c, 0.0, 0.0, 1.0, 0.0);",
 
           "vec3 spinInfluence = spinMatrix * vPosition;",
 
-          "vec3 acceleratedInfluence = spinInfluence + velInfluence;",
-
-
-
-          "velocityOffset = offset + acceleratedInfluence;"
+          "billboardFacing.xy += spinInfluence.xy;"
         ],
+
 
 
         "vertexSpatialMain":[
@@ -143,10 +172,14 @@
         ],
 
 
+        "vertexBillboardFaceMain":[
+          "billboardFacing = projectionMatrix *(modelViewMatrix * vec4(velocityOffset, 1) + vec4(vPosition.xy, 0, 0));"
+        ],
+
 
         "vertexBillboardFinal":[
 
-          "gl_Position = projectionMatrix *(modelViewMatrix * vec4(velocityOffset, 1) + vec4(vPosition.xy, 0, 0));"
+          "gl_Position = billboardFacing;"
 
         ],
 
@@ -171,11 +204,15 @@
         "vertexUvTilesMain":[
           "vec2 tileScale = 1.0/tiles;",
 
+
+
           "vec2 tileOffset = vec2(tileindex.x * tileScale.x, (tiles.y-1.0 - tileindex.y) * tileScale.y);",
           "vec2 scaledUv = uv*tileScale;",
 
           "vUv = scaledUv + tileOffset;"
         ],
+
+
 
         "vertexColorFromAttribColor3Alpha1":[
           "vColor = vec4(vertexColor.x, vertexColor.y, vertexColor.z, vertexAlpha);"

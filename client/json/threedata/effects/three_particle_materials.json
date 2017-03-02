@@ -12,12 +12,12 @@
             {"name":"size",        "dimensions":1, "dynamic":false},
             {"name":"time",        "dimensions":1, "dynamic":false},
             {"name":"duration",    "dimensions":1, "dynamic":false},
-            {"name":"vertexColor", "dimensions":4, "dynamic":false},
+            {"name":"diffusors",   "dimensions":4, "dynamic":false},
             {"name":"acceleration","dimensions":4, "dynamic":false},
             {"name":"velocity",    "dimensions":4, "dynamic":false}
           ],
           "map":"./client/assets/images/effects/particle_atlas.png",
-
+          "data_texture":"./client/assets/images/effects/data_texture.png",
           "settings":{
             "tiles_x":12,
             "tiles_y":12,

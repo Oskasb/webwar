@@ -261,6 +261,25 @@
           "attribute vec4 acceleration;"
         ],
 
+        "vx_data_texture":[
+          "uniform sampler2D data_texture;",
+          "attribute vec4 diffusors;",
+          "varying float progress;",
+          "varying float pixelSizeSampler;",
+          "varying float sampledSizeFactor;",
+          "varying vec4  velocityDiffusion;",
+          "varying vec4  accelerationDiffusion;",
+          "varying float sillyRandom1;",
+          "varying float sillyRandom2;",
+          "varying float sillyRandom3;",
+
+          "varying vec4 pixelColorSampler;"
+        ],
+
+        "vx_billboard":[
+          "varying vec4 billboardFacing;"
+        ],
+
         "vx_size":[
           "attribute float size;"
         ],
@@ -331,6 +350,10 @@
         "vx_attribute_vertexColor":[
           "attribute vec3 vertexColor;",
           "attribute float vertexAlpha;",
+          "varying vec4 vColor;"
+        ],
+
+        "fx_varying_vColor4":[
           "varying vec4 vColor;"
         ],
         "fx_attribute_vertexColor":[
