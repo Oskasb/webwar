@@ -14,31 +14,44 @@ define([],
             pParams[param].value = MATH.randomBetween(value.min, value.max);
         }
 
-        function applyVec2(pParams, param, vec2) {
+        function spreadParamValue(value, min, max) {
+            if (min === max) {
+                return value + value*min;
+            }
+            return value + MATH.randomBetween(value*min, value*max);
+        }
+
+        function applyVec2(pParams, param, vec) {
             if (!pParams[param]) {
                 pParams[param] = new THREE.Vector2();
             }
-            pParams[param].x = vec2.x;
-            pParams[param].y = vec2.y;
+            var min = vec.spread.min;
+            var max = vec.spread.max;
+            pParams[param].x = spreadParamValue(vec.x, min, max);
+            pParams[param].y = spreadParamValue(vec.y, min, max);
         }
 
-        function applyVec3(pParams, param, vec3) {
+        function applyVec3(pParams, param, vec) {
             if (!pParams[param]) {
                 pParams[param] = new THREE.Vector3();
             }
-            pParams[param].x = vec3.x;
-            pParams[param].y = vec3.y;
-            pParams[param].z = vec3.z;
+            var min = vec.spread.min;
+            var max = vec.spread.max;
+            pParams[param].x = spreadParamValue(vec.x, min, max);
+            pParams[param].y = spreadParamValue(vec.y, min, max);
+            pParams[param].z = spreadParamValue(vec.z, min, max);
         }
 
-        function applyVec4(pParams, param, vec4) {
+        function applyVec4(pParams, param, vec) {
             if (!pParams[param]) {
                 pParams[param] = new THREE.Vector4();
             }
-            pParams[param].x = vec4.x;
-            pParams[param].y = vec4.y;
-            pParams[param].z = vec4.z;
-            pParams[param].w = vec4.w;
+            var min = vec.spread.min;
+            var max = vec.spread.max;
+            pParams[param].x = spreadParamValue(vec.x, min, max);
+            pParams[param].y = spreadParamValue(vec.y, min, max);
+            pParams[param].z = spreadParamValue(vec.z, min, max);
+            pParams[param].w = spreadParamValue(vec.w, min, max);
         }
 
         function applyQuat(pParams, param, quat) {

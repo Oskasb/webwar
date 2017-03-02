@@ -116,9 +116,23 @@
 
         "vertexPredictiveMain":[
           "float verticalComponent = velocity.y * time  + 0.5 * acceleration.y * time * time;",
-          "vec3 velInfluence = vec3(velocity.x * time, verticalComponent,  velocity.z * time);",
+          "float xComponent = velocity.x * time  + 0.5 * acceleration.x * time * time;",
+          "float zComponent = velocity.z * time  + 0.5 * acceleration.z * time * time;",
+          "vec3 velInfluence = vec3(xComponent, verticalComponent, zComponent);",
 
-          "vec3 acceleratedInfluence = velInfluence;",
+          "float spinComponent = velocity.w * time  + 0.5 * acceleration.w * time * time;",
+
+          "float rotation = spinComponent;",
+          "float c = cos(rotation);",
+          "float s = sin(rotation);",
+          "mat3 spinMatrix = mat3(c, s, 0.0, -s, c, 0.0, 0.0, 0.0, 1.0);",
+
+          "vec3 spinInfluence = spinMatrix * vPosition;",
+
+          "vec3 acceleratedInfluence = spinInfluence + velInfluence;",
+
+
+
           "velocityOffset = offset + acceleratedInfluence;"
         ],
 
