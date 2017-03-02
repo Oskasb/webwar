@@ -7,7 +7,7 @@
           "system_key":"THREE",
           "renderer_id":"gpu_additive_atlas_renderer",
           "particle_id":"default",
-          "count":3,
+          "count":30,
           "simulation_id":"gpu_test_simulation"
         },
         {

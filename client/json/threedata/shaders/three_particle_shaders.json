@@ -152,7 +152,7 @@
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPositionMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSizeMain"},
-          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSpatialFinal"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexBillboardFinal"},
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ],
         "fragment": [

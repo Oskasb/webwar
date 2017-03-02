@@ -5,74 +5,110 @@
 define([],
     function() {
 
-        var calcVec = new THREE.Vector3();
+        function createCurveParam(curveId, amplitude, min, max) {
+            return new MATH.CurveState(MATH.curves[curveId], amplitude+MATH.randomBetween(amplitude*min, amplitude*max));
+        }
+
+        function applyValue(pParams, param, value) {
+            pParams[param] = {};
+            pParams[param].value = MATH.randomBetween(value.min, value.max);
+        }
+
+        function applyVec2(pParams, param, vec2) {
+            if (!pParams[param]) {
+                pParams[param] = new THREE.Vector2();
+            }
+            pParams[param].x = vec2.x;
+            pParams[param].y = vec2.y;
+        }
+
+        function applyVec3(pParams, param, vec3) {
+            if (!pParams[param]) {
+                pParams[param] = new THREE.Vector3();
+            }
+            pParams[param].x = vec3.x;
+            pParams[param].y = vec3.y;
+            pParams[param].z = vec3.z;
+        }
+
+        function applyVec4(pParams, param, vec4) {
+            if (!pParams[param]) {
+                pParams[param] = new THREE.Vector4();
+            }
+            pParams[param].x = vec4.x;
+            pParams[param].y = vec4.y;
+            pParams[param].z = vec4.z;
+            pParams[param].w = vec4.w;
+        }
+
+        function applyQuat(pParams, param, quat) {
+            if (!pParams[param]) {
+                pParams[param] = new THREE.Quaternion();
+            }
+            pParams[param].x = quat.x;
+            pParams[param].y = quat.y;
+            pParams[param].z = quat.z;
+            pParams[param].w = quat.w;
+            pParams[param].normalize()
+        }
+
+        function applyCurve1D(pParams, params, curve) {
+            pParams[params.param] = createCurveParam(curve,
+                params.amplitude,
+                params.spread.min,
+                params.spread.max
+            )
+        }
+
+        function applyCurveXD(pParams, params, curves) {
+            pParams[params.param] = [];
+            for (var i = 0; i < curves.length; i++) {
+                pParams[params.param][i] = createCurveParam(curves[i],
+                    params.amplitudes[i],
+                    params.spread.min,
+                    params.spread.max
+                )
+            }
+        }
+
 
         var ParticleParamParser = function() {
 
         };
 
-        function createCurveParam(curveId, amplitude, min, max) {
-            return new MATH.CurveState(MATH.curves[curveId], amplitude+MATH.randomBetween(amplitude*min, amplitude*max));
-        }
 
         ParticleParamParser.applyParamToParticle = function(particle, init_params) {
             if (init_params.value) {
-                particle.params[init_params.param] = {};
-                particle.params[init_params.param].value = MATH.randomBetween(init_params.value.min, init_params.value.max);
+                applyValue(particle.params, init_params.param, init_params.value);
             }
+
             if (init_params.vec2) {
-                if (!particle.params[init_params.param]) {
-                    particle.params[init_params.param] = new THREE.Vector2();
-                }
-                particle.params[init_params.param].x = init_params.vec2.x;
-                particle.params[init_params.param].y = init_params.vec2.y;
+                applyVec2(particle.params, init_params.param, init_params.vec2);
             }
 
             if (init_params.vec3) {
-                if (!particle.params[init_params.param]) {
-                    particle.params[init_params.param] = new THREE.Vector3();
-                } else {
-                    particle.params[init_params.param].x = 0;
-                    particle.params[init_params.param].y = 0;
-                    particle.params[init_params.param].z = 0;
-                }
-                particle.params[init_params.param].x = init_params.vec3.x + MATH.randomBetween(init_params.vec3.spread.min, init_params.vec3.spread.max);
-                particle.params[init_params.param].y = init_params.vec3.y + MATH.randomBetween(init_params.vec3.spread.min, init_params.vec3.spread.max);
-                particle.params[init_params.param].z = init_params.vec3.z + MATH.randomBetween(init_params.vec3.spread.min, init_params.vec3.spread.max);
-            //    particle.params[init_params.param].addVectors(particle.params[init_params.param], calcVec);
+                applyVec3(particle.params, init_params.param, init_params.vec3);
+            }
+
+            if (init_params.vec4) {
+                applyVec4(particle.params, init_params.param, init_params.vec4);
             }
 
             if (init_params.quat) {
-                if (!particle.params[init_params.param]) {
-                    particle.params[init_params.param] = new THREE.Quaternion();
-                }
-                particle.params[init_params.param].x =MATH.randomBetween(init_params.quat.spread.min, init_params.quat.spread.max);
-                particle.params[init_params.param].y =MATH.randomBetween(init_params.quat.spread.min, init_params.quat.spread.max);
-                particle.params[init_params.param].z =MATH.randomBetween(init_params.quat.spread.min, init_params.quat.spread.max);
-                particle.params[init_params.param].w =MATH.randomBetween(init_params.quat.spread.min, init_params.quat.spread.max);
-                particle.params[init_params.param].normalize();
-            }
-
-            if (init_params.curve3D) {
-                particle.params[init_params.param] = [];
-
-                for (var i = 0; i < init_params.curve3D.length; i++) {
-                    particle.params[init_params.param][i] = createCurveParam(
-                        init_params.curve3D[i],
-                        init_params.amplitudes[i],
-                        init_params.spread.min,
-                        init_params.spread.max
-                    )
-                }
+                applyQuat(particle.params, init_params.param, init_params.quat);
             }
 
             if (init_params.curve1D) {
-                particle.params[init_params.param] = createCurveParam(init_params.curve1D,
-                    init_params.amplitude,
-                    init_params.spread.min,
-                    init_params.spread.max)
+                applyCurve1D(particle.params, init_params, init_params.curve1D);
             }
 
+            if (init_params.curve3D) {
+                applyCurveXD(particle.params, init_params, init_params.curve3D);
+            }
+
+            if (init_params.curve4D) {
+                applyCurveXD(particle.params, init_params, init_params.curve4D);
+            }
         };
 
 

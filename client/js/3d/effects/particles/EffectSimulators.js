@@ -15,11 +15,19 @@ define([],
             target.addVectors(target, calcVec);
         };
 
+        function applyCurve4DFractionToVec4(source, target, fraction) {
+            target.x = source[0].amplitudeFromFraction(fraction);
+            target.y = source[1].amplitudeFromFraction(fraction);
+            target.z = source[2].amplitudeFromFraction(fraction);
+            target.w = source[3].amplitudeFromFraction(fraction);
+        };
+
         function applyCurve3DFractionToVec3(source, target, fraction) {
             target.x = source[0].amplitudeFromFraction(fraction);
             target.y = source[1].amplitudeFromFraction(fraction);
             target.z = source[2].amplitudeFromFraction(fraction);
         };
+
 
         function applyCurve1DFractionToValue(source, target, fraction) {
             target.value = source.amplitudeFromFraction(fraction);
@@ -81,6 +89,10 @@ define([],
 
         EffectSimulators.curve3DtoVec3 = function(particle, tpf, source, target) {
             applyCurve3DFractionToVec3(particle.params[source], particle.params[target], particle.progress)
+        };
+
+        EffectSimulators.curve4DtoVec4 = function(particle, tpf, source, target) {
+            applyCurve4DFractionToVec4(particle.params[source], particle.params[target], particle.progress)
         };
 
         EffectSimulators.curve1DtoValue = function(particle, tpf, source, target) {

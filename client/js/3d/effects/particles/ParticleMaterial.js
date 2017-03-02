@@ -58,7 +58,7 @@ define([
                     map:        {value:txSettings.texture},
                     tiles:      {value:new THREE.Vector2(txSettings.tiles_x, txSettings.tiles_y)}
                 },
-                side: THREE.FrontSide,
+                side: THREE.DoubleSide,
                 vertexShader: txSettings.shaders.vertex,
                 fragmentShader: txSettings.shaders.fragment,
                 depthTest: options.depthTest,

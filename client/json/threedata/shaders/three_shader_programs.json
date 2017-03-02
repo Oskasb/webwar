@@ -116,6 +116,13 @@
           "vPosition = vcV * (2.0 * orientation.w) + (cross(orientation.xyz, vcV) * 2.0 + vPosition);"
         ],
 
+
+        "vertexBillboardFinal":[
+
+          "gl_Position = projectionMatrix *(modelViewMatrix * vec4(offset, 1) + vec4(vPosition.xy, 0, 0));"
+
+        ],
+
         "vertexSpatialFinal":[
           "gl_Position = projectionMatrix * modelViewMatrix * vec4( offset + vPosition, 1.0 );"
         ],
@@ -160,7 +167,7 @@
           "vec4 txColor = texture2D( map, vUv);"
         ],
 
-        
+
 
         "fragmentBlendTxColorVertexColor":[
           "vec4 finalColor = txColor * vColor;"
