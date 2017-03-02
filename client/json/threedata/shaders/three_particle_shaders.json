@@ -143,8 +143,6 @@
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_predictive_simulation"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_data_texture"},
-          {"source":"INSTANCING_CHUNKS", "chunk":"vx_size"},
-          {"source":"INSTANCING_CHUNKS", "chunk":"vx_spatial"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv_tiles"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_billboard"},

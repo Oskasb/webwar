@@ -82,9 +82,21 @@ define(['3d/effects/particles/EffectSimulators',
                     this.simulators[i].target
                 );
             }
-        };        
-        
-                
+        };
+
+        ParticleEffect.prototype.updateGpuParticle = function(particle, tpf) {
+            for (var i = 0; i < 4; i++) {
+            //    if (this.simulators[i].process == "age" || this.simulators[i].process == "lifeTime" ) {
+                    EffectSimulators[this.simulators[i].process](
+                        particle,
+                        tpf,
+                        this.simulators[i].source,
+                        this.simulators[i].target
+                    );
+            //    }
+            }
+        };
+
         ParticleEffect.prototype.updateEffect = function(tpf) {
             this.age += tpf;
 
@@ -93,7 +105,12 @@ define(['3d/effects/particles/EffectSimulators',
                     EffectSimulators.dead(this.aliveParticles[i], tpf);
                     this.deadParticles.push(this.aliveParticles[i]);
                 } else {
-                    this.updateParticle(this.aliveParticles[i], tpf);
+                    if (this.aliveParticles[i].params.gpu_sim) {
+                        this.updateGpuParticle(this.aliveParticles[i], tpf)
+                    } else {
+                        this.updateParticle(this.aliveParticles[i], tpf);
+                    }
+
                 }
             }
 

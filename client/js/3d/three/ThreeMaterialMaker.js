@@ -52,6 +52,11 @@ define([
                 txSettings[key] = loadedTextures[key+'_'+data.textures[0][key]][matId];
             }
 
+            if (!data.shader) {
+                // just loading the texture...
+                return;
+            }
+
             materials[matId] = new THREE[data.shader](txSettings);
             PipelineAPI.setCategoryKeyValue('THREE_MATERIAL', matId, materials[matId]);
         //    console.log("Loaded all...", matId, loaded, data.textures[0]);

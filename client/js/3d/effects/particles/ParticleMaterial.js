@@ -60,6 +60,7 @@ define([
             };
 
             if (txSettings.data_texture) {
+            //    txSettings.data_texture.generateMipmaps = false;
                 uniforms.data_texture =  {value:txSettings.data_texture}
             }
 

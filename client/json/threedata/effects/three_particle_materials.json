@@ -6,12 +6,11 @@
           "id":"gpu_flat_sprite_atlas",
           "shader":"INSTANCING_GPU_FLAT_TEXTURED",
           "attributes": [
-            {"name":"offset",      "dimensions":3, "dynamic":false},
-            {"name":"orientation", "dimensions":4, "dynamic":false},
-            {"name":"tileindex",   "dimensions":2},
-            {"name":"size",        "dimensions":1, "dynamic":false},
-            {"name":"time",        "dimensions":1, "dynamic":false},
+            {"name":"time",        "dimensions":1, "dynamic":true},
             {"name":"duration",    "dimensions":1, "dynamic":false},
+            {"name":"offsetSize",  "dimensions":4, "dynamic":false},
+            {"name":"texelRowSelect", "dimensions":4, "dynamic":false},
+            {"name":"tileindex",   "dimensions":2},
             {"name":"diffusors",   "dimensions":4, "dynamic":false},
             {"name":"acceleration","dimensions":4, "dynamic":false},
             {"name":"velocity",    "dimensions":4, "dynamic":false}

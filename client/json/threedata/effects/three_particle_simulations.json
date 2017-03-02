@@ -5,27 +5,28 @@
         {
           "id":"gpu_test_simulation",
           "init_params":[
+            {"param":"gpu_sim",     "flag":true},
             {"param":"age",         "value":  {"min":0, "max":0}},
-            {"param":"lifeTime",    "value":  {"min":1, "max":4}},
-            {"param":"size",        "value":  {"min":3, "max":8}},
+            {"param":"lifeTime",    "value":  {"min":2, "max":4}},
             {"param":"tiles",       "value":  {"min":0.5, "max":1}},
-            {"param":"position",    "vec3":   {"x":0,   "y":0,   "z":0,            "spread":{"min":-0.2, "max":0.2}}},
-            {"param":"offset",      "vec3":   {"x":0,   "y":0,   "z":0,            "spread":{"min":-0.2, "max":0.2}}},
+            {"param":"position",    "vec4":   {"x":0,   "y":0,   "z":0,   "w":8,   "spread":{"min":-0.5, "max":0.0}}},
             {"param":"acceleration","vec4":   {"x":1,   "y":-9.82,"z":1,  "w":1,   "spread":{"min": 0,   "max":0}}},
             {"param":"velocity",    "vec4":   {"x":0,   "y":0,   "z":0,   "w":30,  "spread":{"min":-1,   "max":1}}},
-            {"param":"diffusors",   "vec4":   {"x":2.0,   "y":0.2, "z":1,   "w":1,   "spread":{"min": 0,   "max":0}}}
+            {"param":"texelRowSelect","vec4": {"x":7,   "y":6,   "z":6,   "w":8,   "spread":{"min": 0,   "max":0}}},
+            {"param":"diffusors",   "vec4":   {"x":0.5, "y":0.3, "z":1,   "w":1,   "spread":{"min": 0,   "max":0}}}
           ],
           "simulators":[
             {"process":"age",           "source":"age"        , "target":"age"          },
-            {"process":"attrib1D",      "source":"lifeTime"   , "target":"duration"     },
+            {"process":"lifeTime",      "source":"age"        , "target":"lifeTime"     },
             {"process":"attrib1D",      "source":"age"        , "target":"time"         },
-            {"process":"attrib1D",      "source":"size"       , "target":"size"         },
+            {"process":"attrib1D",      "source":"lifeTime"   , "target":"duration"     },
             {"process":"attrib2D",      "source":"tiles"      , "target":"tileindex"    },
-            {"process":"attrib3D",      "source":"position"   , "target":"offset"       },
+            {"process":"attrib4D",      "source":"position"   , "target":"offsetSize"   },
+            {"process":"attrib4D",      "source":"texelRowSelect", "target":"texelRowSelect"},
             {"process":"attrib4D",      "source":"diffusors"  , "target":"diffusors"    },
             {"process":"attrib4D",      "source":"acceleration","target":"acceleration" },
-            {"process":"attrib4D",      "source":"velocity",    "target":"velocity"     },
-            {"process":"lifeTime",      "source":"age"        , "target":"lifeTime"     }
+            {"process":"attrib4D",      "source":"velocity",    "target":"velocity"     }
+
           ]
         },
         {

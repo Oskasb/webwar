@@ -35,8 +35,8 @@ define([],
             this.buffers = {};
             this.attributes = {};
             this.params = {
-                position:new THREE.Vector3(),
-                velocity:new THREE.Vector3(),
+                position:new THREE.Vector4(),
+                velocity:new THREE.Vector4(),
                 size:{value:1}
             };
             this.progress = 0;

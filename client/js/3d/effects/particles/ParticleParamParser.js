@@ -9,6 +9,11 @@ define([],
             return new MATH.CurveState(MATH.curves[curveId], amplitude+MATH.randomBetween(amplitude*min, amplitude*max));
         }
 
+
+        function setFlag(pParams, param, value) {
+            pParams[param] = value;
+        }
+
         function applyValue(pParams, param, value) {
             pParams[param] = {};
             pParams[param].value = MATH.randomBetween(value.min, value.max);
@@ -91,6 +96,10 @@ define([],
 
 
         ParticleParamParser.applyParamToParticle = function(particle, init_params) {
+            if (init_params.flag) {
+                setFlag(particle.params, init_params.param, init_params.flag);
+            }
+
             if (init_params.value) {
                 applyValue(particle.params, init_params.param, init_params.value);
             }
