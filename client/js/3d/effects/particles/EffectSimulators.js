@@ -69,9 +69,9 @@ define([],
         };
 
         EffectSimulators.valueToQuat = function(particle, tpf, source, target) {
-        //    particle.params[target].x -= particle.params[source]*tpf;
-        //    particle.params[target].y += 0.001*Math.sin(particle.params[source]*tpf);
-        //    particle.params[target].z = Math.sin(particle.params[source]*tpf);
+            particle.params[target].x -= particle.params[source].value*tpf*4;
+            particle.params[target].y += Math.sin(particle.params[source].value*tpf);
+            particle.params[target].z = Math.sin(particle.params[source].value*tpf*5);
             particle.params[target].normalize();
         };
         

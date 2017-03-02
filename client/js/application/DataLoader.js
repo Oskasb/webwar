@@ -199,7 +199,7 @@ define([
                 }
 
                 if (loadState == loadStates.CONFIGS && remaining == 0) {
-                    console.log( "json files loaded.. go for the heavy stuff next.")
+                    console.log( "json cached:", PipelineAPI.getCachedConfigs());
                     loadState = loadStates.IMAGES;
                     loadStateChange(loadState);
                 }
