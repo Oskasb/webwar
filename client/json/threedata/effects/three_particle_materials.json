@@ -3,15 +3,33 @@
     "PARTICLE_MATERIALS": {
       "THREE":[
         {
-          "id":"sprite_atlas_opaque",
-          "shader":"INSTANCING_CPU_SPATIAL_TEXTURED",
+          "id":"gpu_flat_sprite_atlas",
+          "shader":"INSTANCING_GPU_FLAT_TEXTURED",
           "attributes": [
-            {"name":"offset",      "dimensions":3, "dynamic":true},
+            {"name":"offset",      "dimensions":3, "dynamic":false},
             {"name":"orientation", "dimensions":4, "dynamic":false},
             {"name":"tileindex",   "dimensions":2},
-            {"name":"size",        "dimensions":1, "dynamic":true},
-            {"name":"vertexColor", "dimensions":3, "dynamic":true},
-            {"name":"vertexAlpha", "dimensions":1, "dynamic":true}
+            {"name":"size",        "dimensions":1, "dynamic":false},
+            {"name":"vertexColor", "dimensions":3, "dynamic":false},
+            {"name":"vertexAlpha", "dimensions":1, "dynamic":false}
+          ],
+          "map":"./client/assets/images/effects/particle_atlas.png",
+
+          "settings":{
+            "tiles_x":12,
+            "tiles_y":12,
+            "flip_y":true
+          }
+        },{
+          "id":"spatial_sprite_atlas_cpu",
+          "shader":"INSTANCING_CPU_SPATIAL_TEXTURED",
+          "attributes": [
+            {"name":"offset",      "dimensions":3, "dynamic":false},
+            {"name":"orientation", "dimensions":4, "dynamic":false},
+            {"name":"tileindex",   "dimensions":2},
+            {"name":"size",        "dimensions":1, "dynamic":false},
+            {"name":"vertexColor", "dimensions":3, "dynamic":false},
+            {"name":"vertexAlpha", "dimensions":1, "dynamic":false}
           ],
           "map":"./client/assets/images/effects/particle_atlas.png",
 

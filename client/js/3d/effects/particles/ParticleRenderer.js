@@ -28,7 +28,8 @@ define([
         ParticleRenderer.prototype.setupRendererMaterial = function(rendererConfig) {
 
             var config = rendererConfig;
-            this.poolSize = config.particlePool;
+            this.poolSize = config.particle_pool;
+            this.particleGeometry = config.particle_geometry;
             this.particles = [];
             this.attributes = {};
             this.attributeConfigs = {};
@@ -77,7 +78,8 @@ define([
             if (this.particleBuffer) {
                 this.particleBuffer.dispose();
             }
-           this.particleBuffer = new ParticleBuffer(txSettings, ParticleMesh.cross3Verts(), ParticleMesh.boxUvs(), ParticleMesh.boxIndices());
+            var geom = ParticleMesh[this.particleGeometry]();
+           this.particleBuffer = new ParticleBuffer(txSettings, geom.verts, geom.uvs, geom.indices);
 
             for (var key in this.attributes) {
                 this.particleBuffer.geometry.addAttribute( key, this.attributes[key] );

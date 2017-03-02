@@ -5,6 +5,26 @@
 define([],
     function() {
 
+        var quadVerts = [
+            -1,  1, 0,
+            1,   1, 0,
+            -1, -1, 0,
+            1,  -1, 0
+        ];
+
+        var quadUvs = [
+            0, 0,
+            1, 0,
+            0, 1,
+            1, 1
+        ];
+
+        var quadInds =[
+            0, 1, 2,
+            2, 1, 3
+        ];
+
+
         var cross3Verts = [
             // Front
             -1,  1, 0,
@@ -123,23 +143,19 @@ define([],
 
         };
 
-        ParticleMesh.cross3Verts = function() {
-            return cross3Verts;
+        ParticleMesh.cross3d = function() {
+            return {verts:cross3Verts, indices:boxIndices, uvs:boxUvs};
+        };
+
+        ParticleMesh.quad = function() {
+            return {verts:quadVerts, indices:quadInds, uvs:quadUvs};
+        };
+
+        ParticleMesh.box3d = function() {
+            return {verts:boxVerts, indices:boxIndices, uvs:boxUvs};
         };
 
 
-        ParticleMesh.boxVerts = function() {
-            return boxVerts;
-        };
-
-        ParticleMesh.boxUvs = function() {
-            return boxUvs;
-        };
-
-        ParticleMesh.boxIndices = function() {
-            return boxIndices;
-        };
-        
         return ParticleMesh;
 
     });

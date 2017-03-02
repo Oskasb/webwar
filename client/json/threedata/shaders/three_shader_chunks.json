@@ -257,7 +257,10 @@
 
         "vx_spatial":[
           "attribute vec3 vertexPosition;",
-          "attribute vec3 offset;",
+          "attribute vec3 offset;"
+        ],
+
+        "vx_orientation_quat":[
           "attribute vec4 orientation;"
         ],
 

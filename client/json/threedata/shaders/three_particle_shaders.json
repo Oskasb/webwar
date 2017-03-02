@@ -112,6 +112,7 @@
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_size"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_spatial"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_orientation_quat"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv_tiles"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_attribute_vertexColor"},
@@ -119,6 +120,35 @@
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexColorFromAttribColor3Alpha1"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPositionMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSpatialMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSizeMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSpatialFinal"},
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ],
+        "fragment": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_view"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_uv"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_alphaTest"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_attribute_vertexColor"},
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentColoredTextureMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentBlendTxColorVertexColor"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentAlphaTest"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentVColorFinal"},
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ]
+      },
+      "INSTANCING_GPU_FLAT_TEXTURED": {
+        "vertex": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_size"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_spatial"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv_tiles"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_attribute_vertexColor"},
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexColorFromAttribColor3Alpha1"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPositionMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSizeMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSpatialFinal"},

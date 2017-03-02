@@ -68,8 +68,8 @@ define(['PipelineObject'],
 
         ParticleEffectData.prototype.buildEffect = function(store, key, id) {
             store.effect = this.fetchEffect(key, id);
-            store.simulation = this.fetchSimulation(store.effect.simulation_key, store.effect.simulation_id);
-            store.particle = this.fetchParticle(store.effect.particle_key,store.effect.particle_id);
+            store.simulation = this.fetchSimulation(store.effect.system_key, store.effect.simulation_id);
+            store.particle = this.fetchParticle(store.effect.system_key,store.effect.particle_id);
             store.sprite = this.fetchSprite(store.particle.sprite_key,store.particle.sprite_id);
             return store;
         };
