@@ -310,14 +310,17 @@
           "}",
           ""
         ],
-        "vx_attribute_color":[
-          "attribute vec3 customColor;",
-          "varying vec3 vColor;"
+        "vx_attribute_vertexColor":[
+          "attribute vec3 vertexColor;",
+          "attribute float vertexAlpha;",
+          "varying vec4 vColor;"
         ],
-        "fx_attribute_color":[
-          "uniform vec3 color;",
-          "uniform sampler2D texture;",
-          "varying vec3 vColor;"
+        "fx_attribute_vertexColor":[
+          "varying vec4 vColor;"
+        ],
+
+        "fx_texture_txColor":[
+
         ]
       }
     }

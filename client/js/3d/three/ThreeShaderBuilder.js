@@ -34,7 +34,7 @@ define([
             if ( !gl.getShaderParameter( shader, gl.COMPILE_STATUS ) ) {
                 var error = gl.getShaderInfoLog( shader );
 
-                console.error( error );
+                console.error( [shader],error );
                 evt.fire(evt.list().MESSAGE_UI, {channel:'receive_error', message:'Shader Compile Error'});
 
                 while (index >= 0) {

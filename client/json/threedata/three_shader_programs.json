@@ -123,6 +123,13 @@
         "vertexUvMain":[
           "vUv = uv;"
         ],
+
+        "fragmentTxColorMain":[
+
+
+          "gl_FragColor = texture2D(map, vUv);"
+        ],
+
         "fragmentUvMain":[
           "gl_FragColor = texture2D(map, vUv);"
         ],
@@ -136,8 +143,24 @@
           "vUv = scaledUv + tileOffset;"
         ],
 
+        "vertexColorFromAttribColor3Alpha1":[
+          "vColor = vec4(vertexColor.x, 0.0, 0.0, vertexAlpha);"
+        ],
+
         "fragmentUvTilesMain":[
           "gl_FragColor = texture2D( map, vUv);"
+        ],
+
+        "fragmentColoredTextureMain":[
+          "vec4 txColor = texture2D( map, vUv);"
+        ],
+
+        "fragmentBlendTxColorVertexColor":[
+          "vec4 finalColor = txColor * vColor;"
+        ],
+
+        "fragmentVColorFinal":[
+          "gl_FragColor = finalColor;"
         ],
 
         "particleVertexMain":[

@@ -9,7 +9,9 @@
             {"name":"offset",      "dimensions":3, "dynamic":true},
             {"name":"orientation", "dimensions":4, "dynamic":false},
             {"name":"tileindex",   "dimensions":2},
-            {"name":"size",        "dimensions":1, "dynamic":true}
+            {"name":"size",        "dimensions":1, "dynamic":true},
+            {"name":"vertexColor", "dimensions":3, "dynamic":true},
+            {"name":"vertexAlpha", "dimensions":1, "dynamic":true}
           ],
           "map":"./client/assets/images/effects/particle_atlas.png",
 
