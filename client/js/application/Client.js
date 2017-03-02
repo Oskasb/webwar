@@ -274,7 +274,7 @@ define([
             aggDiff += tpf-exactTpf;
 
             if (Math.abs(tpf-exactTpf) < 0.002) {
-                tpf = exactTpf;
+        //        tpf = exactTpf;
 
             } else {
        //         console.log("Big DT", tpf, exactTpf, aggDiff);

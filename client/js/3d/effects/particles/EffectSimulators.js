@@ -7,10 +7,12 @@ define([],
 
         var calcVec = new THREE.Vector3();
 
-        function addVectorsTpf(target, source, tpf) {
-            calcVec.copy(source);
+        function addVectorsTpf(source, target, tpf) {
+            calcVec.x = source.x;
+            calcVec.y = source.y;
+            calcVec.z = source.z;
             calcVec.multiplyScalar(tpf);
-            source.addVectors(target, calcVec);
+            target.addVectors(target, calcVec);
         };
 
         function applyCurve3DFractionToVec3(source, target, fraction) {
@@ -47,7 +49,7 @@ define([],
         };
 
         EffectSimulators.addVelocity = function(particle, tpf, source, target) {
-            addVectorsTpf(particle.params[target], particle.params[source], tpf);
+            addVectorsTpf(particle.params[source], particle.params[target], tpf);
         };
 
         EffectSimulators.diffusion = function(particle, tpf, source, target) {

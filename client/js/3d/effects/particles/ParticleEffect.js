@@ -8,8 +8,7 @@ define(['3d/effects/particles/EffectSimulators',
              ParticleParamParser
     ) {
 
-        var calcVec = new THREE.Vector3();
-        
+
         var ParticleEffect = function() {
             this.lastTpf = 0.016;
             this.effectData = {};
@@ -25,11 +24,15 @@ define(['3d/effects/particles/EffectSimulators',
         };
 
         ParticleEffect.prototype.setEffectPosition = function(pos) {
-            this.pos.copy(pos);
+            this.pos.x = pos.x;
+            this.pos.y = pos.y;
+            this.pos.z = pos.z;
         };
 
         ParticleEffect.prototype.setEffectVelocity = function(vel) {
-            this.vel.copy(vel);
+            this.vel.x = vel.x;
+            this.vel.y = vel.y;
+            this.vel.z = vel.z;
         };
 
         ParticleEffect.prototype.attachSimulators = function() {
@@ -59,14 +62,12 @@ define(['3d/effects/particles/EffectSimulators',
 
         ParticleEffect.prototype.includeParticle = function(particle, index, allowedCount) {
 
-            particle.setPosition(this.pos);
-            particle.setVelocity(this.vel);
-
             var init_params = this.effectData.simulation.init_params;
 
             ParticleParamParser.applyEffectParams(particle, init_params);
             ParticleParamParser.applyEffectSprite(particle, this.effectData.sprite);
             
+            particle.initToSimulation(this.pos, this.vel);
             
             this.updateParticle(particle, this.lastTpf*(index/allowedCount));
         };
@@ -74,7 +75,12 @@ define(['3d/effects/particles/EffectSimulators',
 
         ParticleEffect.prototype.updateParticle = function(particle, tpf) {
             for (var i = 0; i < this.simulators.length; i++) {
-                EffectSimulators[this.simulators[i].process](particle, tpf, this.simulators[i].source, this.simulators[i].target);
+                EffectSimulators[this.simulators[i].process](
+                    particle,
+                    tpf,
+                    this.simulators[i].source,
+                    this.simulators[i].target
+                );
             }
         };        
         

@@ -31,11 +31,15 @@ define([],
             if (init_params.vec3) {
                 if (!particle.params[init_params.param]) {
                     particle.params[init_params.param] = new THREE.Vector3();
+                } else {
+                    particle.params[init_params.param].x = 0;
+                    particle.params[init_params.param].y = 0;
+                    particle.params[init_params.param].z = 0;
                 }
-                calcVec.x = init_params.vec3.x + MATH.randomBetween(init_params.vec3.spread.min, init_params.vec3.spread.max);
-                calcVec.y = init_params.vec3.y + MATH.randomBetween(init_params.vec3.spread.min, init_params.vec3.spread.max);
-                calcVec.z = init_params.vec3.z + MATH.randomBetween(init_params.vec3.spread.min, init_params.vec3.spread.max);
-                particle.params[init_params.param].addVectors(particle.params[init_params.param], calcVec);
+                particle.params[init_params.param].x = init_params.vec3.x + MATH.randomBetween(init_params.vec3.spread.min, init_params.vec3.spread.max);
+                particle.params[init_params.param].y = init_params.vec3.y + MATH.randomBetween(init_params.vec3.spread.min, init_params.vec3.spread.max);
+                particle.params[init_params.param].z = init_params.vec3.z + MATH.randomBetween(init_params.vec3.spread.min, init_params.vec3.spread.max);
+            //    particle.params[init_params.param].addVectors(particle.params[init_params.param], calcVec);
             }
 
             if (init_params.quat) {

@@ -7,7 +7,7 @@
           "renderer_id":"opaque_atlas_renderer",
           "particle_key":"THREE",
           "particle_id":"default",
-          "count":3,
+          "count":15,
           "simulation_key":"THREE",
           "simulation_id":"test_simulation"
         }

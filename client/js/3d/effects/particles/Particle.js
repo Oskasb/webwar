@@ -19,12 +19,22 @@ define([],
             this.attributeBuffers = {};
         };
 
-        Particle.prototype.setPosition = function(pos) {
-            this.params.position.copy(pos);
+        Particle.prototype.initToSimulation = function(pos, vel) {
+            this.progress = 0;
+            this.addPosition(pos);
+            this.addVelocity(vel);
+        };
+        
+        Particle.prototype.addPosition = function(pos) {
+            this.params.position.x += pos.x;
+            this.params.position.y += pos.y;
+            this.params.position.z += pos.z;
         };
 
-        Particle.prototype.setVelocity = function(vel) {
-            this.params.velocity.copy(vel);
+        Particle.prototype.addVelocity = function(vel) {
+            this.params.velocity.x += vel.x;
+            this.params.velocity.y += vel.y;
+            this.params.velocity.z += vel.z;
         };
 
 
