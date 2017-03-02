@@ -31,18 +31,22 @@
 
       "modules/canvas_systems.json",
       "modules/canvas3d_elements.json",
-      "threedata/three_materials.json",
-      "threedata/three_models.json",
-      "threedata/three_environment.json",
-      "threedata/three_shader_chunks.json",
-      "threedata/three_particle_shaders.json",
-      "threedata/three_particle_renderers.json",
-      "threedata/three_particle_materials.json",
-      "threedata/three_particle_simulations.json",
-      "threedata/three_particle_effects.json",
-      "threedata/three_particle_sprites.json",
-      "threedata/three_particles.json",
-      "threedata/three_shader_programs.json",
+      
+      "threedata/models/three_materials.json",
+      "threedata/models/three_models.json",
+      "threedata/models/three_environment.json",
+
+      "threedata/shaders/three_shader_chunks.json",
+      "threedata/shaders/three_particle_shaders.json",
+      "threedata/shaders/three_shader_programs.json",
+
+      "threedata/effects/three_particle_renderers.json",
+      "threedata/effects/three_particle_materials.json",
+      "threedata/effects/three_particle_simulations.json",
+      "threedata/effects/three_particle_effects.json",
+      "threedata/effects/three_particle_sprites.json",
+      "threedata/effects/three_particles.json",
+
 
       "system_setup.json"
     ]
