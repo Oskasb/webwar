@@ -150,6 +150,7 @@
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexColorFromAttribColor4"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPositionMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPredictiveMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSizeMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexBillboardFinal"},

@@ -107,9 +107,21 @@
           "vec3 vPosition = vertexPosition;"
         ],
 
+
+
         "vertexSizeMain":[
           "vPosition = vPosition * size;"
         ],
+
+
+        "vertexPredictiveMain":[
+          "float verticalComponent = velocity.y * time  + 0.5 * acceleration.y * time * time;",
+          "vec3 velInfluence = vec3(velocity.x * time, verticalComponent,  velocity.z * time);",
+
+          "vec3 acceleratedInfluence = velInfluence;",
+          "velocityOffset = offset + acceleratedInfluence;"
+        ],
+
 
         "vertexSpatialMain":[
           "vec3 vcV = cross(orientation.xyz, vPosition);",
@@ -117,9 +129,10 @@
         ],
 
 
+
         "vertexBillboardFinal":[
 
-          "gl_Position = projectionMatrix *(modelViewMatrix * vec4(offset, 1) + vec4(vPosition.xy, 0, 0));"
+          "gl_Position = projectionMatrix *(modelViewMatrix * vec4(velocityOffset, 1) + vec4(vPosition.xy, 0, 0));"
 
         ],
 
