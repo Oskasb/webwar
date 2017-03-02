@@ -261,10 +261,23 @@
           "attribute vec2 uv;",
           "varying vec2 vUv;"
         ],
+
+
         "fx_uv":[
           "uniform sampler2D map;",
           "varying vec2 vUv;"
         ],
+
+        "vx_uv_tiles":[
+          "attribute vec2 tileindex;",
+          "uniform vec2 tiles;",
+          "varying vec2 tileOffset;"
+        ],
+
+        "fx_uv_tiles":[
+          "varying vec2 tileOffset;"
+        ],
+
         "vx_init":[
           "uniform float time;",
           "attribute vec2 uv;",

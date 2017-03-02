@@ -2,12 +2,16 @@
 
 define([
         '3d/effects/particles/ParticleMaterial',
+        '3d/effects/particles/ParticleMesh',
         '3d/effects/particles/ParticleBuffer',
+
         '3d/effects/particles/Particle',
         'PipelineObject'
+
     ],
     function(
         ParticleMaterial,
+        ParticleMesh,
         ParticleBuffer,
         Particle,
         PipelineObject
@@ -30,8 +34,8 @@ define([
             this.attributeConfigs = {};
             this.particleMaterial = {};
 
-            var setupBuffers = function() {
-                this.buildMeshBuffer(config);
+            var setupBuffers = function(txSettings) {
+                this.buildMeshBuffer(config, txSettings);
                 this.attachMaterial();
                 this.createParticles();
             }.bind(this);
@@ -39,8 +43,8 @@ define([
 
             var particleMaterialData = function(src, data) {
 
-                var materialReady = function() {
-                    setupBuffers()
+                var materialReady = function(txSettings) {
+                    setupBuffers(txSettings)
                 };
 
                 for (var i = 0; i < data.length; i++) {
@@ -69,11 +73,11 @@ define([
              new ParticleMaterial(rendererConfig.material_options, material_config, this.particleMaterial, readyCB);
         };
 
-        ParticleRenderer.prototype.buildMeshBuffer = function(rendererConfig) {
+        ParticleRenderer.prototype.buildMeshBuffer = function(rendererConfig, txSettings) {
             if (this.particleBuffer) {
                 this.particleBuffer.dispose();
             }
-           this.particleBuffer = new ParticleBuffer(rendererConfig, this.particleMaterial);
+           this.particleBuffer = new ParticleBuffer(txSettings, ParticleMesh.boxVerts(), ParticleMesh.boxUvs(), ParticleMesh.boxIndices());
 
             for (var key in this.attributes) {
                 this.particleBuffer.geometry.addAttribute( key, this.attributes[key] );

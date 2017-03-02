@@ -15,7 +15,12 @@ define([
         var configureTXSettings = function(txMatSettings, texture) {
             var options = utils.ensureTypedArg( txMatSettings, types.OBJECT, {} );
             var txSettings = {};
-            txSettings.texture           =  utils.ensureInstanceOf( texture, THREE.Texture, null );
+            txSettings.texture  =  utils.ensureInstanceOf( texture, THREE.Texture, null );
+            txSettings.tiles_x = utils.ensureTypedArg( options.settings.tiles_x, types.NUMBER, 1 );
+            txSettings.tiles_y = utils.ensureTypedArg( options.settings.tiles_y, types.NUMBER, 1 );
+
+            txSettings.texture.flipY = false;
+
             return txSettings;
         };
 
@@ -49,7 +54,8 @@ define([
 
             var material = new THREE.RawShaderMaterial({
                 uniforms: {
-                    map:   {value:txSettings.texture}
+                    map:   {value:txSettings.texture},
+                    tiles: {value:new THREE.Vector2(txSettings.tiles_x, txSettings.tiles_y)}
                 },
                 side: THREE.FrontSide,
                 vertexShader: txSettings.shaders.vertex,
@@ -82,7 +88,7 @@ define([
             var applyShaders = function(src, data) {
                 txSettings.shaders = data;
                 createMaterial(options, txSettings);
-                readyCallback()
+                readyCallback(txSettings)
             };
 
             var applyTexture = function(src, data) {

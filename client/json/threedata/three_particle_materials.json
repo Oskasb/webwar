@@ -13,7 +13,10 @@
           ],
           "map":"./client/assets/images/effects/particle_atlas.png",
 
-          "settings":{}
+          "settings":{
+            "tiles_x":12,
+            "tiles_y":12
+          }
         },{
           "id":"instancing_mix_opaque",
           "shader":"INSTANCING_MIX",
@@ -24,7 +27,10 @@
           ],
           "map":"./client/assets/images/effects/particle_atlas.png",
 
-          "settings":{}
+          "settings":{
+            "tiles_x":12,
+            "tiles_y":12
+          }
         }
       ]
     }
