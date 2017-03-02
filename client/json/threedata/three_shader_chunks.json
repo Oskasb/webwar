@@ -251,6 +251,10 @@
         "fx_view":[
           "precision highp float;"
         ],
+        "vx_size":[
+          "attribute float size;"
+        ],
+
         "vx_spatial":[
           "attribute vec3 vertexPosition;",
           "attribute vec3 offset;",

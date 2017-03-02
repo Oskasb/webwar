@@ -110,6 +110,7 @@
       "INSTANCING_SPATIAL_TEXTURED": {
         "vertex": [
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_size"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_spatial"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv_tiles"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv"},
@@ -117,6 +118,8 @@
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPositionMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSpatialMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSizeMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSpatialFinal"},
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ],
         "fragment": [
