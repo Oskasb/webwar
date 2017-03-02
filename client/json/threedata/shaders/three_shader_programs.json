@@ -147,6 +147,11 @@
           "vColor = vec4(vertexColor.x, vertexColor.y, vertexColor.z, vertexAlpha);"
         ],
 
+        "vertexColorFromAttribColor4":[
+          "vColor = vec4(vertexColor.x, vertexColor.y, vertexColor.z,  vertexColor.w);"
+        ],
+
+
         "fragmentUvTilesMain":[
           "gl_FragColor = texture2D( map, vUv);"
         ],
@@ -155,9 +160,13 @@
           "vec4 txColor = texture2D( map, vUv);"
         ],
 
+        
+
         "fragmentBlendTxColorVertexColor":[
           "vec4 finalColor = txColor * vColor;"
         ],
+
+
 
         "fragmentAlphaTest":[
           "if (finalColor.a <= alphaTest) discard;"

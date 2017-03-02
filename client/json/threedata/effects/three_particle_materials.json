@@ -10,8 +10,7 @@
             {"name":"orientation", "dimensions":4, "dynamic":false},
             {"name":"tileindex",   "dimensions":2},
             {"name":"size",        "dimensions":1, "dynamic":false},
-            {"name":"vertexColor", "dimensions":3, "dynamic":false},
-            {"name":"vertexAlpha", "dimensions":1, "dynamic":false}
+            {"name":"vertexColor", "dimensions":4, "dynamic":false}
           ],
           "map":"./client/assets/images/effects/particle_atlas.png",
 

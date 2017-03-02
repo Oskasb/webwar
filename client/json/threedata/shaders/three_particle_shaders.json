@@ -2,8 +2,8 @@
   {
     "SHADERS_THREE": {
       "LOAD_SHADER_INDEX":[
-        "INSTANCING_CPU_SPATIAL_TEXTURED"
-
+        "INSTANCING_CPU_SPATIAL_TEXTURED",
+        "INSTANCING_GPU_FLAT_TEXTURED"
       ],
       "SPE_PARTICLE_SHADER":{
         "vertex":[
@@ -141,13 +141,14 @@
       "INSTANCING_GPU_FLAT_TEXTURED": {
         "vertex": [
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_predictive_simulation"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_size"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_spatial"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv_tiles"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv"},
-          {"source":"INSTANCING_CHUNKS", "chunk":"vx_attribute_vertexColor"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_attribute_vertexColor4"},
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
-          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexColorFromAttribColor3Alpha1"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexColorFromAttribColor4"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPositionMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSizeMain"},

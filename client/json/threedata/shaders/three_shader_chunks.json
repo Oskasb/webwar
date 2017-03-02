@@ -251,6 +251,15 @@
         "fx_view":[
           "precision highp float;"
         ],
+
+
+        "vx_predictive_simulation":[
+          "attribute float time;",
+          "attribute float duration;",
+          "attribute vec3 velocity;",
+          "attribute vec3 acceleration;"
+        ],
+
         "vx_size":[
           "attribute float size;"
         ],
@@ -313,6 +322,11 @@
           "}",
           ""
         ],
+        "vx_attribute_vertexColor4":[
+          "attribute vec4 vertexColor;",
+          "varying vec4 vColor;"
+        ],
+
         "vx_attribute_vertexColor":[
           "attribute vec3 vertexColor;",
           "attribute float vertexAlpha;",
