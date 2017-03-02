@@ -21,7 +21,7 @@
             {"param":"velocity",    "vec3":   {"x":0,   "y":0,   "z":0,          "spread":{"min":-0.2, "max":0.2}}},
             {"param":"opacityCurve","curve1D":["quickInOut"], "amplitude":0.8,   "spread":{"min":-0.2, "max":0.2}},
             {"param":"sizeCurve",   "curve1D":["quickInOut"], "amplitude":0.41,       "spread":{"min":-0.2, "max":0.2}},
-            {"param":"colorCurve",  "curve3D":["zeroToOne", "attackIn",  "quickInOut"], "amplitudes":[0.8, 0.7, 0.5], "spread":{"min":-0.2, "max":0.2}},
+            {"param":"colorCurve",  "curve3D":["oneToZero", "oneZeroOne", "zeroToOne"], "amplitudes":[0.8, 0.8, 0.8], "spread":{"min":-0.2, "max":0.2}},
             {"param":"vertexColor", "vec3":   {"x":0.5, "y":0.5, "z":0.5,         "spread":{"min":-0.5, "max":0.5}}}
 
           ],

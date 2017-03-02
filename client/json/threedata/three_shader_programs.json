@@ -144,7 +144,7 @@
         ],
 
         "vertexColorFromAttribColor3Alpha1":[
-          "vColor = vec4(vertexColor.x, 0.0, 0.0, vertexAlpha);"
+          "vColor = vec4(vertexColor.x, vertexColor.y, vertexColor.z, vertexAlpha);"
         ],
 
         "fragmentUvTilesMain":[
