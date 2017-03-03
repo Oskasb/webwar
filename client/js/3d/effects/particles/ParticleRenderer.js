@@ -22,7 +22,6 @@ define([
             this.id = rendererConfig.id;
             this.on = false;
             this.setupRendererMaterial(rendererConfig);
-            this.frameActiveParticles = 0;
         };
 
         ParticleRenderer.prototype.setupRendererMaterial = function(rendererConfig) {
@@ -79,7 +78,7 @@ define([
                 this.particleBuffer.dispose();
             }
             var geom = ParticleMesh[this.particleGeometry]();
-           this.particleBuffer = new ParticleBuffer(txSettings, geom.verts, geom.uvs, geom.indices);
+            this.particleBuffer = new ParticleBuffer(txSettings, geom.verts, geom.uvs, geom.indices);
 
             for (var key in this.attributes) {
                 this.particleBuffer.geometry.addAttribute( key, this.attributes[key] );

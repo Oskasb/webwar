@@ -23,7 +23,8 @@ define(function() {
 		MESSAGE_UI:{type:'MESSAGE_UI', args:{}},
 		MESSAGE_POPUP:{type:'MESSAGE_POPUP', args:{}},
 
-
+		
+		TICK_STATUS_MONITOR:{type:'TICK_STATUS_MONITOR', args:{data:{}}},
 
 		CLIENT_TICK:{type:'CLIENT_TICK', args:{data:{}}},
         CAMERA_TICK:{type:'CAMERA_TICK', args:{data:{}}},

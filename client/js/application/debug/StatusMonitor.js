@@ -3,11 +3,13 @@
 
 define([
         'Events',
-        'PipelineAPI'
+        'PipelineAPI',
+        './MonitorEffectAPI'
     ],
     function(
         evt,
-        PipelineAPI
+        PipelineAPI,
+        MonitorEffectAPI
     ) {
 
         var StatusMonitor = function() {
@@ -15,22 +17,22 @@ define([
             var _this=this;
 
             var monitorStatus = function(e) {
-                _this.registerStatus(evt.args(e))
+                _this.registerStatus(evt.args(e));
+            //    _this.monitorEffectAPI()
             };
 
             evt.on(evt.list().MONITOR_STATUS, monitorStatus);
             this.monitorSystem();
-
-            this.monitorPipeline();
+            
+            var tickMonitors = function() {
+                _this.tickMonitors();   
+            };
+            
+            evt.on(evt.list().TICK_STATUS_MONITOR, tickMonitors);
         };
 
         StatusMonitor.prototype.registerStatus = function(data) {
-
-        //    if (data.value != PipelineAPI.readCachedConfigKey('STATUS', data.key)) {
-                PipelineAPI.setCategoryData('STATUS', data);
-        //    }
-
-
+            PipelineAPI.setCategoryData('STATUS', data);
         };
 
         StatusMonitor.prototype.monitorSystem = function() {
@@ -39,19 +41,21 @@ define([
                 evt.fire(evt.list().MONITOR_STATUS, {MON_TRAFFIC:DEBUG.trackTraffic});
                 evt.fire(evt.list().MONITOR_STATUS, {MON_TPF:DEBUG.trackTpf});
                 evt.fire(evt.list().MONITOR_STATUS, {MON_SPATIAL:DEBUG.monitorSpatial});
-            //    evt.fire(evt.list().MONITOR_STATUS, {FILE_CACHE:DEBUG.monitorFiles});
                 evt.fire(evt.list().MONITOR_STATUS, {MON_MODULES:DEBUG.monitorModules});
-                
                 evt.fire(evt.list().MONITOR_STATUS, {PIPELINE:PipelineAPI.getPipelineOptions('jsonPipe').polling.enabled});
             }
 
             PipelineAPI.subscribeToCategoryKey("setup", "DEBUG", applyDebugConfig);
         };
 
-        StatusMonitor.prototype.monitorPipeline = function() {
+        
 
+        StatusMonitor.prototype.tickMonitors = function() {
+            evt.fire(evt.list().MONITOR_STATUS, {CACHE_READS:PipelineAPI.sampleCacheReadCount()});
+            MonitorEffectAPI.tickEffectMonitor();
         };
-
+        
+        
         return StatusMonitor;
 
     });

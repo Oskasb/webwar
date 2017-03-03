@@ -389,7 +389,7 @@
           "parentId": "monitorContainer2",
           "style": ["data_list_container"],
           "dataField":{
-            "dataKeys":["FILE_CACHE", "CAMERA", "MON_SERVER", "MON_TPF", "MON_TRAFFIC", "PIPELINE"],
+            "dataKeys":["FILE_CACHE", "CAMERA", "MON_SERVER", "MON_TPF", "MON_TRAFFIC", "PIPELINE", "CACHE_READS"],
             "dataCategory":"STATUS"
           }
         }
@@ -422,7 +422,7 @@
           "parentId": "monitorContainer3",
           "style": ["data_list_container"],
           "dataField":{
-            "dataKeys":["FANCY_PARTICLES","FANCY_SIMULATIONS", "CHEAP_PARTICLES","CHEAP_SIMULATORS", "MATERIALS", "CLIENT_PIECES", "SERVER_PIECES", "SERVER_PLAYERS"],
+            "dataKeys":["PARTICLE_POOL", "RENDERERS", "EFFECT_POOL", "EFFECTS", "PARTICLES", "FX_ADDS", "CLIENT_PIECES", "SERVER_PIECES", "SERVER_PLAYERS"],
             "dataCategory":"STATUS"
           }
         }

@@ -31,7 +31,7 @@
             "acceleration":1,
             "spinAcceleration":0.8,
             "lifeTime":{"min":0.3,"max":0.3},
-            "colorCurve":"warmFire",
+            "colorCurve":"hotFire",
             "diffusionCurve":"zeroOneZero",
             "scaleCurve":"quickInSlowOut",
             "dragCurve":"zeroToOne",

@@ -41,9 +41,16 @@ define([
 
             this.currentValue = value;
 
+            var tickStatusMonitor = function() {
+                evt.fire(evt.list().TICK_STATUS_MONITOR, {})  
+            };
+            
+            
             if (value == 1 && this.panel == null) {
                 this.panel = new DomPanel(GameScreen.getElement(), 'dev_panel');
+                evt.on(evt.list().CLIENT_TICK, tickStatusMonitor);
             } else if (this.panel) {
+                evt.removeListener(evt.list().CLIENT_TICK, tickStatusMonitor);
                 this.panel.removeGuiPanel();
                 this.panel = null;
             }

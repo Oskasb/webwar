@@ -21,6 +21,8 @@ define([
         var activeEffects = [];
         var idleEffects = [];
         var endedEffects = [];
+        var fxAdds = 0;
+
 
         var ParticleSpawner = function() {
             this.particleEffectData = new ParticleEffectData();
@@ -57,6 +59,7 @@ define([
         
         
         ParticleSpawner.prototype.spawnParticleEffect = function(id, pos, vel) {
+            fxAdds++
             var effect;
             if (idleEffects.length != 0) {
                 effect = idleEffects.pop();
@@ -79,16 +82,11 @@ define([
         };
 
         ParticleSpawner.prototype.updateSpawnedParticles = function(tpf) {
-
-            if (Math.random() < 0.1) {
-            //    this.spawnParticleEffect('test_effect');
-            }
+            
 
             for (var i = 0; i < activeEffects.length; i++) {
 
                 if (activeEffects[i].aliveParticles.length != 0) {
-                //
-                //
                     activeEffects[i].updateEffect(tpf);
                 } else {
                     // list for removal here...
@@ -99,10 +97,64 @@ define([
             while (endedEffects.length) {
                 idleEffects.push(activeEffects.splice(activeEffects.indexOf(endedEffects.pop()), 1).pop());
             }
+        };
 
+        
+        
+        ParticleSpawner.prototype.getTotalParticlePool = function() {
+            var poolTotal = 0;
+            
             for (var key in renderers) {
-                renderers[key].updateParticleRenderer(tpf);
+                poolTotal += renderers[key].particles.length;
             }
+
+            for (var i = 0; i < activeEffects.length; i++) {
+                poolTotal += activeEffects[i].aliveParticles.length + activeEffects[i].deadParticles.length;
+            }
+
+            for  (var i = 0; i < idleEffects.length; i++) {
+                poolTotal += idleEffects[i].aliveParticles.length + idleEffects[i].deadParticles.length;
+            }
+            return poolTotal;
+        };
+
+        ParticleSpawner.prototype.getTotalEffectPool = function() {
+            return activeEffects.length + idleEffects.length;
+        };
+
+        var activeRenderes = 0;
+        
+        ParticleSpawner.prototype.getActiveRendererCount = function() {
+            return activeRenderes;
+        };
+        
+        ParticleSpawner.prototype.getActiveEffectsCount = function() {
+            return activeEffects.length;
+        };
+
+        ParticleSpawner.prototype.getActiveParticlesCount = function() {
+
+            var count = 0;
+            activeRenderes = 0;
+     
+            for (var i = 0; i < activeEffects.length; i++) {
+                count += activeEffects[i].aliveParticles.length;
+            };
+            
+            
+            for (var key in renderers) {
+                var activeParticles = renderers[key].poolSize - renderers[key].particles.length;
+                if (activeParticles) {
+                    activeRenderes++;
+                }
+            }
+            return count;
+        };
+
+        ParticleSpawner.prototype.getEffectActivationCount = function() {
+            var adds = fxAdds;
+            fxAdds = 0;
+            return adds;
         };
         
         return ParticleSpawner;

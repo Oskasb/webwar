@@ -29,7 +29,7 @@ var threeQuat;
 
 
 var fixedTimeStep = 1.0 / 60.0; // seconds
-var maxSubSteps = 3;
+var maxSubSteps = 5;
 // Global settings
 var settings = {
     stepFrequency: 60,
@@ -108,7 +108,7 @@ PhysicsFunctions.prototype.createCannonWorld = function() {
 //    groundBody.quaternion.setFromEuler(1, 1, 0, 'XYZ');
 
     fixedTimeStep = 1.0 / 40.0; // seconds
-    maxSubSteps = 2;
+    maxSubSteps = 5;
 
 
 

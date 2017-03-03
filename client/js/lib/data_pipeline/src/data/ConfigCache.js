@@ -21,7 +21,8 @@ define([
 		var requestedUrls = [];
 		var loadedUrls = [];
 		var remainingUrls = [];
-		
+
+		var cacheReads = 0;
 
 		var ConfigCache = function() {
 
@@ -39,6 +40,14 @@ define([
 
 		ConfigCache.getReady = function() {
 			return pipelineReady;
+		};
+
+		ConfigCache.getCacheReads = function() {
+			return cacheReads;
+		};
+
+		ConfigCache.resetCacheReads = function() {
+			cacheReads = 0;
 		};
 
 		ConfigCache.addReadyCallback = function(cb) {
@@ -105,6 +114,7 @@ define([
 
 			var fireCallbacks = function(callbacks, id, data) {
 				for (var i = 0; i < callbacks.length; i++) {
+					cacheReads++;
 					callbacks[i](id, data);
 				}
 			};
@@ -114,6 +124,7 @@ define([
         ConfigCache.fireCategoryKeyCallbacks = function(category, key) {
             var fireCallbacks = function(callbacks, id, data) {
                 for (var i = 0; i < callbacks.length; i++) {
+					cacheReads++;
                     callbacks[i](id, data);
                 }
             };
@@ -200,6 +211,7 @@ define([
 			var data = ConfigCache.getConfigKey(category, key);
 			if (data != key) {
             //    console.log("reject string", data)
+				cacheReads++;
 				callback(key, data);
 			}
 			ConfigCache.registerCategoryKeySubscriber(category, key, callback);
@@ -216,6 +228,7 @@ define([
 
 			if (data) {
 				if (data.loaded) {
+					cacheReads++;
 					callback(imageId, data);
 				}
 			}

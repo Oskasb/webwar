@@ -106,6 +106,12 @@ define(['data_pipeline/data/ConfigCache'],
 		PipelineAPI.getPipelineOptions = function(key) {
 			return pipeOptions[key];
 		};
+
+		PipelineAPI.sampleCacheReadCount = function() {
+			var reads = ConfigCache.getCacheReads();
+			ConfigCache.resetCacheReads();
+			return reads;
+		};		
 		
 		return PipelineAPI;
 	});

@@ -112,7 +112,6 @@ define(['3d/effects/particles/EffectSimulators',
                     } else {
                         this.updateParticle(this.aliveParticles[i], tpf);
                     }
-
                 }
             }
 

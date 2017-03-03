@@ -1,14 +1,9 @@
 "use strict";
 
 define([
-        '3d/effects/EffectsComposer',
-        '3d/effects/EffectPlayer',
         '3d/effects/particles/ParticleSpawner'
-
     ],
     function(
-        EffectsComposer,
-        EffectPlayer,
         ParticleSpawner
     ) {
 
@@ -20,7 +15,6 @@ define([
 
         EffectsAPI.initEffects = function() {
             particleSpawner = new ParticleSpawner();
-            EffectsComposer.initEffects();
             particleSpawner.initParticleSpawner();
         };
 
@@ -33,6 +27,35 @@ define([
         };
 
         
+        
+        EffectsAPI.sampleTotalParticlePool = function() {
+            return particleSpawner.getTotalParticlePool();
+        };
+
+        EffectsAPI.countTotalEffectPool = function() {
+            return particleSpawner.getTotalEffectPool();
+        };
+        
+        EffectsAPI.sampleActiveRenderersCount = function() {
+            return particleSpawner.getActiveRendererCount();
+        };
+        
+        EffectsAPI.sampleActiveEffectsCount = function() {
+            return particleSpawner.getActiveEffectsCount();
+        };
+        
+        EffectsAPI.sampleActiveParticleCount = function() {
+            return particleSpawner.getActiveParticlesCount();
+        };
+
+        EffectsAPI.sampleEffectActivations = function() {
+            return particleSpawner.getEffectActivationCount();
+        };
+
+
+
+
+
         return EffectsAPI;
 
     });
