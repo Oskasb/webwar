@@ -15,12 +15,13 @@
             {"name":"acceleration","dimensions":4, "dynamic":false},
             {"name":"velocity",    "dimensions":4, "dynamic":false}
           ],
-          "map":"./client/assets/images/effects/particle_atlas.png",
+          "map":"./client/assets/images/effects/particle_atlas_6x6.png",
           "data_texture":"./client/assets/images/effects/data_texture.png",
           "settings":{
-            "tiles_x":12,
-            "tiles_y":12,
-            "flip_y":true
+            "tiles_x":6,
+            "tiles_y":6,
+            "flip_y":true,
+            "data_rows":32
           }
         },{
           "id":"spatial_sprite_atlas_cpu",
@@ -33,11 +34,11 @@
             {"name":"vertexColor", "dimensions":3, "dynamic":false},
             {"name":"vertexAlpha", "dimensions":1, "dynamic":false}
           ],
-          "map":"./client/assets/images/effects/particle_atlas.png",
+          "map":"./client/assets/images/effects/particle_atlas_6x6.png",
 
           "settings":{
-            "tiles_x":12,
-            "tiles_y":12,
+            "tiles_x":6,
+            "tiles_y":6,
             "flip_y":true
           }
         },{
@@ -48,11 +49,11 @@
             {"name":"customColor",  "dimensions":3},
             {"name":"sizeFactor",   "dimensions":1}
           ],
-          "map":"./client/assets/images/effects/particle_atlas.png",
+          "map":"./client/assets/images/effects/particle_atlas_6x6.png",
 
           "settings":{
-            "tiles_x":12,
-            "tiles_y":12
+            "tiles_x":6,
+            "tiles_y":6
           }
         }
       ]

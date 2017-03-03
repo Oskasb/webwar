@@ -3,9 +3,44 @@
     "PARTICLES": {
       "THREE":[
         {
+          "id":"default_",
+          "sprite_key":"ATLAS",
+          "sprite_id":"flare_yellow",
+          "config":{
+            "gravity":-9.81,
+            "acceleration":1,
+            "spinAcceleration":0.8,
+            "lifeTime":{"min":4,"max":4},
+            "colorCurve":"rainbow",
+            "diffusionCurve":"zeroOneZer",
+            "scaleCurve":"oneToZero",
+            "dragCurve":"zeroToOne",
+            "size":{"value":0, "min":22.5, "max":34},
+            "spin":{"value":0, "min":-0.5, "max":0.5},
+            "velocityDiffusion":0.3,
+            "accelerationDiffusion":0.1,
+            "velocityFactor":0.423
+          }
+        },
+        {
           "id":"default",
           "sprite_key":"ATLAS",
-          "sprite_id":"flare_yellow"
+          "sprite_id":"energy_dot",
+          "config":{
+            "gravity":-9.81,
+            "acceleration":1,
+            "spinAcceleration":0.8,
+            "lifeTime":{"min":0.3,"max":0.3},
+            "colorCurve":"warmFire",
+            "diffusionCurve":"zeroOneZero",
+            "scaleCurve":"quickInSlowOut",
+            "dragCurve":"zeroToOne",
+            "size":{"value":1, "min":0.5, "max":1},
+            "spin":{"value":0, "min":-0.5, "max":0.5},
+            "velocityDiffusion":0.0001,
+            "accelerationDiffusion":0.0001,
+            "velocityFactor":1
+          }
         }
       ]
     }

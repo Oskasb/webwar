@@ -4,6 +4,7 @@ define([
         'ThreeAPI',
         '3d/effects/particles/ParticleEffectData',
         '3d/effects/particles/ParticleEffect',
+        '3d/effects/particles/EffectDataTranslator',
         '3d/effects/particles/ParticleRenderer',
         'PipelineObject'
     ],
@@ -11,6 +12,7 @@ define([
         ThreeAPI,
         ParticleEffectData,
         ParticleEffect,
+        EffectDataTranslator,
         ParticleRenderer,
         PipelineObject
     ) {
@@ -65,6 +67,9 @@ define([
             effect.setEffectPosition(pos);
             effect.setEffectVelocity(vel);
             effect.setEffectData(this.particleEffectData.buildEffect(effect.effectData, 'THREE', id));
+            
+            EffectDataTranslator.interpretCustomEffectData(effect.effectData, effect.effectData.particle.config);
+            
             effect.attachSimulators();
             effect.applyRenderer(this.getRendererById(effect.effectData.effect.renderer_id));
             

@@ -58,13 +58,15 @@ define(['3d/effects/particles/EffectSimulators',
             }
         };
 
-
-
         ParticleEffect.prototype.includeParticle = function(particle, index, allowedCount) {
 
-            var init_params = this.effectData.simulation.init_params;
+            if (this.effectData.gpuEffect) {
+                ParticleParamParser.applyEffectParams(particle, this.effectData.gpuEffect.init_params);
+            } else {
+                ParticleParamParser.applyEffectParams(particle, this.effectData.simulation.init_params);
+            }
 
-            ParticleParamParser.applyEffectParams(particle, init_params);
+
             ParticleParamParser.applyEffectSprite(particle, this.effectData.sprite);
             
             particle.initToSimulation(this.pos, this.vel);
@@ -115,7 +117,10 @@ define(['3d/effects/particles/EffectSimulators',
             }
 
             while (this.deadParticles.length) {
-                this.renderer.particles.push(this.aliveParticles.splice(this.aliveParticles.indexOf(this.deadParticles.pop()), 1).pop());
+                var dead = this.deadParticles.pop();
+                var spliced = this.aliveParticles.splice(this.aliveParticles.indexOf(dead), 1)[0];
+                this.renderer.particles.push(spliced);
+                console.log("Ramaining Particles", this.aliveParticles.length)
             }
 
             this.lastTpf = tpf;

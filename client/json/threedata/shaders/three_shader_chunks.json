@@ -255,6 +255,7 @@
 
         "vx_predictive_simulation":[
           "varying vec3 velocityOffset;",
+          "varying float velocityFactor;",
           "varying vec3 offset;",
           "varying float size;",
           "attribute float time;",
@@ -267,6 +268,7 @@
 
         "vx_data_texture":[
           "uniform sampler2D data_texture;",
+          "uniform float data_rows;",
           "attribute vec4 diffusors;",
           "attribute vec4 texelRowSelect;",
           "varying vec2 pixelSelector;",

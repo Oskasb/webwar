@@ -18,6 +18,11 @@ define([
 
 
             txSettings.data_texture = utils.ensureInstanceOf( txMatSettings.data_texture, THREE.Texture, null );
+            if (txMatSettings.data_texture) {
+                txSettings.data_rows = utils.ensureTypedArg( options.settings.data_rows, types.NUMBER, null );
+            }
+
+
             txSettings.texture = utils.ensureInstanceOf( texture, THREE.Texture, null );
             txSettings.tiles_x = utils.ensureTypedArg( options.settings.tiles_x, types.NUMBER, 1 );
             txSettings.tiles_y = utils.ensureTypedArg( options.settings.tiles_y, types.NUMBER, 1 );
@@ -61,7 +66,8 @@ define([
 
             if (txSettings.data_texture) {
             //    txSettings.data_texture.generateMipmaps = false;
-                uniforms.data_texture =  {value:txSettings.data_texture}
+                uniforms.data_texture =  {value:txSettings.data_texture};
+                uniforms.data_rows    =  {value:txSettings.data_rows}
             }
 
             var material = new THREE.RawShaderMaterial({

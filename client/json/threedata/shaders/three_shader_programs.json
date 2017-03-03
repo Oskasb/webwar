@@ -138,8 +138,10 @@
           "velocityDiffusion = vec4(sillyRandom1 * diffusors.x, sillyRandom2 * diffusors.x, sillyRandom3 * diffusors.x, sillyRandom4 * diffusors.x);",
           "accelerationDiffusion = vec4(sillyRandom3 * diffusors.y, sillyRandom1*diffusors.y, sillyRandom4*diffusors.y, sillyRandom2*diffusors.y);",
 
-          "pixelSelector.x = progress*(1.0 - (1.5 / 8.0 )) + (0.5 / 8.0);",
-          "pixelSelector.y = (rowDiffusion / 8.0) + (0.5 / 8.0);",
+          "velocityFactor = diffusors.z;",
+
+          "pixelSelector.x = progress;",
+          "pixelSelector.y = 1.0 - ((rowDiffusion / data_rows) - (0.5 / data_rows));",
 
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",
 
@@ -148,22 +150,22 @@
           "accelerationDiffusion = accelerationDiffusion * sampledDataTexel;",
 
 
-          "pixelSelector.y = (rowColor / 8.0) - (0.5 / 8.0);",
+          "pixelSelector.y = 1.0 - ((rowColor / data_rows) - (0.5 / data_rows));",
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",
 
           "vec4 vertexColor = vec4(sampledDataTexel.r, sampledDataTexel.g, sampledDataTexel.b, sampledDataTexel.a);",
 
 
-          "pixelSelector.y = (rowSize / 8.0) + (0.5*8.0);",
+          "pixelSelector.y = 1.0 - ((rowSize / data_rows) - (0.5 / data_rows));",
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",
-          "sampledSizeFactor = size * sampledDataTexel.x;"
+          "sampledSizeFactor = size * sampledDataTexel.r;"
 
         ],
 
         "vertexPredictPositionMain":[
-          "float verticalComponent = velocity.y * time  + 0.5 * acceleration.y * time * time;",
-          "float xComponent = velocity.x * time  + 0.5 * acceleration.x * time * time;",
-          "float zComponent = velocity.z * time  + 0.5 * acceleration.z * time * time;",
+          "float verticalComponent = velocityFactor * velocity.y * time  + 0.5 * acceleration.y * time * time;",
+          "float xComponent = velocityFactor*velocity.x * time  + 0.5 * acceleration.x * time * time;",
+          "float zComponent = velocityFactor*velocity.z * time  + 0.5 * acceleration.z * time * time;",
           "vec3 velInfluence = vec3(xComponent, verticalComponent, zComponent);",
 
           "velInfluence = velInfluence+velInfluence * accelerationDiffusion.xyz;",
