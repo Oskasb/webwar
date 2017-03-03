@@ -24,8 +24,8 @@ define([
             particleSpawner.initParticleSpawner();
         };
 
-        EffectsAPI.requestParticleEffect = function(effectData, pos, vel) {
-            particleSpawner.spawnParticleEffect("test_effect", pos, vel);
+        EffectsAPI.requestParticleEffect = function(id, pos, vel) {
+            particleSpawner.spawnParticleEffect(id, pos, vel);
         };
 
         EffectsAPI.tickEffectSimulation = function(tpf) {

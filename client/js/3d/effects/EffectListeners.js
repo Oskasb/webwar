@@ -35,7 +35,7 @@ define([
             var playGameEffect = function(e) {
                 setupEffect(evt.args(e));
 
-                EffectsAPI.requestParticleEffect('', posVec, velVec);
+                EffectsAPI.requestParticleEffect('test_effect', posVec, velVec);
             };
             
             var tickEffectPlayer = function(e) {

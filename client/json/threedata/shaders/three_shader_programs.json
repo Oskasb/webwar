@@ -130,10 +130,10 @@
           "rowSize  =     texelRowSelect.z;",
           "rowDrag =      texelRowSelect.w;",
 
-          "float sillyRandom1 = sin(progress*6916000.0 + time * 6921000.2 + duration*progress*9196000.1);",
-          "float sillyRandom2 = sin(progress*4926000.0 + time * 4943000.1 + duration*progress*5192600.1);",
-          "float sillyRandom3 = sin(progress*7924000.0 + time * 5934000.1 + duration*progress*2195100.1);",
-          "float sillyRandom4 = sin(progress*5916000.0 + time * 3933060.1 + duration*progress*8194100.1);",
+          "float sillyRandom1 = sin(progress*1600.0 + time * 6100.2 + duration*progress*910.1);",
+          "float sillyRandom2 = sin(progress*2600.0 + time * 49300.1 + duration*progress*510.1);",
+          "float sillyRandom3 = sin(progress*2400.0 + time * 5900.1 + duration*progress*210.1);",
+          "float sillyRandom4 = sin(progress*1600.0 + time * 39360.1 + duration*progress*810.1);",
 
           "velocityDiffusion = vec4(sillyRandom1 * diffusors.x, sillyRandom2 * diffusors.x, sillyRandom3 * diffusors.x, sillyRandom4 * diffusors.x);",
           "accelerationDiffusion = vec4(sillyRandom3 * diffusors.y, sillyRandom1*diffusors.y, sillyRandom4*diffusors.y, sillyRandom2*diffusors.y);",
@@ -185,8 +185,7 @@
 
           "vec3 spinInfluence = spinMatrix * vPosition;",
 
-          "billboardFacing.xy += spinInfluence.xy;"
-        ],
+          "billboardFacing.xy += spinInfluence.xy;"        ],
 
 
 

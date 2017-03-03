@@ -26,7 +26,6 @@
             {"process":"attrib4D",      "source":"diffusors"  , "target":"diffusors"    },
             {"process":"attrib4D",      "source":"acceleration","target":"acceleration" },
             {"process":"attrib4D",      "source":"velocity",    "target":"velocity"     }
-
           ]
         },
         {

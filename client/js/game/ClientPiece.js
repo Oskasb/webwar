@@ -263,7 +263,7 @@ define([
 
 
 				evt.fire(evt.list().GAME_EFFECT, {effect:"explode", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
-				evt.fire(evt.list().GAME_EFFECT, {effect:"shockwave", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
+		//		evt.fire(evt.list().GAME_EFFECT, {effect:"shockwave", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
             }
 
             if (serverState.state == GAME.ENUMS.PieceStates.BURST) {
@@ -319,7 +319,16 @@ define([
 		//		evt.fire(evt.list().PARTICLE_TEXT, {text:'POP', textStyle:textStyle});
 
 			//	this.gooPiece.updateGooPiece();
-				evt.fire(evt.list().GAME_EFFECT, {effect:"spawn_pulse", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
+				if (this.pieceData.default_modules) {
+					if (this.pieceData.default_modules.indexOf('bullet_shell') != -1) {
+						evt.fire(evt.list().GAME_EFFECT, {
+							effect: "spawn_pulse",
+							pos: this.piece.spatial.pos,
+							vel: this.piece.spatial.vel
+						});
+					}
+				}
+
 
 			}
 

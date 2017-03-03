@@ -36,8 +36,7 @@ define([],
             this.attributes = {};
             this.params = {
                 position:new THREE.Vector4(),
-                velocity:new THREE.Vector4(),
-                size:{value:1}
+                velocity:new THREE.Vector4()
             };
             this.progress = 0;
             this.dead = false;

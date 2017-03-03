@@ -2,10 +2,12 @@
 
 
 define([
-        'ThreeAPI'
+        'ThreeAPI',
+    'Events'
     ],
     function(
-        ThreeAPI
+        ThreeAPI,
+        evt
     ) {
 
 
@@ -160,6 +162,13 @@ define([
 
             if (this.applies.animate_texture) {
                 ThreeAPI.animateModelTexture(this.model, stateValue*this.applies.animate_texture[0]*this.applies.animate_speed_scale, stateValue*this.applies.animate_texture[1]*this.applies.animate_speed_scale);//
+            }
+
+            if (this.applies.fireCannon) {
+                if (stateValue) {
+            //        evt.fire(evt.list().GAME_EFFECT, {effect:"spawn_pulse", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
+                }
+
             }
 
             if (this.applies.three_terrain) {
