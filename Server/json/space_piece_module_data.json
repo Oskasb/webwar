@@ -228,6 +228,49 @@
       }
     },
 
+    "plane_ground_pit_module": {
+      "id":"plane_ground_pit_module",
+      "type":"terrain",
+      "size":1,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"array",
+        "state":true,
+        "three_terrain":"plain_ground",
+        "terrain_size":200,
+        "terrain_segments":15,
+        "invert_hill":true,
+        "terrain_edge_size":5,
+        "edge_easing":"EaseInOut",
+        "max_height":-15,
+        "min_height":0,
+        "frequency":0.5,
+        "steps":1
+      }
+    },
+    "plane_ground_hill_module": {
+      "id":"plane_ground_hill_module",
+      "type":"terrain",
+      "size":1,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"array",
+        "state":true,
+        "three_terrain":"plain_ground",
+        "terrain_size":200,
+        "terrain_segments":15,
+        "invert_hill":false,
+        "terrain_edge_size":0.5,
+        "edge_easing":"EaseInOut",
+        "max_height":70,
+        "min_height":0,
+        "frequency":2.5,
+        "steps":2
+      }
+    },
+
     "clay_blob_module":{
       "id":"clay_blob_module",
       "type":"hull",

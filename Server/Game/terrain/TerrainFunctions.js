@@ -13,7 +13,7 @@ TerrainFunctions = function(CNNAPI) {
 
 
 TerrainFunctions.prototype.getPieceTerrainModule = function(piece) {
-    return piece.getModuleById('plane_ground_module');
+    return piece.getModuleByIndex(0);
 };
 
 TerrainFunctions.prototype.getTerrainSegmentse = function(module) {

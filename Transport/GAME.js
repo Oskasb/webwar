@@ -207,6 +207,10 @@ if(typeof(GAME) == "undefined"){
         console.log("No module by Id ", moduleId);
     };
 
+	GAME.Piece.prototype.getModuleByIndex = function(index) {
+		return this.modules[index];
+	};
+	
     GAME.Piece.prototype.getCollisionShape = function(store) {
         store.size = 1;
 

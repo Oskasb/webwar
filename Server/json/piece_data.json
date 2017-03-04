@@ -43,20 +43,40 @@
       "ground_plane":{
         "size":5,
         "controls":{
-          "actions": {
-            "applyForward":1,
-            "timeoutEvent": "EXPLODE"
-          },
-          "constants":{
-            "velocityDrag":0.5,
-            "radialDrag":1
-          }
+          "actions": {},
+          "constants":{}
         },
         "attachment_points":[
           {"slot":"ground" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0], "size":[200, 0, 200]}}
         ],
         "default_modules":[
           "plane_ground_module"
+        ]
+      },
+      "ground_pit":{
+        "size":5,
+        "controls":{
+          "actions": {},
+          "constants":{}
+        },
+        "attachment_points":[
+          {"slot":"ground" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0], "size":[200, 0, 200]}}
+        ],
+        "default_modules":[
+          "plane_ground_pit_module"
+        ]
+      },
+      "ground_hill":{
+        "size":5,
+        "controls":{
+          "actions": {},
+          "constants":{}
+        },
+        "attachment_points":[
+          {"slot":"ground" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0], "size":[200, 0, 200]}}
+        ],
+        "default_modules":[
+          "plane_ground_hill_module"
         ]
       },
       "big_space_rock_piece":{

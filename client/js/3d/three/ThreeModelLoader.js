@@ -158,6 +158,15 @@ define([
         };
 
 
+
+        ThreeModelLoader.attachInstancedModelTo3DObject = function(modelId, rootObject, ThreeSetup) {
+
+            
+
+        };
+
+
+
         ThreeModelLoader.applyMaterialToMesh = function(material, model) {
             model.material = material;
         };

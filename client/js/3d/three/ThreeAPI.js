@@ -131,6 +131,12 @@ define([
             return model;
         };
 
+        ThreeAPI.attachInstancedModel = function(modelId, rootObject) {
+            return ThreeModelLoader.attachInstancedModelTo3DObject(modelId, rootObject, ThreeSetup);
+        };
+
+
+
         ThreeAPI.loadModel = function(sx, sy, sz, partsReady) {
             var model = ThreeModelLoader.loadThreeModel(sx, sy, sz, partsReady);
             ThreeSetup.addToScene(model);
