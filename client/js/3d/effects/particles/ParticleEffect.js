@@ -119,7 +119,6 @@ define(['3d/effects/particles/EffectSimulators',
                 var dead = this.deadParticles.pop();
                 var spliced = this.aliveParticles.splice(this.aliveParticles.indexOf(dead), 1)[0];
                 this.renderer.particles.push(spliced);
-                console.log("Ramaining Particles", this.aliveParticles.length)
             }
 
             this.lastTpf = tpf;

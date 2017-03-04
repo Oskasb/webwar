@@ -17,7 +17,7 @@ define([
     var applyToTextures = function(material, x, y) {
         material.map.offset.x += x;
         material.map.offset.y += y;
-        material.map.needsUpdate = true;
+        material.needsUpdate = true;
     };
 
 

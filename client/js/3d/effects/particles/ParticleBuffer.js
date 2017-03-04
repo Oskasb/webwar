@@ -1,5 +1,3 @@
-
-
 "use strict";
 
 define([
@@ -19,7 +17,7 @@ define([
                 i++;
                 buffer[i] = uvs[i] / txSettings.tiles_y;
             };
-            
+
         };
 
         var ParticleBuffer = function(txSettings, verts, uvs, indices) {
@@ -30,7 +28,7 @@ define([
         ParticleBuffer.prototype.buildGeometry = function(verts, uvScaled, indices) {
 
             var geometry = new THREE.InstancedBufferGeometry();
-                        
+
             // per mesh data
             var vertices = new THREE.BufferAttribute( new Float32Array( verts ), 3 );
             geometry.addAttribute( 'vertexPosition', vertices );
@@ -38,14 +36,14 @@ define([
             var uvs = new THREE.BufferAttribute(  uvScaled, 2 );
 
             geometry.addAttribute( 'uv', uvs );
-            
+
             geometry.setIndex( new THREE.BufferAttribute( new Uint16Array( indices ), 1 ) );
-            
+
             this.geometry = geometry;
 
             var mesh = new THREE.Mesh(geometry);
             mesh.frustumCulled = false;
-        //    mesh.scale.set(1, 1, 1);
+            //    mesh.scale.set(1, 1, 1);
             this.applyMesh(mesh);
 
         };
@@ -58,11 +56,11 @@ define([
             ThreeAPI.removeModel(this.mesh);
             this.geometry.dispose();
         };
-        
+
         ParticleBuffer.prototype.addToScene = function() {
             ThreeAPI.addToScene(this.mesh);
         };
 
         return ParticleBuffer;
-        
+
     });

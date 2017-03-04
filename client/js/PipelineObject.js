@@ -31,10 +31,10 @@ define([
                 if (data == src && data) {
                     console.log("No data at source", this.category, src, data)
                 } else {
-                    if (compareDatas(this.data, data)) {
-                        console.log("Data identical, skippping subscription push", this.category, this.key );
+                //    if (compareDatas(this.data, data)) {
+                //        console.log("Data identical, skippping subscription push", this.category, this.key );
                         // return;
-                    }
+                 //   }
 
                     this.data = data;
                     if (typeof(onDataCallback) == 'function') {

@@ -8,6 +8,8 @@ define(['../../ui/GameScreen'], function(
     
     var scene, camera, renderer;
 
+    var addedObjects = 0;
+
     var prerenderCallbacks = [];
     var tpf, lastTime;
     var lookAt = new THREE.Vector3();
@@ -47,7 +49,10 @@ define(['../../ui/GameScreen'], function(
             console.log("Three Camera:", camera);
             
 
+            // renderer = new THREE.WebGLRenderer( { antialias:antialias, devicePixelRatio: pxRatio });
+
             renderer = new THREE.WebGLRenderer( { antialias:antialias, devicePixelRatio: pxRatio });
+
             renderer.setPixelRatio( pxRatio );
                         
             containerElement.appendChild(renderer.domElement);
@@ -69,33 +74,42 @@ define(['../../ui/GameScreen'], function(
         tempObj.position.set(x, y, z);
 
         if (!frustum.containsPoint(tempObj.position)) {
-            store.set(tempObj.position);
+
+            store.x = -1;
+            store.y = -1;
+            store.z = -100000;
+
             return store;// Do something with the position...
         }
-
-    //    var widthHalf = 0.5*renderer.context.canvas.width;
-    //    var heightHalf = 0.5*renderer.context.canvas.height;
-
+        
         tempObj.updateMatrixWorld();
         vector.setFromMatrixPosition(tempObj.matrixWorld);
         vector.project(camera);
 
-    ////    vector.x = ( vector.x * widthHalf ) + widthHalf;
-    ////    vector.y = - ( vector.y * heightHalf ) + heightHalf;
-
         store.x = vector.x * 0.5;
         store.y = vector.y * 0.5;
-        store.z = 0;
-
-    //    console.log(vector.x, width);
-    //    store.x = vector.x * 0.05 + 0.05;
-    //    store.y -= vector.y * 0.05 + 0.05;
+        store.z = vector.z;
 
         return store;
-
     };
 
-
+    
+    var sphere = new THREE.Sphere()
+    
+    ThreeSetup.cameraTestXYZRadius = function(x, y, z, radius) {
+        sphere.center.x = x;
+        sphere.center.y = y;
+        sphere.center.z = z;
+        sphere.radius = radius;
+        return frustum.intersectsSphere(sphere);
+    };
+    
+    ThreeSetup.calcDistanceToCamera = function(x, y, z) {
+        vector.x = x;
+        vector.y = y;
+        vector.z = z;
+        return vector.distanceTo(camera.position);
+    };
 
     var frustum = new THREE.Frustum();
     var frustumMatrix = new THREE.Matrix4();
@@ -146,6 +160,9 @@ define(['../../ui/GameScreen'], function(
         scene.remove(model);
     };
 
+
+
+
     ThreeSetup.setRenderParams = function(width, height, aspect, pxRatio) {
         renderer.setSize( width, height);
         renderer.setPixelRatio( pxRatio );
@@ -161,6 +178,16 @@ define(['../../ui/GameScreen'], function(
         prerenderCallbacks.push(callback);
     };
 
+
+    ThreeSetup.getSceneChildrenCount = function() {
+        return scene.children.length;
+    };
+
+
+
+    ThreeSetup.getDrawCallCount = function() {
+        return renderer.info.render.calls;
+    };
 
     return ThreeSetup;
 

@@ -4,11 +4,13 @@ define([
     'ThreeAPI',
     'PipelineAPI',
     'PipelineObject',
+    '3d/three/ThreeInstanceBufferModel',
     '3d/three/ThreeTerrain'],
     function(
         ThreeAPI,
         PipelineAPI,
         PipelineObject,
+        ThreeInstanceBufferModel,
         ThreeTerrain
     ) {
 
@@ -38,7 +40,7 @@ define([
 
                     if ( child instanceof THREE.Mesh ) {
 
-                        var geom = new THREE.Geometry().fromBufferGeometry( child.geometry );
+                        var geom = child.geometry;
                         child.geometry = geom;
                         geom.uvsNeedUpdate = true;
                         
@@ -137,7 +139,9 @@ define([
 
             var geometry, material;
 
-            geometry = new THREE.BoxGeometry( sx || 1, sy || 1, sz || 1);
+            geometry = new THREE.SphereBufferGeometry( sx, 10, 10);
+
+        //    geometry = new THREE.BoxGeometry( sx || 1, sy || 1, sz || 1);
             material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
             return new THREE.Mesh( geometry, material );
         };
@@ -146,7 +150,7 @@ define([
 
             var geometry, material;
 
-            geometry = new THREE.PlaneGeometry( sx || 1, sy || 1, 1 ,1);
+            geometry = new THREE.PlaneBufferGeometry( sx || 1, sy || 1, 1 ,1);
             material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
 
             return new THREE.Mesh( geometry, material );

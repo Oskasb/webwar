@@ -33,6 +33,11 @@ define([
          //   evt.on(evt.list().MONITOR_STATUS, applyDevConfig);
         };
 
+        var tickStatusMonitor = function() {
+            evt.fire(evt.list().TICK_STATUS_MONITOR, {})
+        };
+
+
         DevConfigurator.prototype.applyDevConfig = function(value) {
 
             if (this.currentValue == value) {
@@ -41,11 +46,6 @@ define([
 
             this.currentValue = value;
 
-            var tickStatusMonitor = function() {
-                evt.fire(evt.list().TICK_STATUS_MONITOR, {})  
-            };
-            
-            
             if (value == 1 && this.panel == null) {
                 this.panel = new DomPanel(GameScreen.getElement(), 'dev_panel');
                 evt.on(evt.list().CLIENT_TICK, tickStatusMonitor);

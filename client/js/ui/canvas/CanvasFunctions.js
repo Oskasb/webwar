@@ -68,13 +68,13 @@ define([
             };
 
             var temporalStateCallback = function(tpf, ctx) {
-                if (ownPiece) {
+                if (PipelineAPI.readCachedConfigKey('HUD_STATUS', 'CANVAS_INPUT_DEBUG')) {
                     CanvasTemporalState.drawTemporal(ownPiece, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
                 }
             };
 
             var inputVectorCallback = function(tpf, ctx) {
-                if (ownPiece) {
+                if (PipelineAPI.readCachedConfigKey('HUD_STATUS', 'CANVAS_INPUT_DEBUG')) {
                     CanvasInputVector.drawInputVectors(ownPiece, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
                     CanvasDraw.drawPitchAndRollState(ownPiece, ctx, configs, widgetConfigs);
                     CanvasDraw.drawYawState(ownPiece, ctx, configs, widgetConfigs);
@@ -82,6 +82,7 @@ define([
             };
 
             var inputDebugCallback = function(tpf, ctx) {
+                return;
                 if (PipelineAPI.readCachedConfigKey('HUD_STATUS', 'CANVAS_INPUT_DEBUG')) {
                     CanvasInputDebug.drawInputVectors(ownPiece, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
                     CanvasInputDebug.drawInputVectors(ownPiece, ctx, ownPiece.piece.spatial, configs, widgetConfigs);

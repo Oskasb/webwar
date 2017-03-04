@@ -77,7 +77,15 @@ define([
         ThreeAPI.toScreenPosition = function(x, y, z, store) {
             ThreeSetup.toScreenPosition(x, y, z, store);
         };
-        
+
+        ThreeAPI.checkVolumeObjectVisible = function(x, y, z, radius) {
+            return ThreeSetup.cameraTestXYZRadius(x, y, z, radius);
+        };
+
+
+        ThreeAPI.distanceToCamera = function(x, y, z) {
+            return ThreeSetup.calcDistanceToCamera(x, y, z);
+        };        
         
         ThreeAPI.newCanvasTexture = function(canvas) {
             return ThreeTextureMaker.createCanvasTexture(canvas);
@@ -120,15 +128,11 @@ define([
         };
 
         ThreeAPI.createRootObject = function() {
-            var object3d = ThreeModelLoader.createObject3D();
-            ThreeSetup.addToScene(object3d);
-            return object3d;
+            return ThreeModelLoader.createObject3D();
         };
 
         ThreeAPI.loadMeshModel = function(modelId, rootObject, partsReady) {
-            var model = ThreeModelLoader.loadThreeMeshModel(modelId, rootObject, ThreeSetup, partsReady);
-            ThreeSetup.addToScene(model);
-            return model;
+            return ThreeModelLoader.loadThreeMeshModel(modelId, rootObject, ThreeSetup, partsReady);
         };
 
         ThreeAPI.attachInstancedModel = function(modelId, rootObject) {
@@ -136,11 +140,8 @@ define([
         };
 
 
-
         ThreeAPI.loadModel = function(sx, sy, sz, partsReady) {
-            var model = ThreeModelLoader.loadThreeModel(sx, sy, sz, partsReady);
-            ThreeSetup.addToScene(model);
-            return model;
+            return ThreeModelLoader.loadThreeModel(sx, sy, sz, partsReady);
         };
 
         ThreeAPI.loadQuad = function(sx, sy) {
@@ -149,8 +150,7 @@ define([
         };
 
         ThreeAPI.loadGround = function(applies, array1d, rootObject, partsReady) {
-            var model = ThreeModelLoader.loadGroundMesh(applies, array1d, rootObject, ThreeSetup, partsReady);
-            return ThreeSetup.addToScene(model);
+            return ThreeModelLoader.loadGroundMesh(applies, array1d, rootObject, ThreeSetup, partsReady);
         };
         
 
@@ -166,11 +166,27 @@ define([
         ThreeAPI.setObjectVisibility = function(object3d, bool) {
             object3d.visible = bool;
         };
+
+        ThreeAPI.showModel = function(model) {
+            ThreeSetup.addToScene(model);
+        };
+
+        ThreeAPI.hideModel = function(model) {
+            ThreeSetup.removeModelFromScene(model);
+        };
         
         ThreeAPI.removeModel = function(model) {
             ThreeSetup.removeModelFromScene(model);
         };
 
+        ThreeAPI.countAddedSceneModels = function() {
+            return ThreeSetup.getSceneChildrenCount();
+        };
+
+        ThreeAPI.countDrawCalls = function() {
+            return ThreeSetup.getDrawCallCount();
+        };
+        
         return ThreeAPI;
     });
 

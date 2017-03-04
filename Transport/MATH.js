@@ -57,6 +57,16 @@ if(typeof(MATH) == "undefined"){
 		return (current-start) / (end-start);
 	};
 
+
+	MATH.valueIsBetween = function(value, min, max) {
+		if (value > min && value < max) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+
 	MATH.randomBetween = function(min, max) {
 		return min + Math.random() * (max-min);
 	};

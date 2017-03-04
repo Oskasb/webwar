@@ -77,7 +77,8 @@
         "id":"canvasSteeringMonitor",
         "data":{
           "canvas3d": {
-            "configId": "canvas_input_monitor_3d"
+            "configId": "canvas_input_monitor_3d",
+            "enableOnEvent":{"category":"HUD_STATUS", "key":"CANVAS_INPUT_DEBUG", "type":"toggle"}
           }
         }
       },{
@@ -107,7 +108,7 @@
           "parentId":"rightRoot",
           "canvas3d":{
             "configId": "canvas_controls",
-            "enableOnEvent":{"category":"HUD_STATUS", "key":"CANVAS_INPUT_DEBUG", "type":"toggle"}
+            "enableOnEvent":{"category":"HUD_STATUS", "key":"CANVAS_INPUT_DEBUG_", "type":"toggle"}
           }
         }
 
@@ -439,7 +440,7 @@
           "parentId": "monitorContainer4",
           "style": ["data_list_container"],
           "dataField":{
-            "dataKeys":["EVENT_TYPES","EVENT_LISTENERS", "FIRED_EVENTS", "LISTENERS_ONCE"],
+            "dataKeys":["EVENT_TYPES","EVENT_LISTENERS", "FIRED_EVENTS", "LISTENERS_ONCE", "CANVAS_TICKS", "SCENE_NODES", "DRAW_CALLS"],
             "dataCategory":"STATUS"
           }
         }

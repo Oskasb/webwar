@@ -23,7 +23,8 @@
         "ground":[{"pieceType":"ground_hill", "min":1, "max":1}],
         "spawn":[
           {"pieceType":"small_tree_piece", "min":1, "max":5},
-          {"pieceType":"big_tree_piece", "min":1, "max":5}
+          {"pieceType":"big_tree_piece", "min":1, "max":5},
+          {"pieceType":"small_space_rock_piece", "min":1, "max":3}
         ]},
 
       {"id":"average",
@@ -32,7 +33,9 @@
         "spawn":[
           {"pieceType":"small_tree_piece", "min":2, "max":4},
           {"pieceType":"medium_tree_piece", "min":2, "max":2},
-          {"pieceType":"plasma_blob_piece", "min":1, "max":1}
+          {"pieceType":"plasma_blob_piece", "min":1, "max":1},
+          {"pieceType":"small_space_rock_piece", "min":1, "max":3},
+          {"pieceType":"big_space_rock_piece", "min":1, "max":3}
         ]},
 
       {"id":"dense",
@@ -42,6 +45,7 @@
           {"pieceType":"small_tree_piece", "min":1, "max":4},
           {"pieceType":"medium_tree_piece", "min":3, "max":2},
           {"pieceType":"big_tree_piece", "min":0, "max":2},
+          {"pieceType":"small_space_rock_piece", "min":1, "max":3},
           {"pieceType":"plasma_blob_piece", "min":1, "max":3}
         ]},
 

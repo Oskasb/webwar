@@ -4,11 +4,15 @@
 define([
         'Events',
         'PipelineAPI',
+    'ThreeAPI',
+        'gui/CanvasGuiAPI',
         './MonitorEffectAPI'
     ],
     function(
         evt,
         PipelineAPI,
+        ThreeAPI,
+        CanvasGuiAPI,
         MonitorEffectAPI
     ) {
 
@@ -53,6 +57,14 @@ define([
         StatusMonitor.prototype.tickMonitors = function() {
             evt.fire(evt.list().MONITOR_STATUS, {CACHE_READS:PipelineAPI.sampleCacheReadCount()});
             MonitorEffectAPI.tickEffectMonitor();
+
+            evt.fire(evt.list().MONITOR_STATUS, {CANVAS_TICKS:CanvasGuiAPI.getCalledTicks()});
+            evt.fire(evt.list().MONITOR_STATUS, {SCENE_NODES:ThreeAPI.countAddedSceneModels()});
+            evt.fire(evt.list().MONITOR_STATUS, {DRAW_CALLS:ThreeAPI.countDrawCalls()});
+
+            var memory = performance.memory;
+            var memoryUsed = ( (memory.usedJSHeapSize / 1048576) / (memory.jsHeapSizeLimit / 1048576 ));
+
         };
         
         

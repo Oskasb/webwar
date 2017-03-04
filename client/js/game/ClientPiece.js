@@ -47,7 +47,6 @@ define([
 
 
 
-			this.threePiece = new ThreePiece(this.piece);
 			
 		//	this.gooPiece = new GooPiece(this.piece);
 			
@@ -56,7 +55,7 @@ define([
             this.piece.updateNetworkState(serverState);
 
 			var hierarchyReady = function() {
-				_this.notifyServerState(serverState)
+				_this.notifyServerState(serverState);
 				pieceReady(_this);
 			};
 
@@ -64,6 +63,7 @@ define([
        //         console.log("Attach pieceData", src, data)
 
                 _this.pieceData = data;
+				_this.threePiece = new ThreePiece(_this.piece, _this);
                 _this.addAttachmentPoints(data.attachment_points, data.default_modules, hierarchyReady);
                 //       _this.attachModules(data.modules);
 
@@ -81,6 +81,14 @@ define([
 		//	camera.getFrustumCoordinates(this.gooPiece.entity.transformComponent.transform.translation, store);
 		//	store.scale(1/camera.near);
 		};
+
+		ClientPiece.prototype.getCameraInsideBounds = function() {
+
+			ThreeAPI.toScreenPosition(this.piece.spatial.posX(), this.piece.spatial.posY(), this.piece.spatial.posZ(), store);
+			//	camera.getFrustumCoordinates(this.gooPiece.entity.transformComponent.transform.translation, store);
+			//	store.scale(1/camera.near);
+		};
+
 
 
 		ClientPiece.prototype.addAttachmentPoints = function(attachmentPoints, defaultModules, hierarchyReady) {
@@ -196,10 +204,12 @@ define([
 
 			}
 
-            this.sampleClientModules(this.piece.serverState.modules);
-
-		//	this.gooPiece.updateGooPiece();
 			this.threePiece.updateThreePiece();
+
+			if (this.threePiece.render) {
+				this.sampleClientModules(this.piece.serverState.modules);
+			}
+
 		};
 
 		
@@ -225,7 +235,12 @@ define([
 		};
 		
 		ClientPiece.prototype.playerRemove = function() {
+			if (!this.pipelineObject) {
+				console.log("Broken Piece: ", this);
+				return;
+			}
             this.pipelineObject.removePipelineObject();
+
 			this.detachModules();
 		//	this.gooPiece.removeGooPiece();
 			this.threePiece.removeThreePiece();

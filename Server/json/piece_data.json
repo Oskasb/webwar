@@ -22,7 +22,7 @@
         ]
       },
       "clay_blob_piece":{
-        "size":5,
+        "size":35,
         "controls":{
           "actions": {
             "applyForward":1,
@@ -41,7 +41,7 @@
         ]
       },
       "ground_plane":{
-        "size":5,
+        "size":325,
         "controls":{
           "actions": {},
           "constants":{}
@@ -54,7 +54,7 @@
         ]
       },
       "ground_pit":{
-        "size":5,
+        "size":325,
         "controls":{
           "actions": {},
           "constants":{}
@@ -67,7 +67,7 @@
         ]
       },
       "ground_hill":{
-        "size":5,
+        "size":325,
         "controls":{
           "actions": {},
           "constants":{}
@@ -80,7 +80,7 @@
         ]
       },
       "big_space_rock_piece":{
-        "size":5,
+        "size":35,
         "controls":{
           "actions": {
             "applyForward":1,
@@ -92,14 +92,14 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0.2], "pos":[0, -2, 0]}}
         ],
         "default_modules":[
           "rock_10m_module"
         ]
       },
     "big_tree_piece":{
-      "size":4,
+      "size":45,
       "controls":{
         "actions": {
           "applyForward":1,
@@ -120,7 +120,7 @@
       ]
     },
       "medium_tree_piece":{
-        "size":3,
+        "size":35,
         "controls":{
           "actions": {
             "applyForward":1,
@@ -141,7 +141,7 @@
         ]
       },
       "small_tree_piece":{
-        "size":2,
+        "size":15,
         "controls":{
           "actions": {
             "applyForward":1,
@@ -162,7 +162,7 @@
         ]
       },
       "small_space_rock_piece":{
-        "size":5,
+        "size":23,
         "controls":{
           "actions": {
             "applyForward":1,
@@ -174,7 +174,7 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,    "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
+          {"slot":"hull" ,    "transform":{"rot":[0, 0.4, 0], "pos":[0, -3, 0]}}
         ],
         "default_modules":[
           "rock_10m_module"

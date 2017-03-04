@@ -8,6 +8,7 @@ define([
 		) {
 
 		var defaultResolution = 1024;
+		var calledTicks = 0;
 
 		var CanvasGuiAPI = function(uiTxResolution) {
 			this.canvasGuiMain = new CanvasGuiMain();
@@ -48,8 +49,10 @@ define([
 		CanvasGuiAPI.prototype.updateCanvasGui = function(tpf) {
 			if (this.enabled) {
 				this.canvasGuiMain.tickGuiMain(tpf)
+				calledTicks++
 			}
 		};
+
 
 		CanvasGuiAPI.prototype.getPointerCursor = function() {
 			return this.pointerCursor;
@@ -87,7 +90,14 @@ define([
 		CanvasGuiAPI.prototype.removeCanvasGui = function() {
 			this.canvasGuiMain.removeGuiMain()
 		};
-		
+
+		CanvasGuiAPI.getCalledTicks = function() {
+			var called = calledTicks;
+			calledTicks = 0;
+			return called;
+		};
+
+
 		return CanvasGuiAPI;
 
 	});

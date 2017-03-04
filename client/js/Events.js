@@ -83,7 +83,7 @@ define(["EventList"], function(eventList) {
         setupEvent(event);
 
         var remove = function() {
-            asynchifySplice(listeners[event.type], singleShot);
+            removeListener(listeners[event.type], singleShot);
             onceListeners--;
             if (onceListeners < 0) {
                 console.log("overdose singleshots", event);
@@ -99,13 +99,13 @@ define(["EventList"], function(eventList) {
             call(args);
             remove();
 
-            call = function() {
+    //        call = function() {
         //        console.log("multiple calls to once call...", args)
-            };
+     //       };
 
-            remove = function() {
+    //        remove = function() {
         //        console.log("multiple removes to once call...", event, args)
-            };
+    //        };
 
             fireEvent(list().MONITOR_STATUS, {LISTENERS_ONCE:onceListeners});
         //    },0);
@@ -119,11 +119,7 @@ define(["EventList"], function(eventList) {
         fireEvent(list().MONITOR_STATUS, {LISTENERS_ONCE:onceListeners});
     };
 
-    var asynchifySplice = function(listnrs, cb) {
-        setTimeout(function() {
-            spliceListener(listnrs, cb)
-        }, 0)
-    };
+
 
     var spliceListener = function(listeners, cb) {
         listeners.splice(listeners.indexOf(cb), 1);
@@ -156,7 +152,17 @@ define(["EventList"], function(eventList) {
         return eventCount;
     };
 
+
+    var asynchifySplice = function(listnrs, cb) {
+        setTimeout(function() {
+            spliceListener(listnrs, cb)
+        }, 0)
+    };
+
     var removeListener = function(event, callback) {
+
+
+
 
         if (!listeners[event.type]) {
             return;
