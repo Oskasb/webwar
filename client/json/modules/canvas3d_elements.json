@@ -76,7 +76,7 @@
         "data": {
           "renderModel": "canvas3d",
           "config":{
-            "callbacks":["inputDebug", "radarMap", "tpfMonitor"],
+            "callbacks":["inputDebug", "tpfMonitor"],
             "element":{
               "pos": [0.5, -0.1],
               "size": [3.1, 3.1],

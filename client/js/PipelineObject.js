@@ -38,7 +38,9 @@ define([
 
                     this.data = data;
                     if (typeof(onDataCallback) == 'function') {
-                        onDataCallback(src, data);
+                //        setTimeout(function() {
+                            onDataCallback(src, data);
+                //        },0);
                     }
                 }
             }.bind(this);

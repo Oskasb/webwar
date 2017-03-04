@@ -31,7 +31,7 @@ define([
 		};
 		
 		
-		var ClientPiece = function(serverState, removeCallback) {
+		var ClientPiece = function(serverState, removeCallback, pieceReady) {
 
             var _this = this;
 
@@ -46,6 +46,7 @@ define([
             this.name = this.playerId;
 
 
+
 			this.threePiece = new ThreePiece(this.piece);
 			
 		//	this.gooPiece = new GooPiece(this.piece);
@@ -54,16 +55,24 @@ define([
 			this.setServerState(serverState);
             this.piece.updateNetworkState(serverState);
 
+			var hierarchyReady = function() {
+				_this.notifyServerState(serverState)
+				pieceReady(_this);
+			};
+
             var applyPieceData = function(src, data) {
        //         console.log("Attach pieceData", src, data)
+
                 _this.pieceData = data;
-                _this.addAttachmentPoints(data.attachment_points, data.default_modules);
+                _this.addAttachmentPoints(data.attachment_points, data.default_modules, hierarchyReady);
                 //       _this.attachModules(data.modules);
+
             };
+
             
             this.pipelineObject = new PipelineObject('PIECE_DATA', piece.type, applyPieceData);
-            this.notifyServerState(serverState)
 
+			
 		};
 
 		ClientPiece.prototype.getScreenPosition = function(store) {
@@ -74,7 +83,7 @@ define([
 		};
 
 
-		ClientPiece.prototype.addAttachmentPoints = function(attachmentPoints, defaultModules) {
+		ClientPiece.prototype.addAttachmentPoints = function(attachmentPoints, defaultModules, hierarchyReady) {
 
             for (var i = 0; i < this.attachmentPoints.length; i++) {
 				this.attachmentPoints[i].detatchAttachmentPoint();
@@ -87,7 +96,7 @@ define([
 				this.attachmentPoints.push(ap)
 			}
 
-			this.attachModules();
+			this.attachModules(hierarchyReady);
         };
 
 		ClientPiece.prototype.getAttachmentPoint = function(point_id) {
@@ -98,19 +107,32 @@ define([
 			}
 		};
 
-		ClientPiece.prototype.attachModules = function() {
+		ClientPiece.prototype.attachModules = function(hierarchyReady) {
+
+			var readyPoints = 0;
+			var startedPoints = 0;
+
+			var apReady = function() {
+				readyPoints++;
+				if (readyPoints == startedPoints) {
+					hierarchyReady();
+				}
+			};
 
 			this.detachModules();
 			var serverState = this.piece.serverState;
 			for (var i = 0; i < this.attachmentPoints.length; i++) {
-				this.attachmentPoints[i].attachClientModule(new ClientModule(this, this.attachmentPoints[i], serverState.modules[this.attachmentPoints[i].data.module]));
+				startedPoints++;
+				this.attachmentPoints[i].attachClientModule(new ClientModule(this, this.attachmentPoints[i], serverState.modules[this.attachmentPoints[i].data.module]), apReady);
 			}
 
-			this.buildHierarchy();
+			this.buildHierarchy(hierarchyReady);
 		};
 
 		ClientPiece.prototype.buildHierarchy = function() {
+
 			for (var i = 0; i < this.attachmentPoints.length; i++) {
+
 				this.attachmentPoints[i].attachModuleModels();
 				if (this.attachmentPoints[i].parent) {
 					this.attachmentPoints[i].attachToParent(this.getAttachmentPoint(this.attachmentPoints[i].parent).object3D);

@@ -53,14 +53,15 @@ define([
 
 
         CanvasFunctions.prototype.setupCallbacks = function(id, conf, callbackNames) {
-
+            if (!ownPiece) return;
+            
             this.callbacks = [];
 
             var configs = conf;
             
             var radarCallback = function(tpf, ctx) {
 
-                if (ownPiece) {
+                if (PipelineAPI.readCachedConfigKey('HUD_STATUS', 'CANVAS_RADAR_RIGHT')) {
                     CanvasRadar.drawRadarContent(pieces, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
                 }
 
@@ -81,7 +82,7 @@ define([
             };
 
             var inputDebugCallback = function(tpf, ctx) {
-                if (ownPiece) {
+                if (PipelineAPI.readCachedConfigKey('HUD_STATUS', 'CANVAS_INPUT_DEBUG')) {
                     CanvasInputDebug.drawInputVectors(ownPiece, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
                     CanvasInputDebug.drawInputVectors(ownPiece, ctx, ownPiece.piece.spatial, configs, widgetConfigs);
                 }

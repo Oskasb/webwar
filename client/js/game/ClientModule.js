@@ -26,6 +26,8 @@ define([
                 console.log("Server state missing for module", this);
             }
 
+
+            
             this.on = false;
             this.lastValue = null;
 
@@ -34,20 +36,19 @@ define([
             var applyModuleData = function(src, data) {
             //    console.log("Module data", src, data);
                 this.data = data;
+                this.threeModule.setModuleData(data);
 
-                this.threeModule.setModuleData(data)
 
-            //    this.on = true;
-
+                clientPiece.registerModule(this);
             }.bind(this);
 
-            this.pipeObj = new PipelineObject('MODULE_DATA', this.id, applyModuleData)
-            clientPiece.registerModule(this);
+            this.pipeObj = new PipelineObject('MODULE_DATA', this.id, applyModuleData);
+            
         };
 
 
-        ClientModule.prototype.buildGeometry = function () {
-            this.threeModule.buildModel(this.clientPiece.threePiece.getParentObject3d());
+        ClientModule.prototype.buildGeometry = function (apReady) {
+            this.threeModule.buildModel(this.clientPiece.threePiece.getParentObject3d(), apReady);
         };
         
         ClientModule.prototype.attachModuleToParent = function (parentModule) {

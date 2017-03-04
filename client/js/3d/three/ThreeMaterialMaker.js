@@ -126,6 +126,7 @@ define([
             var mat = new THREE.MeshBasicMaterial({ map: texture});
             mat.transparent = true;
             mat.blending = THREE["AdditiveBlending"];
+            mat.depthTest = false;
             return mat;
         };
 

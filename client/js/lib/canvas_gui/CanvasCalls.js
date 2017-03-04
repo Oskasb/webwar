@@ -49,7 +49,7 @@ define([
 			this.resetCallbacks = [];
 
 			setTimeout(function() {
-				onUpdate()
+				onUpdate();
 			}, 500)
 		};
 

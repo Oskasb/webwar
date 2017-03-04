@@ -25,9 +25,7 @@ define([
         EffectsAPI.tickEffectSimulation = function(tpf) {
             particleSpawner.updateSpawnedParticles(tpf);
         };
-
-        
-        
+                
         EffectsAPI.sampleTotalParticlePool = function() {
             return particleSpawner.getTotalParticlePool();
         };
@@ -51,9 +49,6 @@ define([
         EffectsAPI.sampleEffectActivations = function() {
             return particleSpawner.getEffectActivationCount();
         };
-
-
-
 
 
         return EffectsAPI;

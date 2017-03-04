@@ -100,7 +100,7 @@ define([
         var setup
 
 
-        var attachAsynchModel = function(modelId, rootObject) {
+        var attachAsynchModel = function(modelId, rootObject, partsReady) {
 
             var attachModel = function(src, cached) {
 
@@ -112,6 +112,7 @@ define([
                     setup.addToScene(model);
                     rootObject.add(model);
                     transformModel(modelList[modelId].transform, model);
+                    partsReady();
                 };
 
                 new PipelineObject('THREE_MATERIAL', modelList[modelId].material, attachMaterial);
@@ -121,11 +122,11 @@ define([
         };
 
 
-        ThreeModelLoader.loadThreeMeshModel = function(applies, rootObject, ThreeSetup) {
+        ThreeModelLoader.loadThreeMeshModel = function(applies, rootObject, ThreeSetup, partsReady) {
 
             setup = ThreeSetup;
             
-            attachAsynchModel(applies, rootObject);
+            attachAsynchModel(applies, rootObject, partsReady);
             
 
             return rootObject;
@@ -138,7 +139,6 @@ define([
 
             geometry = new THREE.BoxGeometry( sx || 1, sy || 1, sz || 1);
             material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
-
             return new THREE.Mesh( geometry, material );
         };
 
@@ -152,8 +152,8 @@ define([
             return new THREE.Mesh( geometry, material );
         };
         
-        ThreeModelLoader.loadGroundMesh = function(applies, array1d, rootObject, ThreeSetup) {
-            ThreeTerrain.loadTerrain(applies, array1d, rootObject, ThreeSetup);
+        ThreeModelLoader.loadGroundMesh = function(applies, array1d, rootObject, ThreeSetup, partsReady) {
+            ThreeTerrain.loadTerrain(applies, array1d, rootObject, ThreeSetup, partsReady);
             return rootObject;
         };
 

@@ -71,7 +71,6 @@ define([
 
                         _this.canvasApi.setGuiTextureResolution(_this.configs.resolution);
                         _this.canvasApi.setGuiAttenuationRgba(_this.configs.attenuation);
-
                     };
 
                     PipelineAPI.subscribeToCategoryKey('GAME_DATA', 'OWN_PLAYER', playerReady);

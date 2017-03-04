@@ -55,10 +55,11 @@ define([
 			this.setupParts();
 
 			this.onUpdateCallbacks = [];
+			
 
 			var configUpdated = function(url, config) {
 				this.handleConfigUpdate(url, config);
-			//	this.setBlendModeId(this.guiConfig.element.blendMode);
+				
 			}.bind(this);
 
 			PipelineAPI.subscribeToCategoryKey('setup', 'page', configUpdated);

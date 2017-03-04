@@ -107,7 +107,7 @@
           "parentId":"rightRoot",
           "canvas3d":{
             "configId": "canvas_controls",
-            "enableOnEvent":{"category":"HUD_STATUS", "key":"CANVAS_TOP_RIGHT", "type":"toggle"}
+            "enableOnEvent":{"category":"HUD_STATUS", "key":"CANVAS_INPUT_DEBUG", "type":"toggle"}
           }
         }
 
@@ -237,7 +237,8 @@
           "style":["panel_button_multi", "coloring_button_main_panel"],
           "button":{
             "id":"panel_button",
-            "event":{"category":"HUD_STATUS", "key":"CANVAS_TOP_LEFT", "type":"toggle"}
+
+            "event":{"category":"HUD_STATUS", "key":"CANVAS_RADAR_RIGHT", "type":"toggle"}
           },
           "text":"RADAR"
         }
@@ -248,7 +249,7 @@
           "style":["panel_button_multi", "coloring_button_main_panel"],
           "button":{
             "id":"panel_button",
-            "event":{"category":"HUD_STATUS", "key":"CANVAS_TOP_RIGHT", "type":"toggle"}
+            "event":{"category":"HUD_STATUS", "key":"CANVAS_INPUT_DEBUG", "type":"toggle"}
           },
           "text":"INPUT"
         }
@@ -292,7 +293,7 @@
           "parentId": "leftRoot",
           "canvas3d": {
             "configId": "canvas_radar_3d",
-            "enableOnEvent":{"category":"HUD_STATUS", "key":"CANVAS_TOP_LEFT", "type":"toggle"}
+            "enableOnEvent":{"category":"HUD_STATUS", "key":"CANVAS_RADAR_RIGHT", "type":"toggle"}
           }
         }
       }

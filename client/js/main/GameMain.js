@@ -38,34 +38,58 @@ define([
             
 		};
 
-		GameMain.prototype.registerPlayer = function(data) {
+		GameMain.prototype.registerPlayer = function(clientPiece) {
 
-			var _this = this;
 
-			var removeCallback = function(playerId) {
-                setTimeout(function() {
-                    delete _this.pieces[playerId];
-                }, 20)
-        	};
-
-			this.pieces[data.playerId] = new ClientPiece(data, removeCallback);
-
-            if (data.type != 'player_ship') {
-                return this.pieces[data.playerId];
+            if (clientPiece.piece.type != 'player_ship') {
+                return this.pieces[clientPiece.playerId];
             }
 
 			if (!this.ownPlayer) {
-				if (data.playerId == PipelineAPI.readCachedConfigKey('REGISTRY', 'CLIENT_ID')) {
-                    this.contolOwnPlayer(this.pieces[data.playerId]);
+				if (clientPiece.playerId == PipelineAPI.readCachedConfigKey('REGISTRY', 'CLIENT_ID')) {
+                    this.contolOwnPlayer(this.pieces[clientPiece.playerId]);
 
 				} else {
-                    evt.fire(evt.list().MESSAGE_UI, {channel:'server_message', message:'Present: '+data.playerId });
+                    evt.fire(evt.list().MESSAGE_UI, {channel:'server_message', message:'Present: '+clientPiece.playerId });
                 }
 			} else {
-                evt.fire(evt.list().MESSAGE_UI, {channel:'server_message', message:'Appear: '+data.playerId });
+                evt.fire(evt.list().MESSAGE_UI, {channel:'server_message', message:'Appear: '+clientPiece.playerId });
             }
 
-			return this.pieces[data.playerId];
+			return this.pieces[clientPiece.playerId];
+		};
+
+
+		GameMain.prototype.createPlayer = function(data) {
+
+            var _this = this;
+
+            var removeCallback = function(playerId) {
+                setTimeout(function() {
+                    delete _this.pieces[playerId];
+                }, 20)
+            };
+
+            var pieceReady = function(clientPiece) {
+                _this.pieces[clientPiece.playerId] = clientPiece;
+                _this.registerPlayer(clientPiece);
+            };
+
+            new ClientPiece(data, removeCallback, pieceReady);
+		};
+
+
+		GameMain.prototype.playerUpdate = function(data) {
+
+			if (this.pieces[data.playerId]) {
+
+				this.pieces[data.playerId].setServerState(data);
+				this.pieces[data.playerId].notifyServerState(data);
+			} else {
+			//	console.log("Register New Player from update", data.playerId, this.pieces);
+				this.createPlayer(data)
+
+			}
 		};
 
 		GameMain.prototype.InputVector = function(msg) {
@@ -78,17 +102,6 @@ define([
 				console.log("Sector Update", data);
 			} else {
 				//	console.log("Register New Player from update", data.playerId, this.pieces);
-			}
-		};
-
-		GameMain.prototype.playerUpdate = function(data) {
-			if (this.pieces[data.playerId]) {
-
-				this.pieces[data.playerId].setServerState(data);
-				this.pieces[data.playerId].notifyServerState(data);
-			} else {
-			//	console.log("Register New Player from update", data.playerId, this.pieces);
-				this.registerPlayer(data);
 			}
 		};
 

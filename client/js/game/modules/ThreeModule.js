@@ -26,27 +26,57 @@ define([
             this.applies = moduleData.applies;
         };
 
-        ThreeModule.prototype.buildModel = function(parentObj3d) {
-            if (!this.applies) return;
+        ThreeModule.prototype.buildModel = function(parentObj3d, apReady) {
+            
+            var started = 0;
+            var finished = 0;
+            var partsReady = function() {
+                finished++
+                if (started == finished) {
+                    apReady(); 
+                }
+            };
+
+            started++;
+            
+            if (!this.applies) {
+                partsReady();
+                return;
+            }
 
             this.parentObject3d = ThreeAPI.createRootObject();
 
             if (this.applies.game_effect || this.applies.bundle_model || this.applies.module_model_child) {
-                this.model = ThreeAPI.loadModel(this.transform.size.getX(), this.transform.size.getY(), this.transform.size.getZ());
+                this.addModuleObject3D(parentObj3d);
+            //    this.addModuleDebugBox(parentObj3d);
+
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
             }
 
             if (this.applies.three_model) {
-                this.model = ThreeAPI.loadMeshModel(this.applies.three_model, this.parentObject3d);
+                started++
+                this.model = ThreeAPI.loadMeshModel(this.applies.three_model, this.parentObject3d, partsReady);
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
             }
 
             if (this.applies.three_terrain) {
-                this.model = ThreeAPI.loadGround(this.applies, this.module.state.value, this.parentObject3d);
+                started++
+                this.model = ThreeAPI.loadGround(this.applies, this.module.state.value, this.parentObject3d, partsReady);
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
             }
+            partsReady();
         };
 
+
+        ThreeModule.prototype.addModuleObject3D = function(parentObj3d) {
+            this.model = ThreeAPI.createRootObject();
+        };
+
+
+        ThreeModule.prototype.addModuleDebugBox = function(parentObj3d) {
+            this.model = ThreeAPI.loadModel(this.transform.size.getX(), this.transform.size.getY(), this.transform.size.getZ());
+            ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
+        };
 
         ThreeModule.prototype.getParentObject3d = function() {
             return this.parentObject3d;

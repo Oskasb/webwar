@@ -87,7 +87,7 @@ define([
         };
 
 
-        ThreeTerrain.loadTerrain = function(applies, array1d, rootObject, ThreeSetup) {
+        ThreeTerrain.loadTerrain = function(applies, array1d, rootObject, ThreeSetup, partsReady) {
 
             var setup = ThreeSetup;
             var modelId = applies.three_terrain;
@@ -103,6 +103,7 @@ define([
                     setup.addToScene(model);
                     rootObject.add(model);
                     transformModel(terrainList[modelId].transform, model);
+                    partsReady();
                 };
 
 

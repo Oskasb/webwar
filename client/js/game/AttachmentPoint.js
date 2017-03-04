@@ -32,8 +32,8 @@ define([
             this.data.module = moduleData;
         };
 
-        AttachmentPoint.prototype.attachClientModule = function (clientModule) {
-            clientModule.buildGeometry();
+        AttachmentPoint.prototype.attachClientModule = function (clientModule, apReady) {
+            clientModule.buildGeometry(apReady);
             this.clientModules.push(clientModule);
             
         };

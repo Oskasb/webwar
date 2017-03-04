@@ -4,7 +4,6 @@ define([
         'Events',
         'PipelineObject',
         'PipelineAPI',
-        'gui/CanvasGuiAPI',
         'ui/GameScreen',
         'ui/canvas/CanvasElement'
     ],
@@ -12,7 +11,6 @@ define([
         evt,
         PipelineObject,
         PipelineAPI,
-        CanvasGuiAPI,
         GameScreen,
         CanvasElement
     ) {
@@ -28,16 +26,20 @@ define([
         DomCanvas.prototype.initCanvasSystem = function(canvasParams) {
             
             var _this = this;
+
             this.canvasElement = new CanvasElement(canvasParams);
 
             this.ready = false;
 
-            var configLoaded = function(src, conf) {
-                _this.canvasElement.applyElementConfig(_this.parent, _this.pipelineObject.buildConfig()[_this.configId]);
-            };
-
             var clientTick = function(e) {
                 _this.canvasElement.updateCanvasElement(evt.args(e).tpf);
+            };
+
+
+            var toggleTriggered = function(src, data) {
+                console.log("Enable event", src, data);
+                PipelineAPI.setCategoryKeyValue(_this.conf.enableOnEvent.category, src, data);
+                _this.canvasElement.toggleEnabled(data);
             };
 
             var playerReady = function() {
@@ -50,10 +52,10 @@ define([
 
                 }
 
-                this.active = true;
+                _this.active = true;
 
                 if (_this.conf.enableOnEvent) {
-                    console.log("Enable event", this.conf);
+                    console.log("Enable event", _this.conf);
                     var data = {};
                     data[_this.conf.enableOnEvent.key] = false;
                     PipelineAPI.setCategoryData(_this.conf.enableOnEvent.category, data);
@@ -65,14 +67,16 @@ define([
                 evt.on(evt.list().CLIENT_TICK, clientTick);
             };
 
-            PipelineAPI.subscribeToCategoryKey('GAME_DATA', 'OWN_PLAYER', playerReady);
 
 
-            
-            var toggleTriggered = function(src, data) {
-                _this.canvasElement.toggleEnabled(data);
+            var guiReady = function() {
+                console.log("GUI READY CALLBACK FIRED");
+
             };
-
+            new PipelineObject('GAME_DATA', 'OWN_PLAYER', playerReady);
+            var configLoaded = function(src, conf) {
+                _this.canvasElement.applyElementConfig(_this.parent, _this.pipelineObject.buildConfig()[_this.configId], guiReady);
+            };
 
 
         };

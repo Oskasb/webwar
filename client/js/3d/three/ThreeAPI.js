@@ -106,6 +106,7 @@ define([
         };
 
         ThreeAPI.applySpatialToModel = function(spatial, model) {
+            if (!model) return;
             ThreeAPI.transformModel(model, spatial.posX(), spatial.posY(), spatial.posZ(), spatial.pitch(), spatial.yaw(), spatial.roll())
         };
 
@@ -124,14 +125,14 @@ define([
             return object3d;
         };
 
-        ThreeAPI.loadMeshModel = function(modelId, rootObject) {
-            var model = ThreeModelLoader.loadThreeMeshModel(modelId, rootObject, ThreeSetup);
+        ThreeAPI.loadMeshModel = function(modelId, rootObject, partsReady) {
+            var model = ThreeModelLoader.loadThreeMeshModel(modelId, rootObject, ThreeSetup, partsReady);
             ThreeSetup.addToScene(model);
             return model;
         };
 
-        ThreeAPI.loadModel = function(sx, sy, sz) {
-            var model = ThreeModelLoader.loadThreeModel(sx, sy, sz);
+        ThreeAPI.loadModel = function(sx, sy, sz, partsReady) {
+            var model = ThreeModelLoader.loadThreeModel(sx, sy, sz, partsReady);
             ThreeSetup.addToScene(model);
             return model;
         };
@@ -141,8 +142,8 @@ define([
             return ThreeSetup.addToScene(model);
         };
 
-        ThreeAPI.loadGround = function(applies, array1d, rootObject) {
-            var model = ThreeModelLoader.loadGroundMesh(applies, array1d, rootObject, ThreeSetup);
+        ThreeAPI.loadGround = function(applies, array1d, rootObject, partsReady) {
+            var model = ThreeModelLoader.loadGroundMesh(applies, array1d, rootObject, ThreeSetup, partsReady);
             return ThreeSetup.addToScene(model);
         };
         
