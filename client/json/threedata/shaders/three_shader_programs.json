@@ -155,10 +155,15 @@
           "accelerationDiffusion = accelerationDiffusion * sampledDataTexel;",
 
 
+
+          "pixelSelector.y = 1.0 - ((rowAlpha / data_rows) - (0.5 / data_rows));",
+          "sampledDataTexel = texture2D(data_texture, pixelSelector);",
+          "sampledAlpha = sampledDataTexel.r;",
+
           "pixelSelector.y = 1.0 - ((rowColor / data_rows) - (0.5 / data_rows));",
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",
 
-          "vec4 vertexColor = vec4(sampledDataTexel.r, sampledDataTexel.g, sampledDataTexel.b, sampledDataTexel.a) * colorDiffusion;",
+          "vec4 vertexColor = vec4(sampledDataTexel.r, sampledDataTexel.g, sampledDataTexel.b, sampledDataTexel.a * sampledAlpha) * colorDiffusion;",
 
 
           "pixelSelector.y = 1.0 - ((rowSize / data_rows) - (0.5 / data_rows));",

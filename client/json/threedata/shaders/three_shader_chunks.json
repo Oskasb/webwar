@@ -276,6 +276,7 @@
 
           "varying float rowColor;",
           "varying float rowAlpha;",
+          "varying float sampledAlpha;",
           "varying float rowSize;",
           "varying float rowDiffusion;",
           "varying float progress;",

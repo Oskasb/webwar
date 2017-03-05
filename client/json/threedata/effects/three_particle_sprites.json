@@ -10,6 +10,11 @@
           "id":"flare_yellow",
           "tiles":[[4, 3]]
         },
+
+        {
+          "id":"leafy_tuft",
+          "tiles":[[4, 5]]
+        },
         {
           "id":"flare_bloomy",
           "tiles":[[6, 4]]

@@ -67,37 +67,33 @@ define([],
             this.attributeBuffers[name] = attributeBuffer;
             this.attributes[name] = this.particleIndex*dimensions;
 
-            if (this.buffers[name].length < this.particleIndex*dimensions) {
-                console.warn("particleIndex out of range", name, this.particleIndex, dimensions);
-            }
+        //    if (this.buffers[name].length < this.particleIndex*dimensions) {
+        //        console.warn("particleIndex out of range", name, this.particleIndex, dimensions);
+        //    }
         };
                 
         Particle.prototype.setAttribute1D = function(name, value) {
-            if (buffer1DEqualsValue(this.buffers[name], [this.attributes[name]], value)) {
-                return;
-            }
+        //    if (buffer1DEqualsValue(this.buffers[name], [this.attributes[name]], value)) {
+        //        return;
+         //   }
             this.buffers[name][this.attributes[name]] = value;
             this.attributeBuffers[name].needsUpdate = true;
         };
 
         Particle.prototype.setAttribute2D = function(name, value1, value2) {
-            if (buffer2DEqualsValues(this.buffers[name], [this.attributes[name]], value1, value2)) {
-                return;
-            }
+         //   if (buffer2DEqualsValues(this.buffers[name], [this.attributes[name]], value1, value2)) {
+        //        return;
+        //    }
             this.buffers[name][this.attributes[name]] = value1;
             this.buffers[name][this.attributes[name]+1] = value2;
             this.attributeBuffers[name].needsUpdate = true;
         };
 
         Particle.prototype.setAttribute3D = function(name, value1, value2, value3) {
-            if (!this.buffers[name]) {
-                console.log("NO BUFFER AT", this.particleIndex, name, this.buffers, this.attributes[name])
-                return;
-            }
 
-            if (buffer3DEqualsValues(this.buffers[name], [this.attributes[name]], value1, value2, value3)) {
-                return;
-            }
+        //    if (buffer3DEqualsValues(this.buffers[name], [this.attributes[name]], value1, value2, value3)) {
+        //        return;
+        //    }
 
             this.buffers[name][this.attributes[name]] = value1;
             this.buffers[name][this.attributes[name]+1] = value2;
@@ -106,9 +102,9 @@ define([],
         };
 
         Particle.prototype.setAttribute4D = function(name, value1, value2, value3, value4) {
-            if (buffer4DEqualsValues(this.buffers[name], [this.attributes[name]], value1, value2, value3, value4)) {
-                return;
-            }
+        //    if (buffer4DEqualsValues(this.buffers[name], [this.attributes[name]], value1, value2, value3, value4)) {
+        //        return;
+         //   }
 
             this.buffers[name][this.attributes[name]] = value1;
             this.buffers[name][this.attributes[name]+1] = value2;
