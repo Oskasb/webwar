@@ -27,24 +27,24 @@
           }
         },
         {
-          "id":"yellow_flare",
+          "id":"leafy_ground_spray",
           "sprite_key":"ATLAS",
           "sprite_id":"leafy_tuft",
           "config":{
-            "gravity":-2.81,
-            "acceleration":1.1,
+            "gravity":-6.81,
+            "acceleration":0.8,
             "spinAcceleration":1.2,
-            "lifeTime":{"min":0.4,"max":0.6},
+            "lifeTime":{"min":0.5,"max":1.2},
             "colorCurve":"nearWhite",
             "alphaCurve":"oneToZero",
-            "diffusionCurve":"zeroToOne",
-            "scaleCurve":"quickIn",
+            "diffusionCurve":"halfQuickIn",
+            "scaleCurve":"halfQuickIn",
             "size":{"value":0.4, "min": 0.3, "max": 1.32},
             "spin":{"value":0.01, "min":-0.5, "max":0.5},
             "velocitySpread":{"min":-0.4,"max":0.4},
-            "velocityDiffusion":3.03,
-            "accelerationDiffusion":0.1,
-            "colorDiffusion":0.05,
+            "velocityDiffusion":0.73,
+            "accelerationDiffusion":0.5,
+            "colorDiffusion":0.45,
             "velocityFactor":0.223
           }
         },

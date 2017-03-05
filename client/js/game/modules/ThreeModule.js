@@ -13,6 +13,8 @@ define([
     ) {
 
         var calcVec = new THREE.Vector3();
+        var calcVec2 = new THREE.Vector3();
+        var calcQuat = new THREE.Quaternion();
 
 
         var ThreeModule = function(module, piece, attachmentPoint) {
@@ -129,16 +131,7 @@ define([
         };
 
 
-        ThreeModule.prototype.inheritEntityWorldTransform = function(pos) {
 
-            this.entity.transformComponent.updateWorldTransform();
-            //    this.entity.transformComponent.worldTransform.rotation.toAngles(this.calcVec);
-            this.calcVec3.setXYZ(pos[0], pos[1], pos[2]);
-            this.calcVec3.applyPost(this.entity.transformComponent.worldTransform.rotation);
-            this.calcVec3.addVector(this.entity.transformComponent.worldTransform.translation);
-            this.tempSpatial.setPosXYZ(this.calcVec3.x, this.calcVec3.y, this.calcVec3.z);
-
-        };
 
         ThreeModule.prototype.calcLocalTargetAngle = function(stateValue) {
             return stateValue;
@@ -179,7 +172,18 @@ define([
         };
 
 
+        ThreeModule.prototype.inheritModuleWorldTransform = function(modulePos, tempSpatial) {
 
+
+
+            this.entity.transformComponent.updateWorldTransform();
+            //    this.entity.transformComponent.worldTransform.rotation.toAngles(this.calcVec);
+            this.calcVec3.setXYZ(pos[0], pos[1], pos[2]);
+            this.calcVec3.applyPost(this.entity.transformComponent.worldTransform.rotation);
+            this.calcVec3.addVector(this.entity.transformComponent.worldTransform.translation);
+            this.tempSpatial.setPosXYZ(this.calcVec3.x, this.calcVec3.y, this.calcVec3.z);
+
+        };
 
         ThreeModule.prototype.updateThreeModule = function(stateValue) {
 
@@ -233,14 +237,32 @@ define([
                     calcVec.setFromMatrixPosition( this.model.matrixWorld );
 
                     if (!calcVec.x) return;
-                    if (!this.piece.spatial.pos.data) return
+                    if (!this.piece.spatial.pos.data) return;
 
 
+                    calcVec2.x = this.transform.size.getX()*Math.random() - this.transform.size.getX()*0.5;
+                    calcVec2.y = this.transform.size.getY()*Math.random() - this.transform.size.getY()*0.5;
+                    calcVec2.z = this.transform.size.getZ()*Math.random() - this.transform.size.getZ()*0.5;
 
-                    
+                    this.model.getWorldQuaternion(calcQuat);
+
+                    calcVec2.applyQuaternion(calcQuat);
+                    //          calcVec2.applyMatrix4(this.model.matrixWorld);
+                    //
+                    calcQuat.normalize();
+                    calcVec.addVectors(calcVec, calcVec2);
+
+                    calcVec2.x = this.piece.spatial.vel.getX();
+                    calcVec2.y = this.piece.spatial.vel.getY() + Math.abs(stateValue);
+                    calcVec2.z = this.piece.spatial.vel.getZ();
+
+                    calcVec2.applyQuaternion(calcQuat);
+
+               //     this.tempSpatial.vel.
+
                     for (var i = 0; i < fx.length; i++) {
                         for (var j = 0; j < fx[i].particle_effects.length; j++) {
-                            evt.fire(evt.list().GAME_EFFECT, {effect:fx[i].particle_effects[j].id, pos:calcVec, vel:this.piece.spatial.vel});
+                            evt.fire(evt.list().GAME_EFFECT, {effect:fx[i].particle_effects[j].id, pos:calcVec, vel:calcVec2});
                         }
                     }
                 } else {
