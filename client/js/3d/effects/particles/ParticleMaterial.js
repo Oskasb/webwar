@@ -23,7 +23,7 @@ define([
             var options = utils.ensureTypedArg( txMatSettings, types.OBJECT, {} );
 
             txSettings.data_texture = utils.ensureInstanceOf( dataTextures[txMatSettings.data_texture], THREE.Texture, null );
-            if (txMatSettings.dataTexture) {
+            if (txMatSettings.data_texture) {
                 txSettings.data_rows = utils.ensureTypedArg( options.settings.data_rows, types.NUMBER, null );
             }
 

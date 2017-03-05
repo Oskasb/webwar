@@ -128,9 +128,9 @@
           "size =   offsetSize.w;",
 
           "rowColor =     texelRowSelect.x;",
+          "rowAlpha =     texelRowSelect.w;",
           "rowDiffusion = texelRowSelect.y;",
           "rowSize  =     texelRowSelect.z;",
-          "rowAlpha =     texelRowSelect.w;",
 
 
           "float sillySeed = sin((offset.x*99.1 + offset.y*78.1 + offset.z*99.1)*99.9+cos(startTime))*99.9;",
@@ -162,11 +162,11 @@
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",
           "sampledAlpha = sampledDataTexel.r;",
 
+
           "pixelSelector.y = 1.0 - ((rowColor / data_rows) - (0.5 / data_rows));",
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",
 
           "vec4 vertexColor = vec4(sampledDataTexel.r, sampledDataTexel.g, sampledDataTexel.b, sampledDataTexel.a * sampledAlpha) * colorDiffusion;",
-
 
           "pixelSelector.y = 1.0 - ((rowSize / data_rows) - (0.5 / data_rows));",
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",

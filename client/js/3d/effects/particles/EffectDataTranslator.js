@@ -102,14 +102,14 @@ define([
         var tV = 0.0001;
 
         ConfiguredGpuEffect.prototype.setDefaults = function() {
-            this.age.setValues(tV, 0.02);
+            this.age.setValues(0, 0.02);
             this.lifeTime.setValues(1, 2);
             this.tiles.setValues(1, 1, tV, tV);
             this.position.setValues(tV, tV, tV, 8, tV, tV);
             this.acceleration.setValues(1, -9.81, 1, 1, tV, tV);
             this.velocity.setValues(tV, tV, tV, 1, tV, tV);
-            this.texelRowSelect.setValues(32, 1, 2, 1, 0, 0);
-            this.diffusors.setValues(0.5, 0.3, 1, 1, 0, 0);
+            this.texelRowSelect.setValues(2, 1, 2, 1, 0, 0);
+            this.diffusors.setValues(0.5, 0.3, 1, 1, tV, tV);
         };
         
         var EffectDataTranslator = function() {
