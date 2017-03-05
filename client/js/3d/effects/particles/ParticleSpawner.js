@@ -70,7 +70,7 @@ define([
             fxAdds++;
             var effect;
             if (idleEffects.length != 0) {
-                effect = idleEffects.pop();
+                effect = idleEffects.shift();
             } else {
                 effect = new ParticleEffect();
             }

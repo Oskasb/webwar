@@ -68,7 +68,7 @@ define(['3d/effects/particles/EffectSimulators',
                 }
             }
 
-            this.effectDuration = maxDuration + this.lastTpf;
+            this.effectDuration = maxDuration + this.lastTpf * 2;
 
         };
 
@@ -133,8 +133,8 @@ define(['3d/effects/particles/EffectSimulators',
                         this.deadParticles.push(this.aliveParticles[i]);
                     } else {
                         if (this.aliveParticles[i].params.gpu_sim) {
-                            this.updateGpuParticle(this.aliveParticles[i], tpf)
-                            if (this.aliveParticles[i].params.lifeTime.value < this.age) {
+                        //    this.updateGpuParticle(this.aliveParticles[i], tpf)
+                            if (this.aliveParticles[i].params.lifeTime.value < this.age + this.lastTpf * 2) {
                                 EffectSimulators.dead(this.aliveParticles[i], tpf);
                                 this.deadParticles.push(this.aliveParticles[i]);
                             }

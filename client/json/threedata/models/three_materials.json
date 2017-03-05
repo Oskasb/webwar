@@ -87,7 +87,7 @@
           "shader":"",
           "settings":{},
           "textures":[{
-            "map":"./client/assets/images/effects/particle_atlas_6x6.png",
+            "particle_texture":"./client/assets/images/effects/particle_atlas_6x6.png",
             "data_texture":"./client/assets/images/effects/data_texture.png"
           }]
         }

@@ -27,7 +27,7 @@ define([
                 txSettings.data_rows = utils.ensureTypedArg( options.settings.data_rows, types.NUMBER, null );
             }
 
-            txSettings.texture = utils.ensureInstanceOf( mapTextures[txMatSettings.map], THREE.Texture, null );
+            txSettings.texture = utils.ensureInstanceOf( mapTextures[txMatSettings.particle_texture], THREE.Texture, null );
             txSettings.tiles_x = utils.ensureTypedArg( options.settings.tiles_x, types.NUMBER, 1 );
             txSettings.tiles_y = utils.ensureTypedArg( options.settings.tiles_y, types.NUMBER, 1 );
 
@@ -126,11 +126,11 @@ define([
         ParticleMaterial.prototype.setupMapTexture = function() {
 
             var applyTexture = function(src, data) {
-                mapTextures[this.txMatSettings.map] = data;
+                mapTextures[this.txMatSettings.particle_texture] = data;
                 this.setupShaders();
             }.bind(this);
 
-            this.txPipe = new PipelineObject("THREE_TEXTURE", "map_"+this.txMatSettings.map, applyTexture);
+            this.txPipe = new PipelineObject("THREE_TEXTURE", "particle_texture_"+this.txMatSettings.particle_texture, applyTexture);
         };
 
 

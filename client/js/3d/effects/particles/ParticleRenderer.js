@@ -121,7 +121,7 @@ define([
         };
 
         ParticleRenderer.prototype.requestParticle = function() {
-            var particle = this.particles.pop();
+            var particle = this.particles.shift();
             particle.dead = false;
             return particle;
         };

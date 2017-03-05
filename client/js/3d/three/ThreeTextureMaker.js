@@ -21,8 +21,11 @@ define([
             var bufferUpdated = function(src, data) {
 
                     var onLoad = function(tx) {
-                        if (txType == 'envMap' || txType == 'data_texture') {
+                        if (txType == 'envMap' || txType == 'data_texture' || txType == 'particle_texture') {
                             tx.combine = THREE.AddOperation;
+                            tx.generateMipmaps = false;
+                            tx.magFilter = THREE.LinearFilter;
+                            tx.minFilter = THREE.LinearFilter;
                             //            console.log("Set as Reflection", src, tx);
                         } else {
                             tx.wrapS = THREE.RepeatWrapping;
@@ -93,8 +96,8 @@ define([
             var loadParticleTexture = function(src, data) {
 
                 for (var i = 0; i < data.length; i++){
-                    var textureStore = {txType:'map',url:data[i].map, bufferData:null};
-                    textureImages[data[i].map] = textureStore;
+                    var textureStore = {txType:'particle_texture',url:data[i].particle_texture, bufferData:null};
+                    textureImages[data[i].particle_texture] = textureStore;
                     loadImage(textureStore);
                 }
 

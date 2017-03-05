@@ -15,7 +15,7 @@
             {"name":"acceleration","dimensions":4, "dynamic":false},
             {"name":"velocity",    "dimensions":4, "dynamic":false}
           ],
-          "map":"./client/assets/images/effects/particle_atlas_6x6.png",
+          "particle_texture":"./client/assets/images/effects/particle_atlas_6x6.png",
           "data_texture":"./client/assets/images/effects/data_texture.png",
           "settings":{
             "tiles_x":6,
@@ -34,7 +34,7 @@
             {"name":"vertexColor", "dimensions":3, "dynamic":false},
             {"name":"vertexAlpha", "dimensions":1, "dynamic":false}
           ],
-          "map":"./client/assets/images/effects/particle_atlas_6x6.png",
+          "particle_texture":"./client/assets/images/effects/particle_atlas_6x6.png",
 
           "settings":{
             "tiles_x":6,
@@ -49,7 +49,7 @@
             {"name":"customColor",  "dimensions":3},
             {"name":"sizeFactor",   "dimensions":1}
           ],
-          "map":"./client/assets/images/effects/particle_atlas_6x6.png",
+          "particle_texture":"./client/assets/images/effects/particle_atlas_6x6.png",
 
           "settings":{
             "tiles_x":6,
