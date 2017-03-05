@@ -1,7 +1,33 @@
 [
   {
     "PARTICLES": {
+
       "THREE":[
+
+        {
+          "id":"big_sparkly_shatter",
+          "sprite_key":"ATLAS",
+          "sprite_id":"thick_smoke",
+          "config":{
+            "age":     {"min":0.01, "max":0.5},
+            "lifeTime":{"min":0.1,"max":12.5},
+            "positionSpread":{"x":50, "y":50, "z":50},
+            "gravity":0.61,
+            "acceleration":0.3,
+            "spinAcceleration":0.8,
+            "colorCurve":"rainbow",
+            "alphaCurve":"quickInSlowOut",
+            "diffusionCurve":"quickIn",
+            "scaleCurve":"halfQuickIn",
+            "size":{"value":0.6, "min": -0.7, "max": 5.2},
+            "spin":{"value":0.01, "min":-2.5, "max":2.5},
+            "velocitySpread":{"min":-1.1,"max":1.1},
+            "velocityDiffusion":0.53,
+            "accelerationDiffusion":0.5,
+            "colorDiffusion":0.05,
+            "velocityFactor":0.423
+          }
+        },
 
         {
           "id":"grey_smoke",
@@ -9,21 +35,21 @@
           "sprite_id":"thick_smoke",
           "config":{
             "age":     {"min":0.01, "max":0.5},
-            "lifeTime":{"min":0.1,"max":8.5},
+            "lifeTime":{"min":0.1,"max":2.5},
             "gravity":0.61,
-            "acceleration":1.8,
+            "acceleration":0.3,
             "spinAcceleration":0.8,
             "colorCurve":"darkSmoke",
-            "alphaCurve":"quickFadeOut",
+            "alphaCurve":"dampen",
             "diffusionCurve":"quickIn",
             "scaleCurve":"halfQuickIn",
-            "size":{"value":0.05, "min": 0.15, "max": 4.41},
+            "size":{"value":0.6, "min": -0.7, "max": 0.2},
             "spin":{"value":0.01, "min":-2.5, "max":2.5},
-            "velocitySpread":{"min":-1.4,"max":1.4},
-            "velocityDiffusion":0.53,
+            "velocitySpread":{"min":-1.1,"max":1.1},
+            "velocityDiffusion":0.63,
             "accelerationDiffusion":0.3,
-            "colorDiffusion":0.3,
-            "velocityFactor":0.223
+            "colorDiffusion":0.5,
+            "velocityFactor":0.123
           }
         },
         {
@@ -48,6 +74,7 @@
             "velocityFactor":0.223
           }
         },
+
         {
           "id":"default",
           "sprite_key":"ATLAS",

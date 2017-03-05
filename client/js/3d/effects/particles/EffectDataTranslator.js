@@ -85,6 +85,9 @@ define([
             this.velocity      = new ParamVec4("velocity");
             this.texelRowSelect= new ParamVec4("texelRowSelect");
             this.diffusors     = new ParamVec4("diffusors");
+            this.positionSpread= new ParamVec4("positionSpread");
+            this.velocitySpread= new ParamVec4("velocitySpread");
+
             this.init_params   = [
                 {param:"gpu_sim", flag:true},
                 this.age,
@@ -110,6 +113,8 @@ define([
             this.velocity.setValues(tV, tV, tV, 1, tV, tV);
             this.texelRowSelect.setValues(2, 1, 2, 1, 0, 0);
             this.diffusors.setValues(0.5, 0.3, 1, 1, tV, tV);
+            this.positionSpread.setValues(0.5, 0.5, 0.5, tV, tV, tV);
+            this.velocitySpread.setValues(0.5, 0.5, 0.5, tV, tV, tV);
         };
         
         var EffectDataTranslator = function() {
@@ -133,6 +138,7 @@ define([
             if (pCfg.age)  effect.age.setValues(pCfg.age.min, pCfg.age.max);
             if (pCfg.spin) effect.velocity.setValues(null, null, null, pCfg.spin.value, pCfg.spin.min, pCfg.spin.max);
             if (pCfg.size) effect.position.setValues(null, null, null, pCfg.size.value, pCfg.size.min, pCfg.size.max);
+            if (pCfg.positionSpread) effect.positionSpread.setValues(pCfg.positionSpread.x, pCfg.positionSpread.y, pCfg.positionSpread.z, null, null, null);
             if (pCfg.velocitySpread) effect.velocity.setValues(null, null, null, null, pCfg.velocitySpread.min, pCfg.velocitySpread.max);
             effectData.gpuEffect = effect;
         };

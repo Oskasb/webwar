@@ -1,7 +1,7 @@
 [{
   "dataType":"MODULE_DATA",
   "modules":{
-        "bullet_shell":{
+    "bullet_shell":{
       "id":"bullet_shell",
       "type":"warhead",
       "source":"initiate",

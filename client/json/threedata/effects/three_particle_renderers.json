@@ -10,7 +10,7 @@
           "material_options":{
             "blending":"AdditiveBlending",
             "transparent":true,
-            "alphaTest":0.1,
+            "alphaTest":0.001,
             "depthWrite":false,
             "depthTest":true
           }

@@ -8,6 +8,7 @@ define(['3d/effects/particles/EffectSimulators',
              ParticleParamParser
     ) {
 
+        var calcVec = new THREE.Vector3();
 
         var ParticleEffect = function() {
             this.lastTpf = 0.016;
@@ -72,20 +73,33 @@ define(['3d/effects/particles/EffectSimulators',
 
         };
 
+        
+        var spreadVector = function(vec, spreadV4) {
+            vec.x += spreadV4.vec4.x * (Math.random()-0.5);
+            vec.y += spreadV4.vec4.y * (Math.random()-0.5);
+            vec.z += spreadV4.vec4.z * (Math.random()-0.5);
+        };
+
         ParticleEffect.prototype.includeParticle = function(particle, systemTime, index, allowedCount) {
 
             var frameTpfFraction = this.lastTpf*(index/allowedCount);
 
             if (this.effectData.gpuEffect) {
                 ParticleParamParser.applyEffectParams(particle, this.effectData.gpuEffect.init_params);
+
+                calcVec.copy(this.pos);
+
+                spreadVector(calcVec, this.effectData.gpuEffect.positionSpread)
+
             } else {
                 ParticleParamParser.applyEffectParams(particle, this.effectData.simulation.init_params);
             }
 
 
+
             ParticleParamParser.applyEffectSprite(particle, this.effectData.sprite);
             
-            particle.initToSimulation(systemTime+frameTpfFraction, this.pos, this.vel);
+            particle.initToSimulation(systemTime+frameTpfFraction, calcVec, this.vel);
 
             this.updateParticle(particle, frameTpfFraction);
 

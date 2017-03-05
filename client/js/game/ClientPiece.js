@@ -158,6 +158,10 @@ define([
 
 
 		ClientPiece.prototype.detachModules = function() {
+			for (var i = 0; i < this.clientModules.length; i++) {
+				this.clientModules[i].removeClientModule();
+			}
+			
 			this.clientModules.length = 0;
 		};
 

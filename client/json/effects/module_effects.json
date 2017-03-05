@@ -1,22 +1,40 @@
 [{
   "MODULE_EFFECTS": {
-    "tank_track_fx":[
+
+    "shell_detonate":[
       {
         "particle_effects":[
-          {
-            "id":"ground_dirt_spray"
-          }
+          {"id":"big_sparkly_shatter"},
+          {"id":"engine_throttle_smoke"}
         ]
       }
     ],
+
+    "default_remove_effect":[
+      {
+        "particle_effects":[
+          {"id":"big_sparkly_shatter"},
+          {"id":"big_sparkly_shatter"}
+        ]
+      }
+    ],
+
+    "tank_track_fx":[
+      {
+        "particle_effects":[
+          {"id":"ground_dirt_spray"}
+        ]
+      }
+    ],
+
     "tank_engine_fx":[
       {
         "particle_effects":[
-          {
-            "id":"engine_throttle_smoke"
-          }
+          {"id":"big_sparkly_shatter"},
+          {"id":"engine_throttle_smoke"}
         ]
       }
     ]
+
   }
 }]
