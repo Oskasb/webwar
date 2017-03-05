@@ -133,7 +133,7 @@
           "rowAlpha =     texelRowSelect.w;",
 
 
-          "float sillySeed = sin((offset.x*99.1 + offset.y*78.1 + offset.z*99.1)*9999.9)*999.9;",
+          "float sillySeed = sin((offset.x*99.1 + offset.y*78.1 + offset.z*99.1)*99.9+cos(startTime))*99.9;",
 
           "float sillyRandom1 = sin(sillySeed     + progress*0.5 + effectAge * duration * 0.014);",
           "float sillyRandom2 = cos(sillySeed*3.1 + progress*1.5 + effectAge * duration * 0.006);",

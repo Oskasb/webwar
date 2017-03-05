@@ -2,41 +2,43 @@
 
 define([
         '3d/effects/particles/SPEutils',
+        '3d/effects/particles/ParticleDataTexture',
         'PipelineObject'
     ],
     function(
         SPEutils,
+        ParticleDataTexture,
         PipelineObject
     ) {
+
+
+        var dataTextures = {};
+        var mapTextures = {};
+
 
         var utils = SPEutils();
         var types = utils.types;
 
-        var configureTXSettings = function(txMatSettings, texture) {
+        var configureTXSettings = function(txSettings, txMatSettings) {
             var options = utils.ensureTypedArg( txMatSettings, types.OBJECT, {} );
-            var txSettings = {};
 
-
-            txSettings.data_texture = utils.ensureInstanceOf( txMatSettings.data_texture, THREE.Texture, null );
-            if (txMatSettings.data_texture) {
+            txSettings.data_texture = utils.ensureInstanceOf( dataTextures[txMatSettings.data_texture], THREE.Texture, null );
+            if (txMatSettings.dataTexture) {
                 txSettings.data_rows = utils.ensureTypedArg( options.settings.data_rows, types.NUMBER, null );
             }
 
-
-            txSettings.texture = utils.ensureInstanceOf( texture, THREE.Texture, null );
+            txSettings.texture = utils.ensureInstanceOf( mapTextures[txMatSettings.map], THREE.Texture, null );
             txSettings.tiles_x = utils.ensureTypedArg( options.settings.tiles_x, types.NUMBER, 1 );
             txSettings.tiles_y = utils.ensureTypedArg( options.settings.tiles_y, types.NUMBER, 1 );
 
             txSettings.texture.flipY = options.settings.flip_y;
 
-            return txSettings;
         };
 
-        var configureOptions = function(systemOptions) {
+        var configureOptions = function(opts, systemOptions) {
 
             var options = utils.ensureTypedArg( systemOptions, types.OBJECT, {} );
 
-            var opts = {};
             // Set properties used to define the ShaderMaterial's appearance.
             opts.blending       = utils.ensureTypedArg( THREE[options.blending], types.NUMBER, THREE.AdditiveBlending );
             opts.transparent    = utils.ensureTypedArg( options.transparent,     types.BOOLEAN, true );
@@ -50,89 +52,103 @@ define([
             opts.rotate         = utils.ensureTypedArg( options.rotate, types.BOOLEAN, false );
             opts.wiggle         = utils.ensureTypedArg( options.wiggle, types.BOOLEAN, false );
 
-            return opts;
         };
 
 
-        var setupShaderMaterial = function(txSettings, options) {
+        var ParticleMaterial = function(systemOptions, txMatSettings, readyCallback) {
 
-            console.log("OPTIONS BUILT", txSettings, options);
+            this.txSettings = {};
+            this.opts = {};
+
+            this.txMatSettings = txMatSettings;
+
+            this.onReady = readyCallback;
+
+            configureOptions(this.opts, systemOptions);
+
+            this.setupDataTexture()
+
+        };
+
+
+        ParticleMaterial.prototype.setupMaterial = function() {
+
+
+            console.log("OPTIONS BUILT", this.txSettings, this.opts);
 
             var uniforms = {
                 systemTime: {value:0},
-                alphaTest:  {value:options.alphaTest},
-                map:        {value:txSettings.texture},
-                tiles:      {value:new THREE.Vector2(txSettings.tiles_x, txSettings.tiles_y)}
+                alphaTest:  {value:this.opts.alphaTest},
+                map:        {value:this.txSettings.texture},
+                tiles:      {value:new THREE.Vector2(this.txSettings.tiles_x, this.txSettings.tiles_y)}
             };
 
-            if (txSettings.data_texture) {
-            //    txSettings.data_texture.generateMipmaps = false;
-                
-                uniforms.data_texture =  {value:txSettings.data_texture};
-                uniforms.data_rows    =  {value:txSettings.data_rows}
+            if (this.txSettings.data_texture) {
+                //    txSettings.data_texture.generateMipmaps = false;
+
+                uniforms.data_texture =  {value:this.txSettings.data_texture};
+                uniforms.data_rows    =  {value:this.txSettings.data_rows}
             }
 
-            var material = new THREE.RawShaderMaterial({
+            this.material = new THREE.RawShaderMaterial({
                 uniforms: uniforms,
                 side: THREE.DoubleSide,
-                vertexShader: txSettings.shaders.vertex,
-                fragmentShader: txSettings.shaders.fragment,
-                depthTest: options.depthTest,
-                depthWrite: options.depthWrite,
-                blending: options.blending,
-                transparent: options.transparent
+                vertexShader: this.txSettings.shaders.vertex,
+                fragmentShader: this.txSettings.shaders.fragment,
+                depthTest: this.opts.depthTest,
+                depthWrite: this.opts.depthWrite,
+                blending: this.opts.blending,
+                transparent: this.opts.transparent
             });
 
-
-
-            return material;
+            this.onReady(this.material);
         };
 
 
-        var ParticleMaterial = function(systemOptions, txMatSettings, store, readyCallback) {
+        ParticleMaterial.prototype.configureTxSettings = function() {
+            configureTXSettings(this.txSettings, this.txMatSettings);
 
-            var options = configureOptions(systemOptions);
-            // Ensure we have a map of options to play with
-            var txSettings;
+        };
 
 
-            var createMaterial = function(opts, txSettings) {
-                store.texture = txSettings.texture;
-                store.vertexShader = txSettings.shaders.vertex;
-                store.fragmentShader = txSettings.shaders.fragment;
-                store.material = setupShaderMaterial(txSettings, opts);
-            };
-
+        ParticleMaterial.prototype.setupShaders = function() {
 
             var applyShaders = function(src, data) {
-                txSettings.shaders = data;
-                createMaterial(options, txSettings);
-                readyCallback(txSettings)
-            };
+                this.txSettings.shaders = data;
+                this.configureTxSettings()
+                this.setupMaterial();
+            }.bind(this);
+
+            this.shaderPipe = new PipelineObject("SHADERS", this.txMatSettings.shader, applyShaders);
+        };
+        
+
+        ParticleMaterial.prototype.setupMapTexture = function() {
 
             var applyTexture = function(src, data) {
-                txSettings = configureTXSettings(txMatSettings, data);
-                this.shaderPipe = new PipelineObject("SHADERS", txMatSettings.shader, applyShaders);
+                mapTextures[this.txMatSettings.map] = data;
+                this.setupShaders();
             }.bind(this);
 
-            var bindDataTexture = function(src, data) {
-                
-                
-                txMatSettings.data_texture = data;
-                bindMapTexture();
-            };
-
-            var bindMapTexture = function() {
-                this.txPipe = new PipelineObject("THREE_TEXTURE", "map_"+txMatSettings.map, applyTexture);
-            }.bind(this);
-
-            if (txMatSettings.data_texture) {
-                new PipelineObject("THREE_TEXTURE", "data_texture_"+txMatSettings.data_texture, bindDataTexture);
-            } else {
-                bindMapTexture();
-            }
-
+            this.txPipe = new PipelineObject("THREE_TEXTURE", "map_"+this.txMatSettings.map, applyTexture);
         };
+
+
+        ParticleMaterial.prototype.setupDataTexture = function() {
+
+            var bindDataTexture = function(texture) {
+                dataTextures[this.txMatSettings.data_texture] = texture;
+                this.setupMapTexture();
+            }.bind(this);
+
+            if (this.txMatSettings.data_texture) {
+                this.particleDataTexture = new ParticleDataTexture(this.txMatSettings.data_texture, bindDataTexture);
+            } else {
+                this.setupMapTexture(this.txMatSettings);
+            }
+        };
+
+
 
         ParticleMaterial.prototype.dispose = function() {
             this.shaderPipe.removePipelineObject();

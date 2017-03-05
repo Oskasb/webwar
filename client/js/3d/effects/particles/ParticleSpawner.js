@@ -22,6 +22,7 @@ define([
         var idleEffects = [];
         var endedEffects = [];
         var fxAdds = 0;
+        var systemTime = 0;
 
 
         var ParticleSpawner = function() {
@@ -36,11 +37,14 @@ define([
         };
 
         ParticleSpawner.prototype.setupParticleRenderers = function() {
-            
+
+
             var renderersData = function(src, data) {
                 for (var i = 0; i < data.length; i++) {
+
                     console.log("SETUP PARTICLE RENDERER", src, data[i]);
                     if (renderers[data[i].id]) {
+                        console.log("DELETE EXISTING PARTICLE RENDERER", data[i].id);
                         renderers[data[i].id].dispose();
                         delete renderers[data[i].id];
                     }
@@ -59,6 +63,10 @@ define([
         
         
         ParticleSpawner.prototype.spawnParticleEffect = function(id, pos, vel) {
+
+
+
+
             fxAdds++;
             var effect;
             if (idleEffects.length != 0) {
@@ -70,11 +78,19 @@ define([
             effect.setEffectPosition(pos);
             effect.setEffectVelocity(vel);
             effect.setEffectData(this.particleEffectData.buildEffect(effect.effectData, 'THREE', id));
-            
+
+            var renderer = this.getRendererById(effect.effectData.effect.renderer_id);
+
+            if (renderer.particles.length < effect.effectData.effect.count) {
+                console.log("Not enough available particles...");
+                return;
+            }
+
             EffectDataTranslator.interpretCustomEffectData(effect.effectData, effect.effectData.particle.config);
-            
+
+
             effect.attachSimulators();
-            effect.applyRenderer(this.getRendererById(effect.effectData.effect.renderer_id));
+            effect.applyRenderer(renderer, systemTime);
             
             
             activeEffects.push(effect);
@@ -82,25 +98,34 @@ define([
         };
 
         ParticleSpawner.prototype.updateSpawnedParticles = function(tpf) {
-            
+
+            systemTime += tpf;
+
             for (var key in renderers) {
-                renderers[key].updateParticleRenderer(tpf);
+                renderers[key].updateParticleRenderer(systemTime);
             }
+
+            while (endedEffects.length) {
+                var dead = endedEffects.pop();
+                var spliced = activeEffects.splice(activeEffects.indexOf(dead), 1)[0];
+                spliced.resetParticleEffect();
+                idleEffects.push(spliced);
+            }
+
+
             
             
             for (var i = 0; i < activeEffects.length; i++) {
 
                 if (activeEffects[i].aliveParticles.length != 0) {
-                    activeEffects[i].updateEffect(tpf);
+                    activeEffects[i].updateEffect(tpf, systemTime);
                 } else {
                     // list for removal here...
                     endedEffects.push(activeEffects[i]);
                 }
             }
 
-            while (endedEffects.length) {
-                idleEffects.push(activeEffects.splice(activeEffects.indexOf(endedEffects.pop()), 1).pop());
-            }
+
         };
 
         
@@ -112,18 +137,11 @@ define([
                 poolTotal += renderers[key].particles.length;
             }
 
-            for (var i = 0; i < activeEffects.length; i++) {
-                poolTotal += activeEffects[i].aliveParticles.length + activeEffects[i].deadParticles.length;
-            }
-
-            for  (var i = 0; i < idleEffects.length; i++) {
-                poolTotal += idleEffects[i].aliveParticles.length + idleEffects[i].deadParticles.length;
-            }
             return poolTotal;
         };
 
         ParticleSpawner.prototype.getTotalEffectPool = function() {
-            return activeEffects.length + idleEffects.length;
+            return idleEffects.length;
         };
 
         var activeRenderes = 0;

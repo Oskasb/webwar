@@ -19,7 +19,8 @@ define([
             brightMix:23,
             nearWhite:22,
             darkSmoke:21,
-            redFlat:20,
+            nearBlack:20,
+            redFlat:19,
             greenFlat:17,
             transparent:14,
             halfQuickIn:13,
@@ -98,28 +99,30 @@ define([
             this.setDefaults();
         };
 
+        var tV = 0.0001;
+
         ConfiguredGpuEffect.prototype.setDefaults = function() {
-            this.age.setValues(0, 0.02);
+            this.age.setValues(tV, 0.02);
             this.lifeTime.setValues(1, 2);
-            this.tiles.setValues(0, 0, 0, 0);
-            this.position.setValues(0, 0, 0, 8, 0, 0);
-            this.acceleration.setValues(1, -9.81, 1, 1, 0, 0);
-            this.velocity.setValues(0, 0, 0, 1, 0, 0);
+            this.tiles.setValues(1, 1, tV, tV);
+            this.position.setValues(tV, tV, tV, 8, tV, tV);
+            this.acceleration.setValues(1, -9.81, 1, 1, tV, tV);
+            this.velocity.setValues(tV, tV, tV, 1, tV, tV);
             this.texelRowSelect.setValues(32, 1, 2, 1, 0, 0);
             this.diffusors.setValues(0.5, 0.3, 1, 1, 0, 0);
         };
-
-        var effect = new ConfiguredGpuEffect();
-
+        
         var EffectDataTranslator = function() {
 
         };
 
+        var effect = new ConfiguredGpuEffect();
 
         EffectDataTranslator.interpretCustomEffectData = function(effectData, pCfg, customEffectData) {
-            effect.setDefaults();          
-            
-            effect.lifeTime.setValues(pCfg.lifeTime.min, pCfg.lifeTime.max);
+
+            effect.setDefaults();
+
+            effect.lifeTime.setValues(pCfg.lifeTime.min, pCfg.lifeTime.min + pCfg.lifeTime.max*Math.random());
             effect.acceleration.setValues(pCfg.acceleration, pCfg.gravity, pCfg.acceleration, pCfg.spinAcceleration);
             effect.texelRowSelect.setValues(dataCurves[pCfg.colorCurve], dataCurves[pCfg.diffusionCurve], dataCurves[pCfg.scaleCurve], dataCurves[pCfg.alphaCurve]);
     //     console.log(dataCurves[pCfg.colorCurve], dataCurves[pCfg.diffusionCurve], dataCurves[pCfg.scaleCurve], dataCurves[pCfg.dragCurve])
@@ -127,7 +130,6 @@ define([
             if (pCfg.spin) effect.velocity.setValues(null, null, null, pCfg.spin.value, pCfg.spin.min, pCfg.spin.max);
             if (pCfg.size) effect.position.setValues(null, null, null, pCfg.size.value, pCfg.size.min, pCfg.size.max);
             if (pCfg.velocitySpread) effect.velocity.setValues(null, null, null, null, pCfg.velocitySpread.min, pCfg.velocitySpread.max);
-            
             effectData.gpuEffect = effect;
         };
 

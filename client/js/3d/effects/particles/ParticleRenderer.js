@@ -18,48 +18,54 @@ define([
     ) {
 
         var ParticleRenderer = function(rendererConfig) {
-            this.systemTime = 0;
             this.id = rendererConfig.id;
-            this.on = false;
             this.setupRendererMaterial(rendererConfig);
         };
 
         ParticleRenderer.prototype.setupRendererMaterial = function(rendererConfig) {
 
-            var config = rendererConfig;
-            this.poolSize = config.particle_pool;
-            this.particleGeometry = config.particle_geometry;
+            this.config = rendererConfig;
+            this.poolSize = rendererConfig.particle_pool;
+            this.particleGeometry = rendererConfig.particle_geometry;
             this.material = {uniforms:{}};
             this.particles = [];
             this.attributes = {};
             this.attributeConfigs = {};
             this.particleMaterial = {};
 
-            var setupBuffers = function(txSettings) {
-                this.buildMeshBuffer(config, txSettings);
-                this.attachMaterial();
-                this.createParticles();
+            var particleMaterialData = function(src, data) {
+                this.applyRendererMaterialData(data)
             }.bind(this);
 
+            this.materialPipe = new PipelineObject("PARTICLE_MATERIALS", "THREE", particleMaterialData)
+        };
 
-            var particleMaterialData = function(src, data) {
+        ParticleRenderer.prototype.setMaterial = function(material) {
+            this.material = material;
+            this.setupRendererBuffers();
+        };
 
-                var materialReady = function(txSettings) {
-                    setupBuffers(txSettings)
-                };
+        ParticleRenderer.prototype.applyRendererMaterialData = function(data) {
+
+            var materialReady = function(material) {
+                this.setMaterial(material);
+            }.bind(this);
 
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i].id == config.material_id) {
+                    if (data[i].id == this.config.material_id) {
                         this.setupBufferAttributes(data[i].attributes);
-                        this.buildParticleMaterial(config, data[i], materialReady);
+                        this.buildParticleMaterial(data[i], materialReady);
                         return;
                     }
                 }
-                console.warn("No material with material_id:", config.material_id, data);
-            }.bind(this);
-            this.materialPipe = new PipelineObject("PARTICLE_MATERIALS", "THREE", particleMaterialData)
         };
-        
+
+        ParticleRenderer.prototype.setupRendererBuffers = function(renderersReady) {
+            this.buildMeshBuffer();
+            this.attachMaterial();
+            this.createParticles();
+        };
+
         ParticleRenderer.prototype.createParticles = function() {
             for (var i = 0; i < this.poolSize; i++) {
                 var particle = new Particle(i);
@@ -70,16 +76,16 @@ define([
             }
         };
 
-        ParticleRenderer.prototype.buildParticleMaterial = function(rendererConfig, material_config, readyCB) {
-             new ParticleMaterial(rendererConfig.material_options, material_config, this.particleMaterial, readyCB);
+        ParticleRenderer.prototype.buildParticleMaterial = function(material_config, materialReady) {
+            this.particleMaterial =  new ParticleMaterial(this.config.material_options, material_config, materialReady);
         };
 
-        ParticleRenderer.prototype.buildMeshBuffer = function(rendererConfig, txSettings) {
+        ParticleRenderer.prototype.buildMeshBuffer = function() {
             if (this.particleBuffer) {
                 this.particleBuffer.dispose();
             }
             var geom = ParticleMesh[this.particleGeometry]();
-            this.particleBuffer = new ParticleBuffer(txSettings, geom.verts, geom.uvs, geom.indices);
+            this.particleBuffer = new ParticleBuffer(geom.verts, geom.uvs, geom.indices);
 
             for (var key in this.attributes) {
                 this.particleBuffer.geometry.addAttribute( key, this.attributes[key] );
@@ -90,12 +96,10 @@ define([
             }
 
            this.particleBuffer.addToScene();
-           this.on = true;
         };
 
         ParticleRenderer.prototype.attachMaterial = function() {
-            this.particleBuffer.mesh.material = this.particleMaterial.material;
-            this.material = this.particleMaterial.material
+            this.particleBuffer.mesh.material = this.material;
         };
 
         ParticleRenderer.prototype.setupBufferAttributes = function(attributes_config) {
@@ -109,7 +113,7 @@ define([
 
         
         ParticleRenderer.prototype.calculateAllowance = function(requestSize) {
-            if (this.particles.length > requestSize * 1.5) {
+            if (this.particles.length > requestSize * 5) {
                 return requestSize;
             } else {
                 return Math.floor(0.5*this.particles.length);
@@ -122,11 +126,15 @@ define([
             return particle;
         };
 
-        ParticleRenderer.prototype.updateParticleRenderer = function(tpf) {
-            this.systemTime += tpf;
+        ParticleRenderer.prototype.returnParticle = function(particle) {
+            this.particles.push(particle);
+        };
+
+
+        ParticleRenderer.prototype.updateParticleRenderer = function(systemTime) {
 
             if (this.material.uniforms.systemTime) {
-                this.material.uniforms.systemTime.value = this.systemTime;
+                this.material.uniforms.systemTime.value = systemTime;
             } else {
                 console.log("no uniform yet...")
             }

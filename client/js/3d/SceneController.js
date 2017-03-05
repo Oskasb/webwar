@@ -18,11 +18,14 @@ define([
     
 
     SceneController.prototype.setup3dScene = function(clientTickCallback, ready) {
-        var scene = ThreeController.setupThreeRenderer(clientTickCallback, ready);
+        ThreeController.setupThreeRenderer(clientTickCallback, ready);
+    };
+
+    SceneController.prototype.setupEffectPlayers = function() {
+
         EffectsAPI.initEffects();
         EffectListeners.setupListeners();
     };
-
     
     return SceneController;
 

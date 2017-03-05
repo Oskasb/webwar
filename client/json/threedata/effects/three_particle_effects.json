@@ -18,7 +18,7 @@
             "system_key":"THREE",
             "renderer_id":"gpu_opaque_atlas_renderer",
             "particle_id":"yellow_flare",
-            "count":1,
+            "count":2,
             "simulation_id":"gpu_predictive_simulation"
           }
         },
@@ -28,7 +28,7 @@
             "system_key":"THREE",
             "renderer_id":"gpu_normal_atlas_renderer",
             "particle_id":"grey_smoke",
-            "count":1,
+            "count":2,
             "simulation_id":"gpu_predictive_simulation"
           }
         },

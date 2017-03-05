@@ -31,20 +31,32 @@ define([],
         }
 
         var Particle = function(particleIndex) {
+            this.usedCount = 0;
             this.particleIndex = particleIndex;
             this.buffers = {};
             this.attributes = {};
+
+            this.velVec = new THREE.Vector4();
+            this.posVec = new THREE.Vector4();
+
+            this.systemTime = {value:0};
+
             this.params = {
-                position:new THREE.Vector4(),
-                velocity:new THREE.Vector4(),
-                systemTime:{value:0}
+                position:this.posVec,
+                velocity:this.velVec,
+                systemTime:this.systemTime
             };
             this.progress = 0;
             this.dead = false;
             this.attributeBuffers = {};
         };
 
+        Particle.prototype.resetParticle = function() {
+
+        };
+        
         Particle.prototype.initToSimulation = function(systemTime, pos, vel) {
+            this.usedCount++
             this.params.systemTime.value = systemTime;
             this.progress = 0;
             this.addPosition(pos);

@@ -206,6 +206,13 @@ define([
             };
 
             sceneController.setup3dScene(clientTick, ready);
+
+            var setupEffects = function() {
+                sceneController.setupEffectPlayers();
+            };
+
+            evt.once(evt.list().PLAYER_READY, setupEffects);
+
         };
 
         Client.prototype.processResponseStack = function(responseStack) {

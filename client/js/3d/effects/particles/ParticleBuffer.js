@@ -7,7 +7,7 @@ define([
         ThreeAPI
     ) {
 
-        var scaleUVCoords = function(txSettings, uvs) {
+        var scaleUVCoords = function(uvs) {
             var buffer = new Float32Array( uvs );
 
             return buffer;
@@ -20,8 +20,8 @@ define([
 
         };
 
-        var ParticleBuffer = function(txSettings, verts, uvs, indices) {
-            var uvScaled = scaleUVCoords(txSettings, uvs);
+        var ParticleBuffer = function(verts, uvs, indices) {
+            var uvScaled = scaleUVCoords(uvs);
             this.buildGeometry(verts, uvScaled, indices);
         };
 

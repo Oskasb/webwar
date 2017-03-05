@@ -20,6 +20,10 @@ define(['3d/effects/particles/EffectSimulators',
             this.deadParticles = [];
         };
 
+        ParticleEffect.prototype.resetParticleEffect = function() {
+
+        };
+
         ParticleEffect.prototype.setEffectData = function(effectData) {
             this.effectData = effectData;
         };
@@ -45,7 +49,7 @@ define(['3d/effects/particles/EffectSimulators',
             }
         };
 
-        ParticleEffect.prototype.applyRenderer = function(renderer) {
+        ParticleEffect.prototype.applyRenderer = function(renderer, systemTime) {
             this.renderer = renderer;
             this.age = 0;
             
@@ -56,7 +60,7 @@ define(['3d/effects/particles/EffectSimulators',
 
             for (var i = 0; i < allowedCount; i++) {
                 var particle = renderer.requestParticle();
-                this.includeParticle(particle, i, allowedCount);
+                this.includeParticle(particle, systemTime, i, allowedCount);
                 this.aliveParticles.push(particle);
                 if (particle.params.lifeTime.value > maxDuration) {
                     maxDuration = particle.params.lifeTime.value;
@@ -68,7 +72,9 @@ define(['3d/effects/particles/EffectSimulators',
 
         };
 
-        ParticleEffect.prototype.includeParticle = function(particle, index, allowedCount) {
+        ParticleEffect.prototype.includeParticle = function(particle, systemTime, index, allowedCount) {
+
+            var frameTpfFraction = this.lastTpf*(index/allowedCount);
 
             if (this.effectData.gpuEffect) {
                 ParticleParamParser.applyEffectParams(particle, this.effectData.gpuEffect.init_params);
@@ -79,9 +85,10 @@ define(['3d/effects/particles/EffectSimulators',
 
             ParticleParamParser.applyEffectSprite(particle, this.effectData.sprite);
             
-            particle.initToSimulation(this.renderer.systemTime, this.pos, this.vel);
-            
-            this.updateParticle(particle, this.lastTpf*(index/allowedCount));
+            particle.initToSimulation(systemTime+frameTpfFraction, this.pos, this.vel);
+
+            this.updateParticle(particle, frameTpfFraction);
+
         };
 
 
@@ -97,8 +104,8 @@ define(['3d/effects/particles/EffectSimulators',
         };
 
         ParticleEffect.prototype.updateGpuParticle = function(particle, tpf) {
-         //   return;
-            for (var i = 0; i < 3; i++) {
+            return;
+            for (var i = 0; i <  this.simulators[i].length; i++) {
             //    if (this.simulators[i].process == "age" || this.simulators[i].process == "lifeTime" ) {
                     EffectSimulators[this.simulators[i].process](
                         particle,
@@ -110,7 +117,7 @@ define(['3d/effects/particles/EffectSimulators',
             }
         };
 
-        ParticleEffect.prototype.updateEffect = function(tpf) {
+        ParticleEffect.prototype.updateEffect = function(tpf, systemTime) {
             this.age += tpf;
 
             if (this.age > this.effectDuration) {
@@ -126,21 +133,23 @@ define(['3d/effects/particles/EffectSimulators',
                         this.deadParticles.push(this.aliveParticles[i]);
                     } else {
                         if (this.aliveParticles[i].params.gpu_sim) {
-                        //    this.updateGpuParticle(this.aliveParticles[i], tpf)
+                            this.updateGpuParticle(this.aliveParticles[i], tpf)
+                            if (this.aliveParticles[i].params.lifeTime.value < this.age) {
+                                EffectSimulators.dead(this.aliveParticles[i], tpf);
+                                this.deadParticles.push(this.aliveParticles[i]);
+                            }
                         } else {
                             this.updateParticle(this.aliveParticles[i], tpf);
                         }
                     }
                 }
-
             }
-
-
 
             while (this.deadParticles.length) {
                 var dead = this.deadParticles.pop();
                 var spliced = this.aliveParticles.splice(this.aliveParticles.indexOf(dead), 1)[0];
-                this.renderer.particles.push(spliced);
+                spliced.resetParticle();
+                this.renderer.returnParticle(spliced);
             }
 
             this.lastTpf = tpf;
