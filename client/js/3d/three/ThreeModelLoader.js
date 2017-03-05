@@ -110,6 +110,11 @@ define([
 
                 var attachMaterial = function(src, data) {
                     //    console.log("Attach MAterial to Model", data, model);
+
+                    for (var i = 0; i < rootObject.children.length; i++) {
+                        rootObject.remove(rootObject.children[i]);
+                    }
+                    
                     model.material = data;
                     setup.addToScene(model);
                     rootObject.add(model);
@@ -134,6 +139,19 @@ define([
             return rootObject;
         };
 
+
+        
+
+        ThreeModelLoader.loadThreeDebugBox = function(sx, sy, sz) {
+
+            var geometry, material;
+
+        //    geometry = new THREE.SphereBufferGeometry( sx, 10, 10);
+
+           geometry = new THREE.BoxBufferGeometry( sx || 1, sy || 1, sz || 1);
+            material = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true } );
+            return new THREE.Mesh( geometry, material );
+        };
 
         ThreeModelLoader.loadThreeModel = function(sx, sy, sz) {
 

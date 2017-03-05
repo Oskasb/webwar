@@ -201,6 +201,28 @@
       "applies":{
         "type":"float",
         "state":true,
+        "action":"applyThrottle",
+        "state_factor":30,
+        "emit_effect":"tank_engine_fx",
+        "effect_data":{
+          "intensity":0.3,
+          "strength":10,
+          "lifeSpan":0.4
+        },
+        "threshold":0.2,
+        "message":"wroom"
+      }
+    },
+
+    "track_l":{
+      "type":"engine",
+      "id":"track_l",
+
+      "source":"throttle",
+      "initState": 0,
+      "applies":{
+        "type":"float",
+        "state":true,
         "action":"applyForward",
         "state_factor":30,
         "emit_effect":"tank_track_fx",
@@ -217,6 +239,7 @@
         "animate_shake":[0.1,0.1,0.02]
       }
     },
+
 
     "track_r":{
       "type":"engine",

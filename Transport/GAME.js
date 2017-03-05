@@ -330,11 +330,11 @@ if(typeof(GAME) == "undefined"){
 
 		var brakeForce = 70*(1/Math.abs(throttleState));
 		if (Math.abs(throttleState) < 0.1) {
-			brakeForce = 240;
+			brakeForce = 40;
 
 			if (Math.abs(yawState) < 0.2) {
 				throttleState = 0;
-				brakeForce = 2260;
+				brakeForce = 180;
 				yawState = 0;
 			}
 		}

@@ -128,19 +128,24 @@
           "rowColor =     texelRowSelect.x;",
           "rowDiffusion = texelRowSelect.y;",
           "rowSize  =     texelRowSelect.z;",
-          "rowDrag =      texelRowSelect.w;",
+          "rowAlpha =     texelRowSelect.w;",
 
-          "float sillyRandom1 = sin(progress*1600.0 + time * 6100.2 + duration*progress*910.1);",
-          "float sillyRandom2 = sin(progress*2600.0 + time * 49300.1 + duration*progress*510.1);",
-          "float sillyRandom3 = sin(progress*2400.0 + time * 5900.1 + duration*progress*210.1);",
-          "float sillyRandom4 = sin(progress*1600.0 + time * 39360.1 + duration*progress*810.1);",
 
-          "velocityDiffusion = vec4(sillyRandom1 * diffusors.x, sillyRandom2 * diffusors.x, sillyRandom3 * diffusors.x, sillyRandom4 * diffusors.x);",
+          "float sillySeed = sin((offset.x*99.1 + offset.y*78.1 + offset.z*99.1)*9999.9)*999.9;",
+
+          "float sillyRandom1 = sin(sillySeed     + progress*0.5 + time * duration * 0.014);",
+          "float sillyRandom2 = cos(sillySeed*3.1 + progress*1.5 + time * duration * 0.006);",
+          "float sillyRandom3 = sin(sillySeed*0.4 + progress*2.5 + time * duration * 0.011);",
+          "float sillyRandom4 = sin(sillySeed*9.9 + progress*3.5 + time * duration * 0.013);",
+
+
+          "velocityDiffusion     = vec4(sillyRandom1 * diffusors.x, sillyRandom2 * diffusors.x, sillyRandom3 * diffusors.x, sillyRandom4 * diffusors.x);",
           "accelerationDiffusion = vec4(sillyRandom3 * diffusors.y, sillyRandom1*diffusors.y, sillyRandom4*diffusors.y, sillyRandom2*diffusors.y);",
+          "colorDiffusion        = vec4(0.5 + sillyRandom3*0.5 * diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom1*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom4*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom2*0.5*diffusors.w + 1.0-diffusors.w);",
 
           "velocityFactor = diffusors.z;",
 
-          "pixelSelector.x = progress;",
+          "pixelSelector.x = progress*((data_rows-1.0)/(data_rows)) + 0.5/data_rows;",
           "pixelSelector.y = 1.0 - ((rowDiffusion / data_rows) - (0.5 / data_rows));",
 
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",
@@ -153,12 +158,12 @@
           "pixelSelector.y = 1.0 - ((rowColor / data_rows) - (0.5 / data_rows));",
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",
 
-          "vec4 vertexColor = vec4(sampledDataTexel.r, sampledDataTexel.g, sampledDataTexel.b, sampledDataTexel.a);",
+          "vec4 vertexColor = vec4(sampledDataTexel.r, sampledDataTexel.g, sampledDataTexel.b, sampledDataTexel.a) * colorDiffusion;",
 
 
           "pixelSelector.y = 1.0 - ((rowSize / data_rows) - (0.5 / data_rows));",
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",
-          "sampledSizeFactor = size * sampledDataTexel.r;"
+          "sampledSizeFactor = size * sampledDataTexel.r * duration;"
 
         ],
 

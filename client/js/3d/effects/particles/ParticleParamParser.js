@@ -9,7 +9,6 @@ define([],
             return new MATH.CurveState(MATH.curves[curveId], amplitude+MATH.randomBetween(amplitude*min, amplitude*max));
         }
 
-
         function setFlag(pParams, param, value) {
             pParams[param] = value;
         }
@@ -88,7 +87,6 @@ define([],
                 )
             }
         }
-
 
         var ParticleParamParser = function() {
 

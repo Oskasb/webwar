@@ -144,6 +144,10 @@ define([
             return ThreeModelLoader.loadThreeModel(sx, sy, sz, partsReady);
         };
 
+        ThreeAPI.loadDebugBox = function(sx, sy, sz) {
+            return ThreeModelLoader.loadThreeDebugBox(sx, sy, sz);
+        };
+        
         ThreeAPI.loadQuad = function(sx, sy) {
             var model = ThreeModelLoader.loadThreeQuad(sx, sy);
             return ThreeSetup.addToScene(model);

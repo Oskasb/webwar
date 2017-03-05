@@ -2,38 +2,55 @@
   {
     "PARTICLE_EFFECTS": {
       "THREE":[
-
         {
           "id":"test_effect",
-          "system_key":"THREE",
-          "renderer_id":"gpu_additive_atlas_renderer",
-          "particle_id":"default",
-          "count":1,
-          "simulation_id":"gpu_test_simulation"
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_additive_atlas_renderer",
+            "particle_id":"default",
+            "count":1,
+            "simulation_id":"gpu_predictive_simulation"
+          }
         },
         {
-          "id":"test_effect___",
-          "system_key":"THREE",
-          "renderer_id":"gpu_additive_atlas_renderer",
-          "particle_id":"default",
-          "count":30,
-          "simulation_id":"gpu_test_simulation"
+          "id":"ground_dirt_spray",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_opaque_atlas_renderer",
+            "particle_id":"yellow_flare",
+            "count":1,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
+        {
+          "id":"engine_throttle_smoke",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_normal_atlas_renderer",
+            "particle_id":"grey_smoke",
+            "count":1,
+            "simulation_id":"gpu_predictive_simulation"
+          }
         },
         {
           "id":"test_effect__",
-          "system_key":"THREE",
-          "renderer_id":"additive_atlas_renderer",
-          "particle_id":"default",
-          "count":3,
-          "simulation_id":"test_simulation_cpu"
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"additive_atlas_renderer",
+            "particle_id":"default",
+            "count":3,
+            "simulation_id":"test_simulation_cpu"
+          }
         },
         {
           "id":"test_effect_",
-          "system_key":"THREE",
-          "renderer_id":"opaque_atlas_renderer",
-          "particle_id":"default",
-          "count":2,
-          "simulation_id":"test_simulation_cpu"
+          "data": {
+            "system_key":"THREE",
+            "renderer_id":"opaque_atlas_renderer",
+            "particle_id":"default",
+            "count":2,
+            "simulation_id":"test_simulation_cpu"
+          }
         }
       ]
     }

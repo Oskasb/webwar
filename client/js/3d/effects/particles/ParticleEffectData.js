@@ -20,7 +20,7 @@ define(['PipelineObject'],
         var cacheEffects = function(src, data) {
             effect[src] = {};
             for (var i = 0; i < data.length; i++) {
-                effect[src][data[i].id] = data[i];
+                effect[src][data[i].id] = data[i].data;
             }
         };
         

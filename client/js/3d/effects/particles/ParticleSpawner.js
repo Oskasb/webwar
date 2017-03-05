@@ -59,7 +59,7 @@ define([
         
         
         ParticleSpawner.prototype.spawnParticleEffect = function(id, pos, vel) {
-            fxAdds++
+            fxAdds++;
             var effect;
             if (idleEffects.length != 0) {
                 effect = idleEffects.pop();

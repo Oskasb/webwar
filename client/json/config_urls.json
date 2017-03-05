@@ -5,12 +5,7 @@
       "validation/type_validation.json",
       "validation/shapes_validation.json",
 
-      "effects/environment_effects.json",
-      "effects/cheap_particles.json",
-      "effects/text_particles.json",
-      "effects/particle_effects.json",
-      "effects/gameplay_effects.json",
-      "effects/goo_elements.json",
+      "effects/module_effects.json",
 
       "messages/ui_messages.json",
 

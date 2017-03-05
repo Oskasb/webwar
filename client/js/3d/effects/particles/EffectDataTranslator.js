@@ -118,11 +118,12 @@ define([
             
             effect.lifeTime.setValues(pCfg.lifeTime.min, pCfg.lifeTime.max);
             effect.acceleration.setValues(pCfg.acceleration, pCfg.gravity, pCfg.acceleration, pCfg.spinAcceleration);
-            effect.texelRowSelect.setValues(dataCurves[pCfg.colorCurve], dataCurves[pCfg.diffusionCurve], dataCurves[pCfg.scaleCurve], dataCurves[pCfg.dragCurve]);
+            effect.texelRowSelect.setValues(dataCurves[pCfg.colorCurve], dataCurves[pCfg.diffusionCurve], dataCurves[pCfg.scaleCurve], dataCurves[pCfg.alphaCurve]);
     //     console.log(dataCurves[pCfg.colorCurve], dataCurves[pCfg.diffusionCurve], dataCurves[pCfg.scaleCurve], dataCurves[pCfg.dragCurve])
-            effect.diffusors.setValues(pCfg.velocityDiffusion, pCfg.accelerationDiffusion, pCfg.velocityFactor, null);
+            effect.diffusors.setValues(pCfg.velocityDiffusion, pCfg.accelerationDiffusion, pCfg.velocityFactor, pCfg.colorDiffusion);
             if (pCfg.spin) effect.velocity.setValues(null, null, null, pCfg.spin.value, pCfg.spin.min, pCfg.spin.max);
             if (pCfg.size) effect.position.setValues(null, null, null, pCfg.size.value, pCfg.size.min, pCfg.size.max);
+            if (pCfg.velocitySpread) effect.velocity.setValues(null, null, null, null, pCfg.velocitySpread.min, pCfg.velocitySpread.max);
             
             effectData.gpuEffect = effect;
         };

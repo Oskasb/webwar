@@ -3,7 +3,7 @@
     "PARTICLE_SIMULATIONS": {
       "THREE":[
         {
-          "id":"gpu_test_simulation",
+          "id":"gpu_predictive_simulation",
           "init_params":[
             {"param":"gpu_sim",     "flag":true},
             {"param":"age",         "value":  {"min":0,  "max":0.2}},

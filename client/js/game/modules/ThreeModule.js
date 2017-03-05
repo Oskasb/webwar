@@ -3,12 +3,16 @@
 
 define([
         'ThreeAPI',
+    'PipelineAPI',
     'Events'
     ],
     function(
         ThreeAPI,
+        PipelineAPI,
         evt
     ) {
+
+        var calcVec = new THREE.Vector3();
 
 
         var ThreeModule = function(module, piece, attachmentPoint) {
@@ -19,6 +23,8 @@ define([
             this.moduleSpatial.setSpatial(attachmentPoint.transform);
             this.piece = piece;
             this.module = module;
+
+        //    this.addModuleDebugBox()
         };
 
 
@@ -46,17 +52,11 @@ define([
 
             this.parentObject3d = ThreeAPI.createRootObject();
 
-            if (this.applies.game_effect || this.applies.bundle_model || this.applies.module_model_child) {
-                this.addModuleObject3D(parentObj3d);
-            //    this.addModuleDebugBox(parentObj3d);
-
-                ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
-            }
-
             if (this.applies.three_model) {
                 started++
                 this.model = ThreeAPI.loadMeshModel(this.applies.three_model, this.parentObject3d, partsReady);
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
+        //        this.addModuleDebugBox(this.model);
             }
 
             if (this.applies.three_terrain) {
@@ -64,18 +64,45 @@ define([
                 this.model = ThreeAPI.loadGround(this.applies, this.module.state.value, this.parentObject3d, partsReady);
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
             }
+
+            if (!this.model) {
+
+                this.model = this.parentObject3d // ThreeAPI.createRootObject();
+
+                ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
+            //    this.model = this.parentObject3d;
+          //      ThreeAPI.addChildToObject3D(this.model, this.parentObject3d);
+                
+         //       this.addModuleDebugBox(this.model);
+
+            }
+
+        //    if (this.transform) {
+                this.parentObject3d.position.x = this.transform.posX();
+                this.parentObject3d.position.y = this.transform.posY();
+                this.parentObject3d.position.z = this.transform.posZ();
+        //    }
+
+
+        //    if (this.applies.game_effect || this.applies.bundle_model || this.applies.module_model_child) {
+        //        this.addModuleObject3D(parentObj3d);
+        //        ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
+        //    }
+
+
             partsReady();
         };
 
 
         ThreeModule.prototype.addModuleObject3D = function(parentObj3d) {
             this.model = ThreeAPI.createRootObject();
+
         };
 
 
         ThreeModule.prototype.addModuleDebugBox = function(parentObj3d) {
-            this.model = ThreeAPI.loadModel(this.transform.size.getX(), this.transform.size.getY(), this.transform.size.getZ());
-            ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
+            var debugModel = ThreeAPI.loadDebugBox(this.transform.size.getX(), this.transform.size.getY(), this.transform.size.getZ());
+            ThreeAPI.addChildToObject3D(debugModel, parentObj3d);
         };
 
         ThreeModule.prototype.getParentObject3d = function() {
@@ -192,6 +219,34 @@ define([
 
             if (this.applies.animate_texture) {
                 ThreeAPI.animateModelTexture(this.model, stateValue*this.applies.animate_texture[0]*this.applies.animate_speed_scale, stateValue*this.applies.animate_texture[1]*this.applies.animate_speed_scale);//
+            }
+
+
+            if (this.applies.emit_effect) {
+                var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', this.applies.emit_effect);
+                if (fx.length && fx != this.applies.emit_effect) {
+
+                    if (!this.model.matrixWorld) {
+                        return;
+                    }
+
+                    calcVec.setFromMatrixPosition( this.model.matrixWorld );
+
+                    if (!calcVec.x) return;
+                    if (!this.piece.spatial.pos.data) return
+
+
+
+                    
+                    for (var i = 0; i < fx.length; i++) {
+                        for (var j = 0; j < fx[i].particle_effects.length; j++) {
+                            evt.fire(evt.list().GAME_EFFECT, {effect:fx[i].particle_effects[j].id, pos:calcVec, vel:this.piece.spatial.vel});
+                        }
+                    }
+                } else {
+                    // no effect data here...
+                }
+
             }
 
             if (this.applies.fireCannon) {

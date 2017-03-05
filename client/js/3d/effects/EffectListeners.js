@@ -2,32 +2,61 @@
 
 define([
         'EffectsAPI',
+    'PipelineObject',
         'Events'
 
     ],
     function(
         EffectsAPI,
+        PipelineObject,
         evt
     ) {
         
         var posVec;
         var velVec;
+        var effectList;
+        var fxPipe;
 
         var EffectsListeners = function() {
-            
+
+
+
         };
 
         var setupEffect = function(args) {
         //    console.log("Setup FX:", args);
-            posVec.x = args.pos.data[0];
-            posVec.y = args.pos.data[1];
-            posVec.z = args.pos.data[2];
-            velVec.x = args.vel.data[0];
-            velVec.y = args.vel.data[1];
-            velVec.z = args.vel.data[2];
+
+            if (!args.pos.x) {
+                posVec.x = args.pos.data[0];
+                posVec.y = args.pos.data[1];
+                posVec.z = args.pos.data[2];
+            } else {
+                posVec.copy(args.pos)
+            }
+
+            if (!args.vel.x) {
+                velVec.x = args.vel.data[0];
+                velVec.y = args.vel.data[1];
+                velVec.z = args.vel.data[2];
+            } else {
+                velVec.copy(args.vel);
+            }
+
         };
 
+
+
+
         EffectsListeners.setupListeners = function() {
+
+            var effectData = function(src, data) {
+                effectList = fxPipe.buildConfig();
+            };
+
+            fxPipe = new PipelineObject('PARTICLE_EFFECTS', 'THREE');
+            fxPipe.subscribe(effectData());
+        //    effectList = fxPipe.buildConfig('effects');
+
 
             posVec = new THREE.Vector3();
             velVec = new THREE.Vector3();
@@ -35,7 +64,13 @@ define([
             var playGameEffect = function(e) {
                 setupEffect(evt.args(e));
 
-                EffectsAPI.requestParticleEffect('test_effect', posVec, velVec);
+                if (!effectList[evt.args(e).effect]) {
+                //    console.log("No FX")
+                } else {
+                    EffectsAPI.requestParticleEffect(evt.args(e).effect, posVec, velVec);
+                }
+
+
             };
             
             var tickEffectPlayer = function(e) {

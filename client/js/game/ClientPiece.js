@@ -359,16 +359,13 @@ define([
 				if (this.pieceData.default_modules) {
 					if (this.pieceData.default_modules.indexOf('bullet_shell') != -1) {
 						evt.fire(evt.list().GAME_EFFECT, {
-							effect: "spawn_pulse",
+							effect: "test_effect",
 							pos: this.piece.spatial.pos,
 							vel: this.piece.spatial.vel
 						});
 					}
 				}
-
-
 			}
-
 		};
 
 

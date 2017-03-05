@@ -1,0 +1,22 @@
+[{
+  "MODULE_EFFECTS": {
+    "tank_track_fx":[
+      {
+        "particle_effects":[
+          {
+            "id":"ground_dirt_spray"
+          }
+        ]
+      }
+    ],
+    "tank_engine_fx":[
+      {
+        "particle_effects":[
+          {
+            "id":"engine_throttle_smoke"
+          }
+        ]
+      }
+    ]
+  }
+}]
