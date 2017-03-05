@@ -23,6 +23,9 @@ define([
 
         var shaderBuilder;
         var glContext;
+        var renderer;
+        var camera;
+        var scene;
         
         var ThreeAPI = function() {
 
@@ -42,6 +45,9 @@ define([
             store = ThreeSetup.initThreeRenderer(pxRatio, antialias, containerElement, clientTickCallback, store);
             ThreeEnvironment.initEnvironment(store);
             glContext = store.renderer.context;
+            scene = store.scene;
+            camera = store.camera;
+            renderer = store.renderer;
             shaderBuilder.loadShaderData(glContext);
         };
 
@@ -49,6 +55,16 @@ define([
             return glContext;
         };
 
+        ThreeAPI.getCamera = function() {
+            return camera;
+        };
+        ThreeAPI.getScene = function() {
+            return scene;
+        };
+
+        ThreeAPI.getRenderer = function() {
+            return renderer;
+        };
 
         ThreeAPI.updateWindowParameters = function(width, height, aspect, pxRatio) {
             ThreeSetup.setRenderParams(width, height, aspect, pxRatio);

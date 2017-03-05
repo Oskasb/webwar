@@ -38,7 +38,7 @@
             "age":     {"min":0.0, "max":0.02},
             "lifeTime":{"min":2.15,"max":6.15},
             "positionSpread":{"x":5.01, "y":8.01, "z":5.01},
-            "gravity":3.001,
+            "gravity":2.001,
             "acceleration":0.21,
             "spinAcceleration":0.8,
             "colorCurve":"hotFire",
@@ -50,7 +50,7 @@
             "velocitySpread":{"min":-6.1,"max":6.1},
             "velocityDiffusion":0.553,
             "accelerationDiffusion":1.25,
-            "colorDiffusion":0.35,
+            "colorDiffusion":0.05,
             "velocityFactor":0.003
           }
         },

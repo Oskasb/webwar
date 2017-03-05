@@ -1,13 +1,16 @@
 "use strict";
 
 define([
-        '3d/effects/particles/ParticleSpawner'
+        '3d/effects/particles/ParticleSpawner',
+        '3d/effects/filters/ScreenSpaceFX'
     ],
     function(
-        ParticleSpawner
+        ParticleSpawner,
+        ScreenSpaceFX
     ) {
 
         var particleSpawner;
+        var screenSpaceFX;
 
         var EffectsAPI = function() {
 
@@ -16,6 +19,9 @@ define([
         EffectsAPI.initEffects = function() {
             particleSpawner = new ParticleSpawner();
             particleSpawner.initParticleSpawner();
+        //    screenSpaceFX = new ScreenSpaceFX();
+        //    screenSpaceFX.initFilterEffects();
+
         };
 
         EffectsAPI.requestParticleEffect = function(id, pos, vel) {

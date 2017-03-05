@@ -16,8 +16,8 @@
         {
           "id":"sunny_day",
           "configs":[
-            {"id":"sun",     "color":[1,   1,   0.5], "transform":{"rot":[ 0.9, 0, 0.5]  }},
-            {"id":"ambient", "color":[0.4, 0.6, 0.9], "transform":{"rot":[-1.5, 3, -3.5] }},
+            {"id":"sun",     "color":[1.2,   1.1,   0.7], "transform":{"rot":[ 3.1, 2, 2.5]  }},
+            {"id":"ambient", "color":[0.7, 0.6, 0.9], "transform":{"rot":[-3.5, -2, -3.5] }},
             {"id":"fog",     "color":[0.6, 0.9,  1], "density":0.005},
             {"id":"skybox",  "color":[0.8, 0.99,  1]}
           ]

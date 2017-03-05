@@ -59,6 +59,7 @@ define(['../../ui/GameScreen'], function(
         }
 
         store.scene = scene;
+        store.camera = camera;
         store.renderer = renderer;
         
         return store;
