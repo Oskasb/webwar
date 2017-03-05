@@ -27,7 +27,7 @@ define([
         };
 
         ThreePiece.prototype.attachModule = function(module, attachmentPoint) {
-            return new ThreeModule(module, this.piece, this.parentObject3d, attachmentPoint);
+            return new ThreeModule(module, this.clientPiece, this.parentObject3d, attachmentPoint);
         };
 
         ThreePiece.prototype.getParentObject3d = function() {

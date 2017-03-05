@@ -147,7 +147,7 @@
 
           "velocityFactor = diffusors.z;",
 
-          "pixelSelector.x = progress;",
+          "pixelSelector.x = progress + (0.5/data_rows);",
           "pixelSelector.y = 1.0 - ((rowDiffusion / data_rows) - (0.5 / data_rows));",
 
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",

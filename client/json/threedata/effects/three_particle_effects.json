@@ -15,12 +15,53 @@
         },
 
         {
+          "id":"implosion_shockwave_hit",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_add_no_depth_atlas_renderer",
+            "particle_id":"implosion_shockwave_hit_particles",
+            "count":1,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
+        {
+          "id":"explosion_smoke_plume",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_normal_atlas_renderer",
+            "particle_id":"explosion_smoke_plume_particles",
+            "count":25,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
+        {
+          "id":"firey_explosion_core",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_additive_atlas_renderer",
+            "particle_id":"firey_explosion_core_particles",
+            "count":5,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
+        {
+          "id":"big_shockwave_hit",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_add_no_depth_atlas_renderer",
+            "particle_id":"big_shockwave_hit_particles",
+            "count":1,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
+
+        {
           "id":"big_sparkly_shatter",
           "data":{
             "system_key":"THREE",
             "renderer_id":"gpu_additive_atlas_renderer",
-            "particle_id":"big_sparkly_shatter",
-            "count":25,
+            "particle_id":"big_sparkly_shatter_particles",
+            "count":7,
             "simulation_id":"gpu_predictive_simulation"
           }
         },

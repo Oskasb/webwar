@@ -32,7 +32,7 @@ define([
             this.on = false;
             this.lastValue = null;
 
-            this.threeModule = new ThreeModule(this, clientPiece.piece,  attachmentPoint);
+            this.threeModule = new ThreeModule(this, clientPiece,  attachmentPoint);
             
             var applyModuleData = function(src, data) {
             //    console.log("Module data", src, data);

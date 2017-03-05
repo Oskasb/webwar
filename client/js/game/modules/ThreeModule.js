@@ -11,15 +11,16 @@ define([
     ) {
 
 
-        var ThreeModule = function(module, piece, attachmentPoint) {
+        var ThreeModule = function(module, clientPiece, attachmentPoint) {
 
             this.tempSpatial = new MODEL.Spatial();
             this.transform = attachmentPoint.transform;
             this.moduleSpatial = new MODEL.Spatial();
             this.moduleSpatial.setSpatial(attachmentPoint.transform);
-            this.piece = piece;
-            this.module = module;
 
+            this.module = module;
+            this.clientPiece = clientPiece;
+            this.piece = clientPiece.piece;
         //    this.addModuleDebugBox()
         };
 
@@ -122,21 +123,13 @@ define([
             if(this.model) {
                 ThreeAPI.removeModel(this.model);
                 
-                ModuleEffectCreator.createModuleRemovedEffect(this.piece, this.model, this.applies, this.transform)
+                if (this.clientPiece.threePiece.render) {
+                    ModuleEffectCreator.createModuleRemovedEffect(this.piece, this.model, this.applies, this.transform)
+                }
             }
         };
 
 
-
-
-        ThreeModule.prototype.calcLocalTargetAngle = function(stateValue) {
-            return stateValue;
-            var ang = MATH.radialLerp(this.transform.rot[this.applies.rotation_axis], stateValue, this.applies.rotation_velocity);
-
-            ang = MATH.radialClamp(ang, this.transform.rot[this.applies.rotation_axis]-this.applies.rotation_velocity*0.2, this.transform.rot[this.applies.rotation_axis]+this.applies.rotation_velocity*0.2);
-
-            return ang;
-        };
 
         ThreeModule.prototype.angleDiffForAxis = function(angle, axis) {
             return angle // - this.piece.spatial[axis]();
@@ -152,34 +145,6 @@ define([
         };
 
 
-        ThreeModule.prototype.clampModuleAngle = function(angle, axis) {
-            return MATH.radialClamp(angle , module.state.value - clamp, module.state.value + clamp);
-        };
-
-
-        ThreeModule.prototype.matchRandomVertices = function(vertices, heightData) {
-
-            for (var i = 0; i < 5; i++) {
-                if (vertices[i].z != heightData[i]) {
-                    return false;
-                }
-            }
-            return true;
-        };
-
-
-        ThreeModule.prototype.inheritModuleWorldTransform = function(modulePos, tempSpatial) {
-
-
-
-            this.entity.transformComponent.updateWorldTransform();
-            //    this.entity.transformComponent.worldTransform.rotation.toAngles(this.calcVec);
-            this.calcVec3.setXYZ(pos[0], pos[1], pos[2]);
-            this.calcVec3.applyPost(this.entity.transformComponent.worldTransform.rotation);
-            this.calcVec3.addVector(this.entity.transformComponent.worldTransform.translation);
-            this.tempSpatial.setPosXYZ(this.calcVec3.x, this.calcVec3.y, this.calcVec3.z);
-
-        };
 
         ThreeModule.prototype.updateThreeModule = function(stateValue) {
 

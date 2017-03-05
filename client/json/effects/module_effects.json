@@ -5,7 +5,10 @@
       {
         "particle_effects":[
           {"id":"big_sparkly_shatter"},
-          {"id":"engine_throttle_smoke"}
+          {"id":"big_shockwave_hit"},
+          {"id":"firey_explosion_core"},
+          {"id":"explosion_smoke_plume"},
+          {"id":"implosion_shockwave_hit"}
         ]
       }
     ],
@@ -14,7 +17,10 @@
       {
         "particle_effects":[
           {"id":"big_sparkly_shatter"},
-          {"id":"big_sparkly_shatter"}
+          {"id":"big_shockwave_hit"},
+          {"id":"firey_explosion_core"},
+          {"id":"explosion_smoke_plume"},
+          {"id":"implosion_shockwave_hit"}
         ]
       }
     ],
@@ -30,7 +36,6 @@
     "tank_engine_fx":[
       {
         "particle_effects":[
-          {"id":"big_sparkly_shatter"},
           {"id":"engine_throttle_smoke"}
         ]
       }

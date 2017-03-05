@@ -3,6 +3,10 @@
     "PARTICLE_SPRITES": {
       "ATLAS": [
         {
+          "id":"explosion",
+          "tiles":[[3, 4]]
+        },
+        {
           "id":"flare_blue",
           "tiles":[[3, 3]]
         },
@@ -17,11 +21,15 @@
         },
         {
           "id":"flare_bloomy",
-          "tiles":[[6, 4]]
+          "tiles":[[2, 4]]
         },
         {
           "id":"shockwave",
           "tiles":[[0, 0]]
+        },
+        {
+          "id":"fire_shockwave",
+          "tiles":[[0, 1]]
         },
         {
           "id":"double_arc",
@@ -132,10 +140,7 @@
           "id":"spin_wave",
           "tiles":[[7, 1]]
         },
-        {
-          "id":"explosion",
-          "tiles":[[3, 4]]
-        },
+
         {
           "id":"wavefront",
           "tiles":[[4, 1]]
