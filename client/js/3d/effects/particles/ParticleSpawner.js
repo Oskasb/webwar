@@ -83,7 +83,11 @@ define([
 
         ParticleSpawner.prototype.updateSpawnedParticles = function(tpf) {
             
-
+            for (var key in renderers) {
+                renderers[key].updateParticleRenderer(tpf);
+            }
+            
+            
             for (var i = 0; i < activeEffects.length; i++) {
 
                 if (activeEffects[i].aliveParticles.length != 0) {

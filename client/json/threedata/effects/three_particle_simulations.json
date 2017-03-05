@@ -18,7 +18,7 @@
           "simulators":[
             {"process":"age",           "source":"age"        , "target":"age"          },
             {"process":"lifeTime",      "source":"age"        , "target":"lifeTime"     },
-            {"process":"attrib1D",      "source":"age"        , "target":"time"         },
+            {"process":"attrib1D",      "source":"systemTime" , "target":"startTime"    },
             {"process":"attrib1D",      "source":"lifeTime"   , "target":"duration"     },
             {"process":"attrib2D",      "source":"tiles"      , "target":"tileindex"    },
             {"process":"attrib4D",      "source":"position"   , "target":"offsetSize"   },

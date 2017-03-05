@@ -21,7 +21,7 @@ define([
             var bufferUpdated = function(src, data) {
 
                     var onLoad = function(tx) {
-                        if (txType == 'envMap') {
+                        if (txType == 'envMap' || txType == 'data_texture') {
                             tx.combine = THREE.AddOperation;
                             //            console.log("Set as Reflection", src, tx);
                         } else {

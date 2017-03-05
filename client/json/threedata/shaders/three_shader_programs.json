@@ -120,7 +120,9 @@
         "vertexSampleTextureData":[
 
 
-          "progress = time / duration;",
+          "effectAge = systemTime - startTime;",
+
+          "progress = effectAge / duration;",
 
           "offset = offsetSize.xyz;",
           "size =   offsetSize.w;",
@@ -133,10 +135,10 @@
 
           "float sillySeed = sin((offset.x*99.1 + offset.y*78.1 + offset.z*99.1)*9999.9)*999.9;",
 
-          "float sillyRandom1 = sin(sillySeed     + progress*0.5 + time * duration * 0.014);",
-          "float sillyRandom2 = cos(sillySeed*3.1 + progress*1.5 + time * duration * 0.006);",
-          "float sillyRandom3 = sin(sillySeed*0.4 + progress*2.5 + time * duration * 0.011);",
-          "float sillyRandom4 = sin(sillySeed*9.9 + progress*3.5 + time * duration * 0.013);",
+          "float sillyRandom1 = sin(sillySeed     + progress*0.5 + effectAge * duration * 0.014);",
+          "float sillyRandom2 = cos(sillySeed*3.1 + progress*1.5 + effectAge * duration * 0.006);",
+          "float sillyRandom3 = sin(sillySeed*0.4 + progress*2.5 + effectAge * duration * 0.011);",
+          "float sillyRandom4 = sin(sillySeed*9.9 + progress*3.5 + effectAge * duration * 0.013);",
 
 
           "velocityDiffusion     = vec4(sillyRandom1 * diffusors.x, sillyRandom2 * diffusors.x, sillyRandom3 * diffusors.x, sillyRandom4 * diffusors.x);",
@@ -145,7 +147,7 @@
 
           "velocityFactor = diffusors.z;",
 
-          "pixelSelector.x = progress*((data_rows-1.0)/(data_rows)) + 0.5/data_rows;",
+          "pixelSelector.x = progress;",
           "pixelSelector.y = 1.0 - ((rowDiffusion / data_rows) - (0.5 / data_rows));",
 
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",
@@ -173,9 +175,9 @@
         ],
 
         "vertexPredictPositionMain":[
-          "float verticalComponent = velocityFactor * velocity.y * time  + 0.5 * acceleration.y * time * time;",
-          "float xComponent = velocityFactor*velocity.x * time  + 0.5 * acceleration.x * time * time;",
-          "float zComponent = velocityFactor*velocity.z * time  + 0.5 * acceleration.z * time * time;",
+          "float verticalComponent = velocityFactor * velocity.y * effectAge  + 0.5 * acceleration.y * effectAge * effectAge;",
+          "float xComponent = velocityFactor*velocity.x * effectAge  + 0.5 * acceleration.x * effectAge * effectAge;",
+          "float zComponent = velocityFactor*velocity.z * effectAge  + 0.5 * acceleration.z * effectAge * effectAge;",
           "vec3 velInfluence = vec3(xComponent, verticalComponent, zComponent);",
 
           "velInfluence = velInfluence+velInfluence * accelerationDiffusion.xyz;",
@@ -188,7 +190,7 @@
 
         "vertexPredictRotationMain":[
 
-          "float spinComponent = velocity.w * time  + 0.5 * acceleration.w * time * time;",
+          "float spinComponent = velocity.w * effectAge  + 0.5 * acceleration.w * effectAge * effectAge;",
 
           "float rotation = spinComponent;",
           "float c = cos(rotation);",

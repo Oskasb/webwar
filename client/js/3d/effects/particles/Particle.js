@@ -36,14 +36,16 @@ define([],
             this.attributes = {};
             this.params = {
                 position:new THREE.Vector4(),
-                velocity:new THREE.Vector4()
+                velocity:new THREE.Vector4(),
+                systemTime:{value:0}
             };
             this.progress = 0;
             this.dead = false;
             this.attributeBuffers = {};
         };
 
-        Particle.prototype.initToSimulation = function(pos, vel) {
+        Particle.prototype.initToSimulation = function(systemTime, pos, vel) {
+            this.params.systemTime.value = systemTime;
             this.progress = 0;
             this.addPosition(pos);
             this.addVelocity(vel);

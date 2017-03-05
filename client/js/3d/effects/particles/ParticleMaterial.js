@@ -59,6 +59,7 @@ define([
             console.log("OPTIONS BUILT", txSettings, options);
 
             var uniforms = {
+                systemTime: {value:0},
                 alphaTest:  {value:options.alphaTest},
                 map:        {value:txSettings.texture},
                 tiles:      {value:new THREE.Vector2(txSettings.tiles_x, txSettings.tiles_y)}
@@ -66,6 +67,7 @@ define([
 
             if (txSettings.data_texture) {
             //    txSettings.data_texture.generateMipmaps = false;
+                
                 uniforms.data_texture =  {value:txSettings.data_texture};
                 uniforms.data_rows    =  {value:txSettings.data_rows}
             }
@@ -114,6 +116,8 @@ define([
             }.bind(this);
 
             var bindDataTexture = function(src, data) {
+                
+                
                 txMatSettings.data_texture = data;
                 bindMapTexture();
             };

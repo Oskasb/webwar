@@ -18,7 +18,7 @@ define([
     ) {
 
         var ParticleRenderer = function(rendererConfig) {
-            this.time = 0;
+            this.systemTime = 0;
             this.id = rendererConfig.id;
             this.on = false;
             this.setupRendererMaterial(rendererConfig);
@@ -29,6 +29,7 @@ define([
             var config = rendererConfig;
             this.poolSize = config.particle_pool;
             this.particleGeometry = config.particle_geometry;
+            this.material = {uniforms:{}};
             this.particles = [];
             this.attributes = {};
             this.attributeConfigs = {};
@@ -94,6 +95,7 @@ define([
 
         ParticleRenderer.prototype.attachMaterial = function() {
             this.particleBuffer.mesh.material = this.particleMaterial.material;
+            this.material = this.particleMaterial.material
         };
 
         ParticleRenderer.prototype.setupBufferAttributes = function(attributes_config) {
@@ -121,6 +123,13 @@ define([
         };
 
         ParticleRenderer.prototype.updateParticleRenderer = function(tpf) {
+            this.systemTime += tpf;
+
+            if (this.material.uniforms.systemTime) {
+                this.material.uniforms.systemTime.value = this.systemTime;
+            } else {
+                console.log("no uniform yet...")
+            }
 
         };
 
