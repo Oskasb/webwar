@@ -8,25 +8,26 @@
         {
           "id":"explosion_smoke_plume_particles",
           "sprite_key":"ATLAS",
-          "sprite_id":"smokey",
+          "sprite_id":"thick_smoke",
           "config":{
             "age":     {"min":0.0, "max":0.02},
             "lifeTime":{"min":1.15,"max":10.15},
-            "positionSpread":{"x":1.01, "y":2.01, "z":1.01},
+            "positionSpread":{"x":2.01, "y":2.01, "z":2.01},
             "gravity":1.001,
-            "acceleration":0.81,
+            "drag":0.11,
+            "bend":0.3,
             "spinAcceleration":0.8,
             "colorCurve":"darkSmoke",
-            "alphaCurve":"dampen",
+            "alphaCurve":"pulseSlowOut",
             "diffusionCurve":"zeroToOne",
-            "scaleCurve":"halfQuickIn",
+            "scaleCurve":"zeroToOne",
             "size":{"value":0.6, "min": -0.7, "max": 0.5},
             "spin":{"value":0.01, "min":-2.5, "max":2.5},
             "velocitySpread":{"min":-1.1,"max":1.1},
-            "velocityDiffusion":2.33,
+            "velocityDiffusion":1,
             "accelerationDiffusion":0.6,
             "colorDiffusion":0.3,
-            "velocityFactor":0.0003
+            "velocityFactor":0.3
           }
         },
 
@@ -36,22 +37,23 @@
           "sprite_id":"explosion",
           "config":{
             "age":     {"min":0.0, "max":0.02},
-            "lifeTime":{"min":2.15,"max":6.15},
-            "positionSpread":{"x":5.01, "y":8.01, "z":5.01},
-            "gravity":2.001,
-            "acceleration":0.21,
+            "lifeTime":{"min":0.5,"max":4.15},
+            "positionSpread":{"x":2.01, "y":2.01, "z":2.01},
+            "gravity":3.001,
+            "drag":0.81,
+            "bend":0.2,
             "spinAcceleration":0.8,
-            "colorCurve":"hotFire",
+            "colorCurve":"nearWhite",
             "alphaCurve":"quickFadeOut",
             "diffusionCurve":"quickIn",
-            "scaleCurve":"quickInSlowOut",
-            "size":{"value":1.0, "min": -0.7, "max": 4.2},
+            "scaleCurve":"pulseSlowOut",
+            "size":{"value":1.4, "min": -0.7, "max": 0.3},
             "spin":{"value":0.01, "min":-2.5, "max":2.5},
             "velocitySpread":{"min":-6.1,"max":6.1},
-            "velocityDiffusion":0.553,
-            "accelerationDiffusion":1.25,
+            "velocityDiffusion":1,
+            "accelerationDiffusion":1.75,
             "colorDiffusion":0.05,
-            "velocityFactor":0.003
+            "velocityFactor":3.3
           }
         },
 
@@ -65,7 +67,7 @@
             "lifeTime":{"min":0.3,"max":0.35},
             "positionSpread":{"x":0.01, "y":0.01, "z":0.01},
             "gravity":0.001,
-            "acceleration":0.41,
+            "drag":0.41,
             "spinAcceleration":0.8,
             "colorCurve":"hotFire",
             "alphaCurve":"slowFadeIn",
@@ -74,7 +76,7 @@
             "size":{"value":62.2, "min": -0.1, "max": 0.1},
             "spin":{"value":0.01, "min":-2.5, "max":2.5},
             "velocitySpread":{"min":-2.1,"max":2.1},
-            "velocityDiffusion":0.053,
+            "velocityDiffusion":1,
             "accelerationDiffusion":0.05,
             "colorDiffusion":0.45,
             "velocityFactor":0.03
@@ -90,7 +92,7 @@
             "lifeTime":{"min":0.15,"max":0.15},
             "positionSpread":{"x":0.01, "y":0.01, "z":0.01},
             "gravity":0.001,
-            "acceleration":0.41,
+            "drag":0.41,
             "spinAcceleration":0.8,
             "colorCurve":"hotFire",
             "alphaCurve":"quickFadeOut",
@@ -99,7 +101,7 @@
             "size":{"value":52.2, "min": -0.7, "max": 3.2},
             "spin":{"value":0.01, "min":-2.5, "max":2.5},
             "velocitySpread":{"min":-2.1,"max":2.1},
-            "velocityDiffusion":0.053,
+            "velocityDiffusion":1,
             "accelerationDiffusion":0.05,
             "colorDiffusion":0.05,
             "velocityFactor":0.03
@@ -112,22 +114,23 @@
           "sprite_id":"fielddot",
           "config":{
             "age":     {"min":0.01, "max":0.5},
-            "lifeTime":{"min":0.5,"max":5.0},
+            "lifeTime":{"min":0.5,"max":8.0},
             "positionSpread":{"x":3, "y":3, "z":3},
-            "gravity":0.001,
-            "acceleration":1.1,
+            "gravity":2.201,
+            "drag":0.5,
+            "bend":1.6,
             "spinAcceleration":0.8,
             "colorCurve":"warmFire",
             "alphaCurve":"oneToZero",
-            "diffusionCurve":"quickIn",
+            "diffusionCurve":"oneToZero",
             "scaleCurve":"noiseFadeOut",
-            "size":{"value":0.1, "min": -0.1, "max": 1.2},
+            "size":{"value":0.1, "min": -0.1, "max": 0.4},
             "spin":{"value":0.01, "min":-2.5, "max":2.5},
-            "velocitySpread":{"min":-2.1,"max":2.1},
-            "velocityDiffusion":12.53,
-            "accelerationDiffusion":0.05,
-            "colorDiffusion":0.15,
-            "velocityFactor":0.03
+            "velocitySpread":{"min":1,"max":1},
+            "velocityDiffusion":1,
+            "accelerationDiffusion":0.5,
+            "colorDiffusion":0.35,
+            "velocityFactor":0.013
           }
         },
 
@@ -139,7 +142,7 @@
             "age":     {"min":0.01, "max":0.5},
             "lifeTime":{"min":0.1,"max":2.5},
             "gravity":0.61,
-            "acceleration":0.3,
+            "drag":0.3,
             "spinAcceleration":0.8,
             "colorCurve":"darkSmoke",
             "alphaCurve":"dampen",
@@ -160,7 +163,7 @@
           "sprite_id":"leafy_tuft",
           "config":{
             "gravity":-6.81,
-            "acceleration":0.8,
+            "drag":0.8,
             "spinAcceleration":1.2,
             "lifeTime":{"min":0.5,"max":1.2},
             "colorCurve":"nearWhite",
@@ -176,14 +179,37 @@
             "velocityFactor":0.223
           }
         },
-
+        {
+          "id":"bright_little_sparks_particles",
+          "sprite_key":"ATLAS",
+          "sprite_id":"explosion",
+          "config":{
+            "gravity":0.001,
+            "drag":0.01,
+            "spinAcceleration":1.2,
+            "lifeTime":{"min":0.4,"max":2.0},
+            "positionSpread":{"x":2.01, "y":2.01, "z":2.01},
+            "bend":2.5,
+            "colorCurve":"nearWhite",
+            "alphaCurve":"nearWhite",
+            "diffusionCurve":"nearWhite",
+            "scaleCurve":"quickInSlowOut",
+            "size":{"value":0.2, "min": 0.3, "max": 1.02},
+            "spin":{"value":0.01, "min":-0.5, "max":0.5},
+            "velocitySpread":{"min":-1.0,"max":1.0},
+            "velocityDiffusion":1,
+            "accelerationDiffusion":0.2,
+            "colorDiffusion":0.45,
+            "velocityFactor":10.823
+          }
+        },
         {
           "id":"default",
           "sprite_key":"ATLAS",
           "sprite_id":"energy_dot",
           "config":{
             "gravity":-9.81,
-            "acceleration":1,
+            "drag":0.001,
             "spinAcceleration":0.8,
             "lifeTime":{"min":0.3,"max":0.3},
             "colorCurve":"hotFire",
@@ -194,7 +220,7 @@
             "spin":{"value":0.1, "min":-0.5, "max":0.5},
             "velocityDiffusion":0.00001,
             "accelerationDiffusion":0.00001,
-            "colorDiffusion":0.05,
+            "colorDiffusion":0.5,
             "velocityFactor":1
           }
         }

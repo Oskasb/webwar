@@ -15,7 +15,7 @@ define([
         var ScreenSpaceFX = function() {
 
         };
-        
+
         ScreenSpaceFX.prototype.initFilterEffects = function() {
 
             renderScene = new THREE.RenderPass(ThreeAPI.getScene(), ThreeAPI.getCamera());
@@ -37,6 +37,13 @@ define([
             ThreeAPI.getRenderer().gammaInput = true;
             ThreeAPI.getRenderer().gammaOutput = true;
 
+
+                bloomPass.threshold = 0.2;
+                bloomPass.exposure = 2;
+
+                bloomPass.strength = 3;
+
+                bloomPass.radius = 1.0;
 
         };
         

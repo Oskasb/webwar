@@ -66,6 +66,16 @@
           }
         },
 
+        {
+          "id":"bright_little_sparks",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_opaque_atlas_renderer",
+            "particle_id":"bright_little_sparks_particles",
+            "count":5,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
 
         {
           "id":"ground_dirt_spray",

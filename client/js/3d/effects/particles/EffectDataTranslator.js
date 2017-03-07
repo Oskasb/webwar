@@ -22,7 +22,7 @@ define([
             nearBlack:20,
             redFlat:19,
             greenFlat:17,
-            transparent:15,
+            pulseSlowOut:15,
             slowFadeIn:14,
             halfQuickIn:13,
             halfFadeIn:12,
@@ -103,14 +103,14 @@ define([
             this.setDefaults();
         };
 
-        var tV = 0.0001;
+        var tV = 0.0000001;
 
         ConfiguredGpuEffect.prototype.setDefaults = function() {
             this.age.setValues(tV, 0.02);
             this.lifeTime.setValues(1, 2);
             this.tiles.setValues(1, 1, tV, tV);
             this.position.setValues(tV, tV, tV, 8, tV, tV);
-            this.acceleration.setValues(1, -9.81, 1, 1, tV, tV);
+            this.acceleration.setValues(1, -9.81, tV, 1, tV, tV);
             this.velocity.setValues(tV, tV, tV, 1, tV, tV);
             this.texelRowSelect.setValues(2, 1, 2, 1, 0, 0);
             this.diffusors.setValues(0.5, 0.3, 1, 1, tV, tV);
@@ -131,7 +131,7 @@ define([
 
 
             effect.lifeTime.setValues(pCfg.lifeTime.min, pCfg.lifeTime.max);
-            effect.acceleration.setValues(pCfg.acceleration, pCfg.gravity, pCfg.acceleration, pCfg.spinAcceleration);
+            effect.acceleration.setValues(pCfg.drag, pCfg.gravity, pCfg.bend, pCfg.spinAcceleration);
             effect.texelRowSelect.setValues(dataCurves[pCfg.colorCurve], dataCurves[pCfg.diffusionCurve], dataCurves[pCfg.scaleCurve], dataCurves[pCfg.alphaCurve]);
     //     console.log(dataCurves[pCfg.colorCurve], dataCurves[pCfg.diffusionCurve], dataCurves[pCfg.scaleCurve], dataCurves[pCfg.dragCurve])
             effect.diffusors.setValues(pCfg.velocityDiffusion, pCfg.accelerationDiffusion, pCfg.velocityFactor, pCfg.colorDiffusion);

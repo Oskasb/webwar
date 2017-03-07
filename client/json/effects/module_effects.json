@@ -4,6 +4,7 @@
     "shell_detonate":[
       {
         "particle_effects":[
+          {"id":"bright_little_sparks"},
           {"id":"big_sparkly_shatter"},
           {"id":"big_shockwave_hit"},
           {"id":"firey_explosion_core"},

@@ -21,7 +21,7 @@
             "tiles_x":6,
             "tiles_y":6,
             "flip_y":true,
-            "data_rows":32
+            "data_rows":64
           }
         },{
           "id":"spatial_sprite_atlas_cpu",

@@ -133,29 +133,38 @@
           "rowSize  =     texelRowSelect.z;",
 
 
-          "float sillySeed = sin((offset.x*99.1 + offset.y*78.1 + offset.z*99.1)*99.9+cos(startTime*999.9))*99.9;",
+          "float sillySeed = sin((offset.x*929.1 + offset.y*78.1 + offset.z*99.1)*99.9+cos(startTime*2999.9));",
+          "float sillySeed2 = cos((offset.x*199.1 + offset.y*738.1 + offset.z*199.1)*99.9+cos(startTime*3929.9));",
+          "float sillySeed3 = sin((offset.x*929.1 + offset.y*178.1 + offset.z*919.1)*99.9+cos(startTime*5299.9));",
 
-          "float sillyRandom1 = sin(sillySeed     + progress*0.5 + effectAge * duration * 0.014);",
-          "float sillyRandom2 = cos(sillySeed*3.1 + progress*1.5 + effectAge * duration * 0.006);",
-          "float sillyRandom3 = sin(sillySeed*0.4 + progress*2.5 + effectAge * duration * 0.011);",
-          "float sillyRandom4 = sin(sillySeed*9.9 + progress*3.5 + effectAge * duration * 0.013);",
+          "float sillyRandom1 = sin(sillySeed*3.4     + progress*1.2 + effectAge * duration * 0.18);",
+          "float sillyRandom2 = sin(sillySeed2*3.1 + progress*1.5 + effectAge * duration * 0.23);",
+          "float sillyRandom3 = sin(sillySeed3*2.4 + progress*1.7 + effectAge * duration * 0.21);",
+          "float sillyRandom4 = sin(sillySeed*9.9 + progress*3.5 + effectAge * duration * 0.23);",
 
+          "vec3 motionBend = vec3(sillyRandom3* acceleration.z, sillyRandom4* acceleration.z, sillyRandom2* acceleration.z);",
 
-          "velocityDiffusion     = vec4(sillyRandom1 * diffusors.x, sillyRandom2 * diffusors.x, sillyRandom3 * diffusors.x, sillyRandom4 * diffusors.x);",
-          "accelerationDiffusion = vec4(sillyRandom3 * diffusors.y, sillyRandom1*diffusors.y, sillyRandom4*diffusors.y, sillyRandom2*diffusors.y);",
+          "velocityDiffusion     = vec4(sillySeed, sillySeed2, sillySeed3, sillyRandom4);",
+
+          "normalize(velocityDiffusion);",
+          "velocityDiffusion = velocityDiffusion * diffusors.x;",
+
+          "accelerationDiffusion = vec4(1.0 - sillySeed3* acceleration.z, 1.0 - sillySeed* acceleration.z, 1.0 - sillySeed * acceleration.z, 1.0);",
+
           "colorDiffusion        = vec4(0.5 + sillyRandom3*0.5 * diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom1*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom4*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom2*0.5*diffusors.w + 1.0-diffusors.w);",
 
           "velocityFactor = diffusors.z;",
+
+          "vec3 diffusedVelocity = velocity.xyz * (1.0 - diffusors.x) + velocityDiffusion.xyz;",
+
+          "velocityDiffusion = velocityDiffusion * acceleration.z;",
+
+          "diffusedVelocity = diffusedVelocity * velocityFactor;",
 
           "pixelSelector.x = progress + (0.5/data_rows);",
           "pixelSelector.y = 1.0 - ((rowDiffusion / data_rows) - (0.5 / data_rows));",
 
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",
-
-
-          "velocityDiffusion = velocityDiffusion * sampledDataTexel;",
-          "accelerationDiffusion = accelerationDiffusion * sampledDataTexel;",
-
 
 
           "pixelSelector.y = 1.0 - ((rowAlpha / data_rows) - (0.5 / data_rows));",
@@ -175,16 +184,18 @@
         ],
 
         "vertexPredictPositionMain":[
-          "float verticalComponent = velocityFactor * velocity.y * effectAge  + 0.5 * acceleration.y * effectAge * effectAge;",
-          "float xComponent = velocityFactor*velocity.x * effectAge  + 0.5 * acceleration.x * effectAge * effectAge;",
-          "float zComponent = velocityFactor*velocity.z * effectAge  + 0.5 * acceleration.z * effectAge * effectAge;",
+
+          "float dragFactor = 1.0 / (1.0 + (0.5 * acceleration.x  * effectAge * effectAge));",
+          "float gravityFactor = 0.5 * acceleration.y * effectAge * effectAge;",
+
+
+          "float verticalComponent =  (diffusedVelocity.y * effectAge + gravityFactor)  * dragFactor * accelerationDiffusion.y;",
+          "float xComponent =         diffusedVelocity.x * effectAge * dragFactor * accelerationDiffusion.x;",
+          "float zComponent =         diffusedVelocity.z * effectAge * dragFactor * accelerationDiffusion.z;",
+
           "vec3 velInfluence = vec3(xComponent, verticalComponent, zComponent);",
 
-          "velInfluence = velInfluence+velInfluence * accelerationDiffusion.xyz;",
-
-          "vec3 acceleratedInfluence = velInfluence + velocityDiffusion.xyz;",
-
-          "velocityOffset = offset + acceleratedInfluence;"
+          "velocityOffset = offset + velInfluence + motionBend * effectAge;"
         ],
 
 

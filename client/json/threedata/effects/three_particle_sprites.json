@@ -14,7 +14,10 @@
           "id":"flare_yellow",
           "tiles":[[4, 3]]
         },
-
+        {
+          "id":"splash",
+          "tiles":[[1, 0]]
+        },
         {
           "id":"leafy_tuft",
           "tiles":[[4, 5]]
@@ -94,7 +97,7 @@
         },
         {
           "id":"sparks",
-          "tiles":[[3, 0]]
+          "tiles":[[1, 3]]
         },
         {
           "id":"tree_sprite_1",
