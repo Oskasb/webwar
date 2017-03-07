@@ -154,11 +154,10 @@
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPredictPositionMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
 
-          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSampledSizeMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPredictRotationMain"},
 
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexBillboardFaceMain"},
-
-
 
 
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexBillboardFinal"},

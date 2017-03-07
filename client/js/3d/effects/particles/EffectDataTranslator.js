@@ -110,7 +110,7 @@ define([
             this.lifeTime.setValues(1, 2);
             this.tiles.setValues(1, 1, tV, tV);
             this.position.setValues(tV, tV, tV, 8, tV, tV);
-            this.acceleration.setValues(1, -9.81, tV, 1, tV, tV);
+            this.acceleration.setValues(tV, -9.81, tV, tV, tV, tV);
             this.velocity.setValues(tV, tV, tV, 1, tV, tV);
             this.texelRowSelect.setValues(2, 1, 2, 1, 0, 0);
             this.diffusors.setValues(0.5, 0.3, 1, 1, tV, tV);
@@ -131,7 +131,7 @@ define([
 
 
             effect.lifeTime.setValues(pCfg.lifeTime.min, pCfg.lifeTime.max);
-            effect.acceleration.setValues(pCfg.drag, pCfg.gravity, pCfg.bend, pCfg.spinAcceleration);
+            effect.acceleration.setValues(pCfg.drag, pCfg.gravity, pCfg.bend, pCfg.spinDrag);
             effect.texelRowSelect.setValues(dataCurves[pCfg.colorCurve], dataCurves[pCfg.diffusionCurve], dataCurves[pCfg.scaleCurve], dataCurves[pCfg.alphaCurve]);
     //     console.log(dataCurves[pCfg.colorCurve], dataCurves[pCfg.diffusionCurve], dataCurves[pCfg.scaleCurve], dataCurves[pCfg.dragCurve])
             effect.diffusors.setValues(pCfg.velocityDiffusion, pCfg.accelerationDiffusion, pCfg.velocityFactor, pCfg.colorDiffusion);

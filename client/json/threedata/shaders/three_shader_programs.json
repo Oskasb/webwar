@@ -119,10 +119,11 @@
 
         "vertexSampleTextureData":[
 
-
           "effectAge = systemTime - startTime;",
 
           "progress = effectAge / duration;",
+
+          "float zHideFactor = 1.0 - floor(progress);",
 
           "offset = offsetSize.xyz;",
           "size =   offsetSize.w;",
@@ -144,12 +145,18 @@
 
           "vec3 motionBend = vec3(sillyRandom3* acceleration.z, sillyRandom4* acceleration.z, sillyRandom2* acceleration.z);",
 
-          "velocityDiffusion     = vec4(sillySeed, sillySeed2, sillySeed3, sillyRandom4);",
-
-          "normalize(velocityDiffusion);",
+          "velocityDiffusion = vec4(sillySeed, sillySeed2, sillySeed3, sillyRandom4);",
+          "velocityDiffusion = normalize(velocityDiffusion);",
           "velocityDiffusion = velocityDiffusion * diffusors.x;",
 
-          "accelerationDiffusion = vec4(1.0 - sillySeed3* acceleration.z, 1.0 - sillySeed* acceleration.z, 1.0 - sillySeed * acceleration.z, 1.0);",
+
+          "accelerationDiffusion = vec4(sillySeed3, sillySeed, sillySeed2, sillySeed);",
+          "accelerationDiffusion = normalize(accelerationDiffusion);",
+          "accelerationDiffusion = accelerationDiffusion * acceleration.z;",
+          "accelerationDiffusion = vec4(1.0 - accelerationDiffusion.x, 1.0 - accelerationDiffusion.y, 1.0 - accelerationDiffusion.z, 1.0);",
+          "accelerationDiffusion = accelerationDiffusion * diffusors.z;",
+
+
 
           "colorDiffusion        = vec4(0.5 + sillyRandom3*0.5 * diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom1*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom4*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom2*0.5*diffusors.w + 1.0-diffusors.w);",
 
@@ -179,7 +186,7 @@
 
           "pixelSelector.y = 1.0 - ((rowSize / data_rows) - (0.5 / data_rows));",
           "sampledDataTexel = texture2D(data_texture, pixelSelector);",
-          "sampledSizeFactor = size * sampledDataTexel.r * duration;"
+          "sampledSizeFactor = size * sampledDataTexel.r * sqrt(duration);"
 
         ],
 
@@ -201,16 +208,20 @@
 
         "vertexPredictRotationMain":[
 
-          "float spinComponent = velocity.w * effectAge  + 0.5 * acceleration.w * effectAge * effectAge;",
+          "float baseRotation = 100.0 * sillySeed * (1.0 - acceleration.w);",
 
-          "float rotation = spinComponent;",
-          "float c = cos(rotation);",
-          "float s = sin(rotation);",
-          "mat3 spinMatrix = mat3(c, s, 0.0, -s, c, 0.0, 0.0, 1.0, 0.0);",
+          "float rotation = velocity.w * effectAge  + 0.5 * acceleration.w * effectAge * effectAge;",
 
-          "vec3 spinInfluence = spinMatrix * vPosition;",
+          "float spinDragFactor = 1.0 / (1.0 + (0.5 * acceleration.w * effectAge * effectAge));",
 
-          "billboardFacing.xy += spinInfluence.xy;"        ],
+          "float c = cos(baseRotation + rotation* spinDragFactor);",
+          "float s = sin(baseRotation + rotation* spinDragFactor);",
+
+          "vec2 rotated = vec2(c* vPosition.x - s * vPosition.y, s*vPosition.x + c*vPosition.y);",
+
+          "vPosition.xy = rotated.xy * sampledSizeFactor;"
+
+        ],
 
 
 
@@ -221,12 +232,16 @@
 
 
         "vertexBillboardFaceMain":[
-          "billboardFacing = projectionMatrix *(modelViewMatrix * vec4(velocityOffset, 1) + vec4(vPosition.xy, 0, 0));"
+
+          "vec4 particlePosition = modelViewMatrix * vec4(velocityOffset, 1);",
+          "vec4 modelPosition = particlePosition + vec4(vPosition.xy, 0, 0);",
+          "billboardFacing = projectionMatrix * modelPosition;"
+
         ],
 
 
         "vertexBillboardFinal":[
-
+          "billboardFacing.z = billboardFacing.z * zHideFactor;",
           "gl_Position = billboardFacing;"
 
         ],

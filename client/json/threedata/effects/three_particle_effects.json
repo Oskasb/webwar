@@ -40,7 +40,7 @@
             "system_key":"THREE",
             "renderer_id":"gpu_additive_atlas_renderer",
             "particle_id":"firey_explosion_core_particles",
-            "count":5,
+            "count":25,
             "simulation_id":"gpu_predictive_simulation"
           }
         },
@@ -93,6 +93,16 @@
             "system_key":"THREE",
             "renderer_id":"gpu_normal_atlas_renderer",
             "particle_id":"grey_smoke",
+            "count":2,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
+        {
+          "id":"engine_near_smoke",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_normal_atlas_renderer",
+            "particle_id":"quick_near_smoke_particle",
             "count":2,
             "simulation_id":"gpu_predictive_simulation"
           }

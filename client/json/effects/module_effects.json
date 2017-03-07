@@ -37,7 +37,8 @@
     "tank_engine_fx":[
       {
         "particle_effects":[
-          {"id":"engine_throttle_smoke"}
+          {"id":"engine_throttle_smoke"},
+          {"id":"engine_near_smoke"}
         ]
       }
     ]
