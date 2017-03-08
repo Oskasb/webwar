@@ -1,0 +1,18 @@
+[
+  {
+    "VEGETATION_EFFECTS": {
+      "THREE":[
+        {
+          "id":"test_plant",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_opaque_vegetation_renderer",
+            "particle_id":"default",
+            "count":1,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        }
+      ]
+    }
+  }
+]

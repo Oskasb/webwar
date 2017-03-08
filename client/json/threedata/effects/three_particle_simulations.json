@@ -29,6 +29,29 @@
           ]
         },
         {
+          "id":"gpu_vegetation_simulation",
+          "init_params":[
+            {"param":"gpu_sim",     "flag":true},
+            {"param":"age",         "value":  {"min":0, "max":0}},
+            {"param":"lifeTime",    "value":  {"min":1, "max":4}},
+            {"param":"size",        "value":  {"min":0, "max":0}},
+            {"param":"tiles",       "value":  {"min":0.5, "max":1}},
+            {"param":"position",    "vec3":   {"x":0,   "y":0,   "z":0,          "spread":{"min":-0.1, "max":0.1}}},
+            {"param":"offset",      "vec3":   {"x":0,   "y":0,   "z":0,          "spread":{"min":-0.2, "max":0.2}}},
+            {"param":"orientation", "quat":   {"x":0,   "y":1,   "z":0,  "w":1,  "spread":{"min":-0.5, "max":0.5}}}
+          ],
+          "simulators":[
+            {"process":"age",           "source":"age"        , "target":"age"          },
+            {"process":"valueToQuat",   "source":"age"        , "target":"orientation"  },
+            {"process":"attrib1D",      "source":"size"       , "target":"size"         },
+            {"process":"attrib2D",      "source":"tiles"      , "target":"tileindex"    },
+            {"process":"attrib4D",      "source":"orientation", "target":"orientation"  },
+            {"process":"attrib3D",      "source":"position"   , "target":"offset"       },
+            {"process":"lifeTime",      "source":"age"        , "target":"lifeTime"     }
+          ]
+        },
+
+        {
           "id":"test_simulation_cpu",
           "init_params":[
             {"param":"age",         "value":  {"min":0, "max":0}},

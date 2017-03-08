@@ -133,10 +133,31 @@ define([
                 fireCallbacks(categories[category].subscription[key], key, configs[category][key]);
             }
 
-
-
-
         };
+
+
+		var combineArrayData = function(cache, add) {
+
+			for (var i = 0; i < add.length; i++) {
+
+				if (!add[i].id) {
+					console.log("Bad array data, no ID:", i, add)
+				} else {
+					var currentIndex;
+					for (var j = 0; j < cache.length; j++) {
+						if (cache[j].id == add[i].id) {
+							currentIndex = j;
+						}
+					}
+
+					if (currentIndex == -1) {
+						cache.push(add[i]);
+					} else {
+						cache[currentIndex] = add[i];
+					}
+				}
+			}
+		};
 
 
 		ConfigCache.dataCombineToKey = function(key, url, data) {
@@ -144,11 +165,10 @@ define([
 				ConfigCache.addCategory(key);
 			}
 			for (var index in data[key]) {
-                if (configs[key][index] != data[key][index]) {
-                    configs[key][index] = data[key][index];
-                    ConfigCache.fireCategoryKeyCallbacks(key, index);
-                }
+				
+				configs[key][index] = data[key][index];
 
+				ConfigCache.fireCategoryKeyCallbacks(key, index);
 			}
 
 			ConfigCache.fireCategoryCallbacks(key);

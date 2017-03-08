@@ -1,33 +1,7 @@
 [
   {
-    "PARTICLE_SYSTEMS": {
+    "VEGETATION_SYSTEMS": {
       "RENDERERS":[
-        {
-          "id":"gpu_add_no_depth_atlas_renderer",
-          "material_id":"gpu_sprite_atlas_material",
-          "particle_pool":1000,
-          "particle_geometry":"quad",
-          "material_options":{
-            "blending":"AdditiveBlending",
-            "transparent":true,
-            "alphaTest":0.00001,
-            "depthWrite":false,
-            "depthTest":false
-          }
-        },
-        {
-          "id":"gpu_additive_atlas_renderer",
-          "material_id":"gpu_sprite_atlas_material",
-          "particle_pool":1000,
-          "particle_geometry":"quad",
-          "material_options":{
-            "blending":"AdditiveBlending",
-            "transparent":true,
-            "alphaTest":0.001,
-            "depthWrite":false,
-            "depthTest":true
-          }
-        },
         {
           "id":"gpu_normal_atlas_renderer",
           "material_id":"gpu_sprite_atlas_material",
@@ -44,19 +18,6 @@
         {
           "id":"gpu_opaque_atlas_renderer",
           "material_id":"gpu_sprite_atlas_material",
-          "particle_pool":1000,
-          "particle_geometry":"quad",
-          "material_options":{
-            "blending":"NoBlending",
-            "transparent":false,
-            "alphaTest":0.5,
-            "depthWrite":true,
-            "depthTest":true
-          }
-        },
-        {
-          "id":"gpu_opaque_vegetation_renderer",
-          "material_id":"gpu_vegetation_sprite_material",
           "particle_pool":1000,
           "particle_geometry":"quad",
           "material_options":{

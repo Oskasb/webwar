@@ -18,7 +18,11 @@ define(['PipelineObject'],
         };
 
         var cacheEffects = function(src, data) {
-            effect[src] = {};
+
+            if (!effect[src]) {
+                effect[src] = {};
+            }
+
             for (var i = 0; i < data.length; i++) {
                 effect[src][data[i].id] = data[i].data;
             }
@@ -46,8 +50,10 @@ define(['PipelineObject'],
             new PipelineObject("PARTICLE_SPRITES", "ATLAS", cacheSprites);
             new PipelineObject("PARTICLE_SPRITES", "FONT",  cacheSprites);
             new PipelineObject("PARTICLE_EFFECTS", "THREE", cacheEffects);
+            new PipelineObject("VEGETATION_EFFECTS", "THREE", cacheEffects);
             new PipelineObject("PARTICLE_SIMULATIONS", "THREE", cacheSimulations);
             new PipelineObject("PARTICLES",        "THREE", cacheParticles);
+            
         };
 
         ParticleEffectData.prototype.fetchEffect = function(key, id) {
