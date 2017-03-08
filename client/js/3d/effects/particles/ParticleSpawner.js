@@ -24,7 +24,8 @@ define([
         var fxAdds = 0;
         var systemTime = 0;
 
-
+        
+        
         var ParticleSpawner = function() {
             this.particleEffectData = new ParticleEffectData();
             this.particleEffectData.loadEffectData();
@@ -33,7 +34,8 @@ define([
         ParticleSpawner.prototype.initParticleSpawner = function() {
 
             this.setupParticleRenderers();
-
+            
+            
         };
 
         ParticleSpawner.prototype.setupParticleRenderers = function() {

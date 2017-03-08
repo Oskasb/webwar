@@ -254,6 +254,27 @@
           }
         },
         {
+          "id":"basic_vegetation",
+          "sprite_key":"ATLAS",
+          "sprite_id":"leafy_tuft",
+          "config":{
+            "gravity":-9.81,
+            "drag":0.001,
+            "spinDrag":0.8,
+            "lifeTime":{"min":2.3,"max":8.3},
+            "colorCurve":"nearWhite",
+            "alphaCurve":"zeroOneZero",
+            "diffusionCurve":"zeroOneZero",
+            "scaleCurve":"nearWhite",
+            "size":{"value":0.51, "min":0.5, "max":2},
+            "spin":{"value":0.1, "min":-0.5, "max":0.5},
+            "velocityDiffusion":0.00001,
+            "accelerationDiffusion":0.00001,
+            "colorDiffusion":0.5,
+            "velocityFactor":1
+          }
+        },
+        {
           "id":"default",
           "sprite_key":"ATLAS",
           "sprite_id":"energy_dot",

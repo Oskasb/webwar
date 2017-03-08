@@ -32,22 +32,22 @@
           "id":"gpu_vegetation_simulation",
           "init_params":[
             {"param":"gpu_sim",     "flag":true},
-            {"param":"age",         "value":  {"min":0, "max":0}},
-            {"param":"lifeTime",    "value":  {"min":1, "max":4}},
-            {"param":"size",        "value":  {"min":0, "max":0}},
-            {"param":"tiles",       "value":  {"min":0.5, "max":1}},
-            {"param":"position",    "vec3":   {"x":0,   "y":0,   "z":0,          "spread":{"min":-0.1, "max":0.1}}},
-            {"param":"offset",      "vec3":   {"x":0,   "y":0,   "z":0,          "spread":{"min":-0.2, "max":0.2}}},
-            {"param":"orientation", "quat":   {"x":0,   "y":1,   "z":0,  "w":1,  "spread":{"min":-0.5, "max":0.5}}}
+            {"param":"age",         "value":  {"min":0,  "max":0.2}},
+            {"param":"lifeTime",    "value":  {"min":0.3,"max":4}},
+            {"param":"tiles",       "vec2":   {"x":0.5, "y":1, "spread":{"min":0, "max":0}}},
+            {"param":"position",    "vec4":   {"x":0,   "y":0,   "z":0,   "w":8,   "spread":{"min":-0.5, "max":0.0}}},
+            {"param":"texelRowSelect","vec4": {"x":32,   "y":6,   "z":1,   "w":4,   "spread":{"min": 0,   "max":0}}},
+            {"param":"diffusors",   "vec4":   {"x":0.5, "y":0.3, "z":1,   "w":1,   "spread":{"min": 0,   "max":0}}}
           ],
           "simulators":[
             {"process":"age",           "source":"age"        , "target":"age"          },
-            {"process":"valueToQuat",   "source":"age"        , "target":"orientation"  },
-            {"process":"attrib1D",      "source":"size"       , "target":"size"         },
+            {"process":"lifeTime",      "source":"age"        , "target":"lifeTime"     },
+            {"process":"attrib1D",      "source":"systemTime" , "target":"startTime"    },
+            {"process":"attrib1D",      "source":"lifeTime"   , "target":"duration"     },
             {"process":"attrib2D",      "source":"tiles"      , "target":"tileindex"    },
-            {"process":"attrib4D",      "source":"orientation", "target":"orientation"  },
-            {"process":"attrib3D",      "source":"position"   , "target":"offset"       },
-            {"process":"lifeTime",      "source":"age"        , "target":"lifeTime"     }
+            {"process":"attrib4D",      "source":"position"   , "target":"offsetSize"   },
+            {"process":"attrib4D",      "source":"texelRowSelect", "target":"texelRowSelect"},
+            {"process":"attrib4D",      "source":"diffusors"  , "target":"diffusors"    }
           ]
         },
 

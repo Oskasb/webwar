@@ -47,13 +47,17 @@ define([
             
         };
 
-        VegetationSystem.prototype.updateVegetationSystem = function(tpf) {
 
-            if (!ownPiece) return;
 
-            tempVec.x = ownPiece.spatial.posX() + Math.random()*10 - 5;
+
+
+        VegetationSystem.prototype.makePlants = function(tpf) {
+
+
+
+            tempVec.x = ownPiece.spatial.posX() + Math.random()*100 - 50;
             tempVec.y = ownPiece.spatial.posY();
-            tempVec.z = ownPiece.spatial.posZ() + Math.random()*10 - 5;;
+            tempVec.z = ownPiece.spatial.posZ() + Math.random()*100 - 50;;
 
             this.spawnVegetation(tempVec, plantData)
 
@@ -61,7 +65,16 @@ define([
 
 
 
+        VegetationSystem.prototype.updateVegetationSystem = function(tpf) {
 
+            if (!ownPiece) return;
+
+            for (var i = 0; i < 3; i++) {
+                this.makePlants()
+            }
+
+
+        };
 
         return VegetationSystem;
 

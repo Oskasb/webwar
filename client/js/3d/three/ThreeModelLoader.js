@@ -179,7 +179,13 @@ define([
             return rootObject;
         };
 
+        
 
+        ThreeModelLoader.getHeightFromTerrainAt = function(pos) {
+            return ThreeTerrain.getThreeHeightAt(pos);
+
+
+        };        
 
         ThreeModelLoader.attachInstancedModelTo3DObject = function(modelId, rootObject, ThreeSetup) {
 

@@ -26,7 +26,7 @@
         },{
 
           "id":"gpu_vegetation_sprite_material",
-          "shader":"INSTANCING_GPU_FLAT_TEXTURED",
+          "shader":"INSTANCING_GPU_VEGETATION",
           "attributes": [
             {"name":"startTime",   "dimensions":1, "dynamic":true},
             {"name":"duration",    "dimensions":1, "dynamic":false},
@@ -45,7 +45,12 @@
             "flip_y":true,
             "data_rows":64
           }
-        },{
+        }
+      ],
+
+      "CPU_MATS":[
+
+      {
 
           "id":"spatial_sprite_atlas_cpu",
           "shader":"INSTANCING_CPU_SPATIAL_TEXTURED",

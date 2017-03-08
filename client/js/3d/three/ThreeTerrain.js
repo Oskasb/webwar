@@ -11,6 +11,10 @@ define([
     ) {
 
         var terrainList = {};
+        var terrainIndex = {};
+
+
+
 
         var ThreeTerrain = function() {
 
@@ -90,6 +94,10 @@ define([
         };
 
 
+        ThreeTerrain.addTerrainToIndex = function(terrainModel, transform) {
+
+        };
+
         ThreeTerrain.loadTerrain = function(applies, array1d, rootObject, ThreeSetup, partsReady) {
 
             var setup = ThreeSetup;
@@ -105,7 +113,11 @@ define([
 
                     setup.addToScene(model);
                     rootObject.add(model);
+                    ThreeTerrain.addTerrainToIndex(model, rootObject.position);
                     transformModel(terrainList[modelId].transform, model);
+
+
+
                     partsReady();
                 };
 
@@ -128,6 +140,14 @@ define([
         };
 
 
+        ThreeTerrain.getThreeTerrainByPosition = function(pos) {
+
+        };
+
+
+        ThreeTerrain.getThreeHeightAt = function(pos) {
+
+        };
 
         return ThreeTerrain;
     });
