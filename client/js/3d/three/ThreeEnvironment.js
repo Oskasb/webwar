@@ -1,20 +1,35 @@
 "use strict";
 
 
-define(['../../PipelineObject'
+define(['../../PipelineObject',
+    'Events'
 
 ], function(
-    PipelineObject
+    PipelineObject,
+    evt
 ) {
 
     var envList = {};
+    var skyList = {};
+
     var worldSetup = {};
     var world = {};
     var currentEnvId;
-    var envData = {};
 
+    var worldCenter = new THREE.Vector3(0, 0, 0);
+    var calcVec = new THREE.Vector3();
+    var calcVec2 = new THREE.Vector3();
+
+    var sky;
     var scene;
+    var camera;
     var renderer;
+    var sunSphere;
+
+    var fogColor = new THREE.Color(1, 1, 1);
+    var dynamicFogColor = new THREE.Color(1, 1, 1);
+    var ambientColor = new THREE.Color(1, 1, 1);
+    var dynamicAmbientColor = new THREE.Color(1, 1, 1);
 
     var ThreeEnvironment = function() {
 
@@ -31,11 +46,104 @@ define(['../../PipelineObject'
         new PipelineObject("WORLD", "THREE", worldListLoaded);
     };
 
-    
+
+    var initSky = function() {
+
+        // Add Sky Mesh
+        sky = new THREE.Sky();
+        scene.add( sky.mesh );
+
+        // Add Sun Helper
+        sunSphere = new THREE.Mesh(
+            new THREE.SphereBufferGeometry( 20000, 16, 8 ),
+            new THREE.MeshBasicMaterial( { color: 0xffffff } )
+        );
+
+        sunSphere.position.y = - 700000;
+        sunSphere.visible = false;
+        scene.add( sunSphere );
+
+    };
+
+
+    function applySkyConfig(skyList) {
+
+        var config = skyList[currentEnvId];
+
+        var uniforms = sky.uniforms;
+        uniforms.turbidity.value = config.turbidity.value;
+        uniforms.rayleigh.value = config.rayleigh.value;
+        uniforms.luminance.value = config.luminance.value;
+        uniforms.mieCoefficient.value = config.mieCoefficient.value;
+        uniforms.mieDirectionalG.value = config.mieDirectionalG.value;
+
+        var theta = Math.PI * ( config.inclination - 0.5 );
+        var phi = 2 * Math.PI * ( config.azimuth - 0.5 );
+
+        sunSphere.position.x = config.distance * Math.cos( phi );
+        sunSphere.position.y = config.distance * Math.sin( phi ) * Math.sin( theta );
+        sunSphere.position.z = config.distance * Math.sin( phi ) * Math.cos( theta );
+
+        sunSphere.visible = true;
+
+        sunSphere.lookAt(worldCenter)
+
+        sky.uniforms.sunPosition.value.copy( sunSphere.position );
+
+        //    renderer.render( scene, camera );
+
+    }
+
+
+    var updateDynamigFog = function(sunInTheBack) {
+
+        dynamicFogColor.copy(fogColor);
+        dynamicFogColor.lerp(world.sun.color, 0.5 - sunInTheBack * 0.5);
+        dynamicFogColor.lerp(ambientColor, 0.2 - sunInTheBack * 0.2);
+        world.ambient.color.copy(dynamicFogColor)
+
+    };
+
+
+    var updateDynamigAmbient = function(sunInTheBack) {
+
+        dynamicAmbientColor.copy(ambientColor);
+        dynamicAmbientColor.lerp(world.fog.color, 0.2 + sunInTheBack * 0.2);
+        //    dynamicAmbientColor.lerp(ambientColor, 0.2 - sunInTheBack * 0.2);
+        world.ambient.color.copy(dynamicAmbientColor)
+
+    };
+
+
+    var tickEnvironment = function() {
+        calcVec.x = 0;
+        calcVec.y = 0;
+        calcVec.z = 1;
+
+        calcVec2.x = 0;
+        calcVec2.y = 0;
+        calcVec2.z = 1;
+
+        calcVec.applyQuaternion(sunSphere.quaternion);
+        calcVec2.applyQuaternion(camera.quaternion);
+
+        calcVec.normalize();
+        calcVec2.normalize();
+
+        var sunInTheBack = calcVec.dot(calcVec2);
+
+        updateDynamigFog(sunInTheBack);
+        updateDynamigAmbient(sunInTheBack);
+    };
+
+
     ThreeEnvironment.initEnvironment = function(store) {
 
         scene = store.scene;
         renderer = store.renderer;
+        camera = store.camera;
+
+        initSky();
 
         var createEnvWorld = function(worldSetup) {
 
@@ -47,21 +155,17 @@ define(['../../PipelineObject'
 
             for (key in worldSetup) {
 
-                if (key == "skybox") {
+                if (key == "ambient") {
 
-                 //   var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
-                 //   var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff, side: THREE.BackSide } );
-                 //   var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
-//
-                 //   world[key] = skyBox;
-                 //   scene.add(world[key]);
+                    world[key] = new THREE.AmbientLight(0x000000);
+                    scene.add(world[key]);
 
 
                 } else if (key == "fog") {
                     scene.fog = new THREE.FogExp2( 0x9999ff, 0.00025 );
                     world[key] = scene.fog;
                 } else {
-                    world[key] = new THREE.DirectionalLight(0xffffff);
+                    world[key] = new THREE.DirectionalLight(0x000000);
                     scene.add(world[key]);
                 }
             }
@@ -74,19 +178,6 @@ define(['../../PipelineObject'
 
         };
 
-        var applyTransform = function(Obj3d, trx) {
-//
-            if (trx.pos) {
-                Obj3d.position.x = trx.rot[0];
-                Obj3d.position.y = trx.rot[1];
-                Obj3d.position.z = trx.rot[2];
-            }
-            if (trx.rot) {
-                Obj3d.rotation.x = trx.rot[0];
-                Obj3d.rotation.y = trx.rot[1];
-                Obj3d.rotation.z = trx.rot[2];
-            }
-        };
 
         var applyFog = function(Obj3d, density) {
             Obj3d.density = density;
@@ -97,15 +188,34 @@ define(['../../PipelineObject'
 
             console.log(config, currentEnvId, envConfigs[currentEnvId]);
 
-            console.log(config);
-
             for (var key in config) {
 
-                if (config[key].transform) {
-                    applyTransform(world[key], config[key].transform);
-                }
 
                 if (config[key].color) {
+
+                    if (key == 'sun') {
+
+                        world[key].position.copy(sunSphere.position);
+                        world[key].lookAt(worldCenter)
+                    }
+
+                    if (key == 'moon') {
+
+                        world[key].position.x = -sunSphere.position.x*0.5;
+                        world[key].position.y =  sunSphere.position.y * 2;
+                        world[key].position.z = -sunSphere.position.z*0.5;
+                        world[key].lookAt(worldCenter)
+                    }
+
+
+                    if (key == 'fog') {
+                        fogColor.setRGB(config[key].color[0],config[key].color[1],config[key].color[2]);
+                    }
+
+                    if (key == 'ambient') {
+                        ambientColor.setRGB(config[key].color[0],config[key].color[1],config[key].color[2]);
+                    }
+
                     applyColor(world[key], config[key].color);
                 }
 
@@ -117,28 +227,31 @@ define(['../../PipelineObject'
         };
 
         var environmentListLoaded = function(scr, data) {
-            envData = {};
 
             for (var i = 0; i < data.length; i++){
 
-                var env = {}
-                envList[data[i].id] = env;
-                envData[data[i].id] = {};
+                envList[data[i].id] = {};
+                skyList[data[i].id] = {};
                 var configs = data[i].configs;
+
+                skyList[data[i].id] = data[i].sky;
+
                 for (var j = 0; j < configs.length; j++) {
-
-                    envData[data[i].id][configs[j].id] = {};
-
 
                     envList[data[i].id][configs[j].id] = configs[j];
                 }
             }
-            applyEnvironment(envList)
+
+            applySkyConfig(skyList);
+            applyEnvironment(envList);
         };
 
         createEnvWorld(worldSetup);
 
         new PipelineObject("ENVIRONMENT", "THREE", environmentListLoaded);
+
+        evt.on(evt.list().CLIENT_TICK, tickEnvironment);
+
     };
 
     return ThreeEnvironment;
