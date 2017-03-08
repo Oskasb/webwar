@@ -50,7 +50,7 @@
             "system_key":"THREE",
             "renderer_id":"gpu_additive_atlas_renderer",
             "particle_id":"big_shockwave_hit_particles",
-            "count":2,
+            "count":1,
             "simulation_id":"gpu_predictive_simulation"
           }
         },

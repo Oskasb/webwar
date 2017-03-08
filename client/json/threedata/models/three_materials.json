@@ -10,10 +10,10 @@
             "color":{"r":0.5, "g":0.5, "b":0.5},
             "clearCoat":0,
             "clearCoatRoughness":0.2,
-            "reflectivity":0.3,
+            "reflectivity":0.6,
             "metalness":1.5,
             "envMapIntensity":0.5,
-            "aoMapIntensity":1
+            "aoMapIntensity":0.3
           },
           "textures":[{
             "map":"./client/assets/images/textures/main_diff.png",

@@ -100,7 +100,7 @@ define(['../../PipelineObject',
         dynamicFogColor.copy(fogColor);
         dynamicFogColor.lerp(world.sun.color, 0.5 - sunInTheBack * 0.5);
         dynamicFogColor.lerp(ambientColor, 0.2 - sunInTheBack * 0.2);
-        world.ambient.color.copy(dynamicFogColor)
+        world.fog.color.copy(dynamicFogColor)
 
     };
 
