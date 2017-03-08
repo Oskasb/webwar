@@ -29,14 +29,14 @@ define([
 
             calcVec3.addVectors(calcVec, calcVec2);
 
-            calcVec2.x = piece.spatial.vel.getX()+Math.random()*0.02 - 0.01;
+            calcVec2.x = piece.spatial.vel.getX() * - stateValue*0.15 + Math.random()*0.02 - 0.01;
             calcVec2.y = piece.spatial.vel.getY() + Math.abs(stateValue);
-            calcVec2.z = piece.spatial.vel.getZ()+Math.random()*0.02 - 0.01;
+            calcVec2.z = piece.spatial.vel.getZ() * - stateValue*0.15 + Math.random()*0.02 - 0.01;
 
             calcVec3.x += calcVec2.x*0.02;
             calcVec3.z += calcVec2.z*0.02;
 
-            calcVec2.applyQuaternion(calcQuat);
+        //    calcVec2.applyQuaternion(calcQuat);
 
             evt.fire(evt.list().GAME_EFFECT, {effect:effectId, pos:calcVec3, vel:calcVec2});
         };

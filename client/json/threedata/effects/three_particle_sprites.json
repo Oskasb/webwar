@@ -7,6 +7,10 @@
           "tiles":[[3, 4]]
         },
         {
+          "id":"splatter",
+          "tiles":[[2, 4]]
+        },
+        {
           "id":"flare_blue",
           "tiles":[[3, 3]]
         },

@@ -24,6 +24,8 @@ define([
 
         ParticleRenderer.prototype.setupRendererMaterial = function(rendererConfig) {
 
+            this.isRendering = false;
+
             this.config = rendererConfig;
             this.poolSize = rendererConfig.particle_pool;
             this.particleGeometry = rendererConfig.particle_geometry;
@@ -131,6 +133,18 @@ define([
         };
 
 
+        ParticleRenderer.prototype.enableParticleRenderer = function() {
+            this.isRendering = true;
+            this.particleBuffer.addToScene();
+        };
+
+
+        ParticleRenderer.prototype.disableParticleRenderer = function() {
+            this.isRendering = false;
+            this.particleBuffer.removeFromScene();
+        };
+
+        
         ParticleRenderer.prototype.updateParticleRenderer = function(systemTime) {
 
             if (this.material.uniforms.systemTime) {
@@ -142,6 +156,7 @@ define([
         };
 
         ParticleRenderer.prototype.dispose = function() {
+            this.particles = [];
             this.particleBuffer.dispose();
             this.materialPipe.removePipelineObject();
             delete this;

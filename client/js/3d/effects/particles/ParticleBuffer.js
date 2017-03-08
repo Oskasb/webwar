@@ -57,6 +57,10 @@ define([
             this.geometry.dispose();
         };
 
+        ParticleBuffer.prototype.removeFromScene = function() {
+            ThreeAPI.removeModel(this.mesh);
+        };
+
         ParticleBuffer.prototype.addToScene = function() {
             ThreeAPI.addToScene(this.mesh);
         };

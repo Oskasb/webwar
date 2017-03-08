@@ -29,7 +29,8 @@
     "tank_track_fx":[
       {
         "particle_effects":[
-          {"id":"ground_dirt_spray"}
+          {"id":"ground_mud_spray"},
+          {"id":"leafy_ground_spray"}
         ]
       }
     ],

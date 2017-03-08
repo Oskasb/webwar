@@ -192,7 +192,9 @@
 
         "vertexPredictPositionMain":[
 
-          "float dragFactor = 1.0 / (1.0 + (0.5 * acceleration.x  * effectAge * effectAge));",
+          "float gravityDiffusion = 1.0 - (sillySeed * diffusors.y);",
+
+          "float dragFactor = 1.0 / (1.0 + (0.5 * acceleration.x * gravityDiffusion * effectAge * effectAge));",
           "float gravityFactor = 0.5 * acceleration.y * effectAge * effectAge;",
 
 
@@ -224,6 +226,15 @@
         ],
 
 
+        "vertexShadeLowerVerts":[
+
+          "float lowness = 0.6 + vPosition.y * 0.4;",
+
+          "vColor.r *= lowness*1.1;",
+          "vColor.g *= lowness*1.0;",
+          "vColor.b *= lowness*0.8;"
+
+        ],
 
         "vertexSpatialMain":[
           "vec3 vcV = cross(orientation.xyz, vPosition);",

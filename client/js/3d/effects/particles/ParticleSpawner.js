@@ -145,9 +145,10 @@ define([
         };
 
         var activeRenderes = 0;
-        
+        var totalRenderers = 0;
+
         ParticleSpawner.prototype.getActiveRendererCount = function() {
-            return activeRenderes;
+            return activeRenderes+' / '+totalRenderers ;
         };
         
         ParticleSpawner.prototype.getActiveEffectsCount = function() {
@@ -158,7 +159,8 @@ define([
 
             var count = 0;
             activeRenderes = 0;
-     
+            totalRenderers = 0;
+
             for (var i = 0; i < activeEffects.length; i++) {
                 count += activeEffects[i].aliveParticles.length;
             };
@@ -167,8 +169,17 @@ define([
             for (var key in renderers) {
                 var activeParticles = renderers[key].poolSize - renderers[key].particles.length;
                 if (activeParticles) {
+                    if (!renderers[key].isRendering) {
+                        renderers[key].enableParticleRenderer();
+                    }
                     activeRenderes++;
+                } else {
+                    if (renderers[key].isRendering) {
+                        renderers[key].disableParticleRenderer();
+                    }
                 }
+                
+                totalRenderers++
             }
             return count;
         };

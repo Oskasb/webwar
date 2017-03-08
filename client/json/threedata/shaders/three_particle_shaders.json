@@ -156,7 +156,7 @@
 
 
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPredictRotationMain"},
-
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexShadeLowerVerts"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexBillboardFaceMain"},
 
 
