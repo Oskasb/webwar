@@ -96,7 +96,7 @@ define([
 
         ThreeTerrain.addTerrainToIndex = function(terrainModel, parent, transform) {
             console.log("Add to Terrain index:", terrainModel, parent.parent, transform );
-            terrainIndex[terrainModel.uuid] = {model:terrainModel, parent:parent.parent, transform:transform);
+            terrainIndex[terrainModel.uuid] = {model:terrainModel, parent:parent.parent, transform:transform};
 
         };
 
