@@ -94,7 +94,9 @@ define([
         };
 
 
-        ThreeTerrain.addTerrainToIndex = function(terrainModel, transform) {
+        ThreeTerrain.addTerrainToIndex = function(terrainModel, parent, transform) {
+            console.log("Add to Terrain index:", terrainModel, parent.parent, transform );
+            terrainIndex[terrainModel.uuid] = {model:terrainModel, parent:parent.parent, transform:transform);
 
         };
 
@@ -113,7 +115,7 @@ define([
 
                     setup.addToScene(model);
                     rootObject.add(model);
-                    ThreeTerrain.addTerrainToIndex(model, rootObject.position);
+                    ThreeTerrain.addTerrainToIndex(model, rootObject, terrainList[modelId].transform);
                     transformModel(terrainList[modelId].transform, model);
 
 
