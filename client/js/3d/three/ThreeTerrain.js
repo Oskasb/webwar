@@ -3,18 +3,22 @@
 define([
         'ThreeAPI',
         'PipelineAPI',
-        '../../PipelineObject'],
+        '../../PipelineObject',
+    '3d/three/TerrainFunctions'
+
+],
     function(
         ThreeAPI,
         PipelineAPI,
-        PipelineObject
+        PipelineObject,
+        TerrainFunctions
     ) {
 
         var terrainList = {};
         var terrainIndex = {};
 
-
-
+        var calcVec = new THREE.Vector3();
+        var terrainFunctions;
 
         var ThreeTerrain = function() {
 
@@ -23,6 +27,8 @@ define([
 
         ThreeTerrain.loadData = function() {
 
+            terrainFunctions = new TerrainFunctions();
+            
             var terrainListLoaded = function(scr, data) {
                 for (var i = 0; i < data.length; i++){
                     terrainList[data[i].id] = data[i]
@@ -90,13 +96,18 @@ define([
             terrain.children[0].position.x += applies.terrain_size*0.5;
             terrain.children[0].position.y -= applies.terrain_size*0.5;
 
+            terrain.size = applies.terrain_size;
+            terrain.segments = applies.terrain_segments;
+            terrain.array1d = array1d;
+            terrain.height = applies.max_height - applies.min_height;
+
             callback(terrain);
         };
 
 
-        ThreeTerrain.addTerrainToIndex = function(terrainModel, parent, transform) {
-            console.log("Add to Terrain index:", terrainModel, parent.parent, transform );
-            terrainIndex[terrainModel.uuid] = {model:terrainModel, parent:parent.parent, transform:transform};
+        ThreeTerrain.addTerrainToIndex = function(terrainModel, parent) {
+            console.log("Add to Terrain index:", terrainModel, parent );
+            terrainIndex[terrainModel.uuid] = {model:terrainModel, parent:parent};
 
         };
 
@@ -115,7 +126,7 @@ define([
 
                     setup.addToScene(model);
                     rootObject.add(model);
-                    ThreeTerrain.addTerrainToIndex(model, rootObject, terrainList[modelId].transform);
+                    ThreeTerrain.addTerrainToIndex(model, rootObject);
                     transformModel(terrainList[modelId].transform, model);
 
 
@@ -134,21 +145,60 @@ define([
             for (var i = 0; i < materials.length; i++) {
                 new PipelineObject('THREE_MATERIAL', materials[i].id, attachMaterial);
             }
-
-
+            
 
             //    attachModel(new THREE.Mesh(new THREE.PlaneGeometry( 200,  200, 10 ,10)));
             return rootObject;
         };
 
 
+        ThreeTerrain.checkPositionWithin = function(pos, terrainModel, parentObj) {
+
+            if (!parentObj.parent) return;
+
+            var pPosx = parentObj.parent.position.x;
+            var pPosz = parentObj.parent.position.z;
+            var size = terrainModel.size;
+
+            if (pPosx <= pos.x && pPosx + size > pos.x) {
+                if (pPosz <= pos.z && pPosz + size > pos.z) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
         ThreeTerrain.getThreeTerrainByPosition = function(pos) {
 
+            for (var key in terrainIndex) {
+                if (ThreeTerrain.checkPositionWithin(pos, terrainIndex[key].model, terrainIndex[key].parent)) {
+                    return terrainIndex[key];
+                }
+            }
         };
+
+
+        ThreeTerrain.getThreeTerrainHeightAt = function(terrain, pos) {
+
+            return terrainFunctions.getHeightAt(pos, terrain.array1d, terrain.size, terrain.segments)
+        };
+
 
 
         ThreeTerrain.getThreeHeightAt = function(pos) {
 
+            var terrainStore = ThreeTerrain.getThreeTerrainByPosition(pos);
+
+            if (terrainStore) {
+                calcVec.subVectors(pos, terrainStore.parent.parent.position);
+
+                var height = ThreeTerrain.getThreeTerrainHeightAt(terrainStore.model, calcVec);
+
+                return height;
+            } else {
+                return 5;
+            }
+            
         };
 
         return ThreeTerrain;

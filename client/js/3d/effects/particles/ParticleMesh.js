@@ -25,6 +25,42 @@ define([],
         ];
 
 
+
+        var plantUvs = [
+            0, 0,
+            1, 0,
+            0, 1,
+            1, 1,
+            1, 0,
+            0, 0,
+            1, 1,
+            0, 1
+        ];
+
+        var plantInds =[
+            0, 1, 2,
+            2, 1, 3,
+            4, 5, 6,
+            6, 5, 7
+        ];
+
+
+        var plantVerts = [
+            // Front
+            -1, -0.2, 0,
+            1,  -0.2, 0,
+            -1,  1.8, 0,
+            1,   1.8, 0,
+
+            // Left
+            0, -0.2, -1,
+            0, -0.2,  1,
+            0,  1.8, -1,
+            0,  1.8,  1
+
+        ];
+
+
         var cross3Verts = [
             // Front
             -1,  1, 0,
@@ -57,6 +93,7 @@ define([],
             1,  0, -1,
             -1, 0, -1
         ];
+
 
 
         var boxVerts = [
@@ -139,8 +176,12 @@ define([],
             22, 21, 23
         ];
 
-        var ParticleMesh = function() {
+        var ParticleMesh = function() {2
 
+        };
+
+        ParticleMesh.plant3d = function() {
+            return {verts:plantVerts, indices:plantInds, uvs:plantUvs};
         };
 
         ParticleMesh.cross3d = function() {

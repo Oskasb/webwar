@@ -58,7 +58,7 @@
           "id":"gpu_opaque_vegetation_renderer",
           "material_id":"gpu_vegetation_sprite_material",
           "particle_pool":5000,
-          "particle_geometry":"cross3d",
+          "particle_geometry":"plant3d",
           "material_options":{
             "blending":"NoBlending",
             "transparent":false,

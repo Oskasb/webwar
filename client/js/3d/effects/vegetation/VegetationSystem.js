@@ -43,6 +43,10 @@ define([
             tempVec2.y = 0;
             tempVec2.z = 0;
 
+            if (!pos.x) return;
+
+            pos.y = ThreeAPI.getTerrainHeightAt(pos);
+
             EffectAPI.requestParticleEffect(plantData.id, pos, tempVec2);
             
         };
@@ -55,9 +59,12 @@ define([
 
 
 
-            tempVec.x = ownPiece.spatial.posX() + Math.random()*100 - 50;
+            tempVec.x = ownPiece.spatial.posX() + Math.random()*200 - 100;
             tempVec.y = ownPiece.spatial.posY();
-            tempVec.z = ownPiece.spatial.posZ() + Math.random()*100 - 50;;
+            tempVec.z = ownPiece.spatial.posZ() + Math.random()*200 - 100;;
+
+
+
 
             this.spawnVegetation(tempVec, plantData)
 
@@ -69,7 +76,7 @@ define([
 
             if (!ownPiece) return;
 
-            for (var i = 0; i < 3; i++) {
+            for (var i = 0; i < 10; i++) {
                 this.makePlants()
             }
 

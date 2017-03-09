@@ -67,7 +67,7 @@ define([
         };
 
         ThreeAPI.getTerrainHeightAt = function(pos) {
-            return ThreeModelLoader.getHeightFromTerrainAt();
+            return ThreeModelLoader.getHeightFromTerrainAt(pos);
         };
         
         ThreeAPI.updateWindowParameters = function(width, height, aspect, pxRatio) {

@@ -256,12 +256,12 @@
         {
           "id":"basic_vegetation",
           "sprite_key":"ATLAS",
-          "sprite_id":"leafy_tuft",
+          "sprite_id":"tree_sprite_1",
           "config":{
             "gravity":-9.81,
             "drag":0.001,
             "spinDrag":0.8,
-            "lifeTime":{"min":2.3,"max":8.3},
+            "lifeTime":{"min":12.3,"max":13.3},
             "colorCurve":"nearWhite",
             "alphaCurve":"zeroOneZero",
             "diffusionCurve":"zeroOneZero",
