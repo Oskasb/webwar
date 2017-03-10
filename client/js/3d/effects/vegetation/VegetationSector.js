@@ -26,7 +26,7 @@ define([
             this.posZ = 0;
 
             this.parentObject3d = ThreeAPI.createRootObject();
-            this.addVegetationDebugBox(size)
+        //    this.addVegetationDebugBox(size)
         };
         
 
@@ -76,7 +76,7 @@ define([
 
             var activePatch = this.checkForActivePatch(activePatches);
 
-            ThreeAPI.addToScene(this.parentObject3d);
+        //    ThreeAPI.addToScene(this.parentObject3d);
 
             if (activePatch) {
                 return;
@@ -99,7 +99,7 @@ define([
 
         VegetationSector.prototype.disableVegetationSector = function() {
             
-            ThreeAPI.removeModel(this.parentObject3d);
+        //    ThreeAPI.removeModel(this.parentObject3d);
         };
 
         VegetationSector.prototype.checkVisibility = function(activePatches, patchPool) {

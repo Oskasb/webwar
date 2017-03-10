@@ -21,8 +21,8 @@ define([
         var tempVec = new THREE.Vector3();
         var tempVec2 = new THREE.Vector3();
 
-        var vegetationSectorSize = 40;
-        var rowsNColumns = 5;
+        var vegetationSectorSize = 80;
+        var rowsNColumns = 3;
 
 
         var sectorPool = [];

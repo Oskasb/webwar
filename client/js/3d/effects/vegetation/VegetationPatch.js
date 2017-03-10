@@ -15,13 +15,7 @@ define([
         var EffectAPI;
         var tempVec = new THREE.Vector3();
         var tempVec2 = new THREE.Vector3();
-
-        var gridSectionSize = 30;
-        var gridSectionsXZ = 5;
-
-        var ownPiece;
-        var plants = {};
-
+        
         var plantData = {
             "id":"test_plant"
         };
@@ -37,7 +31,7 @@ define([
 
             EffectAPI = FxAPI;
             this.parentObject3d = ThreeAPI.createRootObject();
-            this.addVegetationDebugBox(size)
+         //   this.addVegetationDebugBox(size)
         };
 
 
@@ -57,7 +51,7 @@ define([
 
             this.enabled = true;
 
-            ThreeAPI.addToScene(this.parentObject3d);
+        //    ThreeAPI.addToScene(this.parentObject3d);
 
             this.indexX = ix;
             this.indexZ = iz;
@@ -87,7 +81,7 @@ define([
             this.posX = 'none';
             this.posZ = 'none';
 
-            ThreeAPI.removeModel(this.parentObject3d);
+        //    ThreeAPI.removeModel(this.parentObject3d);
         };
 
 
@@ -120,7 +114,7 @@ define([
 
             for (var i = 0; i < sectorPool.length; i++) {
                 if (sectorPool[i].indexX == this.indexX && sectorPool[i].indexZ == this.indexZ) {
-                    if (Math.random() < 0.1) {
+                    if (Math.random() < 0.2) {
                         this.doPlants();
                     }
                     return                     
