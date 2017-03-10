@@ -33,6 +33,8 @@ define([
 
         ThreeAPI.initThreeScene(GameScreen.getElement(), clientTickCallback, pxRatio, antialias);
 
+        PipelineAPI.setCategoryKeyValue('GAME_DATA', 'CAMERA', ThreeAPI.getCamera());
+        
         var adjustPxScale = function(value) {
             console.log("Adjust Px Scale: ", value);
             pxRatio = value;

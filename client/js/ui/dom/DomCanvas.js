@@ -38,7 +38,6 @@ define([
 
             var toggleTriggered = function(src, data) {
                 console.log("Enable event", src, data);
-                PipelineAPI.setCategoryKeyValue(_this.conf.enableOnEvent.category, src, data);
                 _this.canvasElement.toggleEnabled(data);
             };
 
