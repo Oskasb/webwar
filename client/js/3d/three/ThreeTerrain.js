@@ -100,6 +100,7 @@ define([
             terrain.segments = applies.terrain_segments;
             terrain.array1d = array1d;
             terrain.height = applies.max_height - applies.min_height;
+            terrain.vegetation = applies.vegetation_system;
 
             callback(terrain);
         };
@@ -178,25 +179,32 @@ define([
         };
 
 
-        ThreeTerrain.getThreeTerrainHeightAt = function(terrain, pos) {
+        ThreeTerrain.getThreeTerrainHeightAt = function(terrain, pos, normalStore) {
 
-            return terrainFunctions.getHeightAt(pos, terrain.array1d, terrain.size, terrain.segments)
+            return terrainFunctions.getHeightAt(pos, terrain.array1d, terrain.size, terrain.segments, normalStore)
         };
 
+        ThreeTerrain.terrainVegetationIdAt = function(pos, normalStore) {
 
+            var terrain = ThreeTerrain.getThreeHeightAt(pos, normalStore);
 
-        ThreeTerrain.getThreeHeightAt = function(pos) {
+            if (terrain) {
+                return terrain.vegetation;
+            }
+        };
+
+        ThreeTerrain.getThreeHeightAt = function(pos, normalStore) {
 
             var terrainStore = ThreeTerrain.getThreeTerrainByPosition(pos);
 
             if (terrainStore) {
                 calcVec.subVectors(pos, terrainStore.parent.parent.position);
 
-                var height = ThreeTerrain.getThreeTerrainHeightAt(terrainStore.model, calcVec);
+                pos.y = ThreeTerrain.getThreeTerrainHeightAt(terrainStore.model, calcVec, normalStore);
 
-                return height;
+                return terrainStore.model;
             } else {
-                return 5;
+
             }
             
         };

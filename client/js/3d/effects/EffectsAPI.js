@@ -1,17 +1,17 @@
 "use strict";
 
 define([
-        '3d/effects/vegetation/VegetationSystem',
+        '3d/effects/vegetation/Vegetation',
         '3d/effects/particles/ParticleSpawner',
         '3d/effects/filters/ScreenSpaceFX'
     ],
     function(
-        VegetationSystem,
+        Vegetation,
         ParticleSpawner,
         ScreenSpaceFX
     ) {
 
-        var vegetationSystem;
+        var vegetation;
         var particleSpawner;
         var screenSpaceFX;
 
@@ -21,7 +21,7 @@ define([
         };
 
         EffectsAPI.initEffects = function() {
-            vegetationSystem = new VegetationSystem(this);
+            vegetation = new Vegetation(this);
             particleSpawner = new ParticleSpawner();
             particleSpawner.initParticleSpawner();
             //    screenSpaceFX = new ScreenSpaceFX();
@@ -30,11 +30,19 @@ define([
         };
 
         EffectsAPI.requestParticleEffect = function(id, pos, vel) {
-            particleSpawner.spawnParticleEffect(id, pos, vel);
+            particleSpawner.spawnActiveParticleEffect(id, pos, vel);
         };
 
+        EffectsAPI.requestPassiveEffect = function(id, pos, vel) {
+            return particleSpawner.spawnPassiveEffect(id, pos, vel);
+        };
+
+        EffectsAPI.returnPassiveEffect = function(effect) {
+            return particleSpawner.recoverPassiveEffect(effect);
+        };
+        
         EffectsAPI.tickEffectSimulation = function(tpf) {
-            vegetationSystem.updateVegetationSystem(tpf);
+            vegetation.updateVegetation(tpf);
             particleSpawner.updateSpawnedParticles(tpf);
         };
 

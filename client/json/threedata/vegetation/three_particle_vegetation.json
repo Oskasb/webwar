@@ -3,11 +3,51 @@
     "VEGETATION_EFFECTS": {
       "THREE":[
         {
-          "id":"test_plant",
+          "id":"little_shrub_veg",
           "data":{
             "system_key":"THREE",
             "renderer_id":"gpu_opaque_vegetation_renderer",
-            "particle_id":"basic_vegetation",
+            "particle_id":"little_shrub_particle",
+            "count":1,
+            "simulation_id":"gpu_vegetation_simulation"
+          }
+        },
+        {
+          "id":"standing_fern_veg",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_opaque_vegetation_renderer",
+            "particle_id":"fern_particle",
+            "count":1,
+            "simulation_id":"gpu_vegetation_simulation"
+          }
+        },
+        {
+          "id":"standing_grass_veg",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_opaque_vegetation_renderer",
+            "particle_id":"grass_standing_particle",
+            "count":1,
+            "simulation_id":"gpu_vegetation_simulation"
+          }
+        },
+        {
+          "id":"red_flower_veg",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_opaque_vegetation_renderer",
+            "particle_id":"red_flower_particle",
+            "count":1,
+            "simulation_id":"gpu_vegetation_simulation"
+          }
+        },
+        {
+          "id":"white_flower_veg",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_opaque_vegetation_renderer",
+            "particle_id":"white_flower_particle",
             "count":1,
             "simulation_id":"gpu_vegetation_simulation"
           }

@@ -230,6 +230,7 @@
         "type":"array",
         "state":true,
         "three_terrain":"plain_ground",
+        "vegetation_system":"basic_grassland",
         "terrain_size":200,
         "terrain_segments":15,
         "invert_hill":false,
@@ -252,6 +253,7 @@
         "type":"array",
         "state":true,
         "three_terrain":"plain_ground",
+        "vegetation_system":"basic_grassland",
         "terrain_size":200,
         "terrain_segments":15,
         "invert_hill":true,
@@ -273,6 +275,7 @@
         "type":"array",
         "state":true,
         "three_terrain":"plain_ground",
+        "vegetation_system":"basic_grassland",
         "terrain_size":200,
         "terrain_segments":15,
         "invert_hill":false,
@@ -284,7 +287,6 @@
         "steps":2
       }
     },
-
     "clay_blob_module":{
       "id":"clay_blob_module",
       "type":"hull",

@@ -62,20 +62,22 @@ define([
             return renderers[id];
 
         };
-        
-        
-        ParticleSpawner.prototype.spawnParticleEffect = function(id, pos, vel) {
 
 
+        ParticleSpawner.prototype.getEffect = function() {
 
-
-            fxAdds++;
-            var effect;
             if (idleEffects.length != 0) {
-                effect = idleEffects.shift();
+                return idleEffects.shift();
             } else {
-                effect = new ParticleEffect();
+                return new ParticleEffect();
             }
+        };
+
+
+
+        ParticleSpawner.prototype.buildEffect = function(id, pos, vel) {
+
+            var effect = this.getEffect();
 
             effect.setEffectPosition(pos);
             effect.setEffectVelocity(vel);
@@ -90,14 +92,32 @@ define([
 
             EffectDataTranslator.interpretCustomEffectData(effect.effectData, effect.effectData.particle.config);
 
-
             effect.attachSimulators();
             effect.applyRenderer(renderer, systemTime);
-            
-            
-            activeEffects.push(effect);
+            return effect;
 
         };
+
+
+        ParticleSpawner.prototype.spawnActiveParticleEffect = function(id, pos, vel) {
+            fxAdds++;
+            activeEffects.push(this.buildEffect(id, pos, vel));
+        };
+
+        ParticleSpawner.prototype.spawnPassiveEffect = function(id, pos, vel) {
+            return this.buildEffect(id, pos, vel);
+        };
+
+        ParticleSpawner.prototype.recoverPassiveEffect = function(effect) {
+
+            if (!effect.aliveParticles.length) {
+                console.log("Bad Effect returned!", effect);
+                return;
+            }
+
+            activeEffects.push(effect)
+        };
+
 
         ParticleSpawner.prototype.updateSpawnedParticles = function(tpf) {
 
@@ -115,8 +135,6 @@ define([
             }
 
 
-            
-            
             for (var i = 0; i < activeEffects.length; i++) {
 
                 if (activeEffects[i].aliveParticles.length != 0) {

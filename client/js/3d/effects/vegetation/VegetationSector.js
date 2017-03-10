@@ -9,9 +9,14 @@ define([
         
         var calcVec = new THREE.Vector3();
 
-        var VegetationSector = function(indexOffset, row, column, size) {
+        var outside = 99999999;
+        var debug = false;
 
-            this.size = size;
+        var VegetationSector = function(sysIndex, indexOffset, row, column, config) {
+
+            this.systemIndex = sysIndex;
+            this.config = config;
+            
             this.indexOffset = indexOffset;
             this.isVisible = false;
 
@@ -26,9 +31,19 @@ define([
             this.posZ = 0;
 
             this.parentObject3d = ThreeAPI.createRootObject();
-        //    this.addVegetationDebugBox(size)
+            if (debug) {
+                this.addVegetationDebugBox(this.size())
+            }
+        //
         };
-        
+
+        VegetationSector.prototype.size = function() {
+            return this.conf().vegetationSectorSize;
+        };
+
+        VegetationSector.prototype.conf = function() {
+            return this.config[this.systemIndex]
+        };
 
         VegetationSector.prototype.addVegetationDebugBox = function(size) {
             this.debugBox = ThreeAPI.loadDebugBox(size, size*0.5, size);
@@ -42,7 +57,7 @@ define([
 
             this.indexX = indexX+this.row;
             this.indexZ = indexZ+this.column;
-            this.setSectorPosition(this.indexX * this.size, this.indexZ * this.size);
+            this.setSectorPosition(this.indexX * this.size(), this.indexZ * this.size());
 
         };
         
@@ -52,13 +67,18 @@ define([
             this.posZ = z;
 
             calcVec.x = this.posX;
-            calcVec.y = 0;
+            calcVec.y = outside;
             calcVec.z = this.posZ;
 
-            this.posY = ThreeAPI.getTerrainHeightAt(calcVec);
-            calcVec.y = this.posY;
-            this.parentObject3d.position.copy(calcVec);
-            
+            ThreeAPI.setYbyTerrainHeightAt(calcVec);
+
+            this.posY = calcVec.y;
+
+
+            if (this.posY != outside) {
+                this.parentObject3d.position.copy(calcVec);
+            }
+
         };
 
 
@@ -76,7 +96,10 @@ define([
 
             var activePatch = this.checkForActivePatch(activePatches);
 
-        //    ThreeAPI.addToScene(this.parentObject3d);
+            if (debug) {
+                ThreeAPI.addToScene(this.parentObject3d);
+            }
+        //
 
             if (activePatch) {
                 return;
@@ -85,26 +108,27 @@ define([
             var patch = patchPool.pop();
 
             if (!patch) {
-                console.log("bad patch!", patchPool, this.indexX, this.indexZ)
+                console.log("bad patch!", patchPool, this.indexX, this.indexZ);
                 return;
             } else {
-                console.log("ENABLE patch!", patchPool.length, this.indexX, this.indexZ);
+           //     console.log("ENABLE patch!", patchPool.length, this.indexX, this.indexZ);
             }
 
             activePatches.push(patch);
 
-            patch.enablePatch(this.indexX, this.indexZ, this.posX, this.posZ, this.size);
+            patch.enablePatch(this.indexX, this.indexZ, this.posX, this.posZ, this.size());
             
         };
 
         VegetationSector.prototype.disableVegetationSector = function() {
-            
-        //    ThreeAPI.removeModel(this.parentObject3d);
+            if (debug) {
+                ThreeAPI.removeModel(this.parentObject3d);
+            }
         };
 
         VegetationSector.prototype.checkVisibility = function(activePatches, patchPool) {
 
-            var visible = ThreeAPI.checkVolumeObjectVisible( this.posX, this.posY , this.posZ , this.size);
+            var visible = ThreeAPI.checkVolumeObjectVisible( this.posX, this.posY , this.posZ , this.size());
 
             if (visible && !this.isVisible) {
                 this.enableVegetationSector(activePatches, patchPool);

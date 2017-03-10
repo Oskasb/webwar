@@ -128,7 +128,9 @@ define([
                     calcVec1.invert();
                 }
                 calcVec1.normalize();
-                normalStore.setVec(calcVec1);
+                normalStore.x = calcVec1.getX();
+                normalStore.y = calcVec1.getY();
+                normalStore.z = calcVec1.getZ();
             }
 
             return find.z;
