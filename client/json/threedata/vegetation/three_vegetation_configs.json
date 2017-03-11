@@ -6,24 +6,24 @@
 
         {
           "name":"small",
-          "vegetationSectorSize":15,
+          "vegetationSectorSize":25,
           "rowsNColumns":3,
           "spawnFrames":10,
           "plantCount":10
         },
         {
           "name":"medium",
-          "vegetationSectorSize":20,
+          "vegetationSectorSize":45,
           "rowsNColumns":5,
-          "spawnFrames":12,
-          "plantCount":12
+          "spawnFrames":22,
+          "plantCount":62
         },
         {
           "name":"big",
-          "vegetationSectorSize":30,
+          "vegetationSectorSize":65,
           "rowsNColumns":7,
-          "spawnFrames":10,
-          "plantCount":10
+          "spawnFrames":30,
+          "plantCount":120
         }
       ],
       "SYSTEMS":[
@@ -31,13 +31,13 @@
           "id":"basic_grassland",
           "data":[
             {
-              "vegetation_effects":["white_flower_veg", "red_flower_veg", "standing_grass_veg", "standing_fern_veg"]
+              "vegetation_effects":["white_flower_veg", "red_flower_veg"]
             },
             {
-              "vegetation_effects":["standing_grass_veg", "little_shrub_veg", "standing_fern_veg"]
+              "vegetation_effects":["standing_grass_veg", "standing_fern_veg"]
             },
             {
-              "vegetation_effects":["little_shrub_veg"]
+              "vegetation_effects":["little_shrub_veg", "standing_fern_veg"]
             }
           ]
         }

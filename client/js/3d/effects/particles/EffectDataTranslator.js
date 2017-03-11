@@ -125,13 +125,16 @@ define([
         var effect = new ConfiguredGpuEffect();
         
 
+
+
         EffectDataTranslator.interpretCustomEffectData = function(effectData, pCfg, customEffectData) {
 
             effect.setDefaults();
 
 
-            effect.lifeTime.setValues(pCfg.lifeTime.min, pCfg.lifeTime.max);
-            effect.acceleration.setValues(pCfg.drag, pCfg.gravity, pCfg.bend, pCfg.spinDrag);
+            if (pCfg.lifeTime) effect.lifeTime.setValues(pCfg.lifeTime.min, pCfg.lifeTime.max);
+            if (pCfg.drag || pCfg.gravity || pCfg.bend || pCfg.spinDrag ) effect.acceleration.setValues(pCfg.drag, pCfg.gravity, pCfg.bend, pCfg.spinDrag);
+            
             effect.texelRowSelect.setValues(dataCurves[pCfg.colorCurve], dataCurves[pCfg.diffusionCurve], dataCurves[pCfg.scaleCurve], dataCurves[pCfg.alphaCurve]);
     //     console.log(dataCurves[pCfg.colorCurve], dataCurves[pCfg.diffusionCurve], dataCurves[pCfg.scaleCurve], dataCurves[pCfg.dragCurve])
             effect.diffusors.setValues(pCfg.velocityDiffusion, pCfg.accelerationDiffusion, pCfg.velocityFactor, pCfg.colorDiffusion);

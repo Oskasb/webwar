@@ -117,6 +117,55 @@
           "vPosition = vPosition * sampledSizeFactor;"
         ],
 
+        "vertexVegetationTextureData":[
+
+          "effectAge = systemTime - startTime;",
+
+          "progress = min(effectAge*0.2, 1.0);",
+
+          "float zHideFactor = 1.0;",
+
+          "offset = offsetSize.xyz;",
+          "size =   offsetSize.w;",
+
+          "rowColor =     texelRowSelect.x;",
+          "rowAlpha =     texelRowSelect.w;",
+          "rowDiffusion = texelRowSelect.y;",
+          "rowSize  =     texelRowSelect.z;",
+
+          "float sillySeed = sin((offset.x*929.1 + offset.y*78.1 + offset.z*99.1)*99.9+cos(startTime*2999.9));",
+          "float sillySeed2 = cos((offset.x*199.1 + offset.y*738.1 + offset.z*199.1)*99.9+cos(startTime*3929.9));",
+          "float sillySeed3 = sin((offset.x*929.1 + offset.y*178.1 + offset.z*919.1)*99.9+cos(startTime*5299.9));",
+
+          "float sillyRandom1 = sin(sillySeed*3.4     + progress*1.2 + effectAge * duration * 0.18);",
+          "float sillyRandom2 = sin(sillySeed2*3.1 + progress*1.5 + effectAge * duration * 0.23);",
+          "float sillyRandom3 = sin(sillySeed3*2.4 + progress*1.7 + effectAge * duration * 0.21);",
+          "float sillyRandom4 = sin(sillySeed*9.9 + progress*3.5 + effectAge * duration * 0.23);",
+
+          "colorDiffusion        = vec4(0.5 + sillySeed*0.5 * diffusors.w + 1.0-diffusors.w, 0.5 + sillySeed2*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillySeed3*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillySeed*0.5*diffusors.w + 1.0-diffusors.w);",
+
+          "pixelSelector.x = progress + (0.5/data_rows);",
+          "pixelSelector.y = 1.0 - ((rowDiffusion / data_rows) - (0.5 / data_rows));",
+
+          "sampledDataTexel = texture2D(data_texture, pixelSelector);",
+
+
+          "pixelSelector.y = 1.0 - ((rowAlpha / data_rows) - (0.5 / data_rows));",
+          "sampledDataTexel = texture2D(data_texture, pixelSelector);",
+          "sampledAlpha = sampledDataTexel.r;",
+
+
+          "pixelSelector.y = 1.0 - ((rowColor / data_rows) - (0.5 / data_rows));",
+          "sampledDataTexel = texture2D(data_texture, pixelSelector);",
+
+          "vec4 vertexColor = vec4(sampledDataTexel.r, sampledDataTexel.g, sampledDataTexel.b, sampledDataTexel.a * sampledAlpha) * colorDiffusion;",
+
+          "pixelSelector.y = 1.0 - ((rowSize / data_rows) - (0.5 / data_rows));",
+          "sampledDataTexel = texture2D(data_texture, pixelSelector);",
+          "sampledSizeFactor = size * sampledDataTexel.r * sqrt(duration);"
+
+        ],
+
         "vertexSampleTextureData":[
 
           "effectAge = systemTime - startTime;",
@@ -228,11 +277,11 @@
 
         "vertexShadeLowerVerts":[
 
-          "float lowness = 0.6 + vPosition.y * 0.4;",
+          "float lowness = 0.7 + vPosition.y * 0.3;",
 
-          "vColor.r *= lowness*1.1;",
-          "vColor.g *= lowness*1.0;",
-          "vColor.b *= lowness*0.8;"
+          "vColor.r *= lowness*1.3;",
+          "vColor.g *= lowness*1.2;",
+          "vColor.b *= lowness*1.0;"
 
         ],
 

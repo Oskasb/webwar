@@ -187,7 +187,7 @@
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_billboard"},
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_varying_vColor4"},
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
-          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSampleTextureData"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexVegetationTextureData"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexColorFromAttribColor4"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPositionMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},

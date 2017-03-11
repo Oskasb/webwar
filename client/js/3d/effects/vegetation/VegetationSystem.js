@@ -87,7 +87,7 @@ define([
 
             tempVec2.subVectors(tempVec, camera.position);
 
-            tempVec2.multiplyScalar(this.conf().vegetationSectorSize * 0.01);
+            tempVec2.multiplyScalar(this.conf().vegetationSectorSize * 0.02);
 
             tempVec.addVectors(tempVec, tempVec2);
 
