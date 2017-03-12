@@ -48,7 +48,7 @@
           "settings":{
             "side":"DoubleSide",
             "blending":"NoBlending",
-            "alphaTest": 0.5,
+            "alphaTest": 0.8,
             "shininess":0.1,
             "reflectivity":0.4,
             "aoMapIntensity":0.3,
