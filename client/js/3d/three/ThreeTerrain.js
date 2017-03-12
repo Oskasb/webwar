@@ -1,7 +1,6 @@
 "use strict";
 
 define([
-        'ThreeAPI',
         'PipelineAPI',
         '../../PipelineObject',
     '3d/three/TerrainFunctions',
@@ -9,7 +8,6 @@ define([
 
 ],
     function(
-        ThreeAPI,
         PipelineAPI,
         PipelineObject,
         TerrainFunctions,
@@ -27,9 +25,9 @@ define([
 
         };
         
-        ThreeTerrain.loadData = function() {
+        ThreeTerrain.loadData = function(TAPI) {
 
-            terrainMaterial = new TerrainMaterial();
+            terrainMaterial = new TerrainMaterial(TAPI);
             terrainFunctions = new TerrainFunctions();
             
             var terrainListLoaded = function(scr, data) {

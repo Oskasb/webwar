@@ -1,13 +1,11 @@
 "use strict";
 
 define([
-    'ThreeAPI',
     'PipelineAPI',
     'PipelineObject',
     '3d/three/ThreeInstanceBufferModel',
     '3d/three/ThreeTerrain'],
     function(
-        ThreeAPI,
         PipelineAPI,
         PipelineObject,
         ThreeInstanceBufferModel,
@@ -64,8 +62,8 @@ define([
 
         };
 
-        ThreeModelLoader.loadData = function() {
-            ThreeTerrain.loadData();
+        ThreeModelLoader.loadData = function(TAPI) {
+            ThreeTerrain.loadData(TAPI);
             var modelListLoaded = function(scr, data) {
                 for (var i = 0; i < data.length; i++){
                     modelList[data[i].id] = data[i]

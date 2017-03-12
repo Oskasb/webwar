@@ -77,10 +77,12 @@
             "terrain_darkrock":        "./client/assets/images/textures/tiles/darkrock.png",
             "terrain_striperock":      "./client/assets/images/textures/tiles/striperock.png",
             "terrain_mud":             "./client/assets/images/textures/tiles/mud.png",
+            "terrain_detail":          "./client/assets/images/textures/tiles/detail.png",
             "terrain_sand":            "./client/assets/images/textures/tiles/sand.png",
+            "terrain_fract":           "./client/assets/images/textures/tiles/fract.png",
             "terrain_crackstile":      "./client/assets/images/textures/tiles/crackstile.png",
             "terrain_dark_grass":      "./client/assets/images/textures/tiles/dark_grass.png",
-            "terrain_fract":           "./client/assets/images/textures/tiles/fract.png"
+            "terrain_grass":           "./client/assets/images/textures/tiles/grass.png"
           }]
         }
       ]

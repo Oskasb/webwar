@@ -31,9 +31,9 @@ define([
 
         };
 
-        ThreeAPI.initThreeLoaders = function() {
+        ThreeAPI.initThreeLoaders = function(TAPI) {
             shaderBuilder = new ThreeShaderBuilder();
-            ThreeModelLoader.loadData();
+            ThreeModelLoader.loadData(TAPI);
             ThreeTextureMaker.loadTextures();
             ThreeMaterialMaker.loadMaterialist();
             ThreeEnvironment.loadEnvironmentData();

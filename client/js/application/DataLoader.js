@@ -92,7 +92,7 @@ define([
         //        console.log("image cache fail", erc, err)
             }
 
-            ThreeAPI.initThreeLoaders();
+            ThreeAPI.initThreeLoaders(ThreeAPI);
 
             var styles = PipelineAPI.getCachedConfigs()['styles'];
 

@@ -109,7 +109,7 @@
         ],
 
         "fxShaderMaterial":[
-          "gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );"
+          "gl_FragColor = vColor * txColor * 1.0 + txColor * lightColor*2.0;"
         ],
 
         "vPositionMain":[
@@ -120,7 +120,52 @@
           "vec3 vPosition = vertexPosition;"
         ],
 
+        "fxTerrainTextureLayers":[
+          "txColor = vColor;"
+        ],
 
+        "fxStoreLight":[
+          "vec4 lightColor = vec4(sunDir, 1.0);"
+        ],
+
+        "vxTerrainUvLayersMain":[
+          "vUv0 = uv * tx0repeat;",
+          "vUv1 = uv * tx1repeat;",
+          "vUv2 = uv * tx2repeat;",
+          "vUv3 = uv * tx3repeat;",
+          "vUv4 = uv * tx4repeat;",
+          "vUv5 = uv * tx5repeat;",
+          "vUv6 = uv * tx6repeat;",
+          "slope = 1.0 - 1.0*dot(normal, vec3(0.0, 0.0, 1.0));"
+        ],
+
+        "fragmentTerrainTxLayersMain":[
+
+          "vec4 txColor0 = (smoothstep(0.18, 0.32, slope))                                  * texture2D( tx0, vUv0 );",
+
+          "vec4 txColor1 = (smoothstep(0.12, 0.21, slope) - smoothstep(0.14, 0.42, slope)) * texture2D( tx1, vUv1  );",
+
+          "vec4 txColor2 = (smoothstep(0.10, 0.18, slope) - smoothstep(0.125, 0.25, slope)) * texture2D( tx2, vUv2 );",
+
+          "vec4 txColor3 = (smoothstep( -0.21, 0.11, slope) - smoothstep(0.03, 0.17, slope)) * texture2D( tx3, vUv3 );",
+
+          "vec4 txColor4 = (smoothstep(-1.0, 0.05, slope) - smoothstep(-0.03, 0.06, slope)) * texture2D( tx4, vUv4 );",
+
+          "vec4 txColor = vec4(0.0, 0.0, 0.0, 1.0) + txColor0 + txColor1 + txColor2 + txColor3+ txColor4;",
+
+          "vec4 txColor5 = 0.5 + texture2D( tx5, vUv5 )*0.5;",
+
+          "vec4 txColor6 = 0.5 + texture2D( tx6, vUv6 * 0.2 )*0.7;",
+
+          "txColor *= txColor5;",
+          "txColor *= txColor6;"
+
+        ],
+
+
+        "fragmentAddTxColorTovColor":[
+          "vColor += txColor;"
+        ],
 
 
         "vertexSizeMain":[
@@ -306,6 +351,15 @@
 
         ],
 
+
+        "vertexDirectionalVertexLight":[
+
+          "sunDir = sunLightColor * (0.45 + dot(normal, sunLightDirection) * 0.55);",
+
+          "vColor.r = ambientLightColor.r*1.0;",
+          "vColor.g = ambientLightColor.g*1.0;",
+          "vColor.b = ambientLightColor.b*1.0;"
+        ],
 
         "vertexFogExp2Verts":[
 

@@ -251,7 +251,8 @@
         ],
 
         "vx_position":[
-          "attribute vec3 position;"
+          "attribute vec3 position;",
+          "attribute vec3 normal;"
         ],
 
         "fx_view":[
@@ -330,20 +331,65 @@
           "varying vec2 vUv;"
         ],
 
+        "vx_terrainTextureLayers":[
+          "uniform vec2 tx0repeat;",
+          "uniform vec2 tx1repeat;",
+          "uniform vec2 tx2repeat;",
+          "uniform vec2 tx3repeat;",
+          "uniform vec2 tx4repeat;",
+          "uniform vec2 tx5repeat;",
+          "uniform vec2 tx6repeat;",
+          "varying float slope;",
+          "varying vec2 vUv0;",
+          "varying vec2 vUv1;",
+          "varying vec2 vUv2;",
+          "varying vec2 vUv3;",
+          "varying vec2 vUv4;",
+          "varying vec2 vUv5;",
+          "varying vec2 vUv6;"
+
+        ],
+
+        "fx_terrainTextureLayers":[
+          "varying float slope;",
+          "varying vec2 vUv0;",
+          "varying vec2 vUv1;",
+          "varying vec2 vUv2;",
+          "varying vec2 vUv3;",
+          "varying vec2 vUv4;",
+          "varying vec2 vUv5;",
+          "varying vec2 vUv6;",
+
+          "uniform sampler2D tx0;",
+          "uniform sampler2D tx1;",
+          "uniform sampler2D tx2;",
+          "uniform sampler2D tx3;",
+          "uniform sampler2D tx4;",
+          "uniform sampler2D tx5;",
+          "uniform sampler2D tx6;"
+        ],
 
         "vx_simple_light":[
           "uniform vec3 ambientLightColor;",
           "uniform vec3 sunLightColor;"
         ],
 
+        "vx_sunLightDirection":[
+          "uniform vec3 sunLightDirection;",
+          "varying vec3 sunDir;"
+        ],
+
+        "fx_sunLight":[
+          "varying vec3 sunDir;"
+        ],
 
         "vx_fog":[
           "uniform vec3 fogColor;",
           "uniform float fogDensity;",
           "varying float fogDepth;",
           "varying float vFragDepth;"
-
         ],
+
         "fx_fog":[
 
           "uniform vec3 fogColor;",
@@ -406,6 +452,7 @@
         "fx_varying_vColor4":[
           "varying vec4 vColor;"
         ],
+
         "fx_attribute_vertexColor":[
           "varying vec4 vColor;"
         ],

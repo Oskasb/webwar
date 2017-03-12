@@ -1,38 +1,79 @@
 "use strict";
 
 define([
-        'PipelineObject'
+        'PipelineObject',
+    'Events'
     ],
     function(
-        PipelineObject
+        PipelineObject,
+        evt
     ) {
 
+        var ThreeAPI;
 
-        var txUrl ="./client/assets/images/textures/tiles/";
+        var txUrl = "./client/assets/images/textures/tiles/";
         var materialList = {};
 
         var uniforms = {};
 
-        var uniforms = THREE.UniformsUtils.merge( [
-            THREE.UniformsLib.common,
-            THREE.UniformsLib.fog,
-            THREE.UniformsLib.lights
-        ] );
+        var samplingUniforms = false;
+
+        var applyUniformEnvironmentColor = function(uniform, worldProperty) {
+            var color = ThreeAPI.readEnvironmentUniform(worldProperty, 'color');
+            uniform.value.r = color.r;
+            uniform.value.g = color.g;
+            uniform.value.b = color.b;
+        };
+
+        var applyUniformEnvironmentRotation = function(uniform, worldProperty) {
+            var rot = ThreeAPI.readEnvironmentUniform(worldProperty, 'rotation');
+            uniform.value.x = rot.x;
+            uniform.value.y = rot.y;
+            uniform.value.z = rot.z;
+        };
 
 
-        var TerrainMaterial = function() {
+        var sampleEnvUniforms = function() {
+
+            for (var key in materialList) {
+                applyUniformEnvironmentColor(materialList[key].uniforms.ambientLightColor, 'ambient');
+                applyUniformEnvironmentColor(materialList[key].uniforms.sunLightColor, 'sun');
+                applyUniformEnvironmentRotation(materialList[key].uniforms.sunLightDirection, 'sun');
+            }
+
+        };
+
+
+        var TerrainMaterial = function(tApi) {
+
+            ThreeAPI = tApi;
+
+
+
+
 
         };
 
         TerrainMaterial.prototype.addTerrainMaterial = function(id, textures, shader) {
 
             uniforms[id] = {};
-            
+
+
             loadShader(id, shader);
             this.setupMaterial(id);
 
+            updateUniforms(id, THREE.UniformsLib['common']);
             updateUniforms(id, THREE.UniformsLib['fog']);
-            
+
+
+            var global_uniforms = {
+                ambientLightColor: { value: {r:1, g:1, b:1}},
+                sunLightColor: { value: {r:1, g:1, b:1}},
+                sunLightDirection: { value: {x:0.7, y:-0.3, z:0.7}}
+            };
+
+            updateUniforms(id, global_uniforms);
+
             this.attachTextures(id, textures);
 
         };
@@ -83,12 +124,15 @@ define([
             var texConf = txConf;
 
             uniforms[trId][texConf.uniform] = {};
+            uniforms[trId][texConf.uniform+'repeat'] = {};
 
             var applyTexture = function(src, data) {
                 data.repeat.x = texConf.repeat[0];
                 data.repeat.y = texConf.repeat[1];
                 uniforms[trId][texConf.uniform].value = data;
                 uniforms[trId][texConf.uniform].type = 't';
+                
+                uniforms[trId][texConf.uniform+'repeat'].value = {x:texConf.repeat[0],y:texConf.repeat[1]};
 
                 updateUniforms(trId, uniforms[trId]);
 
@@ -105,6 +149,12 @@ define([
         };
 
         TerrainMaterial.prototype.getMaterialById = function(id) {
+
+            if (!samplingUniforms) {
+                evt.on(evt.list().CLIENT_TICK, sampleEnvUniforms);
+                samplingUniforms = true;
+            }
+
             return materialList[id];
         };
 
