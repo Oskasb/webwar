@@ -82,6 +82,13 @@ define([
             }
         };
 
+        Vegetation.prototype.setDebug = function(bool) {
+            for (var i = 0; i < this.vegetationSystems.length; i++) {
+                this.vegetationSystems[i].setVegSysDebug(bool);
+            }
+        };
+
+
         return Vegetation;
 
     });

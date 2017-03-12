@@ -60,10 +60,18 @@ define([
             panelStates[src] = value;
 
             if (value == 1 && panels[src] == null) {
+                
                 panels[src] = new DomPanel(GameScreen.getElement(), panelMap[src]);
-                evt.on(evt.list().CLIENT_TICK, tickStatusMonitor);
+                if (src == 'DEV_STATUS') {
+                    evt.on(evt.list().CLIENT_TICK, tickStatusMonitor);
+                }
+
             } else if (panels[src]) {
-                evt.removeListener(evt.list().CLIENT_TICK, tickStatusMonitor);
+
+                if (src == 'DEV_STATUS') {
+                    evt.removeListener(evt.list().CLIENT_TICK, tickStatusMonitor);
+                }
+
                 panels[src].removeGuiPanel();
                 panels[src] = null;
             }

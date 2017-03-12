@@ -450,9 +450,9 @@
           "style":["dev_panel_button", "coloring_button_dev_panel"],
           "button":{
             "id":"dev_panel_button",
-            "event":{"category":"STATUS", "key":"MON_SPATIAL", "type":"toggle"}
+            "event":{"category":"STATUS", "key":"MON_VEGETATION", "type":"toggle"}
           },
-          "text":"SPATIAL"
+          "text":"VEGETATION"
         }
       },{
         "id":"buttonContainerModules",
@@ -498,6 +498,24 @@
             "dataCategory":"STATUS"
           }
         }
+
+      },{
+        "id": "monitorContainer2_1",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer2_1",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["CLIENT_PIECES", "SERVER_PIECES", "SERVER_PLAYERS"],
+            "dataCategory":"STATUS"
+          }
+        }
+
       },{
         "id": "monitorContainer3",
         "data": {
@@ -510,10 +528,11 @@
           "parentId": "monitorContainer3",
           "style": ["data_list_container"],
           "dataField":{
-            "dataKeys":["PARTICLE_POOL", "RENDERERS", "EFFECT_POOL", "EFFECTS", "PARTICLES", "FX_ADDS", "CLIENT_PIECES", "SERVER_PIECES", "SERVER_PLAYERS"],
+            "dataKeys":["PARTICLE_POOL", "RENDERERS", "EFFECT_POOL", "EFFECTS", "PARTICLES", "FX_ADDS"],
             "dataCategory":"STATUS"
           }
         }
+
       },{
         "id": "monitorContainer4",
         "data": {
@@ -526,7 +545,74 @@
           "parentId": "monitorContainer4",
           "style": ["data_list_container"],
           "dataField":{
-            "dataKeys":["EVENT_TYPES","EVENT_LISTENERS", "FIRED_EVENTS", "LISTENERS_ONCE", "CANVAS_TICKS", "SCENE_NODES", "DRAW_CALLS"],
+            "dataKeys":["EVENT_TYPES","EVENT_LISTENERS", "FIRED_EVENTS", "LISTENERS_ONCE", "CANVAS_TICKS"],
+            "dataCategory":"STATUS"
+          }
+        }
+
+      },{
+        "id": "monitorContainer5",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer5",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["MEM", "GEOMETRIES", "TEXTURES", "SHADERS", "DRAW_CALLS", "SCENE_NODES", "VERTICES"],
+            "dataCategory":"STATUS"
+          }
+        }
+
+      },{
+        "id": "monitorContainer6",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer6",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["TPF", "IDLE", "TIME_GAME", "TIME_RENDER"],
+            "dataCategory":"STATUS"
+          }
+        }
+
+      },{
+        "id": "monitorContainer7",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer7",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["BUSY_SERVER", "IDLE_SERVER", "WORST", "BEST"],
+            "dataCategory":"STATUS"
+          }
+        }
+      },{
+        "id": "monitorContainer8",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer8",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["FRAME_MSGS", "FRAMES_SINCE_MSG", "MSG_PER_FRAME", "MSG_PER_SECOND"],
             "dataCategory":"STATUS"
           }
         }

@@ -42,11 +42,8 @@ define([
             this.spawnedPlants = [];
 
             EffectAPI = FxAPI;
-            this.parentObject3d = ThreeAPI.createRootObject();
 
-            if (debug) {
-                this.addVegetationDebugBox()
-            }
+            this.debugging = false;
          //
         };
 
@@ -59,10 +56,7 @@ define([
             return this.config[this.systemIndex]
         };
 
-        VegetationPatch.prototype.addVegetationDebugBox = function() {
-            this.debugBoll = ThreeAPI.loadModel(1.5);
-            ThreeAPI.addChildToObject3D(this.debugBoll, this.parentObject3d);
-        };
+
 
         VegetationPatch.prototype.enablePatch = function(ix, iz, x, z) {
 
@@ -73,22 +67,19 @@ define([
 
             this.enabled = true;
 
-            if (debug) {
-                ThreeAPI.addToScene(this.parentObject3d);
-            }
-        //
 
+        //
             this.indexX = ix;
             this.indexZ = iz;
 
             this.posX = x;
             this.posZ = z;
 
+            if (EffectAPI.vegDebug()) {
+                this.debugShow();
+            }
 
-            this.parentObject3d.position.x = this.posX + Math.random()*4;
-            this.parentObject3d.position.y = 0;
-            this.parentObject3d.position.z = this.posZ+ Math.random()*4;
-            ThreeAPI.setYbyTerrainHeightAt(this.parentObject3d.position);
+
         };
 
         VegetationPatch.prototype.despawnVegetation = function(count) {
@@ -123,13 +114,12 @@ define([
                 this.enabled = false;
                 this.indexX = 'none';
                 this.indexZ = 'none';
-
-            };
-
-            if (debug) {
-                ThreeAPI.removeModel(this.parentObject3d);
             }
-        //
+
+            if (this.debugging) {
+                this.debugRemove();
+            }
+
         };
 
 
@@ -215,7 +205,6 @@ define([
             }
         };
 
-
         VegetationPatch.prototype.checkSectorVisibility = function(sectorPool, activePatches, patchPool) {
 
             for (var i = 0; i < sectorPool.length; i++) {
@@ -227,10 +216,42 @@ define([
                 }
             }
 
-
-
             this.disablePatch(activePatches, patchPool);
         };
+
+
+        VegetationPatch.prototype.debugShow = function() {
+
+            this.parentObject3d = this.parentObject3d || ThreeAPI.createRootObject();
+
+            this.debugBoll = this.debugBoll || ThreeAPI.loadModel(1.5);
+            ThreeAPI.addChildToObject3D(this.debugBoll, this.parentObject3d);
+
+            this.parentObject3d.position.x = this.posX + Math.random()*4 - 2;
+            this.parentObject3d.position.y = 0;
+            this.parentObject3d.position.z = this.posZ+ Math.random()*4 - 2;
+
+            ThreeAPI.setYbyTerrainHeightAt(this.parentObject3d.position);
+
+            this.debugging = true;
+            ThreeAPI.addToScene(this.parentObject3d);
+        };
+
+
+        VegetationPatch.prototype.debugRemove = function() {
+            ThreeAPI.removeModel(this.parentObject3d);
+            this.debugging = false;
+        };
+
+        VegetationPatch.prototype.applyPatchDebug = function(bool) {
+            if (bool) {
+                this.debugShow();
+            } else {
+                this.debugRemove();
+            }
+        };
+
+
 
         return VegetationPatch;
 

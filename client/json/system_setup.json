@@ -15,6 +15,7 @@
             "monitorServer":false,
             "monitorSpatial":false,
             "monitorModules":false,
+            "monitorVegetation":false,
             "graphPoints":50
         },
         "pipeline":{

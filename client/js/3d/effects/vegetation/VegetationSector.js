@@ -11,9 +11,13 @@ define([
 
         var outside = 99999999;
         var debug = false;
+        
+        var EffectAPI;
 
-        var VegetationSector = function(sysIndex, indexOffset, row, column, config) {
+        var VegetationSector = function(fxApi, sysIndex, indexOffset, row, column, config) {
 
+            EffectAPI = fxApi;
+            
             this.systemIndex = sysIndex;
             this.config = config;
             
@@ -31,10 +35,20 @@ define([
             this.posZ = 0;
 
             this.parentObject3d = ThreeAPI.createRootObject();
-            if (debug) {
-                this.addVegetationDebugBox(this.size())
-            }
+            this.debugging = false;
+            
+
         //
+        };
+
+        VegetationSector.prototype.setVegSectorDebug = function(bool) {
+
+               if (bool) {
+                    this.addVegetationDebugBox(this.size())
+               } else {
+                   this.parentObject3d.remove(this.debugBox)
+               }
+
         };
 
         VegetationSector.prototype.size = function() {
@@ -46,7 +60,7 @@ define([
         };
 
         VegetationSector.prototype.addVegetationDebugBox = function(size) {
-            this.debugBox = ThreeAPI.loadDebugBox(size, size*0.5, size);
+            this.debugBox = this.debugBox || ThreeAPI.loadDebugBox(size, size*0.5, size);
             ThreeAPI.addChildToObject3D(this.debugBox, this.parentObject3d);
         };
 
@@ -96,7 +110,8 @@ define([
 
             var activePatch = this.checkForActivePatch(activePatches);
 
-            if (debug) {
+            if (EffectAPI.vegDebug()) {
+                this.debugging = true;
                 ThreeAPI.addToScene(this.parentObject3d);
             }
         //
@@ -121,8 +136,9 @@ define([
         };
 
         VegetationSector.prototype.disableVegetationSector = function() {
-            if (debug) {
+            if (this.debugging) {
                 ThreeAPI.removeModel(this.parentObject3d);
+                this.debugging = false;
             }
         };
 

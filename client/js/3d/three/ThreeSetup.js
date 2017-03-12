@@ -2,8 +2,11 @@
 
 
 
-define(['../../ui/GameScreen'], function(
-    GameScreen
+define(['../../ui/GameScreen',
+    'PipelineAPI'
+], function(
+    GameScreen,
+    PipelineAPI
 ) {
     
     var scene, camera, renderer;
@@ -11,7 +14,7 @@ define(['../../ui/GameScreen'], function(
     var addedObjects = 0;
 
     var prerenderCallbacks = [];
-    var tpf, lastTime;
+    var tpf, lastTime, idle, renderStart, renderEnd;
     var lookAt = new THREE.Vector3();
 
     var ThreeSetup = function() {
@@ -22,6 +25,8 @@ define(['../../ui/GameScreen'], function(
     function animate(time) {
 
         requestAnimationFrame( animate );
+        idle = (performance.now() / 1000) - renderEnd;
+        PipelineAPI.setCategoryKeyValue('STATUS', 'TIME_ANIM_IDLE', idle);
         tpf = (time - lastTime)*0.001;
         lastTime = time;
 
@@ -29,7 +34,11 @@ define(['../../ui/GameScreen'], function(
             prerenderCallbacks[i](tpf);
         }
 
+        renderStart = performance.now()/1000;
         renderer.render(scene, camera);
+        renderEnd = performance.now()/1000;
+        PipelineAPI.setCategoryKeyValue('STATUS', 'TIME_ANIM_RENDER', renderEnd - renderStart);
+        
     }
 
 
@@ -186,8 +195,9 @@ define(['../../ui/GameScreen'], function(
 
 
 
-    ThreeSetup.getDrawCallCount = function() {
-        return renderer.info.render.calls;
+    ThreeSetup.getInfoFromRenderer = function(source, key) {
+        if (!key) return renderer.info[source];
+        return renderer.info[source][key];
     };
 
     return ThreeSetup;

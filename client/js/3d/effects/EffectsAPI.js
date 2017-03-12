@@ -15,6 +15,7 @@ define([
         var particleSpawner;
         var screenSpaceFX;
 
+        var debugVegetation = false;
 
         var EffectsAPI = function() {
 
@@ -69,6 +70,17 @@ define([
         EffectsAPI.sampleEffectActivations = function() {
             return particleSpawner.getEffectActivationCount();
         };
+
+        EffectsAPI.setVegetationDebug = function(bool) {
+            debugVegetation = bool;
+            if (vegetation) vegetation.setDebug(bool);
+        };
+
+        EffectsAPI.vegDebug = function() {
+            return debugVegetation;
+        };
+
+
 
 
         return EffectsAPI;

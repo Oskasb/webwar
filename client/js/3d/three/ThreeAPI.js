@@ -217,8 +217,8 @@ define([
             return ThreeSetup.getSceneChildrenCount();
         };
 
-        ThreeAPI.countDrawCalls = function() {
-            return ThreeSetup.getDrawCallCount();
+        ThreeAPI.sampleRenderInfo = function(source, key) {
+            return ThreeSetup.getInfoFromRenderer(source, key);
         };
         
         return ThreeAPI;

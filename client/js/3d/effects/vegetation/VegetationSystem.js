@@ -49,12 +49,24 @@ define([
 
 
         };
+        
+        VegetationSystem.prototype.setVegSysDebug = function(bool) {
 
+            for (var i = 0; i < this.sectorPool.length; i++) {
+                this.sectorPool[i].setVegSectorDebug(bool);
+            }
+
+            for (i = 0; i < this.activePatches.length; i++) {
+                this.activePatches[i].applyPatchDebug(bool);
+            }
+            
+        };
+        
 
         VegetationSystem.prototype.conf = function() {
             return this.config[this.systemIndex]
         };
-
+        
         VegetationSystem.prototype.createPatch = function() {
             return new VegetationPatch(this.systemIndex, this.config, EffectAPI, this.vegData)
         };
@@ -72,7 +84,7 @@ define([
                 this.patchGrid[i] = [];
                 for (var j = 0; j < this.conf().rowsNColumns; j++) {
                     this.patchGrid[i][j] = null;
-                    var patch = new VegetationSector(this.systemIndex, this.indexOffset, i, j, this.config);
+                    var patch = new VegetationSector(EffectAPI, this.systemIndex, this.indexOffset, i, j, this.config);
                     this.sectorPool.push(patch);
                 }
             }
