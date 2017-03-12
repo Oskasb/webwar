@@ -6,24 +6,24 @@
 
         {
           "name":"small",
-          "vegetationSectorSize":25,
+          "vegetationSectorSize":23,
           "rowsNColumns":3,
-          "spawnFrames":10,
-          "plantCount":10
+          "spawnFrames":11,
+          "plantCount":11
         },
         {
           "name":"medium",
-          "vegetationSectorSize":45,
+          "vegetationSectorSize":31,
           "rowsNColumns":5,
-          "spawnFrames":22,
-          "plantCount":62
+          "spawnFrames":32,
+          "plantCount":32
         },
         {
           "name":"big",
-          "vegetationSectorSize":65,
-          "rowsNColumns":7,
-          "spawnFrames":30,
-          "plantCount":120
+          "vegetationSectorSize":74,
+          "rowsNColumns":5,
+          "spawnFrames":72,
+          "plantCount":72
         }
       ],
       "SYSTEMS":[
@@ -31,13 +31,26 @@
           "id":"basic_grassland",
           "data":[
             {
-              "vegetation_effects":["white_flower_veg", "red_flower_veg"]
+              "vegetation_effects":[
+                {"id":"red_flower_veg",   "slope":{"min":0, "max":0.93}},
+                {"id":"white_flower_veg", "slope":{"min":0, "max":0.9}},
+                {"id":"red_flower_veg",   "slope":{"min":0, "max":0.93}}
+              ]
             },
             {
-              "vegetation_effects":["standing_grass_veg", "standing_fern_veg"]
+              "vegetation_effects":[
+                {"id":"standing_grass_veg", "slope":{"min":0, "max":0.3}},
+                {"id":"standing_fern_veg",  "slope":{"min":0, "max":0.3}},
+                {"id":"little_shrub_veg",   "slope":{"min":0.3, "max":0.85}},
+                {"id":"fuzzy_shrub_veg",    "slope":{"min":0.2, "max":0.6}}
+              ]
             },
             {
-              "vegetation_effects":["little_shrub_veg", "standing_fern_veg"]
+              "vegetation_effects":[
+                {"id":"little_shrub_veg",   "slope":{"min":0.1, "max":0.6}},
+                {"id":"standing_fern_veg",  "slope":{"min":0, "max":0.3}},
+                {"id":"fuzzy_shrub_veg",    "slope":{"min":0.2, "max":0.8}}
+              ]
             }
           ]
         }

@@ -125,9 +125,15 @@ define([
                 calcVec2.setXYZ((tri[2].x-tri[0].x), (tri[2].z-tri[0].z), (tri[2].y-tri[0].y));
                 calcVec1.crossVec(calcVec2);
                 if (calcVec1.data[1] < 0) {
-                    calcVec1.invert();
+                    calcVec1.invert();//
                 }
+
                 calcVec1.normalize();
+
+                //    if (calcVec1.data[1] != 1) {
+                //        console.log(calcVec1.data);
+                //    }
+
                 normalStore.x = calcVec1.getX();
                 normalStore.y = calcVec1.getY();
                 normalStore.z = calcVec1.getZ();

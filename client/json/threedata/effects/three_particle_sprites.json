@@ -64,6 +64,10 @@
           "tiles":[[0, 5]]
         },
         {
+          "id":"fuzzy_shrub",
+          "tiles":[[0, 3]]
+        },
+        {
           "id":"tree_sprite_1",
           "tiles":[[1, 5]]
         },

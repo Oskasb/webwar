@@ -105,7 +105,7 @@ define([
                 return;
             }
 
-            var patch = patchPool.pop();
+            var patch = patchPool.shift();
 
             if (!patch) {
                 console.log("bad patch!", patchPool, this.indexX, this.indexZ);

@@ -4,14 +4,16 @@ define([
         'ThreeAPI',
         'PipelineAPI',
         '../../PipelineObject',
-    '3d/three/TerrainFunctions'
+    '3d/three/TerrainFunctions',
+        '3d/three/TerrainMaterial'
 
 ],
     function(
         ThreeAPI,
         PipelineAPI,
         PipelineObject,
-        TerrainFunctions
+        TerrainFunctions,
+        TerrainMaterial
     ) {
 
         var terrainList = {};
@@ -19,19 +21,21 @@ define([
 
         var calcVec = new THREE.Vector3();
         var terrainFunctions;
+        var terrainMaterial;
 
         var ThreeTerrain = function() {
 
         };
-
-
+        
         ThreeTerrain.loadData = function() {
 
+            terrainMaterial = new TerrainMaterial();
             terrainFunctions = new TerrainFunctions();
             
             var terrainListLoaded = function(scr, data) {
                 for (var i = 0; i < data.length; i++){
-                    terrainList[data[i].id] = data[i]
+                    terrainList[data[i].id] = data[i];
+                    terrainMaterial.addTerrainMaterial(data[i].id, data[i].textures, data[i].shader);
                 }
             };
             new PipelineObject("TERRAINS", "THREE", terrainListLoaded);
@@ -47,24 +51,28 @@ define([
             model.scale.x =    trf.scale[0];
             model.scale.y =    trf.scale[1];
             model.scale.z =    trf.scale[2];
-
         };
 
         var setMaterialRepeat = function(materialId, txMap, modelId) {
 
-            var materials = terrainList[modelId].materials
+            var materials = terrainList[modelId].materials;
 
             for (var i = 0; i < materials.length; i++) {
-
                 if (materials[i].id === materialId) {
                     txMap.repeat.x = materials[i].repeat[0];
                     txMap.repeat.y = materials[i].repeat[1];
                 }
             }
         };
-        
-        var createTerrain = function(callback, applies, array1d, material) {
 
+        var getTerrainMaterial = function(terrainId) {
+            return terrainMaterial.getMaterialById(terrainId);  
+        };
+        
+        var createTerrain = function(callback, applies, array1d) {
+
+            var material = getTerrainMaterial(applies.three_terrain);
+            
             var opts = {
                 after: null,
                 easing: THREE.Terrain.EaseInOut,
@@ -84,14 +92,12 @@ define([
                 ySize: applies.terrain_size
             };
             
-
             var terrain = new THREE.Terrain(opts);
-        //    terrain;
             
             THREE.Terrain.fromArray1D(terrain.children[0].geometry.vertices, array1d);
+            
             terrain.children[0].geometry.computeFaceNormals();
             terrain.children[0].geometry.computeVertexNormals();
-
             terrain.children[0].needsUpdate = true;
             terrain.children[0].position.x += applies.terrain_size*0.5;
             terrain.children[0].position.y -= applies.terrain_size*0.5;
@@ -117,35 +123,31 @@ define([
             var setup = ThreeSetup;
             var modelId = applies.three_terrain;
 
-            var attachMaterial = function(src, data) {
+        //    var attachMaterial = function(src, data) {
 
 
                 var attachModel = function(model) {
-
-
-                    setMaterialRepeat(src, model.children[0].material.map, modelId);
+                    
+                //    setMaterialRepeat(src, model.children[0].material.map, modelId);
 
                     setup.addToScene(model);
                     rootObject.add(model);
                     ThreeTerrain.addTerrainToIndex(model, rootObject);
                     transformModel(terrainList[modelId].transform, model);
 
-
-
                     partsReady();
                 };
 
-
                 //    model.material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
-                createTerrain(attachModel, applies, array1d, data);
+                createTerrain(attachModel, applies, array1d);
 
-            };
+        //    };
 
-            var materials = terrainList[modelId].materials;
+        //    var materials = terrainList[modelId].materials;
 
-            for (var i = 0; i < materials.length; i++) {
-                new PipelineObject('THREE_MATERIAL', materials[i].id, attachMaterial);
-            }
+        //    for (var i = 0; i < materials.length; i++) {
+         //       new PipelineObject('THREE_MATERIAL', materials[i].id, attachMaterial);
+         //   }
             
 
             //    attachModel(new THREE.Mesh(new THREE.PlaneGeometry( 200,  200, 10 ,10)));
@@ -177,7 +179,6 @@ define([
                 }
             }
         };
-
 
         ThreeTerrain.getThreeTerrainHeightAt = function(terrain, pos, normalStore) {
 

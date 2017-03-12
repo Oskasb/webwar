@@ -104,9 +104,23 @@
       },
       "INSTANCING_PROGRAMS":{
 
+        "vxShaderMaterial":[
+          "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );"
+        ],
+
+        "fxShaderMaterial":[
+          "gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );"
+        ],
+
+        "vPositionMain":[
+          "vec3 vertexPosition = position;"
+        ],
+
         "vertexPositionMain":[
           "vec3 vPosition = vertexPosition;"
         ],
+
+
 
 
         "vertexSizeMain":[
@@ -160,9 +174,8 @@
 
           "vec4 vertexColor = vec4(sampledDataTexel.r, sampledDataTexel.g, sampledDataTexel.b, sampledDataTexel.a * sampledAlpha) * colorDiffusion;",
 
-          "pixelSelector.y = 1.0 - ((rowSize / data_rows) - (0.5 / data_rows));",
-          "sampledDataTexel = texture2D(data_texture, pixelSelector);",
-          "sampledSizeFactor = size * sampledDataTexel.r * sqrt(duration);"
+
+          "sampledSizeFactor = size;"
 
         ],
 
@@ -270,18 +283,39 @@
 
           "vec2 rotated = vec2(c* vPosition.x - s * vPosition.y, s*vPosition.x + c*vPosition.y);",
 
-          "vPosition.xy = rotated.xy * sampledSizeFactor;"
+          "vPosition.xy = rotated.xy;"
 
         ],
 
 
         "vertexShadeLowerVerts":[
 
-          "float lowness = 0.7 + vPosition.y * 0.3;",
+          "float lowness = 0.5 + vPosition.y * 0.5;",
 
-          "vColor.r *= lowness*1.3;",
-          "vColor.g *= lowness*1.2;",
+          "vColor.r *= lowness*1.0;",
+          "vColor.g *= lowness*1.0;",
           "vColor.b *= lowness*1.0;"
+
+        ],
+
+        "vertexSimpleVertexLight":[
+
+          "vColor.r *= ambientLightColor.r*(1.0-lowness*0.9)*0.9 + sunLightColor.r*lowness*0.9;",
+          "vColor.g *= ambientLightColor.g*(1.0-lowness*0.9)*0.9 + sunLightColor.g*lowness*0.9;",
+          "vColor.b *= ambientLightColor.b*(1.0-lowness*0.9)*0.9 + sunLightColor.b*lowness*0.9;"
+
+        ],
+
+
+        "vertexFogExp2Verts":[
+
+          "fogDepth = -gl_Position.z*1.0;"
+        ],
+
+        "fragmentFogExp2Verts":[
+
+          "float fogFactor = whiteCompliment( exp2( - fogDensity * fogDensity * fogDepth * fogDepth * LOG2 ) );",
+          "gl_FragColor.rgb = mix( gl_FragColor.rgb, fogColor, fogFactor );"
 
         ],
 
@@ -334,6 +368,7 @@
 
           "vUv = scaledUv + tileOffset;"
         ],
+
 
 
 

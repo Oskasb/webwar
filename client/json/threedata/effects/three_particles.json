@@ -15,9 +15,9 @@
             "positionSpread":{"x":2.01, "y":2.01, "z":2.01},
             "gravity":2.001,
             "drag":0.15,
-            "bend":0.01,
+            "bend":0.001,
             "spinDrag":0.2,
-            "colorCurve":"darkSmoke",
+            "colorCurve":"smoke",
             "alphaCurve":"zeroOneZero",
             "diffusionCurve":"halfQuickIn",
             "scaleCurve":"halfQuickIn",
@@ -25,8 +25,8 @@
             "spin":{"value":1.01, "min":-4.5, "max":4.5},
             "velocitySpread":{"min":-0.1,"max":0.1},
             "velocityDiffusion":1,
-            "accelerationDiffusion":0.5,
-            "colorDiffusion":0.5,
+            "accelerationDiffusion":0.6,
+            "colorDiffusion":0.2,
             "velocityFactor":0.9
           }
         },
@@ -262,7 +262,23 @@
             "alphaCurve":"zeroToOne",
             "diffusionCurve":"zeroOneZero",
             "scaleCurve":"nearWhite",
-            "size":{"value":0.5, "min":0.3, "max":1.4},
+            "size":{"value":0.5, "min":-0.1, "max":1.6},
+            "velocityDiffusion":0.00001,
+            "accelerationDiffusion":0.00001,
+            "colorDiffusion":0.25,
+            "velocityFactor":1
+          }
+        },
+        {
+          "id":"fuzzy_shrub_particle",
+          "sprite_key":"ATLAS",
+          "sprite_id":"fuzzy_shrub",
+          "config":{
+            "colorCurve":"nearWhite",
+            "alphaCurve":"zeroToOne",
+            "diffusionCurve":"zeroOneZero",
+            "scaleCurve":"nearWhite",
+            "size":{"value":0.5, "min":-0.3, "max":1.7},
             "velocityDiffusion":0.00001,
             "accelerationDiffusion":0.00001,
             "colorDiffusion":0.25,
@@ -304,7 +320,7 @@
             "alphaCurve":"zeroToOne",
             "diffusionCurve":"zeroOneZero",
             "scaleCurve":"nearWhite",
-            "size":{"value":0.41, "min":0.5, "max":1},
+            "size":{"value":0.51, "min":-0.2, "max":2},
             "colorDiffusion":0.12
           }
         },

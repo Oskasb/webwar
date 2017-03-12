@@ -243,11 +243,17 @@
       },
       "INSTANCING_CHUNKS":{
 
+
         "vx_view":[
           "precision highp float;",
           "uniform mat4 modelViewMatrix;",
           "uniform mat4 projectionMatrix;"
         ],
+
+        "vx_position":[
+          "attribute vec3 position;"
+        ],
+
         "fx_view":[
           "precision highp float;"
         ],
@@ -322,6 +328,30 @@
         "fx_uv":[
           "uniform sampler2D map;",
           "varying vec2 vUv;"
+        ],
+
+
+        "vx_simple_light":[
+          "uniform vec3 ambientLightColor;",
+          "uniform vec3 sunLightColor;"
+        ],
+
+
+        "vx_fog":[
+          "uniform vec3 fogColor;",
+          "uniform float fogDensity;",
+          "varying float fogDepth;",
+          "varying float vFragDepth;"
+
+        ],
+        "fx_fog":[
+
+          "uniform vec3 fogColor;",
+          "uniform float fogDensity;",
+
+          "varying float fogDepth;",
+          "varying float vFragDepth;"
+
         ],
 
         "vx_uv_tiles":[

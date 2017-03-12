@@ -1,11 +1,13 @@
 "use strict";
 
 define([
+    'ThreeAPI',
         '3d/effects/particles/SPEutils',
         '3d/effects/particles/ParticleDataTexture',
         'PipelineObject'
     ],
     function(
+        ThreeAPI,
         SPEutils,
         ParticleDataTexture,
         PipelineObject
@@ -26,6 +28,11 @@ define([
             if (txMatSettings.data_texture) {
                 txSettings.data_rows = utils.ensureTypedArg( options.settings.data_rows, types.NUMBER, null );
             }
+
+            if (txMatSettings.global_uniforms) {
+                txSettings.global_uniforms = txMatSettings.global_uniforms;
+            }
+
 
             txSettings.texture = utils.ensureInstanceOf( mapTextures[txMatSettings.particle_texture], THREE.Texture, null );
             txSettings.tiles_x = utils.ensureTypedArg( options.settings.tiles_x, types.NUMBER, 1 );
@@ -85,11 +92,28 @@ define([
 
             if (this.txSettings.data_texture) {
                 //    txSettings.data_texture.generateMipmaps = false;
-
                 uniforms.data_texture =  {value:this.txSettings.data_texture};
                 uniforms.data_rows    =  {value:this.txSettings.data_rows}
             }
 
+            if (this.txSettings.global_uniforms) {
+
+                var addUniforms = {};
+
+                for (var key in this.txSettings.global_uniforms) {
+                    addUniforms[key] = this.txSettings.global_uniforms[key];
+                }
+
+            //    uniforms.fogColor = addUniforms.fogColor;
+
+                for (var key in addUniforms) {
+                    uniforms[key] = addUniforms[key];
+                }
+                console.log("GLOBAL UNIFORMS: ", uniforms, addUniforms);
+
+            }
+            
+            
             this.material = new THREE.RawShaderMaterial({
                 uniforms: uniforms,
                 side: THREE.DoubleSide,

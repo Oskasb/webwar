@@ -55,6 +55,10 @@ define([
             return glContext;
         };
 
+        ThreeAPI.readEnvironmentUniform = function(worldProperty, key) {
+            return ThreeEnvironment.readDynamicValue(worldProperty, key);
+        };
+
         ThreeAPI.getCamera = function() {
             return camera;
         };

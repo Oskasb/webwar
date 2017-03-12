@@ -61,7 +61,7 @@ define(['../../PipelineObject',
 
         sunSphere.position.y = - 700000;
         sunSphere.visible = false;
-        scene.add( sunSphere );
+    //    scene.add( sunSphere );
 
     };
 
@@ -94,6 +94,7 @@ define(['../../PipelineObject',
 
     }
 
+    
 
     var updateDynamigFog = function(sunInTheBack) {
 
@@ -136,7 +137,11 @@ define(['../../PipelineObject',
         updateDynamigAmbient(sunInTheBack);
     };
 
-
+    ThreeEnvironment.readDynamicValue = function(worldProperty, key) {
+        return world[worldProperty][key];  
+    };
+    
+    
     ThreeEnvironment.initEnvironment = function(store) {
 
         scene = store.scene;
@@ -159,8 +164,7 @@ define(['../../PipelineObject',
 
                     world[key] = new THREE.AmbientLight(0x000000);
                     scene.add(world[key]);
-
-
+                    
                 } else if (key == "fog") {
                     scene.fog = new THREE.FogExp2( 0x9999ff, 0.00025 );
                     world[key] = scene.fog;

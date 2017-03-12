@@ -40,21 +40,6 @@
             "aoMap":"./client/assets/images/textures/tank_lm.png"
           }]
         },{
-          "id":"ground_grass",
-          "shader":"MeshPhongMaterial",
-          "settings":{
-            "blending":"NoBlending",
-            "color":{"r":0, "g":0, "b":0},
-            "specular":{"r":0, "g":0, "b":0},
-            "reflectivity":0,
-            "shininess":25
-          },
-          "textures":[{
-            "map":"./client/assets/images/textures/grass.png",
-            "normalMap":"./client/assets/images/textures/grass_nm_strong.png",
-            "specularMap":"./client/assets/images/textures/mud.png"
-          }]
-        },{
           "id":"natrue_alphakill",
           "shader":"MeshPhongMaterial",
           "settings":{
@@ -83,12 +68,19 @@
             "normalMap":"./client/assets/images/textures/main_nm.png"
           }]
         },{
-          "id":"particle_atlas_data",
+          "id":"load_texture_data",
           "shader":"",
           "settings":{},
           "textures":[{
-            "particle_texture":"./client/assets/images/effects/particle_atlas_6x6.png",
-            "data_texture":"./client/assets/images/effects/data_texture.png"
+            "particle_texture":        "./client/assets/images/effects/particle_atlas_6x6.png",
+            "data_texture":            "./client/assets/images/effects/data_texture.png",
+            "terrain_darkrock":        "./client/assets/images/textures/tiles/darkrock.png",
+            "terrain_striperock":      "./client/assets/images/textures/tiles/striperock.png",
+            "terrain_mud":             "./client/assets/images/textures/tiles/mud.png",
+            "terrain_sand":            "./client/assets/images/textures/tiles/sand.png",
+            "terrain_crackstile":      "./client/assets/images/textures/tiles/crackstile.png",
+            "terrain_dark_grass":      "./client/assets/images/textures/tiles/dark_grass.png",
+            "terrain_fract":           "./client/assets/images/textures/tiles/fract.png"
           }]
         }
       ]

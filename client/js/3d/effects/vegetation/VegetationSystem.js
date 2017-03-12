@@ -4,13 +4,15 @@ define([
         'ThreeAPI',
         'PipelineAPI',
         '3d/effects/vegetation/VegetationSector',
-        '3d/effects/vegetation/VegetationPatch'
+        '3d/effects/vegetation/PatchPool',
+    '3d/effects/vegetation/VegetationPatch'
  //   'EffectAPI'
     ],
     function(
         ThreeAPI,
         PipelineAPI,
         VegetationSector,
+        PatchPool,
         VegetationPatch
     //    EffectAPI
     ) {
@@ -20,7 +22,6 @@ define([
 
         var tempVec = new THREE.Vector3();
         var tempVec2 = new THREE.Vector3();
-
 
         var VegetationSystem = function(sysIndex, FxAPI, vegData, vegConf) {
 
@@ -41,28 +42,36 @@ define([
 
             this.sectorPool = [];
             this.patchGrid = [];
-            this.patchPool = [];
-            this.activePatches = [];
 
+            this.activePatches = [];
+            this.patchPool = new PatchPool(this);
             this.generateVegetationGrid()
+
+
         };
 
 
         VegetationSystem.prototype.conf = function() {
             return this.config[this.systemIndex]
         };
-        
+
+        VegetationSystem.prototype.createPatch = function() {
+            return new VegetationPatch(this.systemIndex, this.config, EffectAPI, this.vegData)
+        };
+
 
         VegetationSystem.prototype.generateVegetationGrid = function() {
 
             this.indexOffset = Math.floor(this.conf().rowsNColumns*0.5);
             
+            for (var i = 0; i < this.conf().rowsNColumns * this.conf().rowsNColumns; i++) {
+                this.patchPool.generatePatch(this);
+            }
+
             for (var i = 0; i < this.conf().rowsNColumns; i++) {
                 this.patchGrid[i] = [];
                 for (var j = 0; j < this.conf().rowsNColumns; j++) {
                     this.patchGrid[i][j] = null;
-                    this.patchPool.push(new VegetationPatch(this.systemIndex, this.config, EffectAPI, this.vegData));
-                    this.patchPool.push(new VegetationPatch(this.systemIndex, this.config, EffectAPI, this.vegData));
                     var patch = new VegetationSector(this.systemIndex, this.indexOffset, i, j, this.config);
                     this.sectorPool.push(patch);
                 }
@@ -100,8 +109,16 @@ define([
                 this.updateSectorPositions();
             }
         };
-        
-        
+
+        VegetationSystem.prototype.getPatch = function() {
+
+            if (!this.patchPool.length) {
+                return new VegetationPatch(this.systemIndex, this.config, EffectAPI, this.vegData);
+            } else {
+               return this.patchPool.pop()
+            }
+
+        };
         
         VegetationSystem.prototype.updateVegetationSystem = function(tpf, ownPiece, camera) {
 
@@ -113,6 +130,9 @@ define([
         //    for (var i = 0; i < sectorPool.length; i++) {
     //    //        sectorPool[i].checkVisibility(activePatches, patchPool);
         //    }
+            
+
+            
 
             this.sectorPool[this.lastChecked % this.sectorPool.length].checkVisibility(this.activePatches, this.patchPool);
 

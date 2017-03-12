@@ -34,6 +34,7 @@ define([
 
             this.vegData = vegData;
 
+            this.plantWeights = [];
 
             this.indexX = 'none';
             this.indexZ = 'none';
@@ -133,13 +134,36 @@ define([
 
 
         VegetationPatch.prototype.getPlants = function(sysId) {
-
             return this.vegData[sysId][this.systemIndex].vegetation_effects;
         };
 
+
+
         VegetationPatch.prototype.plantIdBySystemAndNormal = function(sysId, normal) {
 
-            return this.getPlants(sysId)[Math.floor(this.getPlants(sysId).length * Math.random())];
+            var plants = this.getPlants(sysId);
+
+            var totalWeight = 0;
+
+            for (var i = 0; i < plants.length; i++) {
+                if (plants[i].slope.min <= 1 - normal.y && plants[i].slope.max > 1 - normal.y) {
+                    this.plantWeights[i] = 1;
+                    totalWeight++
+                } else {
+                    this.plantWeights[i] = 0;
+                }
+            }
+
+            if (!totalWeight) return null;
+
+            var seed = totalWeight * Math.random();
+
+            for (i = 0; i < plants.length; i++) {
+                if (this.plantWeights[i] * (i+1) > seed) {
+                    return plants[i].id
+                }
+            }
+            console.log("Bad plant by normal lookup");
 
         };
 
@@ -157,8 +181,7 @@ define([
 
             if (!vegSysId) {
                 this.skipCount ++;
-                console.log("Bad vegSysId data");
-
+                console.log("No vegSysId for position, is outside world");
                 return;
             }
 
@@ -166,8 +189,7 @@ define([
 
             if (!plantId) {
                 this.skipCount ++;
-                console.log("Bad plantId data");
-
+                console.log("No plant found for system");
                 return;
             }
 

@@ -1,6 +1,7 @@
 "use strict";
 
 define([
+    'ThreeAPI',
         '3d/effects/particles/ParticleMaterial',
         '3d/effects/particles/ParticleMesh',
         '3d/effects/particles/ParticleBuffer',
@@ -10,6 +11,7 @@ define([
 
     ],
     function(
+        ThreeAPI,
         ParticleMaterial,
         ParticleMesh,
         ParticleBuffer,
@@ -144,13 +146,36 @@ define([
             this.particleBuffer.removeFromScene();
         };
 
-        
+        ParticleRenderer.prototype.applyUniformEnvironmentColor = function(uniform, worldProperty) {
+            var color = ThreeAPI.readEnvironmentUniform(worldProperty, 'color');
+            uniform.value.r = color.r;
+            uniform.value.g = color.g;
+            uniform.value.b = color.b;
+        };
+
+
         ParticleRenderer.prototype.updateParticleRenderer = function(systemTime) {
 
             if (this.material.uniforms.systemTime) {
                 this.material.uniforms.systemTime.value = systemTime;
             } else {
                 console.log("no uniform yet...")
+            }
+
+            if (this.material.uniforms.fogColor) {
+                this.applyUniformEnvironmentColor(this.material.uniforms.fogColor, 'fog')
+            }
+
+            if (this.material.uniforms.fogDensity) {
+                this.material.uniforms.fogDensity.value = ThreeAPI.readEnvironmentUniform('fog', 'density');
+            }
+
+            if (this.material.uniforms.ambientLightColor) {
+                this.applyUniformEnvironmentColor(this.material.uniforms.ambientLightColor, 'ambient');
+            }
+
+            if (this.material.uniforms.sunLightColor) {
+                this.applyUniformEnvironmentColor(this.material.uniforms.sunLightColor, 'sun');
             }
 
         };

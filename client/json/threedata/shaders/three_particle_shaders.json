@@ -2,57 +2,48 @@
   {
     "SHADERS_THREE": {
       "LOAD_SHADER_INDEX":[
-        "INSTANCING_CPU_SPATIAL_TEXTURED",
+        "TERRAIN_SHADER",
+        "INSTANCING_GPU_SIMPLE_LIT_TEXTURED",
         "INSTANCING_GPU_FLAT_TEXTURED",
         "INSTANCING_GPU_VEGETATION"
       ],
-      "SPE_PARTICLE_SHADER":{
+      "TERRAIN_SHADER":{
         "vertex":[
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
-          {"source":"SPE_CHUNKS", "chunk":"defines"},
-          {"source":"SPE_CHUNKS", "chunk":"uniforms"},
-          {"source":"SPE_CHUNKS", "chunk":"attributes"},
-          {"source":"SPE_CHUNKS", "chunk":"varying"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_position"},
+
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_fog"},
+
           {"source":"THREE_CHUNKS", "chunk":"common"},
-          {"source":"THREE_CHUNKS", "chunk":"fog_pars_vertex"},
 
-          {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_pars_vertex"},
-
-          {"source":"SPE_CHUNKS", "chunk":"branchAvoidanceFunctions"},
-          {"source":"SPE_CHUNKS", "chunk":"unpackColor"},
-          {"source":"SPE_CHUNKS", "chunk":"unpackRotationAxis"},
-          {"source":"SPE_CHUNKS", "chunk":"floatOverLifetime"},
-          {"source":"SPE_CHUNKS", "chunk":"colorOverLifetime"},
-          {"source":"SPE_CHUNKS", "chunk":"paramFetchingFunctions"},
-          {"source":"SPE_CHUNKS", "chunk":"forceFetchingFunctions"},
-          {"source":"SPE_CHUNKS", "chunk":"rotationFunctions"},
 
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
 
-          {"source":"SPE_PROGRAMS", "chunk":"particleVertexMain"},
-          {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_vertex"},
-          {"source":"THREE_CHUNKS", "chunk":"fog_vertex"},
+
+
+
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vxShaderMaterial"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexFogExp2Verts"},
+
 
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ],
+
         "fragment":[
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_view"},
-          {"source":"SPE_CHUNKS", "chunk":"uniforms"},
           {"source":"THREE_CHUNKS", "chunk":"common"},
-          {"source":"THREE_CHUNKS", "chunk":"fog_pars_fragment"},
-          {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_pars_fragment"},
 
-          {"source":"SPE_CHUNKS", "chunk":"varying"},
-          {"source":"SPE_CHUNKS", "chunk":"branchAvoidanceFunctions"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_fog"},
 
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
 
-          {"source":"SPE_PROGRAMS", "chunk":"particleFragmentMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fxShaderMaterial"},
 
-          {"source":"SPE_CHUNKS", "chunk":"rotateTexture"},
-          {"source":"THREE_CHUNKS", "chunk":"logdepthbuf_fragment"},
-          {"source":"SPE_CHUNKS", "chunk":"outgoingLight"},
-          {"source":"THREE_CHUNKS", "chunk":"fog_fragment"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentFogExp2Verts"},
+
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ]
       },
@@ -155,9 +146,56 @@
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPredictPositionMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
 
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPredictRotationMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSampledSizeMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexBillboardFaceMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexBillboardFinal"},
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ],
+        "fragment": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_view"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_uv"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_alphaTest"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_attribute_vertexColor"},
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentColoredTextureMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentBlendTxColorVertexColor"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentAlphaTest"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentVColorFinal"},
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ]
+      },
+
+
+      "INSTANCING_GPU_SIMPLE_LIT_TEXTURED": {
+        "vertex": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_predictive_simulation"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_data_texture"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv_tiles"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_billboard"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_varying_vColor4"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_simple_light"},
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSampleTextureData"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexColorFromAttribColor4"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPositionMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPredictPositionMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
+
 
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPredictRotationMain"},
+
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexShadeLowerVerts"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSimpleVertexLight"},
+
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSampledSizeMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexBillboardFaceMain"},
 
 
@@ -177,6 +215,7 @@
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ]
       },
+
       "INSTANCING_GPU_VEGETATION": {
         "vertex": [
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
@@ -186,18 +225,32 @@
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_billboard"},
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_varying_vColor4"},
+
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_simple_light"},
+
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_fog"},
+
+
+          {"source":"THREE_CHUNKS", "chunk":"common"},
+
+
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexVegetationTextureData"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexColorFromAttribColor4"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPositionMain"},
+
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
 
-
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexShadeLowerVerts"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSimpleVertexLight"},
 
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSizeMain"},
 
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSpatialFinal"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexFogExp2Verts"},
 
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ],
@@ -206,14 +259,23 @@
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_uv"},
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_alphaTest"},
           {"source":"INSTANCING_CHUNKS", "chunk":"fx_attribute_vertexColor"},
+
+          {"source":"THREE_CHUNKS", "chunk":"common"},
+
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_fog"},
+
           {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentColoredTextureMain"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentBlendTxColorVertexColor"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentAlphaTest"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentVColorFinal"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentFogExp2Verts"},
+
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ]
       }
     }
   }
 ]
+
