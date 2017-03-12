@@ -276,10 +276,10 @@
             {"uniform":"tx0", "file":"striperock",       "repeat":[4, 4]},
             {"uniform":"tx1", "file":"darkrock",         "repeat":[13, 13]},
             {"uniform":"tx2", "file":"mud",              "repeat":[8,  8]},
-            {"uniform":"tx3", "file":"dark_grass",       "repeat":[5, 5]},
-            {"uniform":"tx4", "file":"grass",            "repeat":[42,  42]},
+            {"uniform":"tx3", "file":"dark_grass",       "repeat":[7, 7]},
+            {"uniform":"tx4", "file":"grass",            "repeat":[22,  22]},
             {"uniform":"tx5", "file":"detail",           "repeat":[25,  25]},
-            {"uniform":"tx6", "file":"fract",            "repeat":[3,   3]}
+            {"uniform":"tx6", "file":"fract",            "repeat":[5,   5]}
 
           ],
           "shader":"TERRAIN_SHADER",

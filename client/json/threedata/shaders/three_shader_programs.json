@@ -143,19 +143,19 @@
 
           "vec4 txColor0 = (smoothstep(0.18, 0.32, slope))                                  * texture2D( tx0, vUv0 );",
 
-          "vec4 txColor1 = (smoothstep(0.12, 0.21, slope) - smoothstep(0.14, 0.42, slope)) * texture2D( tx1, vUv1  );",
+          "vec4 txColor1 = (smoothstep(0.12, 0.21, slope) - smoothstep(0.12, 0.42, slope)) * texture2D( tx1, vUv1  );",
 
-          "vec4 txColor2 = (smoothstep(0.10, 0.18, slope) - smoothstep(0.125, 0.25, slope)) * texture2D( tx2, vUv2 );",
+          "vec4 txColor2 = (smoothstep(0.10, 0.18, slope) - smoothstep(0.125, 0.22, slope)) * texture2D( tx2, vUv2 );",
 
           "vec4 txColor3 = (smoothstep( -0.21, 0.11, slope) - smoothstep(0.03, 0.17, slope)) * texture2D( tx3, vUv3 );",
 
-          "vec4 txColor4 = (smoothstep(-1.0, 0.05, slope) - smoothstep(-0.03, 0.06, slope)) * texture2D( tx4, vUv4 );",
+          "vec4 txColor4 = (smoothstep(-1.0, 0.05, slope) - smoothstep(-0.01, 0.06, slope)) * texture2D( tx4, vUv4 );",
 
           "vec4 txColor = vec4(0.0, 0.0, 0.0, 1.0) + txColor0 + txColor1 + txColor2 + txColor3+ txColor4;",
 
-          "vec4 txColor5 = 0.5 + texture2D( tx5, vUv5 )*0.5;",
+          "vec4 txColor5 = 0.2 + texture2D( tx5, vUv5 )*0.8;",
 
-          "vec4 txColor6 = 0.5 + texture2D( tx6, vUv6 * 0.2 )*0.7;",
+          "vec4 txColor6 = 0.4 + texture2D( tx6, vUv6 * 0.2 )*0.6;",
 
           "txColor *= txColor5;",
           "txColor *= txColor6;"
@@ -335,7 +335,7 @@
 
         "vertexShadeLowerVerts":[
 
-          "float lowness = 0.5 + vPosition.y * 0.5;",
+          "float lowness = 0.7 + vPosition.y * 0.3;",
 
           "vColor.r *= lowness*1.0;",
           "vColor.g *= lowness*1.0;",
