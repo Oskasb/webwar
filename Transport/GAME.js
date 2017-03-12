@@ -340,13 +340,13 @@ if(typeof(GAME) == "undefined"){
 		}
 
 		var speed = this.spatial.vel.getLengthSquared()+1;
-		var speedFactor = Math.sqrt(2200000 / speed) + 8000 / speed;
+		var speedFactor = Math.sqrt(1200000 / speed) + 4000 / speed;
 
 	//	var maxSteerVal = 0.5;//	var maxForce = 1000;
-		var trackForce = (throttleState + Math.abs(yawState)) * speedFactor ;
+		var trackForce = (throttleState + Math.abs(yawState*0.1)) * speedFactor ;
 
-		var trackYawL = - yawState*42.3*speedFactor;
-		var trackYawR = + yawState*42.3*speedFactor;
+		var trackYawL = - yawState*12.3*speedFactor;
+		var trackYawR = + yawState*12.3*speedFactor;
 	//	console.log(throttleState, brakeForce, yawState);
 		vehicle.applyEngineForce(trackForce+ trackYawL, 0);
 		vehicle.applyEngineForce(trackForce+ trackYawR, 1);

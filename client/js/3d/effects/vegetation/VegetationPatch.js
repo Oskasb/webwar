@@ -181,7 +181,7 @@ define([
 
             if (!vegSysId) {
                 this.skipCount ++;
-                console.log("No vegSysId for position, is outside world");
+            //    console.log("No vegSysId for position, is outside world");
                 return;
             }
 
@@ -189,11 +189,17 @@ define([
 
             if (!plantId) {
                 this.skipCount ++;
-                console.log("No plant found for system");
+            //    console.log("No plant found for system");
                 return;
             }
 
-            this.spawnedPlants.push(EffectAPI.requestPassiveEffect(plantId, pos, tempVec2));
+            var effect = EffectAPI.requestPassiveEffect(plantId, pos, tempVec2);
+            if (effect) {
+                this.spawnedPlants.push(effect);
+            } else {
+                console.log("Effect pool prolly ran out")
+            }
+
         };
 
 

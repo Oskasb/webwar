@@ -58,6 +58,10 @@ define([
             }
 
             materials[matId] = new THREE[data.shader](txSettings);
+            if (data.settings.side) {
+                materials[matId].side = THREE[data.settings.side]
+            }
+
             PipelineAPI.setCategoryKeyValue('THREE_MATERIAL', matId, materials[matId]);
         //    console.log("Loaded all...", matId, loaded, data.textures[0]);
         };

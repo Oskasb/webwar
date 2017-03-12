@@ -117,7 +117,7 @@ define([
 
         
         ParticleRenderer.prototype.calculateAllowance = function(requestSize) {
-            if (this.particles.length > requestSize * 5) {
+            if (this.particles.length > requestSize * 3) {
                 return requestSize;
             } else {
                 return Math.floor(0.5*this.particles.length);

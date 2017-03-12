@@ -166,16 +166,18 @@ define([
 
             this.line = line;
 
+            var pad = 80;
+
             var distanceSegment = Math.min(this.configs.distanceSegments, Math.floor(this.configs.distanceSegments * (line.w / this.configs.radius*2)* (line.w / this.configs.radius*2)));
 
             var segs = this.configs.distanceSegments;
 
             var fromX = line.fromX;
             var toX = line.toX;
-            if (Math.abs(fromX - toX) < 50) {
+            if (Math.abs(fromX - toX) < pad) {
                 toX = fromX;
             } else {
-                toX -= Math.clamp(toX-fromX, -50, 50);
+                toX -= Math.clamp(toX-fromX, -pad, pad);
             }
 
             var distanceSegment = Math.clamp(Math.round((fromX - toX ) / this.configs.radius) / segs, - 1, 1) ;

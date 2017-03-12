@@ -45,6 +45,7 @@
           "id":"natrue_alphakill",
           "shader":"MeshPhongMaterial",
           "settings":{
+            "side":"DoubleSide",
             "blending":"NoBlending",
             "alphaTest": 0.5,
             "shininess":0.1,

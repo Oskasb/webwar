@@ -94,6 +94,11 @@ define([
 
             effect.attachSimulators();
             effect.applyRenderer(renderer, systemTime);
+            
+            if (!effect.aliveParticles.length) {
+                return 
+            }
+            
             return effect;
 
         };
