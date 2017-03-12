@@ -108,7 +108,7 @@ PhysicsFunctions.prototype.createCannonWorld = function() {
 //    groundBody.quaternion.setFromEuler(1, 1, 0, 'XYZ');
 
     fixedTimeStep = 1.0 / 100.0; // seconds
-    maxSubSteps = 3;
+    maxSubSteps = 10;
 
 
     function makeSureNotZero(vec){

@@ -187,7 +187,7 @@ define([
             var now = new Date().getTime();
 
             evt.fire(evt.list().MONITOR_STATUS, {MSG_PER_FRAME:percentify((totalMessages / totalFrames)*0.01, 0.01)/100});
-            evt.fire(evt.list().MONITOR_STATUS, {MSG_PER_SECOND:percentify((messageCount / (now - startTime))*0.01, 0.1)/10});
+            evt.fire(evt.list().MONITOR_STATUS, {MSG_PER_SECOND:percentify((((1000 / (now - startTime)) * messageCount) / (now - startTime))*0.01, 0.1)/10});
             framesSinceMessage = 0;
             startTime = now;
         };
