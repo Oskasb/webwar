@@ -48,6 +48,17 @@ define([
         };
 
 
+        ClientModule.prototype.monitorClientModule = function (bool) {
+            
+            if (bool) {
+                this.threeModule.addModuleDebugBox();
+            } else  {
+                this.threeModule.removeModuleDebugBox();
+            }
+            
+        };
+        
+        
         ClientModule.prototype.buildGeometry = function (apReady) {
             this.threeModule.buildModel(this.clientPiece.threePiece.getParentObject3d(), apReady);
         };

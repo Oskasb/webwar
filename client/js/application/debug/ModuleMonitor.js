@@ -3,12 +3,16 @@
 
 define([
         'Events',
-        'PipelineAPI'
+        'PipelineAPI',
+    'PipelineObject'
     ],
     function(
         evt,
-        PipelineAPI
+        PipelineAPI,
+        PipelineObject
     ) {
+
+        var pieces = {};
 
         var ModuleMonitor = function() {
 
@@ -21,28 +25,27 @@ define([
             PipelineAPI.subscribeToCategoryKey('STATUS', 'MON_MODULES', monitorStatus);
         };
 
+
+        var monitorModules = function(bool) {
+            for (var key in pieces) {
+                pieces[key].monitorModules(bool)
+            }
+        };
+
+        var piecesUdated = function(src, data) {
+            console.log(pieces);
+            pieces = data;
+            monitorModules(true);
+        };
+
         ModuleMonitor.prototype.registerStatus = function(bool) {
 
             if (bool) {
-                var piece = PipelineAPI.readCachedConfigKey("GAME_DATA", "OWN_PLAYER").ownPiece;
-                console.log("Monitor Modules:", piece.clientModules);
-                this.monitorModules(piece.clientModules)
-            } else {
-                console.log("Close Module Monitor")
+                this.piecePipeline = new PipelineObject('GAME_DATA', 'PIECES', piecesUdated);
+            } else if (this.piecePipeline) {
+                this.piecePipeline.removePipelineObject();
+                monitorModules(false);
             }
-
-        };
-
-        ModuleMonitor.prototype.monitorModules = function(modules) {
-
-            for (var i = 0; i < modules.length; i++) {
-                console.log(modules[i].id, modules[i].state.value)
-            }
-
-        };
-
-        ModuleMonitor.prototype.monitorPipeline = function() {
-
         };
 
         return ModuleMonitor;

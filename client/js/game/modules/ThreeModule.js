@@ -91,15 +91,17 @@ define([
         };
 
 
-        ThreeModule.prototype.addModuleObject3D = function(parentObj3d) {
-            this.model = ThreeAPI.createRootObject();
 
+        ThreeModule.prototype.addModuleDebugBox = function() {
+
+            this.debugModel = ThreeAPI.loadDebugBox(this.transform.size.getX(), this.transform.size.getY(), this.transform.size.getZ());
+            ThreeAPI.addChildToObject3D(this.debugModel, this.model);
         };
 
-
-        ThreeModule.prototype.addModuleDebugBox = function(parentObj3d) {
-            var debugModel = ThreeAPI.loadDebugBox(this.transform.size.getX(), this.transform.size.getY(), this.transform.size.getZ());
-            ThreeAPI.addChildToObject3D(debugModel, parentObj3d);
+        ThreeModule.prototype.removeModuleDebugBox = function() {
+            if (this.debugModel) {
+                this.model.remove(this.debugModel);
+            }
         };
 
         ThreeModule.prototype.getParentObject3d = function() {

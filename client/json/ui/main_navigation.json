@@ -254,22 +254,58 @@
           },
           "text":"INPUT"
         }
+
+
       },{
-        "id":"buttonContainer3",
+        "id":"buttonContainer3_dev",
         "data":{
           "parentId":"leftRoot",
           "style":["main_button_container", "coloring_container_main_panel"]
         }
+
       },{
-        "id":"button3",
+        "id":"multiButtonContainer_dev",
         "data":{
-          "parentId":"buttonContainer3",
-          "style":["panel_button", "coloring_button_main_panel"],
+          "parentId":"buttonContainer3_dev",
+          "style":["full_size_container"]
+        }
+      },{
+        "id":"buttonContainer_dev_status",
+        "data":{
+          "parentId":"multiButtonContainer_dev",
+          "style":["main_button_container_multi"]
+        }
+      },{
+        "id":"buttonContainer_dev_debug",
+        "data":{
+          "parentId":"multiButtonContainer_dev",
+          "style":["main_button_container_multi", "coloring_container_main_panel"]
+        }
+
+
+      },{
+        "id":"button3_!",
+        "data":{
+          "parentId":"buttonContainer_dev_status",
+          "style":["panel_button_multi", "coloring_button_main_panel"],
+          "button":{
+            "id":"panel_button",
+            "event":{"category":"STATUS", "key":"DEV_STATUS", "type":"toggle"}
+          },
+          "text":"STATUS"
+        }
+
+
+      },{
+        "id":"button3_",
+        "data":{
+          "parentId":"buttonContainer_dev_debug",
+          "style":["panel_button_multi", "coloring_button_main_panel"],
           "button":{
             "id":"panel_button",
             "event":{"category":"STATUS", "key":"DEV_MODE", "type":"toggle"}
           },
-          "text":"DEV"
+          "text":"DEBUG"
         }
       },{
         "id":"buttonContainer4",
@@ -305,8 +341,30 @@
       {
         "id":"panelRoot",
         "data":{
-          "style":["dev_panel_left", "coloring_panel_dev"]
+          "style":["dev_panel", "panel_left", "coloring_panel_dev"]
         }
+
+
+
+      },{
+
+        "id": "monitorContainer",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["BROWSER", "OS", "INPUT", "PX_SCALE", "ANTIALIAS", "SCREEN"],
+            "dataCategory":"SETUP"
+          }
+        }
+
       },{
         "id":"buttonContainer1",
         "data":{
@@ -361,41 +419,7 @@
       },
 
       {
-        "id": "monitorContainer",
-        "data": {
-          "parentId": "panelRoot",
-          "style": ["dev_monitor_container", "coloring_container_main_panel"]
-        }
 
-
-
-      }, {
-        "id": "monitorText",
-        "data": {
-          "parentId": "monitorContainer",
-          "style": ["data_list_container"],
-          "dataField":{
-            "dataKeys":["BROWSER", "OS", "INPUT", "PX_SCALE", "ANTIALIAS", "SCREEN"],
-            "dataCategory":"SETUP"
-          }
-        }
-      }, {
-        "id": "monitorContainer2",
-        "data": {
-          "parentId": "panelRoot",
-          "style": ["dev_monitor_container", "coloring_container_main_panel"]
-        }
-      }, {
-        "id": "monitorText",
-        "data": {
-          "parentId": "monitorContainer2",
-          "style": ["data_list_container"],
-          "dataField":{
-            "dataKeys":["FILE_CACHE", "CAMERA", "MON_SERVER", "MON_TPF", "MON_TRAFFIC", "PIPELINE", "CACHE_READS"],
-            "dataCategory":"STATUS"
-          }
-        }
-      },{
         "id":"buttonContainer4",
         "data":{
           "parentId":"panelRoot",
@@ -412,38 +436,7 @@
           },
           "text":"PIPELINE"
         }
-      },{
-        "id": "monitorContainer3",
-        "data": {
-          "parentId": "panelRoot",
-          "style": ["dev_monitor_container", "coloring_container_main_panel"]
-        }
-      }, {
-        "id": "monitorText",
-        "data": {
-          "parentId": "monitorContainer3",
-          "style": ["data_list_container"],
-          "dataField":{
-            "dataKeys":["PARTICLE_POOL", "RENDERERS", "EFFECT_POOL", "EFFECTS", "PARTICLES", "FX_ADDS", "CLIENT_PIECES", "SERVER_PIECES", "SERVER_PLAYERS"],
-            "dataCategory":"STATUS"
-          }
-        }
-      },{
-        "id": "monitorContainer4",
-        "data": {
-          "parentId": "panelRoot",
-          "style": ["dev_monitor_container", "coloring_container_main_panel"]
-        }
-      }, {
-        "id": "monitorText",
-        "data": {
-          "parentId": "monitorContainer4",
-          "style": ["data_list_container"],
-          "dataField":{
-            "dataKeys":["EVENT_TYPES","EVENT_LISTENERS", "FIRED_EVENTS", "LISTENERS_ONCE", "CANVAS_TICKS", "SCENE_NODES", "DRAW_CALLS"],
-            "dataCategory":"STATUS"
-          }
-        }
+
       },{
         "id":"buttonContainerSpat",
         "data":{
@@ -479,7 +472,65 @@
           "text":"MODULES"
         }
       }
-    ]
+    ],
 
+
+    "dev_status":[
+      {
+        "id":"panelRoot",
+        "data":{
+          "style":["dev_panel", "panel_right"]
+        }
+
+      }, {
+        "id": "monitorContainer2",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer2",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["FILE_CACHE", "CAMERA", "MON_SERVER", "MON_TPF", "MON_TRAFFIC", "PIPELINE", "CACHE_READS"],
+            "dataCategory":"STATUS"
+          }
+        }
+      },{
+        "id": "monitorContainer3",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer3",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["PARTICLE_POOL", "RENDERERS", "EFFECT_POOL", "EFFECTS", "PARTICLES", "FX_ADDS", "CLIENT_PIECES", "SERVER_PIECES", "SERVER_PLAYERS"],
+            "dataCategory":"STATUS"
+          }
+        }
+      },{
+        "id": "monitorContainer4",
+        "data": {
+          "parentId": "panelRoot",
+          "style": ["dev_monitor_container", "coloring_container_main_panel"]
+        }
+      }, {
+        "id": "monitorText",
+        "data": {
+          "parentId": "monitorContainer4",
+          "style": ["data_list_container"],
+          "dataField":{
+            "dataKeys":["EVENT_TYPES","EVENT_LISTENERS", "FIRED_EVENTS", "LISTENERS_ONCE", "CANVAS_TICKS", "SCENE_NODES", "DRAW_CALLS"],
+            "dataCategory":"STATUS"
+          }
+        }
+      }
+    ]
   }
 }]

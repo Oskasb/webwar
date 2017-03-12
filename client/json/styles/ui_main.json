@@ -47,10 +47,9 @@
       "width": "100%"
     },
 
-    "dev_panel_left":{
+    "dev_panel":{
       "pointerEvents": "auto",
       "top": "2em",
-      "left": "15em",
       "width": "110em",
       "bottom": "2em",
       "paddingBottom": "4em",
@@ -58,6 +57,19 @@
       "position": "absolute",
       "display": "block",
       "zIndex":"200"
+    },
+
+    "panel_left":{
+      "left": "15em"
+    },
+
+
+    "panel_full_height":{
+      "left": "15em"
+    },
+
+    "panel_right":{
+      "right": "15em"
     },
 
     "main_top_left":{

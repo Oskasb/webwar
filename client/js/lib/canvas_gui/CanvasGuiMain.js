@@ -95,7 +95,10 @@ define([
 		};
         
         CanvasGuiMain.prototype.toggleEnabled = function(bool) {
-            this.canvasCalls.toggleGui(bool);
+			if (this.canvasCalls) {
+				this.canvasCalls.toggleGui(bool);
+			}
+            
         };
 
         CanvasGuiMain.prototype.removeGuiMain = function() {

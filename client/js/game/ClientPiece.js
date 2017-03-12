@@ -89,6 +89,11 @@ define([
 			//	store.scale(1/camera.near);
 		};
 
+		ClientPiece.prototype.monitorModules = function(bool) {
+			for (var i = 0; i < this.clientModules.length; i++) {
+				this.clientModules[i].monitorClientModule(bool);
+			}
+		};
 
 
 		ClientPiece.prototype.addAttachmentPoints = function(attachmentPoints, defaultModules, hierarchyReady) {

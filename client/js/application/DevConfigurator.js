@@ -14,22 +14,34 @@ define([
         DomPanel
     ) {
 
+        var panels = {};
+        var panelStates = {};
+
+        
+        var panelMap = {
+            DEV_MODE:'dev_panel',
+            DEV_STATUS:'dev_status'
+        };
+        
         var DevConfigurator = function() {
             this.panel = null;
             this.currentValue = 0;
 
+            PipelineAPI.setCategoryData('STATUS', {DEV_STATUS:false});
             PipelineAPI.setCategoryData('STATUS', {DEV_MODE:false});
 
             var _this=this;
 
             var applyDevConfig = function(src, value) {
+                console.log(src, value);
                 setTimeout(function() {
-                    _this.applyDevConfig(value)
+                    _this.applyDevConfig(src,value)
                 }, 100);
 
             };
 
             PipelineAPI.subscribeToCategoryKey('STATUS', 'DEV_MODE', applyDevConfig);
+            PipelineAPI.subscribeToCategoryKey('STATUS', 'DEV_STATUS', applyDevConfig);
          //   evt.on(evt.list().MONITOR_STATUS, applyDevConfig);
         };
 
@@ -38,24 +50,28 @@ define([
         };
 
 
-        DevConfigurator.prototype.applyDevConfig = function(value) {
+        DevConfigurator.prototype.applyDevConfig = function(src, value) {
 
-            if (this.currentValue == value) {
+
+            if (panelStates[src] == value) {
                 return
             }
 
-            this.currentValue = value;
+            panelStates[src] = value;
 
-            if (value == 1 && this.panel == null) {
-                this.panel = new DomPanel(GameScreen.getElement(), 'dev_panel');
+            if (value == 1 && panels[src] == null) {
+                panels[src] = new DomPanel(GameScreen.getElement(), panelMap[src]);
                 evt.on(evt.list().CLIENT_TICK, tickStatusMonitor);
-            } else if (this.panel) {
+            } else if (panels[src]) {
                 evt.removeListener(evt.list().CLIENT_TICK, tickStatusMonitor);
-                this.panel.removeGuiPanel();
-                this.panel = null;
+                panels[src].removeGuiPanel();
+                panels[src] = null;
             }
         };
 
+        
+        
+        
 
         return DevConfigurator;
 
