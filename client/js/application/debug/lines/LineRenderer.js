@@ -84,6 +84,11 @@ define(['ThreeAPI'],
             this._numRenderingLines = 0;
         };
 
+        LineRenderer.prototype._pause = function () {
+            this._numRenderingLines = 0;
+            this.geometry.setDrawRange( 0, this._numRenderingLines * 2 );
+        };
+        
         LineRenderer.prototype._remove = function () {
             console.log("Should remove linerenderer here")
         };

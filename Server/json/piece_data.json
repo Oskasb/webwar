@@ -34,7 +34,7 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 4, 0], "size":[16, 12, 22]}}
         ],
         "default_modules":[
           "rock_10m_module"
@@ -92,7 +92,7 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0.2], "pos":[0, -2, 0]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0.2], "pos":[0, 4, 0], "size":[16, 12, 22]}}
         ],
         "default_modules":[
           "rock_10m_module"
@@ -111,8 +111,8 @@
         }
       },
       "attachment_points":[
-        {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  0, 0], "size":[15, 16, 15]}},
-        {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  0,  0], "size":[5, 12, 5]}}
+        {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  8, 0], "size":[7, 20, 7]}},
+        {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  18,  0], "size":[22, 12, 22]}}
       ],
       "default_modules":[
         "tree_trunk_1_module",
@@ -132,8 +132,8 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0,  0], "size":[10, 6, 10]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0,  0], "size":[2, 6, 2]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 4,  0], "size":[4, 14, 4]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 8,  0], "size":[12, 8, 12]}}
         ],
         "default_modules":[
           "tree_trunk_2_module",
@@ -153,8 +153,8 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0], "size":[6, 8, 6]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0], "size":[2, 4, 2]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 10, 0], "size":[6, 22, 6]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 20, 0], "size":[26, 20, 26]}}
         ],
         "default_modules":[
           "tree_trunk_3_module",
@@ -174,7 +174,7 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,    "transform":{"rot":[0, 0.4, 0], "pos":[0, -3, 0]}}
+          {"slot":"hull" ,    "transform":{"rot":[0, 0.4, 0], "pos":[0, 4, 0], "size":[16, 12, 22]}}
         ],
         "default_modules":[
           "rock_10m_module"

@@ -267,6 +267,7 @@ define([
             if (!linerendering) return;
             linerendering = false;
             lineRenderSystem.passive = true;
+            lineRenderSystem._pause()
         }
 
         function handleCameraReady(e) {

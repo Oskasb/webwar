@@ -133,17 +133,17 @@ define([
 			this.drawLine(start, end, color);
 		};
 
-		LineRenderSystem.prototype.render = function (renderer) {
+		LineRenderSystem.prototype.render = function () {
 			for (var i = 0; i < this._lineRenderers.length; i++) {
 				var lineRenderer = this._lineRenderers[i];
 				lineRenderer._clear();
 			}
 		};
 
-        LineRenderSystem.prototype._render = function (renderer) {
+        LineRenderSystem.prototype._pause = function () {
             for (var i = 0; i < this._lineRenderers.length; i++) {
                 var lineRenderer = this._lineRenderers[i];
-                lineRenderer._clear();
+                lineRenderer._pause();
             }
         };
 
