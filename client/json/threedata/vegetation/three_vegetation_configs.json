@@ -6,24 +6,24 @@
 
         {
           "name":"small",
-          "vegetationSectorSize":23,
+          "vegetationSectorSize":26,
           "rowsNColumns":3,
-          "spawnFrames":11,
-          "plantCount":11
+          "spawnFrames":15,
+          "plantCount":15
         },
         {
           "name":"medium",
           "vegetationSectorSize":38,
           "rowsNColumns":5,
-          "spawnFrames":45,
-          "plantCount":45
+          "spawnFrames":22,
+          "plantCount":22
         },
         {
           "name":"big",
-          "vegetationSectorSize":61,
+          "vegetationSectorSize":52,
           "rowsNColumns":5,
-          "spawnFrames":72,
-          "plantCount":72
+          "spawnFrames":25,
+          "plantCount":25
         }
       ],
       "SYSTEMS":[
@@ -32,6 +32,7 @@
           "data":[
             {
               "vegetation_effects":[
+                {"id":"standing_grass_veg", "slope":{"min":0, "max":0.25}},
                 {"id":"red_flower_veg",   "slope":{"min":0, "max":0.43}},
                 {"id":"white_flower_veg", "slope":{"min":0.01, "max":0.78}}
               ]

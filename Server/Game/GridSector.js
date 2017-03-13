@@ -114,7 +114,7 @@ GridSector.prototype.spawnSelection = function(spawnData) {
     for (var i = 0; i < amount; i++) {
         var posx = this.sectorData.minX + ((Math.random()*0.98)+0.01) * this.sectorData.size;
         var posz = this.sectorData.minY + ((Math.random()*0.98)+0.01) * this.sectorData.size;
-        var rot = 0; //Math.random()*MATH.TWO_PI;
+        var rot = Math.random()*MATH.TWO_PI;
         var rotVel = 0; // (Math.random()-0.5)*3;
         
         var posY = this.terrainFunctions.getTerrainHeightAt(this.groundPiece, {data:[posx, 0, posz]});

@@ -325,6 +325,13 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         this.finalCPos.y =  this.frameCPos.y;
         this.finalCPos.z =  this.frameCPos.z;
 
+        this.calcVec.copy(this.finalCPos);
+
+        ThreeAPI.setYbyTerrainHeightAt(this.calcVec);
+        if (this.calcVec.y > this.finalCPos.y-2) {
+            this.finalCPos.y = this.calcVec.y+2;
+        }
+
 
         ThreeAPI.setCameraPos(
 
