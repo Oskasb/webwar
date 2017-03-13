@@ -18,7 +18,7 @@
         {
           "id":"gpu_additive_atlas_renderer",
           "material_id":"gpu_sprite_atlas_material",
-          "particle_pool":500,
+          "particle_pool":700,
           "particle_geometry":"quad",
           "material_options":{
             "blending":"AdditiveBlending",
@@ -31,7 +31,7 @@
         {
           "id":"gpu_normal_atlas_renderer",
           "material_id":"gpu_fogged_sprite_atlas_material",
-          "particle_pool":500,
+          "particle_pool":1500,
           "particle_geometry":"quad",
           "material_options":{
             "blending":"NormalBlending",
@@ -44,7 +44,7 @@
         {
           "id":"gpu_opaque_atlas_renderer",
           "material_id":"gpu_fogged_sprite_atlas_material",
-          "particle_pool":500,
+          "particle_pool":700,
           "particle_geometry":"quad",
           "material_options":{
             "blending":"NoBlending",

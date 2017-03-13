@@ -8,22 +8,22 @@
           "name":"small",
           "vegetationSectorSize":18,
           "rowsNColumns":3,
-          "spawnFrames":10,
+          "spawnFrames":5,
           "plantCount":10
         },
         {
           "name":"medium",
           "vegetationSectorSize":29,
           "rowsNColumns":5,
-          "spawnFrames":13,
-          "plantCount":13
+          "spawnFrames":6,
+          "plantCount":12
         },
         {
           "name":"big",
           "vegetationSectorSize":43,
           "rowsNColumns":5,
-          "spawnFrames":13,
-          "plantCount":13
+          "spawnFrames":6,
+          "plantCount":12
         }
       ],
       "SYSTEMS":[
