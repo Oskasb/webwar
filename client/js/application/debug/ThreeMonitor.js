@@ -49,6 +49,7 @@ define([
             calcVec2 = new Vector3();
             calcVec3 = new Vector3();
             calcVec4 = new Vector3();
+            
         };
 
         function setVector(threeVec, x, y, z) {
@@ -209,6 +210,7 @@ define([
             for (var key in pieces) {
                 renderPiece(pieces[key].piece);
             }
+            lineRenderSystem.render();
         };
 
         var monitorSpatial = function(src, bool) {
@@ -276,7 +278,7 @@ define([
 
             gooFpsGraph = new GooFpsGraph();
             gooTrafficGraph = new GooTrafficGraph();
-        //    lineRenderSystem = new LineRenderSystem(world);
+            lineRenderSystem = new LineRenderSystem();
 
             function debugLoaded(key, setupData) {
                 trackersEnable(setupData);

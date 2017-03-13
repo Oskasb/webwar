@@ -9,44 +9,20 @@ define([
 		var System= {update:function(){}};
 	//	var	SystemBus = goo.SystemBus;
 		var	Vector3 = THREE.Vector3;
-
-
-
-
-
-
-
-		/**
-		 * Updates all of it's LineRenderers and exposes methods for drawing primitive line shapes.
-		 * @param {World} world the world this system exists in.
-		 */
+		
 		function LineRenderSystem(world) {
-			System.call(this, 'LineRenderSystem', []);
 
 			this._lineRenderers = [];
-
-			this.world = world;
-
-			//adds a new LineRenderer to the list
+			
 			this._lineRenderers.push(new LineRenderer(this.world));
-
-			this.camera = null;
-
-			/**
-			 * A managed array of all the LineRenderers render objects.
-			 * @type {Object}
-			 */
-			this.renderList = [];
-
-			//add the camera
-			SystemBus.addListener('goo.setCurrentCamera', function (newCam) {
-				this.camera = newCam.camera;
-			}.bind(this));
 		}
 
 	//	LineRenderSystem.prototype = Object.create(System.prototype);
 		LineRenderSystem.prototype.constructor = LineRenderSystem;
 
+
+        var start = new Vector3();
+        var end = new Vector3();
 		var tmpVec1 = new Vector3();
 		var tmpVec2 = new Vector3();
 		var tmpVec3 = new Vector3();
@@ -72,34 +48,14 @@ define([
 		LineRenderSystem.prototype.ORANGE = new Vector3(1, 0.8, 0.3);
 		LineRenderSystem.prototype.BLACK = new Vector3(0, 0, 0);
 
-		/**
-		 * Draws a line between two {@link Vector3}'s with the specified color.
-		 * @param {Vector3} start
-		 * @param {Vector3} end
-		 * @param {Vector3} color A vector with its components between 0-1.
-		 * @example
-		 * var vector1 = new Vector3(0, 0, 0);
-		 * var vector2 = new Vector3(13, 3, 7);
-		 * var redColor = lineRenderSystem.RED;
-		 * lineRenderSystem.drawLine(v1, v2, redColor);
-		 */
+
 		LineRenderSystem.prototype.drawLine = function (start, end, color) {
 			var lineRenderer = this._lineRenderers[0];
 
 			lineRenderer._addLine(start, end, color);
 		};
-
-		/**
-		 * Used internally to calculate the line segments in an axis aligned box, and render them.
-		 * @param {Vector3} start
-		 * @param {Vector3} startEndDelta
-		 * @param {number} startDataIndex
-		 * @param {number} endDataIndex
-		 * @param {number} startPolarity
-		 * @param {number} endPolarity
-		 * @param {Vector3} color A vector with its components between 0-1.
-		 * @param {Matrix4} transformMatrix
-		 */
+		
+		
 		LineRenderSystem.prototype._drawAxisLine = function (start, startEndDelta, startDataIndex, endDataIndex, startPolarity, endPolarity, color, transformMatrix) {
 			var startAxis = LineRenderSystem.axis[startDataIndex];
 			var endAxis = LineRenderSystem.axis[endDataIndex];
@@ -149,42 +105,55 @@ define([
 		LineRenderSystem.prototype.drawCross = function (position, color, size) {
 			size = size || 0.05;
 
-			var start = tmpVec1.set(position).addDirect(-size, 0, -size);
-			var end = tmpVec2.set(position).addDirect(size, 0, size);
+			start.x = position.data[0] - size;
+            start.y = position.data[1];
+            start.z = position.data[2] - size;
+            end.x = position.data[0] + size;
+            end.y = position.data[1];
+            end.z = position.data[2] + size;
+
 			this.drawLine(start, end, color);
 
-			start = tmpVec1.set(position).addDirect(size, 0, -size);
-			end = tmpVec2.set(position).addDirect(-size, 0, size);
+            start.x = position.data[0] + size;
+            start.y = position.data[1];
+            start.z = position.data[2] - size;
+            end.x = position.data[0] - size;
+            end.y = position.data[1];
+            end.z = position.data[2] + size;
+
 			this.drawLine(start, end, color);
 
-			start = tmpVec1.set(position).addDirect(0, -size, 0);
-			end = tmpVec2.set(position).addDirect(0, size, 0);
+            start.x = position.data[0];
+            start.y = position.data[1] - size;
+            start.z = position.data[2];
+            end.x = position.data[0];
+            end.y = position.data[1] + size;
+            end.z = position.data[2];
+
 			this.drawLine(start, end, color);
 		};
 
 		LineRenderSystem.prototype.render = function (renderer) {
 			for (var i = 0; i < this._lineRenderers.length; i++) {
 				var lineRenderer = this._lineRenderers[i];
-				lineRenderer._updateVertexData();
-				lineRenderer._manageRenderList(this.renderList);
 				lineRenderer._clear();
-			}
-
-			renderer.checkResize(this.camera);
-
-			if (this.camera) {
-				renderer.render(this.renderList, this.camera, null, null, false);
 			}
 		};
 
-		LineRenderSystem.prototype.clear = function () {
+        LineRenderSystem.prototype._render = function (renderer) {
+            for (var i = 0; i < this._lineRenderers.length; i++) {
+                var lineRenderer = this._lineRenderers[i];
+                lineRenderer._clear();
+            }
+        };
+
+
+        LineRenderSystem.prototype.clear = function () {
 			for (var i = 0; i < this._lineRenderers.length; i++) {
 				var lineRenderer = this._lineRenderers[i];
 				lineRenderer._remove();
 			}
 			delete this._lineRenderers;
-
-			this.world.gooRunner.renderer.clearShaderCache();
 		};
 
 

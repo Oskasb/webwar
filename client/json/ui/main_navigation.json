@@ -454,6 +454,7 @@
           },
           "text":"VEGETATION"
         }
+
       },{
         "id":"buttonContainerModules",
         "data":{
@@ -470,6 +471,23 @@
             "event":{"category":"STATUS", "key":"MON_MODULES", "type":"toggle"}
           },
           "text":"MODULES"
+        }
+      },{
+        "id":"buttonContainerSpatial",
+        "data":{
+          "parentId":"panelRoot",
+          "style":["dev_button_container", "coloring_container_dev_panel"]
+        }
+      },{
+        "id":"button",
+        "data":{
+          "parentId":"buttonContainerSpatial",
+          "style":["dev_panel_button", "coloring_button_dev_panel"],
+          "button":{
+            "id":"dev_panel_button",
+            "event":{"category":"STATUS", "key":"MON_SPATIAL", "type":"toggle"}
+          },
+          "text":"SPATIAL"
         }
       }
     ],
