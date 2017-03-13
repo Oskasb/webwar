@@ -129,7 +129,10 @@ ServerGameMain.prototype.tickGameSimulation = function() {
     this.tickComputeTime = this.getNow() - this.currentTime;
     if (Math.random() < 0.01) console.log("Load idle/tick: ", this.headroom / this.tickComputeTime);
 
-	this.healthData.push({time:this.currentTime, idle:this.headroom, busy:this.tickComputeTime, pieces:this.serverWorld.pieces.length,players:this.serverWorld.playerCount});
+	var bodies = this.serverWorld.cannonAPI.fetchCannonStatus().bodyCount;
+    var contacts = this.serverWorld.cannonAPI.fetchCannonStatus().contactCount;
+
+	this.healthData.push({time:this.currentTime, idle:this.headroom, busy:this.tickComputeTime, pieces:this.serverWorld.pieces.length, players:this.serverWorld.playerCount, bodies:bodies, contacts:contacts});
 };
 
 ServerGameMain.prototype.tickGameNetwork = function() {

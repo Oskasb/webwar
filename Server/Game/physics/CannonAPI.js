@@ -4,6 +4,10 @@ require('./PhysicsFunctions.js');
 CannonAPI = function() {
     this.physicsFunctions = new PhysicsFunctions();
 
+    this.status = {
+        bodyCount:0
+    }
+
 };
 
 CannonAPI.prototype.initServerPhysics = function() {
@@ -25,33 +29,38 @@ CannonAPI.prototype.attachPiecePhysics = function(piece) {
     } else {
         console.log("No body on this!")
     }
-
-
-
 };
-
 
 CannonAPI.prototype.buildRigidBody = function(spatial, bodyParams) {
     body =  this.physicsFunctions.buildCannonBody(this.world, spatial, bodyParams)
     return body;
 };
 
-
 CannonAPI.prototype.removePhysicsPiece = function(piece) {
     console.log("REMOVE RIGID BODY:", piece.physics.rigid_body);
     this.world.removeBody(piece.physics.body);
-
 };
-
-
-
 
 CannonAPI.prototype.updatePhysicalPiece = function(piece) {
     this.physicsFunctions.applyBodyToSpatial(piece);
-
 };
-
 
 CannonAPI.prototype.updatePhysicsSimulation = function(currentTime) {
     this.physicsFunctions.updateCannonWorld(this.world, currentTime)
+};
+
+CannonAPI.prototype.updatePhysicalPiece = function(piece) {
+    this.physicsFunctions.applyBodyToSpatial(piece);
+};
+
+
+CannonAPI.prototype.fetchCannonStatus = function() {
+    if (Math.random() < 0.01) {
+        console.log("BODIES:", this.world.bodies.length);
+    }
+
+    this.status.bodyCount = this.world.bodies.length;
+    this.status.contactCount = this.world.contacts.length;
+
+    return this.status;
 };

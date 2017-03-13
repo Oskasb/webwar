@@ -596,7 +596,7 @@
           "parentId": "monitorContainer7",
           "style": ["data_list_container"],
           "dataField":{
-            "dataKeys":["BUSY_SERVER", "IDLE_SERVER", "WORST", "BEST"],
+            "dataKeys":["BUSY_SERVER", "IDLE_SERVER", "WORST", "BEST", "SERVER_BODIES", "BODY_CONTACTS"],
             "dataCategory":"STATUS"
           }
         }
@@ -612,7 +612,7 @@
           "parentId": "monitorContainer8",
           "style": ["data_list_container"],
           "dataField":{
-            "dataKeys":["FRAME_MSGS", "FRAMES_SINCE_MSG", "MSG_PER_FRAME", "MSG_PER_SECOND"],
+            "dataKeys":["SOCKET_MBS","FRAME_MSGS", "FRAMES_SINCE_MSG", "MSG_PER_FRAME", "BYTES_PER_SECOND"],
             "dataCategory":"STATUS"
           }
         }

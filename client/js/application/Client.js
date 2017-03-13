@@ -54,11 +54,10 @@ define([
 
 		};
 
-        var messageCount = 0;
+        
 
         Client.prototype.handleServerMessage = function(res) {
-            messageCount++
-            PipelineAPI.setCategoryKeyValue('STATUS', 'MESSAGE_STACK',messageCount);
+
             evt.fire(evt.list().SERVER_MESSAGE, res);
             var message = this.socketMessages.getMessageById(res.id);
             if (message) {
@@ -270,7 +269,7 @@ define([
         Client.prototype.tick = function(tpf) {
             
             start = performance.now();
-            messageCount = 0;
+            
 			frame++;
 
 
@@ -308,7 +307,7 @@ define([
             
             evt.fire(evt.list().CAMERA_TICK, {frame:frame, tpf:tpf});
             PipelineAPI.setCategoryKeyValue('STATUS', 'TIME_GAME_TICK', performance.now() - start);
-            PipelineAPI.setCategoryKeyValue('STATUS', 'MESSAGE_STACK',messageCount);
+            
 		};
 
 		return Client;

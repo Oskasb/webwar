@@ -1,16 +1,20 @@
 "use strict";
 
 
-define(['Events'
+define(['Events',
+	'PipelineAPI'
 
 ],
 	function(
-		     evt
+		     evt,
+			 PipelineAPI
 		) {
 
 		var socket;
 		var frameStack = [];
 
+		var messageCount = 0;
+		var socketBytes = 0;
 
 		var Connection = function() {};
 
@@ -33,6 +37,11 @@ define(['Events'
 			};
 
 			socket.onmessage = function (message) {
+
+				messageCount++;
+				socketBytes += message.data.length;
+				PipelineAPI.setCategoryKeyValue('STATUS', 'RECIEVED_BYTES',socketBytes);
+
 				pings++;
 				frameStack.push(message.data);
 			};
@@ -84,6 +93,8 @@ define(['Events'
 			}
 
 			frameStack = [];
+			PipelineAPI.setCategoryKeyValue('STATUS', 'MESSAGE_STACK',messageCount);
+			messageCount = 0;
 			return responseStack;
 		};
 		

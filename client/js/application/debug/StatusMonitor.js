@@ -113,7 +113,7 @@ define([
 
             evt.fire(evt.list().MONITOR_STATUS, {TPF:Math.round(tpf*100)/100});
 
-            evt.fire(evt.list().MONITOR_STATUS, {IDLE:round(timeIdle*1000)});
+            evt.fire(evt.list().MONITOR_STATUS, {IDLE:percentify(timeIdle*1000, tpf) + '%'});
 
             evt.fire(evt.list().MONITOR_STATUS, {TIME_GAME:percentify(timeGame*1000, tpf) + '%'});
 
@@ -169,26 +169,35 @@ define([
         var totalFrames = 0;
         var lastCount = 0;
         var startTime = new Date().getTime();
+        var lastBytes = 0;
+
+        var msgBytes;
 
         StatusMonitor.prototype.monitorServerTraffic = function() {
 
             var messageCount = PipelineAPI.readCachedConfigKey('STATUS', 'MESSAGE_STACK');
+            var bytes = PipelineAPI.readCachedConfigKey('STATUS', 'RECIEVED_BYTES');
             totalFrames++;
 
             evt.fire(evt.list().MONITOR_STATUS, {FRAME_MSGS:'L: '+lastCount +' N: '+ messageCount});
             evt.fire(evt.list().MONITOR_STATUS, {FRAMES_SINCE_MSG:framesSinceMessage});
 
+            msgBytes = bytes-lastBytes;
+
             if (!messageCount) {
                 framesSinceMessage++;
                 return;
             }
+
             totalMessages += messageCount;
             lastCount = messageCount;
             var now = new Date().getTime();
 
             evt.fire(evt.list().MONITOR_STATUS, {MSG_PER_FRAME:percentify((totalMessages / totalFrames)*0.01, 0.01)/100});
-            evt.fire(evt.list().MONITOR_STATUS, {MSG_PER_SECOND:percentify((((1000 / (now - startTime)) * messageCount) / (now - startTime))*0.01, 0.1)/10});
+            evt.fire(evt.list().MONITOR_STATUS, {BYTES_PER_SECOND:percentify(((msgBytes /1024 ) / (now - startTime)), 0.1)/10 + 'K'});
+            evt.fire(evt.list().MONITOR_STATUS, {SOCKET_MBS:Math.round(bytes  / 104857.6)/10});
             framesSinceMessage = 0;
+            lastBytes = bytes;
             startTime = now;
         };
 
