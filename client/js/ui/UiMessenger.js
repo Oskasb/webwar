@@ -51,7 +51,7 @@ define([
                     domPopups[src] = new DomPopup(popups[src].configId, popups[src].callback, onClose);
                 } else {
                     if (domPopups[src]) {
-                        domPopups[src].removePopup();
+                        domPopups[src]  = null;
                     }
                 }
             }

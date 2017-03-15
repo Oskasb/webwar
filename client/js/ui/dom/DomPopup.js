@@ -64,7 +64,7 @@ define([
                 _this.inputChanged(dataSource.element.value.substring(0, 8));
             };
 
-            var parent = GameScreen.getElement()
+            var parent = GameScreen.getElement();
             for (var i = 0; i < config.length; i++) {
                 var conf = config[i];
                 if (conf.data.parentId) parent = this.elements[conf.data.parentId].element;
