@@ -27,11 +27,18 @@ define([
                             tx.magFilter = THREE.LinearFilter;
                             tx.minFilter = THREE.LinearFilter;
                             //            console.log("Set as Reflection", src, tx);
+
+                            if (txType == 'envMap') {
+                                tx.mapping = THREE.SphericalReflectionMapping;
+                            }
+
                         } else {
                             tx.wrapS = THREE.RepeatWrapping;
                             tx.wrapT = THREE.RepeatWrapping;
                         }
                         textures[txType][src] = tx;
+                    //    tx.flipY = false;
+                    //    tx.flipY = false;
                         //        console.log("Store THREE_TEXTURE:",txType+'_'+src)
                         PipelineAPI.setCategoryKeyValue('THREE_TEXTURE', txType+'_'+src, tx);
                     };

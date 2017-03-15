@@ -1090,9 +1090,13 @@ THREE.ColladaLoader.prototype = {
 
 				if ( data.name ) geometry.name = data.name;
 
+				var uvSets = '';
+
 				for ( var name in inputs ) {
 
 					var input = inputs[ name ];
+
+					console.log("loop names ", name, sources, inputs);
 
 					switch ( name )	{
 
@@ -1113,7 +1117,15 @@ THREE.ColladaLoader.prototype = {
 							break;
 
 						case 'TEXCOORD':
-							geometry.addAttribute( 'uv', buildGeometryAttribute( primitive, sources[ input.id ], input.offset ) );
+
+							if (sources['body-UV1']) {
+								geometry.addAttribute( 'uv', buildGeometryAttribute( primitive, sources['body-UV1'], 3 ) );
+							//	geometry.addAttribute( 'uv2', buildGeometryAttribute( primitive, sources[ 'body-UV0' ], 2 ) );
+								console.log("Add set UV1: ", name, sources, inputs);
+							} else {
+								geometry.addAttribute( 'uv', buildGeometryAttribute( primitive, sources[ input.id ], input.offset ) );
+							};
+                            
 							break;
 
 					}

@@ -3,6 +3,29 @@
     "MATERIALS": {
       "THREE":[
         {
+
+          "id":"tank_atlas",
+          "shader":"MeshPhysicalMaterial",
+          "settings":{
+            "blending":"NoBlending",
+            "color":{"r":0.9, "g":0.9, "b":0.9},
+            "clearCoat":0.0,
+            "clearCoatRoughness":1.0,
+            "roughness":0.8,
+            "reflectivity":1.0,
+            "metalness":1.2,
+            "envMapIntensity":1.5,
+            "aoMapIntensity":1
+          },
+          "textures":[{
+            "map":"./client/assets/images/textures/main_diff.png",
+            "metalnessMap":"./client/assets/images/textures/main_cm.png",
+            "roughnessMap":"./client/assets/images/textures/main_roughness.png",
+            "normalMap":"./client/assets/images/textures/main_nm.png",
+            "envMap":"./client/assets/images/textures/ref_sphere.png",
+            "aoMap":"./client/assets/images/textures/tank_lm.png"
+          }]
+        },{
           "id":"main_atlas",
           "shader":"MeshPhysicalMaterial",
           "settings":{
@@ -14,7 +37,7 @@
             "reflectivity":0.6,
             "metalness":1.2,
             "envMapIntensity":1.0,
-            "aoMapIntensity":0.6
+            "aoMapIntensity":0.5
           },
           "textures":[{
             "map":"./client/assets/images/textures/main_diff.png",
@@ -22,7 +45,7 @@
             "roughnessMap":"./client/assets/images/textures/main_roughness.png",
             "envMap":"./client/assets/images/textures/ref_sphere.png",
             "normalMap":"./client/assets/images/textures/main_nm.png",
-            "aoMap":"./client/assets/images/textures/tank_lm.png"
+            "aoMap":"./client/assets/images/textures/bodyShadowsMap.png"
           }]
         },{
           "id":"tank_track",
@@ -31,9 +54,11 @@
             "blending":"NoBlending",
             "color":{"r":0.5, "g":0.5, "b":0.5},
             "clearCoat":0,
-            "reflectivity":1.0,
-            "metalness":0.9,
-            "aoMapIntensity":0.6
+            "roughness":0.2,
+            "reflectivity":1.4,
+            "envMapIntensity":1.5,
+            "metalness":1.4,
+            "aoMapIntensity":1.0
           },
           "textures":[{
             "map":"./client/assets/images/textures/track.png",

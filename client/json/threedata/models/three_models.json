@@ -4,8 +4,10 @@
       "THREE": [
         {
           "id": "sherman_hull",
-          "material": "main_atlas",
+          "material": "tank_atlas",
+          "format":"obj",
           "url": "./client/assets/models/sherman_hull",
+          "urluv2": "./client/assets/models/sherman_hull_ao",
           "transform": {
             "pos": [
               0,
@@ -26,8 +28,9 @@
         },
         {
           "id": "sherman_turret",
-          "material": "main_atlas",
+          "material": "tank_atlas",
           "url": "./client/assets/models/sherman_turret",
+          "urluv2": "./client/assets/models/sherman_turret_ao",
           "transform": {
             "pos": [
               0,
@@ -48,8 +51,9 @@
         },
         {
           "id": "sherman_cannon",
-          "material": "main_atlas",
+          "material": "tank_atlas",
           "url": "./client/assets/models/sherman_cannon",
+          "urluv2": "./client/assets/models/sherman_cannon_ao",
           "transform": {
             "pos": [
               0,
@@ -72,6 +76,7 @@
           "id": "sherman_track_l",
           "material": "tank_track",
           "url": "./client/assets/models/sherman_track_l",
+          "urluv2": "./client/assets/models/sherman_track_l_ao",
           "transform": {
             "pos": [
                1.3,
@@ -94,6 +99,7 @@
           "id": "sherman_track_r",
           "material": "tank_track",
           "url": "./client/assets/models/sherman_track_r",
+          "urluv2": "./client/assets/models/sherman_track_r_ao",
           "transform": {
             "pos": [
               -1.3,

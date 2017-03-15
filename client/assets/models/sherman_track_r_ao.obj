@@ -1,7 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 15.03.2017 01:00:51
+# File Created: 15.03.2017 01:00:20
 
-mtllib sherman_track_r.mtl
+mtllib sherman_track_r_ao.mtl
 
 #
 # object track_r
@@ -378,7 +378,7 @@ vt 0.802 -0.351 0.433
 # 80 texture coords
 
 g track_r
-usemtl Material__53
+usemtl Material__140
 s 2
 f 1/1/1 2/2/2 3/3/2 4/4/1 
 s 4

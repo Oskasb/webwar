@@ -12,6 +12,37 @@ define([
         ThreeTerrain
     ) {
 
+        var loadFBX = function(modelId) {
+
+            var fbx;
+
+            console.log("load fbx:", modelId,  modelList[modelId].url+'.FBX')
+
+            var err = function(e, x) {
+                console.log("FBX ERROR:", e, x);
+            }
+
+            var prog = function(p, x) {
+                console.log("FBX PROGRESS:", p, x);
+            }
+
+            var loader = new THREE.FBXLoader();
+         //   loader.options.convertUpAxis = true;
+            loader.load( modelList[modelId].url+'.FBX', function ( model ) {
+                console.log("FBX LOADED: ",model)
+                fbx = model.scene;
+
+                fbx.traverse( function ( child ) {
+
+                    if ( child instanceof THREE.Mesh ) {
+                        console.log(child)
+                        child.rotation.x += Math.PI/2;
+                        PipelineAPI.setCategoryKeyValue('THREE_MODEL', modelId, child);
+                    }
+                } );
+            }, prog, err);
+        };
+
         var loadCollada = function(modelId) {
 
             var dae;
@@ -24,7 +55,11 @@ define([
                 dae.traverse( function ( child ) {
 
                     if ( child instanceof THREE.Mesh ) {
-                        PipelineAPI.setCategoryKeyValue('THREE_MODEL', modelId, child.parent);
+                        child.parent.remove(child);
+                        console.log(child)
+                        child.rotation.x = Math.PI;
+                        child.needsUpdate = true;
+                        PipelineAPI.setCategoryKeyValue('THREE_MODEL', modelId, child);
                     }
                 } );
             });
@@ -32,20 +67,56 @@ define([
 
         var LoadObj = function(modelId) {
             var loader = new THREE.OBJLoader();
-            loader.load(modelList[modelId].url+'.obj', function ( object ) {
-            //        console.log("THREE_MODEL OBJ", object);
+
+
+            var getMesh = function(object, id, cb) {
                 object.traverse( function ( child ) {
 
                     if ( child instanceof THREE.Mesh ) {
-
                         var geom = child.geometry;
                         child.geometry = geom;
                         geom.uvsNeedUpdate = true;
-                        
-                        PipelineAPI.setCategoryKeyValue('THREE_MODEL', modelId, child);
+                        console.log("Obj Mesh: ", child);
+                        cb(child, id);
                     }
-                } );
-            });
+                });
+            }
+
+
+            var loadUrl = function(url, id, meshFound) {
+
+                loader.load(url, function ( object ) {
+                    //        console.log("THREE_MODEL OBJ", object);
+                    getMesh(object, id, meshFound)
+
+                });
+            };
+
+
+            var uv2Found = function(uv2mesh, mid) {
+                var meshObj = PipelineAPI.readCachedConfigKey('THREE_MODEL', mid);
+                console.log(meshObj, uv2mesh, uv2mesh.geometry.attributes.uv);
+                meshObj.geometry.addAttribute('uv2',  uv2mesh.geometry.attributes.uv);
+            //    uv2mesh.geometry.dispose();
+            };
+
+
+            
+            
+            var modelFound = function(child, mid) {
+                PipelineAPI.setCategoryKeyValue('THREE_MODEL', mid, child);
+                
+                if (modelList[modelId].urluv2) {
+                    loadUrl(modelList[modelId].urluv2+'.obj', modelId, uv2Found)
+                }
+                
+            };
+
+
+            loadUrl(modelList[modelId].url+'.obj', modelId, modelFound)
+
+
+
         };
         
         var modelList = {};
@@ -58,16 +129,31 @@ define([
         ThreeModelLoader.createObject3D = function() {
 
             return new THREE.Object3D();
-
-
+            
         };
 
         ThreeModelLoader.loadData = function(TAPI) {
             ThreeTerrain.loadData(TAPI);
             var modelListLoaded = function(scr, data) {
                 for (var i = 0; i < data.length; i++){
-                    modelList[data[i].id] = data[i]
-                    LoadObj(data[i].id);
+
+                    modelList[data[i].id] = data[i];
+                    
+                    switch ( data[i].format )	{
+
+                        case 'dae':
+                            loadCollada(data[i].id);
+                            break;
+
+                        case 'fbx':
+                            loadFBX(data[i].id);
+                            break;
+
+                        default:
+                            LoadObj(data[i].id);
+                            break;
+
+                    }
                 }
             };
 

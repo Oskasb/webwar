@@ -71,14 +71,17 @@ define([
 
             var attachPipeline = function(matId, txSettings, txType, imgUrl, onReadyCB) {
                 var includeTexture = function(src, data) {
-                    var tx = data.clone();
+                    data;
+
+
+
         //            console.log("Apply THREE_TEXTURE", matId, txType+'_'+imgUrl ,src, [tx]);
-                    tx.needsUpdate = true;
+                //    tx.needsUpdate = true;
                     if (!loadedTextures[txType+'_'+imgUrl] ) {
                         loadedTextures[txType+'_'+imgUrl] = {};
                     }
                     loadedTextures[txType+'_'+imgUrl][id] = data;
-
+                    data.needsUpdate=true;
                     onReadyCB(matId, txSettings);
                 };
 
