@@ -9,12 +9,12 @@
           "settings":{
             "blending":"NoBlending",
             "color":{"r":0.9, "g":0.9, "b":0.9},
-            "clearCoat":0.0,
-            "clearCoatRoughness":1.0,
-            "roughness":0.8,
+            "clearCoat":0.4,
+            "clearCoatRoughness":0.4,
+            "roughness":0.6,
             "reflectivity":1.0,
             "metalness":1.0,
-            "envMapIntensity":1.8,
+            "envMapIntensity":1.4,
             "aoMapIntensity":1
           },
           "textures":[{
