@@ -13,8 +13,8 @@
             "clearCoatRoughness":1.0,
             "roughness":0.8,
             "reflectivity":1.0,
-            "metalness":1.2,
-            "envMapIntensity":1.5,
+            "metalness":1.0,
+            "envMapIntensity":1.8,
             "aoMapIntensity":1
           },
           "textures":[{

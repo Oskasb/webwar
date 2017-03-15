@@ -71,16 +71,19 @@ define([
 
             var getMesh = function(object, id, cb) {
                 object.traverse( function ( child ) {
-
+                    object.remove(child);
                     if ( child instanceof THREE.Mesh ) {
                         var geom = child.geometry;
                         child.geometry = geom;
                         geom.uvsNeedUpdate = true;
                         console.log("Obj Mesh: ", child);
                         cb(child, id);
+
                     }
+
                 });
-            }
+
+            };
 
 
             var loadUrl = function(url, id, meshFound) {
@@ -95,9 +98,11 @@ define([
 
             var uv2Found = function(uv2mesh, mid) {
                 var meshObj = PipelineAPI.readCachedConfigKey('THREE_MODEL', mid);
+
                 console.log(meshObj, uv2mesh, uv2mesh.geometry.attributes.uv);
                 meshObj.geometry.addAttribute('uv2',  uv2mesh.geometry.attributes.uv);
-            //    uv2mesh.geometry.dispose();
+                uv2mesh.geometry.dispose();
+                uv2mesh.material.dispose();
             };
 
 
