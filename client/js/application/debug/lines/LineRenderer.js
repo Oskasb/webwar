@@ -35,7 +35,7 @@ define(['ThreeAPI'],
                 side:THREE.DoubleSide
             } );
 
-            this.line = new THREE.Line( this.geometry,  this.material, THREE.LineSegments );
+            this.line = new THREE.LineSegments( this.geometry,  this.material);
             this.line.frustumCulled = false;
             this.line.renderOrder = 1;
             ThreeAPI.addToScene( this.line );

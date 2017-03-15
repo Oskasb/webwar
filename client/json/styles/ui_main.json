@@ -72,6 +72,14 @@
       "right": "15em"
     },
 
+    "panel_right_2":{
+      "right": "135em"
+    },
+
+    "panel_right_3":{
+      "right": "255em"
+    },
+
     "main_top_left":{
       "pointerEvents": "auto",
       "top": "0em",

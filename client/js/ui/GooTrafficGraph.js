@@ -18,6 +18,10 @@ define([
         var serverPlayers = [0];
 
 
+        var status = {
+
+        };
+
         var recycleStack = function(trackStack) {
             var recycle = trackStack.pop();
             recycle[0] = 0.3;
@@ -38,10 +42,15 @@ define([
             serverTime[0][0] = resData.idle + resData.busy;
             serverPieces[0][0] = resData.pieces;
             serverPlayers[0][0] = resData.players;
-            evt.fire(evt.list().MONITOR_STATUS, {SERVER_BODIES:resData.bodies});
-            evt.fire(evt.list().MONITOR_STATUS, {BODY_CONTACTS:resData.contacts});
-            evt.fire(evt.list().MONITOR_STATUS, {SERVER_PIECES:resData.pieces});
-            evt.fire(evt.list().MONITOR_STATUS, {SERVER_PLAYERS:resData.players});
+            
+            status.bodies       = resData.bodies;
+            status.contacts     = resData.contacts;
+            status.pieces       = resData.pieces;
+            status.players      = resData.players;
+            status.rss          = resData.memoryUsage.rss;
+            status.heapTotal    = resData.memoryUsage.heapTotal;
+            status.heapUsed     = resData.memoryUsage.heapUsed;
+            
         };
 
         var handleServerMessage = function(e) {
@@ -89,6 +98,11 @@ define([
 
         GooTrafficGraph.prototype.getSends = function() {
             return sentStack;
+        };
+
+
+        GooTrafficGraph.prototype.getStatus = function() {
+            return status;
         };
 
         GooTrafficGraph.prototype.getRecieves = function() {

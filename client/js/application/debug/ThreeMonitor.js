@@ -146,12 +146,15 @@ define([
             gooFpsGraph.enableFpsTracker(trackFrames);
             gooTrafficGraph.enableTrafficTracker(trackFrames);
 
+            var status = gooTrafficGraph.getStatus();
 
             var monServer = function(src, bool) {
                 PipelineAPI.setCategoryData('STATUS', {SERVER_IDLE:gooTrafficGraph.getServerIdle()});
                 PipelineAPI.setCategoryData('STATUS', {SERVER_BUSY:gooTrafficGraph.getServerBusy()});
                 PipelineAPI.setCategoryData('STATUS', {SERVER_PIECES:gooTrafficGraph.getServerPieces()});
                 PipelineAPI.setCategoryData('STATUS', {SERVER_PLAYERS:gooTrafficGraph.getServerPlayers()});
+
+                PipelineAPI.setCategoryData('STATUS', {SERVER_STATUS: status});
             };
 
 

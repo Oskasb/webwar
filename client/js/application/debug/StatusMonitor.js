@@ -160,6 +160,23 @@ define([
 
             evt.fire(evt.list().MONITOR_STATUS, {BEST:Math.round(bestBusy*100)/100});
 
+
+            var status = PipelineAPI.readCachedConfigKey('STATUS', 'SERVER_STATUS');
+
+            var heapUsed = ( (status.heapUsed / 1048576) / (status.heapTotal / 1048576 ));
+            var heapMb   = Math.round(status.heapUsed / 1048576) / 1;
+            var heapTotalMb   = Math.round(status.heapTotal / 1048576) / 1;
+
+            var rssMb = Math.round(status.rss / 1048576) / 1;
+
+            evt.fire(evt.list().MONITOR_STATUS, {SERVER_BODIES:     status.bodies     });
+            evt.fire(evt.list().MONITOR_STATUS, {BODY_CONTACTS:     status.contacts   });
+            evt.fire(evt.list().MONITOR_STATUS, {SERVER_PIECES:     status.pieces     });
+            evt.fire(evt.list().MONITOR_STATUS, {SERVER_PLAYERS:    status.players    });
+            evt.fire(evt.list().MONITOR_STATUS, {MEM_RSS:           rssMb             });
+            evt.fire(evt.list().MONITOR_STATUS, {HEAP_USED:         heapMb +' MB  ('+ Math.round(heapUsed*100) + ' %)'  });
+            evt.fire(evt.list().MONITOR_STATUS, {HEAP_TOTAL:        heapTotalMb       });
+
         };
 
         var framesSinceMessage = 0;

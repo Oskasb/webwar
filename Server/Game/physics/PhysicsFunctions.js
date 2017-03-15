@@ -103,7 +103,7 @@ PhysicsFunctions.prototype.createCannonWorld = function() {
 
 //    groundBody.quaternion.setFromEuler(1, 1, 0, 'XYZ');
 
-    fixedTimeStep = 1.0 / 100.0; // seconds
+    fixedTimeStep = 1.0 / 250.0; // seconds
     maxSubSteps = 3;
 
 
@@ -167,12 +167,30 @@ PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
 
 };
 
+var remaining = 0;
+
+var doStep = function(world, fixed, dt, maxSteps) {
+    world.step(world, fixed, dt, maxSteps)
+};
+
+
 PhysicsFunctions.prototype.updateCannonWorld = function(world, currentTime) {
 
 
     if(lastTime !== undefined){
         var dt = (currentTime - lastTime);
+
+        remaining = dt + remaining;
+
+            while (remaining > fixedTimeStep*maxSubSteps) {
+
         world.step(fixedTimeStep, dt, maxSubSteps);
+
+         //   doStep(world, fixedTimeStep, dt, maxSubSteps) ;
+
+            remaining -= fixedTimeStep*maxSubSteps;
+       }
+
     }
  //   console.log("Sphere xyz position: "+ sphereBody.position.x +' _ '+ sphereBody.position.y+' _ '+ sphereBody.position.z);
     lastTime = currentTime;

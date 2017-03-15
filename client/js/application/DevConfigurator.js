@@ -20,15 +20,20 @@ define([
         
         var panelMap = {
             DEV_MODE:'dev_panel',
-            DEV_STATUS:'dev_status'
+            DEV_STATUS:'dev_status',
+            MON_SERVER_STATUS:'server_status',
+            MON_CLIENT_STATUS:'client_status'
         };
         
         var DevConfigurator = function() {
+            this.running = false;
             this.panel = null;
             this.currentValue = 0;
 
             PipelineAPI.setCategoryData('STATUS', {DEV_STATUS:false});
             PipelineAPI.setCategoryData('STATUS', {DEV_MODE:false});
+            PipelineAPI.setCategoryData('STATUS', {MON_SERVER_STATUS:false});
+            PipelineAPI.setCategoryData('STATUS', {MON_CLIENT_STATUS:false});
 
             var _this=this;
 
@@ -42,6 +47,8 @@ define([
 
             PipelineAPI.subscribeToCategoryKey('STATUS', 'DEV_MODE', applyDevConfig);
             PipelineAPI.subscribeToCategoryKey('STATUS', 'DEV_STATUS', applyDevConfig);
+            PipelineAPI.subscribeToCategoryKey('STATUS', 'MON_SERVER_STATUS', applyDevConfig);
+            PipelineAPI.subscribeToCategoryKey('STATUS', 'MON_CLIENT_STATUS', applyDevConfig);
          //   evt.on(evt.list().MONITOR_STATUS, applyDevConfig);
         };
 
@@ -62,18 +69,40 @@ define([
             if (value == 1 && panels[src] == null) {
                 
                 panels[src] = new DomPanel(GameScreen.getElement(), panelMap[src]);
-                if (src == 'DEV_STATUS') {
+
+                var run = false;
+
+                if (src == 'MON_SERVER_STATUS' || src == 'MON_CLIENT_STATUS' ) {
+                    run = true;
+                }
+
+                if (run && this.running == false) {
+                    this.running = true;
                     evt.on(evt.list().CLIENT_TICK, tickStatusMonitor);
                 }
 
             } else if (panels[src]) {
 
-                if (src == 'DEV_STATUS') {
-                    evt.removeListener(evt.list().CLIENT_TICK, tickStatusMonitor);
+                if (src != 'DEV_MODE') {
+
+                    var count = 0;
+
+                    var keep = false;
+
+                    for (var key in panels) {
+                        if (key == 'MON_SERVER_STATUS' || key == 'MON_CLIENT_STATUS' ) {
+                            keep = true;
+                        }
+                    }
+
+                    if (!keep) {
+                        this.running = false;
+                        evt.removeListener(evt.list().CLIENT_TICK, tickStatusMonitor);
+                    }
                 }
 
                 panels[src].removeGuiPanel();
-                panels[src] = null;
+                delete panels[src];
             }
         };
 

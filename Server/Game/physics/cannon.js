@@ -1103,22 +1103,27 @@ var AABB = _dereq_('../collision/AABB');
  * @param {Vec3} from
  * @param {Vec3} to
  */
+
+    var ray_tmp_1 = new Vec3();
+    var ray_tmp_2 = new Vec3();
+    var ray_tmp_3 = new Vec3();
+
 function Ray(from, to){
     /**
      * @property {Vec3} from
      */
-    this.from = from ? from.clone() : new Vec3();
+    this.from = from ? from.clone() : ray_tmp_1;
 
     /**
      * @property {Vec3} to
      */
-    this.to = to ? to.clone() : new Vec3();
+    this.to = to ? to.clone() : ray_tmp_2;
 
     /**
      * @private
      * @property {Vec3} _direction
      */
-    this._direction = new Vec3();
+    this._direction = ray_tmp_3;
 
     /**
      * The precision of the ray. Used when checking parallelity etc.
@@ -1374,13 +1379,20 @@ Ray.prototype[Shape.types.BOX] = Ray.prototype.intersectBox;
  * @param  {Vec3} position
  * @param  {Body} body
  */
+
+var t_worldNormal = new Vec3(0, 0, 1);
+    var t_planePointToFrom  = new Vec3();
+    var t_dir_scaled_with_t = new Vec3();
+    var t_hitPointWorld     = new Vec3();
+    
+    
 Ray.prototype.intersectPlane = function(shape, quat, position, body){
     var from = this.from;
     var to = this.to;
     var direction = this._direction;
 
     // Get plane normal
-    var worldNormal = new Vec3(0, 0, 1);
+    var worldNormal = t_worldNormal;
     quat.vmult(worldNormal, worldNormal);
 
     var len = new Vec3();
@@ -1405,9 +1417,9 @@ Ray.prototype.intersectPlane = function(shape, quat, position, body){
         return;
     }
 
-    var planePointToFrom = new Vec3();
-    var dir_scaled_with_t = new Vec3();
-    var hitPointWorld = new Vec3();
+    var planePointToFrom =  t_planePointToFrom;
+    var dir_scaled_with_t = t_dir_scaled_with_t;
+    var hitPointWorld =     t_hitPointWorld;
 
     from.vsub(position, planePointToFrom);
     var t = -worldNormal.dot(planePointToFrom) / n_dot_dir;
@@ -1446,18 +1458,40 @@ var intersectConvexOptions = {
  * @param  {Vec3} position
  * @param  {Body} body
  */
+
+var t_worldPillarOffset = new Vec3(0, 0, 0);
+
+
+    var t_ray = new Ray(new Vec3(0, 0, 0), new Vec3(0, 0, 0));
+
+var t_index = [];
+    var t_minMax = [];
+
 Ray.prototype.intersectHeightfield = function(shape, quat, position, body){
     var data = shape.data,
         w = shape.elementSize,
-        worldPillarOffset = new Vec3();
+        worldPillarOffset = t_worldPillarOffset;
+        worldPillarOffset.x = 0;
+        worldPillarOffset.y = 0;
+        worldPillarOffset.z = 0;
 
     // Convert the ray to local heightfield coordinates
-    var localRay = new Ray(this.from, this.to);
+
+    t_ray.from.x = this.from.x;
+    t_ray.from.y = this.from.y;
+    t_ray.from.z = this.from.z;
+
+    t_ray.to.x = this.to.x;
+    t_ray.to.y = this.to.y;
+    t_ray.to.z = this.to.z;
+
+
+    var localRay = t_ray
     Transform.pointToLocalFrame(position, quat, localRay.from, localRay.from);
     Transform.pointToLocalFrame(position, quat, localRay.to, localRay.to);
 
     // Get the index of the data points to test against
-    var index = [];
+    var index = t_index;
     var iMinX = null;
     var iMinY = null;
     var iMaxX = null;
@@ -1482,7 +1516,7 @@ Ray.prototype.intersectHeightfield = function(shape, quat, position, body){
         return;
     }
 
-    var minMax = [];
+    var minMax = t_minMax;
     shape.getRectMinMax(iMinX, iMinY, iMaxX, iMaxY, minMax);
     var min = minMax[0];
     var max = minMax[1];

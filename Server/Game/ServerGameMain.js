@@ -132,7 +132,18 @@ ServerGameMain.prototype.tickGameSimulation = function() {
 	var bodies = this.serverWorld.cannonAPI.fetchCannonStatus().bodyCount;
     var contacts = this.serverWorld.cannonAPI.fetchCannonStatus().contactCount;
 
-	this.healthData.push({time:this.currentTime, idle:this.headroom, busy:this.tickComputeTime, pieces:this.serverWorld.pieces.length, players:this.serverWorld.playerCount, bodies:bodies, contacts:contacts});
+	var memUse = process.memoryUsage();
+
+	this.healthData.push({
+		time:this.currentTime,
+		idle:this.headroom,
+		busy:this.tickComputeTime,
+		pieces:this.serverWorld.pieces.length,
+		players:this.serverWorld.playerCount,
+		bodies:bodies,
+		contacts:contacts,
+		memoryUsage:memUse
+	});
 };
 
 ServerGameMain.prototype.tickGameNetwork = function() {
