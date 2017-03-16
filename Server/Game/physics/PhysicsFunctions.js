@@ -103,7 +103,7 @@ PhysicsFunctions.prototype.createCannonWorld = function() {
 
 //    groundBody.quaternion.setFromEuler(1, 1, 0, 'XYZ');
 
-    fixedTimeStep = 1.0 / 250.0; // seconds
+    fixedTimeStep = 1.0 / 120.0; // seconds
     maxSubSteps = 3;
 
 
@@ -248,18 +248,18 @@ PhysicsFunctions.prototype.buildCannonBody = function(world, spatial, bodyParams
 
 var createVehicle = function(world, spatial, bodyParams) {
 
-    var mass = 4550;
+    var mass = 6550;
     var vehicle;
 
  //   var groundMaterial = new CANNON.Material("groundMaterial");
  //   var wheelMaterial = new CANNON.Material("wheelMaterial");
 
-    var width = 2.8;
-    var length = 5.8;
-    var clearance = 0.6;
+    var width = 1.6;
+    var length = 2.6;
+    var clearance = 0.8;
 
     var chassisShape;
-    chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, 0.3));
+    chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, 0.8));
     var chassisBody = new CANNON.Body({ mass: mass });
     chassisBody.addShape(chassisShape);
     chassisBody.position.set(spatial.posX(), spatial.posZ(), spatial.posY()+bodyParams.size);
@@ -271,16 +271,16 @@ var createVehicle = function(world, spatial, bodyParams) {
     var options = {
         radius: 0.5,
         directionLocal: new CANNON.Vec3(0, 0, -1),
-        suspensionStiffness: 7,
-        suspensionRestLength: 0.6,
-        frictionSlip: 12.8,
+        suspensionStiffness: 9,
+        suspensionRestLength: 0.5,
+        frictionSlip: 6.8,
         dampingRelaxation: 3.21,
-        dampingCompression: 1.4,
-        maxSuspensionForce: 16000,
+        dampingCompression: 1.8,
+        maxSuspensionForce: 32000,
         rollInfluence:  0.15,
         axleLocal: new CANNON.Vec3(0, -1, 0),
         chassisConnectionPointLocal: new CANNON.Vec3(width/2, length/2, -0.5),
-        maxSuspensionTravel: 0.6,
+        maxSuspensionTravel: 0.5,
         customSlidingRotationalSpeed: -50,
         useCustomSlidingRotationalSpeed: true
     };
@@ -292,12 +292,12 @@ var createVehicle = function(world, spatial, bodyParams) {
 
     chassisBody.vehicle = vehicle;
 
-    width += 0.2;
-    length += 0.2;
-    options.chassisConnectionPointLocal.set(-width, -length, -clearance*0.2);
+    width -= 0.2;
+    length -= 0.6;
+    options.chassisConnectionPointLocal.set(-width, -length, -clearance*0.4);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(-width, length, -clearance*0.2);
+    options.chassisConnectionPointLocal.set(-width, length, -clearance*0.4);
     vehicle.addWheel(options);
 
     options.chassisConnectionPointLocal.set(-width, -length*0.4, -clearance);
@@ -312,10 +312,10 @@ var createVehicle = function(world, spatial, bodyParams) {
     options.chassisConnectionPointLocal.set(width,  length*0.4, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(width,  -length, -clearance*0.2);
+    options.chassisConnectionPointLocal.set(width,  -length, -clearance*0.4);
     vehicle.addWheel(options);
     
-    options.chassisConnectionPointLocal.set(width, length, -clearance*0.2);
+    options.chassisConnectionPointLocal.set(width, length, -clearance*0.4);
     vehicle.addWheel(options);
 
     vehicle.addToWorld(world);

@@ -2,7 +2,7 @@
   "dataType":"server_setup",
   "setup": {
     "system":{
-      "tickNetworkTime":300,
+      "tickNetworkTime":250,
       "tickSimulationTime":16
     }
   }

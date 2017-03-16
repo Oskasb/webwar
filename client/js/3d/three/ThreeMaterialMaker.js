@@ -71,7 +71,7 @@ define([
 
             var attachPipeline = function(matId, txSettings, txType, imgUrl, onReadyCB) {
                 var includeTexture = function(src, data) {
-                    data;
+                //    data = data.clone();
 
 
 

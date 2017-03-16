@@ -106,7 +106,15 @@ define([
 
         ParticleSpawner.prototype.spawnActiveParticleEffect = function(id, pos, vel) {
             fxAdds++;
-            activeEffects.push(this.buildEffect(id, pos, vel));
+
+            var effect = this.buildEffect(id, pos, vel);
+
+            if (typeof(effect) == 'undefined') {
+                console.log("Undefined effect created...", id, pos, vel);
+                return;
+            }
+
+            activeEffects.push(effect);
         };
 
         ParticleSpawner.prototype.spawnPassiveEffect = function(id, pos, vel) {
@@ -114,6 +122,11 @@ define([
         };
 
         ParticleSpawner.prototype.recoverPassiveEffect = function(effect) {
+
+            if (typeof(effect) == 'undefined') {
+                console.log("Undefined effect returned...")
+                return;
+            }
 
             if (!effect.aliveParticles.length) {
                 console.log("Bad Effect returned!", effect);
@@ -141,6 +154,18 @@ define([
 
 
             for (var i = 0; i < activeEffects.length; i++) {
+
+                if (typeof(activeEffects[i]) == 'undefined') {
+                    console.log("Bad Effect pool handling,", activeEffects);
+                    activeEffects.splice(activeEffects.indexOf(dead), 1)[0];
+                    return;
+                }
+
+            }
+
+
+            for (var i = 0; i < activeEffects.length; i++) {
+
 
                 if (activeEffects[i].aliveParticles.length != 0) {
                     activeEffects[i].updateEffect(tpf, systemTime);
