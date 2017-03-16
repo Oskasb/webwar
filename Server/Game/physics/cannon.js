@@ -4341,6 +4341,9 @@ Quaternion.prototype.setFromAxisAngle = function(axis,angle){
  * @param {Vec3} targetAxis Optional. A vector object to reuse for storing the axis.
  * @return Array An array, first elemnt is the axis and the second is the angle in radians.
  */
+
+var responseArray = [];
+
 Quaternion.prototype.toAxisAngle = function(targetAxis){
     targetAxis = targetAxis || new Vec3();
     this.normalize(); // if w>1 acos and sqrt will produce errors, this cant happen if quaternion is normalised
@@ -4356,7 +4359,11 @@ Quaternion.prototype.toAxisAngle = function(targetAxis){
         targetAxis.y = this.y / s;
         targetAxis.z = this.z / s;
     }
-    return [targetAxis,angle];
+
+    responseArray[0] = targetAxis;
+    responseArray[1] = angle;
+    
+    return responseArray;
 };
 
 var sfv_t1 = new Vec3(),

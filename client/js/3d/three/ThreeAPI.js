@@ -148,9 +148,11 @@ define([
             ThreeAPI.transformModel(model, spatial.posX(), spatial.posY(), spatial.posZ(), spatial.pitch(), spatial.yaw(), spatial.roll())
         };
 
+
+
         ThreeAPI.transformModel = function(model, px, py, pz, rx, ry, rz) {
             model.position.set(px, py, pz);
-            model.rotation.set(rx, ry, rz);
+            model.rotation.set(rx, ry, rz, 'ZYX');
         };
 
         ThreeAPI.addToScene = function(threeObject) {

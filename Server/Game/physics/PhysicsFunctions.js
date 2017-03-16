@@ -2,12 +2,17 @@ var CANNON = require('./cannon.js');
 
 var THREE = require('three');
 
+var threeVec;
 var threeEuler;
 var threeEuler2;
 var threeObj;
 var threeObj2;
 
+var MATHVec3;
+
 PhysicsFunctions = function() {
+    MATHVec3 = new MATH.Vec3();
+    threeVec = new THREE.Vector3();
     threeObj = new THREE.Object3D();
     threeObj2 = new THREE.Object3D();
     threeQuat = new THREE.Quaternion();
@@ -124,7 +129,14 @@ PhysicsFunctions.prototype.createCannonWorld = function() {
     return world;
 };
 
-
+var orders = [
+    'XYZ',
+    'YXZ',
+    'ZXY',
+    'ZYX',
+    'YZX',
+    'XZY'
+]
 PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
 
     
@@ -140,30 +152,44 @@ PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
     }
 
 
-    var invQuat = body.quaternion.inverse();
+ //   var invQuat = body.quaternion.inverse();
 
+ //   threeObj2.setRotationFromQuaternion(body.quaternion);
 
-    threeObj.setRotationFromQuaternion(invQuat);
- //   threeObj.rotateY(Math.PI*0.5);
-    threeObj2.rotation.y = MATH.addAngles(threeObj.rotation.z, Math.PI*0.5);
-
-    threeObj2.rotation.z = threeObj.rotation.y  * (Math.sin(-threeObj.rotation.z)); // - Math.asin(threeObj.rotation.x);
+ //   var angle = body.quaternion.toAxisAngle(this.calcVec)[1];
 
     threeObj.setRotationFromQuaternion(body.quaternion);
+ //   threeObj.rotateY(Math.PI*0.5);
 
-    threeObj2.rotation.x = -threeObj.rotation.x * (Math.cos(threeObj.rotation.y)); // - Math.sin(threeObj.rotation.y);
+    threeObj.rotation.setFromQuaternion(
+        body.quaternion,
+        orders[0]
+    );
 
 
- //   threeQuat.copy(threeObj2.quaternion);
 
+    var angX = -threeObj.rotation.x * Math.cos(angY) +threeObj.rotation.y * Math.sin(angY); // -MATH.addAngles(threeObj.rotation.x*Math.sin(threeObj.rotation.z), 0);// ) * Math.cos(threeObj.rotation.y) - (Math.sin(threeObj.rotation.z) * Math.cos(threeObj.rotation.y*Math.PI));
+    var angY = -MATH.addAngles(threeObj.rotation.z, -Math.PI*0.5);
+    var angZ = -threeObj.rotation.y // + threeObj.rotation.x * Math.sin(angY) ;
+
+    threeObj2.rotation.set(
+        angX, // threeObj.rotation.x + (Math.cos(threeObj.rotation.y)), // - Math.sin(threeObj.rotation.y)
+        angY,
+        angZ, //threeObj.rotation.y,
+        orders[0]
+    );
 
     piece.spatial.setPosXYZ(body.position.x,                 body.position.z, body.position.y);
+
+
 
     piece.spatial.fromAngles(threeObj2.rotation.x, threeObj2.rotation.y, threeObj2.rotation.z);
 
     piece.spatial.setVelocity(body.velocity.x,              body.velocity.z, body.velocity.y);
 
     piece.spatial.setRotVelAngles(body.angularVelocity.x,   -body.angularVelocity.z, -body.angularVelocity.y);
+
+    piece.spatial.setRotVelAngles(0, 0, 0);
 
 };
 
@@ -255,11 +281,12 @@ var createVehicle = function(world, spatial, bodyParams) {
  //   var wheelMaterial = new CANNON.Material("wheelMaterial");
 
     var width = 1.6;
-    var length = 2.6;
+    var length = 3.2;
+    var height = 0.8;
     var clearance = 0.8;
 
     var chassisShape;
-    chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, 0.8));
+    chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, height));
     var chassisBody = new CANNON.Body({ mass: mass });
     chassisBody.addShape(chassisShape);
     chassisBody.position.set(spatial.posX(), spatial.posZ(), spatial.posY()+bodyParams.size);
@@ -279,7 +306,7 @@ var createVehicle = function(world, spatial, bodyParams) {
         maxSuspensionForce: 32000,
         rollInfluence:  0.15,
         axleLocal: new CANNON.Vec3(0, -1, 0),
-        chassisConnectionPointLocal: new CANNON.Vec3(width/2, length/2, -0.5),
+        chassisConnectionPointLocal: new CANNON.Vec3(width/2, length/1.7, height*0.3),
         maxSuspensionTravel: 0.5,
         customSlidingRotationalSpeed: -50,
         useCustomSlidingRotationalSpeed: true
