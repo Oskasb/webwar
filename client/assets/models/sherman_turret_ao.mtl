@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 15.03.2017 00:31:33
+# File Created: 17.03.2017 00:50:52
 
 newmtl wire_006134058
 	Ns 32
@@ -7,6 +7,6 @@ newmtl wire_006134058
 	Tr 0
 	Tf 1 1 1
 	illum 2
-	Ka 0.024 0.525 0.227
-	Kd 0.024 0.525 0.227
-	Ks 0.350 0.350 0.350
+	Ka 0.0235 0.5255 0.2275
+	Kd 0.0235 0.5255 0.2275
+	Ks 0.3500 0.3500 0.3500

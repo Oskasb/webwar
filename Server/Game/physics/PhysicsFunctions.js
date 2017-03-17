@@ -152,12 +152,6 @@ PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
     }
 
 
- //   var invQuat = body.quaternion.inverse();
-
- //   threeObj2.setRotationFromQuaternion(body.quaternion);
-
- //   var angle = body.quaternion.toAxisAngle(this.calcVec)[1];
-
     threeObj.setRotationFromQuaternion(body.quaternion);
  //   threeObj.rotateY(Math.PI*0.5);
 
@@ -167,29 +161,18 @@ PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
     );
 
 
-
-    var angX = -threeObj.rotation.x * Math.cos(angY) +threeObj.rotation.y * Math.sin(angY); // -MATH.addAngles(threeObj.rotation.x*Math.sin(threeObj.rotation.z), 0);// ) * Math.cos(threeObj.rotation.y) - (Math.sin(threeObj.rotation.z) * Math.cos(threeObj.rotation.y*Math.PI));
     var angY = -MATH.addAngles(threeObj.rotation.z, -Math.PI*0.5);
+    var angX = -threeObj.rotation.x * Math.cos(angY) +threeObj.rotation.y * Math.sin(angY); // -MATH.addAngles(threeObj.rotation.x*Math.sin(threeObj.rotation.z), 0);// ) * Math.cos(threeObj.rotation.y) - (Math.sin(threeObj.rotation.z) * Math.cos(threeObj.rotation.y*Math.PI));
     var angZ = -threeObj.rotation.y // + threeObj.rotation.x * Math.sin(angY) ;
 
-    threeObj2.rotation.set(
-        angX, // threeObj.rotation.x + (Math.cos(threeObj.rotation.y)), // - Math.sin(threeObj.rotation.y)
-        angY,
-        angZ, //threeObj.rotation.y,
-        orders[0]
-    );
 
     piece.spatial.setPosXYZ(body.position.x,                 body.position.z, body.position.y);
 
-
-
-    piece.spatial.fromAngles(threeObj2.rotation.x, threeObj2.rotation.y, threeObj2.rotation.z);
+    piece.spatial.fromAngles(angX,angY, angZ);
 
     piece.spatial.setVelocity(body.velocity.x,              body.velocity.z, body.velocity.y);
 
     piece.spatial.setRotVelAngles(body.angularVelocity.x,   -body.angularVelocity.z, -body.angularVelocity.y);
-
-    piece.spatial.setRotVelAngles(0, 0, 0);
 
 };
 
@@ -283,7 +266,7 @@ var createVehicle = function(world, spatial, bodyParams) {
     var width = 1.6;
     var length = 3.2;
     var height = 0.8;
-    var clearance = 0.8;
+    var clearance = 0.5;
 
     var chassisShape;
     chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, height));
@@ -298,16 +281,16 @@ var createVehicle = function(world, spatial, bodyParams) {
     var options = {
         radius: 0.5,
         directionLocal: new CANNON.Vec3(0, 0, -1),
-        suspensionStiffness: 9,
-        suspensionRestLength: 0.5,
-        frictionSlip: 6.8,
-        dampingRelaxation: 3.21,
-        dampingCompression: 1.8,
-        maxSuspensionForce: 32000,
-        rollInfluence:  0.15,
+        suspensionStiffness: 6,
+        suspensionRestLength: 0.7,
+        frictionSlip: 8.8,
+        dampingRelaxation: 2.21,
+        dampingCompression: 1.3,
+        maxSuspensionForce: 22000,
+        rollInfluence:  0.07,
         axleLocal: new CANNON.Vec3(0, -1, 0),
         chassisConnectionPointLocal: new CANNON.Vec3(width/2, length/1.7, height*0.3),
-        maxSuspensionTravel: 0.5,
+        maxSuspensionTravel: 0.7,
         customSlidingRotationalSpeed: -50,
         useCustomSlidingRotationalSpeed: true
     };
@@ -320,11 +303,11 @@ var createVehicle = function(world, spatial, bodyParams) {
     chassisBody.vehicle = vehicle;
 
     width -= 0.2;
-    length -= 0.6;
-    options.chassisConnectionPointLocal.set(-width, -length, -clearance*0.4);
+    length -= 0.3;
+    options.chassisConnectionPointLocal.set(-width, -length, -clearance*0.8);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(-width, length, -clearance*0.4);
+    options.chassisConnectionPointLocal.set(-width, length, -clearance*0.8);
     vehicle.addWheel(options);
 
     options.chassisConnectionPointLocal.set(-width, -length*0.4, -clearance);
@@ -339,10 +322,10 @@ var createVehicle = function(world, spatial, bodyParams) {
     options.chassisConnectionPointLocal.set(width,  length*0.4, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(width,  -length, -clearance*0.4);
+    options.chassisConnectionPointLocal.set(width,  -length, -clearance*0.8);
     vehicle.addWheel(options);
     
-    options.chassisConnectionPointLocal.set(width, length, -clearance*0.4);
+    options.chassisConnectionPointLocal.set(width, length, -clearance*0.8);
     vehicle.addWheel(options);
 
     vehicle.addToWorld(world);
