@@ -340,7 +340,7 @@ if(typeof(GAME) == "undefined"){
 		}
 
 		var speed = this.spatial.vel.getLengthSquared()+1;
-		var speedFactor = Math.sqrt(1200000 / speed) + 4000 / speed;
+		var speedFactor = Math.sqrt(23200000 / speed) + 3000 / speed;
 
 	//	var maxSteerVal = 0.5;//	var maxForce = 1000;
 		var trackForce = (throttleState + Math.abs(yawState*0.1)) * speedFactor ;

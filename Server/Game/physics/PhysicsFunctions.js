@@ -257,16 +257,16 @@ PhysicsFunctions.prototype.buildCannonBody = function(world, spatial, bodyParams
 
 var createVehicle = function(world, spatial, bodyParams) {
 
-    var mass = 6550;
+    var mass = 8550;
     var vehicle;
 
  //   var groundMaterial = new CANNON.Material("groundMaterial");
  //   var wheelMaterial = new CANNON.Material("wheelMaterial");
 
-    var width = 1.6;
-    var length = 3.2;
-    var height = 0.8;
-    var clearance = 0.5;
+    var width = 1.5;
+    var length = 3.1;
+    var height = 1.1;
+    var clearance = 0.7;
 
     var chassisShape;
     chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, height));
@@ -281,16 +281,16 @@ var createVehicle = function(world, spatial, bodyParams) {
     var options = {
         radius: 0.5,
         directionLocal: new CANNON.Vec3(0, 0, -1),
-        suspensionStiffness: 6,
-        suspensionRestLength: 0.7,
-        frictionSlip: 8.8,
-        dampingRelaxation: 2.21,
-        dampingCompression: 1.3,
-        maxSuspensionForce: 22000,
-        rollInfluence:  0.07,
+        suspensionStiffness: 24,
+        suspensionRestLength: 0.6,
+        frictionSlip: 4.8,
+        dampingRelaxation: 1.81,
+        dampingCompression: 8.3,
+        maxSuspensionForce: 168000,
+        rollInfluence:  0.01,
         axleLocal: new CANNON.Vec3(0, -1, 0),
-        chassisConnectionPointLocal: new CANNON.Vec3(width/2, length/1.7, height*0.3),
-        maxSuspensionTravel: 0.7,
+        chassisConnectionPointLocal: new CANNON.Vec3(width/2, length/1.7, height*0.05),
+        maxSuspensionTravel: 0.6,
         customSlidingRotationalSpeed: -50,
         useCustomSlidingRotationalSpeed: true
     };
@@ -303,23 +303,23 @@ var createVehicle = function(world, spatial, bodyParams) {
     chassisBody.vehicle = vehicle;
 
     width -= 0.2;
-    length -= 0.3;
+    length -= 0.5;
     options.chassisConnectionPointLocal.set(-width, -length, -clearance*0.8);
     vehicle.addWheel(options);
 
     options.chassisConnectionPointLocal.set(-width, length, -clearance*0.8);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(-width, -length*0.4, -clearance);
+    options.chassisConnectionPointLocal.set(-width, -length*0.6, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(-width, length*0.4, -clearance);
+    options.chassisConnectionPointLocal.set(-width, length*0.6, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(width,  -length*0.4, -clearance);
+    options.chassisConnectionPointLocal.set(width,  -length*0.6, -clearance);
     vehicle.addWheel(options);
 
-    options.chassisConnectionPointLocal.set(width,  length*0.4, -clearance);
+    options.chassisConnectionPointLocal.set(width,  length*0.6, -clearance);
     vehicle.addWheel(options);
 
     options.chassisConnectionPointLocal.set(width,  -length, -clearance*0.8);
