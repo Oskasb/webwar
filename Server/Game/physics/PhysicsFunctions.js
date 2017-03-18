@@ -219,9 +219,7 @@ PhysicsFunctions.prototype.createCannonTerrain = function(world, data, totalSize
     var hfBody = new CANNON.Body({ mass: 0 });
     hfBody.addShape(hfShape);
     hfBody.position.set(posx, posz, minHeight);
-
-    world.addBody(hfBody);
-
+    return hfBody;
 };
 
 

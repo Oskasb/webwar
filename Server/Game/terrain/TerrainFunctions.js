@@ -108,6 +108,15 @@ TerrainFunctions.prototype.setupTerrainPiece = function(piece) {
 
 };
 
+TerrainFunctions.prototype.enableTerrainPhysics = function(piece) {
+    var module = this.getPieceTerrainModule(piece);
+    this.CannonAPI.includeBody(module.body);
+};
+
+TerrainFunctions.prototype.disableTerrainPhysics = function(piece) {
+    var module = this.getPieceTerrainModule(piece);
+    this.CannonAPI.excludeBody(module.body);
+};
 
 // get a height at point from matrix
 TerrainFunctions.prototype.addTerrainToPhysics = function(piece) {
@@ -120,8 +129,9 @@ TerrainFunctions.prototype.addTerrainToPhysics = function(piece) {
 
     var matrix = THREE.Terrain.toArray2D(module.terrain.geometry.vertices, opts);
 
-    this.CannonAPI.buildPhysicalTerrain(matrix, module.data.applies.terrain_size, piece.spatial.posX(), piece.spatial.posZ(), module.data.applies.min_height,module.data.applies.max_height)
-
+    var body = this.CannonAPI.buildPhysicalTerrain(matrix, module.data.applies.terrain_size, piece.spatial.posX(), piece.spatial.posZ(), module.data.applies.min_height,module.data.applies.max_height)
+    module.body = body;
+    return body;
 };
 
 

@@ -16,7 +16,7 @@ CannonAPI.prototype.initServerPhysics = function() {
 
 
 CannonAPI.prototype.buildPhysicalTerrain = function(data, size, posx, posz, min_height, max_height) {
-    this.physicsFunctions.createCannonTerrain(this.world, data, size, posx, posz, min_height, max_height)
+    return this.physicsFunctions.createCannonTerrain(this.world, data, size, posx, posz, min_height, max_height)
 };
 
 CannonAPI.prototype.attachPiecePhysics = function(piece) {
@@ -35,6 +35,15 @@ CannonAPI.prototype.buildRigidBody = function(spatial, bodyParams) {
     body =  this.physicsFunctions.buildCannonBody(this.world, spatial, bodyParams)
     return body;
 };
+
+CannonAPI.prototype.includeBody = function(body) {
+    this.world.addBody(body);
+};
+
+CannonAPI.prototype.excludeBody = function(body) {
+    this.world.removeBody(body);
+};
+
 
 CannonAPI.prototype.removePhysicsPiece = function(piece) {
     console.log("REMOVE RIGID BODY:", piece.physics.rigid_body);

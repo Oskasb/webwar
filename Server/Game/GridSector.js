@@ -27,6 +27,8 @@ GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sec
     this.activeSectorPieces = [];
 
     this.groundPiece;
+    
+    this.groundPhysics = false;
 
     this.configsUpdated(sectorConfigs);
 };
@@ -64,12 +66,13 @@ GridSector.prototype.activateSector = function() {
     for (var i = 0; i < this.sectorConfig.spawn.length; i++) {
         this.spawnSelection(this.sectorConfig.spawn[i])
     }
+    
 
-
-// Wont handle rebuilding the world that well...
-    // delete olf body when rebuilding a new one maybe?
-    this.terrainFunctions.addTerrainToPhysics(this.groundPiece);
-
+    if (!this.groundPhysics) {
+        this.terrainFunctions.addTerrainToPhysics(this.groundPiece);
+        this.groundPhysics = true;
+    }
+    this.terrainFunctions.enableTerrainPhysics(this.groundPiece);
 };
 
 GridSector.prototype.spawnGround = function(spawnData) {
@@ -115,13 +118,35 @@ GridSector.prototype.stitchTerrainToNeighbor = function(neightborSector) {
 
 var pos = [];
 
+GridSector.prototype.sectorSeed = function(seed) {
+    seed = this.activeSectorPieces.length + MATH.subAngles(Math.sqrt(seed), MATH.TWO_PI) * 1.151231;
+    return (seed * this.sectorData.minX + seed * this.sectorData.minX);
+};
+
+GridSector.prototype.sectorRandom = function(seed) {
+    return MATH.sillyRandom(this.sectorSeed(seed));
+};
+
+
 GridSector.prototype.getRandomPointInSector = function(margin) {
 
-    pos[0] = margin + this.sectorData.minX + ((Math.random()*0.98)+0.01) * (this.sectorData.size - margin*2);
-    pos[2] = margin + this.sectorData.minY + ((Math.random()*0.98)+0.01) * (this.sectorData.size - margin*2);
+    pos[0] = margin + this.sectorData.minX + this.sectorRandom(1234) * (this.sectorData.size - margin*2);
+    pos[2] = margin + this.sectorData.minY + this.sectorRandom(4321) * (this.sectorData.size - margin*2);
     pos[1] = this.terrainFunctions.getTerrainHeightAt(this.groundPiece, {data:[pos[0], 0, pos[2]]});
     return pos
 };
+
+GridSector.prototype.getLegitNewPointInSector = function(margin) {
+
+    pos[0] = margin + this.sectorData.minX + this.sectorRandom(1234) * (this.sectorData.size - margin*2);
+    pos[2] = margin + this.sectorData.minY + this.sectorRandom(4321) * (this.sectorData.size - margin*2);
+    
+    pos[1] = this.terrainFunctions.getTerrainHeightAt(this.groundPiece, {data:[pos[0], 0, pos[2]]});
+    
+    return pos
+};
+
+
 
 
 GridSector.prototype.spawnRandomSectorPiece = function(spawnData, count, amount) {
@@ -130,12 +155,12 @@ GridSector.prototype.spawnRandomSectorPiece = function(spawnData, count, amount)
 
     var rotVel = 0;
 
-    var rot = Math.random()*MATH.TWO_PI;
+    var rot = this.sectorRandom(512)*MATH.TWO_PI;
 
     var piece = this.serverWorld.createWorldPiece(spawnData.pieceType, 0, 0, rot, rotVel, 0);
   //  piece.spatial.updateSpatial(10);
 
-    pos = this.getRandomPointInSector(piece.config.size * 0.5);
+    pos = this.getLegitNewPointInSector(piece.config.size + 5);
 
     piece.spatial.pos.setXYZ(pos[0], pos[1], pos[2]);
 
@@ -161,7 +186,7 @@ GridSector.prototype.flattenTerrainForPiece = function(piece) {
 
 GridSector.prototype.spawnSelection = function(spawnData) {
 
-    var amount = spawnData.min + Math.floor(Math.random()* spawnData.max);
+    var amount = spawnData.min + Math.floor(this.sectorRandom(213)* spawnData.max);
 
     for (var i = 0; i < amount; i++) {
         this.spawnRandomSectorPiece(spawnData, i, amount);
@@ -179,6 +204,7 @@ GridSector.prototype.deactivateSector = function() {
     }
 
     this.activeSectorPieces.length = 0;
+    this.terrainFunctions.disableTerrainPhysics(this.groundPiece);
 };
 
 
@@ -322,7 +348,7 @@ GridSector.prototype.configsUpdated = function(sectorConfigs) {
         weightsum += data[i].weight;
     }
 
-    var selection = Math.random()*weightsum;
+    var selection = this.sectorRandom(i*123)*weightsum;
     
     for (var i = 0; i < data.length; i++) {
 

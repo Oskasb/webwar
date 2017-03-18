@@ -67,6 +67,10 @@ if(typeof(MATH) == "undefined"){
 	};
 
 
+	MATH.remainder = function(float) {
+		return float - (Math.floor(float)) 	
+	};
+	
 	MATH.randomBetween = function(min, max) {
 		return min + Math.random() * (max-min);
 	};
@@ -211,6 +215,10 @@ if(typeof(MATH) == "undefined"){
 		return Math.sqrt((fromX - toX)*(fromX - toX) + (fromY - toY)*(fromY - toY));
 	};
 
+	MATH.sillyRandom = function(seed) {
+		return MATH.remainder(Math.sin(seed) * 9999.991 + Math.cos(seed));
+	};
+	
 	MATH.angleInsideCircle = function(angle) {
 		if (angle < 0) angle+= MATH.TWO_PI;
 		if (angle > MATH.TWO_PI) angle-= MATH.TWO_PI;
