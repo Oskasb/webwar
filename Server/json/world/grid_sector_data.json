@@ -55,7 +55,10 @@
           {"pieceType":"big_tree_piece", "min":0, "max":2},
           {"pieceType":"small_space_rock_piece", "min":1, "max":3},
           {"pieceType":"plasma_blob_piece", "min":1, "max":3}
-        ]},
+        ],
+        "buildings":[
+        {"pieceType":"small_house_building", "min":0, "max":2, "flatten":true}
+      ]},
 
       {"id":"crowded",
         "weight":2,
