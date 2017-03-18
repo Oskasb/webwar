@@ -21,7 +21,9 @@ if(typeof(MODEL) == "undefined"){
     MODEL.SimulationTime = 1;
     MODEL.NetworkFPS = 1;
     MODEL.SimulationFPS = 1;
-
+	MODEL.SpatialTolerance = 1;
+	MODEL.AngularVelocityTolerance = 1;
+	MODEL.TemporalTolerance = 1;
 
 	var THREEVec1 = new THREE.Vector3();
 	var THREEVec2 = new THREE.Vector3();
@@ -57,6 +59,18 @@ if(typeof(MODEL) == "undefined"){
             Math.abs(this.vel.data[2] - spatial.vel.data[2]) 
     };
 
+	MODEL.Spatial.prototype.compareVelocity = function(spatial) {
+		return Math.abs(this.vel.data[0] - spatial.vel.data[0]) +
+			Math.abs(this.vel.data[1] - spatial.vel.data[1]) +
+			Math.abs(this.vel.data[2] - spatial.vel.data[2])
+	};
+
+	MODEL.Spatial.prototype.compareAngularVelocity = function(spatial) {
+		return Math.abs(this.rotVel.data[0] - spatial.rotVel.data[0]) +
+			Math.abs(this.rotVel.data[1] - spatial.rotVel.data[1]) +
+			Math.abs(this.rotVel.data[2] - spatial.rotVel.data[2])
+	};
+	
     MODEL.Spatial.prototype.compareRotational = function(spatial) {
         return Math.abs(this.rot.data[0] - spatial.rot.data[0]) +
             Math.abs(this.rotVel.data[0] - spatial.rotVel.data[0])

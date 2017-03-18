@@ -78,10 +78,10 @@ ServerWorld.prototype.createWorldPiece = function(pieceType, posx, posz, rot, ro
 
 ServerWorld.prototype.createWorldTerrainPiece = function(pieceType, posx, posz, rot, rotVel) {
 
-    piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel);
+    var piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel);
     this.addWorldTerrainPiece(piece);
     
-    this.terrainFunctions.setupTerrainPiece(piece, posx, posz);
+    this.terrainFunctions.setupTerrainPiece(piece);
     
     return piece;
 };

@@ -6,6 +6,7 @@ var CannonAPI;
 
 TerrainFunctions = function(CNNAPI) {
     this.CannonAPI = CNNAPI;
+    CannonAPI = CNNAPI;
     calcVec1 = new MATH.Vec3();
     calcVec2 = new MATH.Vec3();
 };
@@ -64,7 +65,6 @@ TerrainFunctions.prototype.setEdgeVerticeHeight = function(array1d, height) {
     var leftVert = 0;
     var rightVert = 0;
 
-
         for (var i = 0; i < sideVerts; i++) {
 
             bottomVert = i;
@@ -81,14 +81,10 @@ TerrainFunctions.prototype.setEdgeVerticeHeight = function(array1d, height) {
 
 };
 
-TerrainFunctions.prototype.buildPhysicsTerrain = function(matrixData, y, x) {
-
-
-};
 
 
 
-TerrainFunctions.prototype.setupTerrainPiece = function(piece, posx, posz) {
+TerrainFunctions.prototype.setupTerrainPiece = function(piece) {
     var module = this.getPieceTerrainModule(piece);
 
     var applies = module.data.applies;
@@ -110,11 +106,23 @@ TerrainFunctions.prototype.setupTerrainPiece = function(piece, posx, posz) {
     module.terrain = terrain.children[0];
     module.setModuleState(vertices);
 
-    var matrix = THREE.Terrain.toArray2D(terrain.children[0].geometry.vertices, opts);
-
-    this.CannonAPI.buildPhysicalTerrain(matrix, module.data.applies.terrain_size, posx, posz, module.data.applies.min_height,module.data.applies.max_height)
 };
 
+
+// get a height at point from matrix
+TerrainFunctions.prototype.addTerrainToPhysics = function(piece) {
+    var module = this.getPieceTerrainModule(piece);
+
+    var applies = module.data.applies;
+    var opts = this.getTerrainModuleOpts(applies);
+
+    THREE.Terrain.fromArray1D(module.terrain.geometry.vertices, module.state.value);
+
+    var matrix = THREE.Terrain.toArray2D(module.terrain.geometry.vertices, opts);
+
+    this.CannonAPI.buildPhysicalTerrain(matrix, module.data.applies.terrain_size, piece.spatial.posX(), piece.spatial.posZ(), module.data.applies.min_height,module.data.applies.max_height)
+
+};
 
 
 // get a height at point from matrix
@@ -136,9 +144,6 @@ TerrainFunctions.prototype.returnToWorldDimensions = function(axPos, axMin, axMa
 
 
 
-
-
-
 // get the value at the precise integer (x, y) coordinates
 TerrainFunctions.prototype.getAt = function(array1d, segments, x, y) {
 
@@ -149,6 +154,23 @@ TerrainFunctions.prototype.getAt = function(array1d, segments, x, y) {
 //    console.log(y, yFactor, xFactor, idx);
     return array1d[idx];
 };
+
+// get the value at the precise integer (x, y) coordinates
+TerrainFunctions.prototype.setAt = function(height, array1d, segments, x, y) {
+
+    if (x <= 0 || x >= segments || y <= 0 || y >= segments) {
+        console.log("FLATTEN OUTSIDE TERRING WONT WORK!");
+        return;
+    }
+
+    var yFactor = (y) * (segments+1);
+    var xFactor = x;
+
+    var idx = (yFactor + xFactor);
+//    console.log(y, yFactor, xFactor, idx);
+    array1d[idx] = height;
+};
+
 
 var p1  = {x:0, y:0, z:0};
 var p2  = {x:0, y:0, z:0};
@@ -173,8 +195,6 @@ TerrainFunctions.prototype.getTriangleAt = function(array1d, segments, x, y) {
 
     var fracX = x - xf;
     var fracY = y - yf;
-
-
 
     p1.x = xf;
     p1.y = yc;
@@ -235,6 +255,63 @@ TerrainFunctions.prototype.getPreciseHeight = function(array1d, segments, x, y, 
     return find.z;
 };
 
+
+TerrainFunctions.prototype.setTerrainHeightAt = function(groundPiece, pos, reach) {
+
+    var module = this.getPieceTerrainModule(groundPiece);
+
+    calcVec1.setVec(groundPiece.spatial.pos);
+
+    calcVec2.setVec(pos);
+    calcVec2.subVec(calcVec1);
+
+    var terrainSize = this.getTerrainModuleSize(module);
+    var segments = this.getTerrainSegmentse(module);
+
+    this.setHeightAt(module, calcVec2, module.state.value, terrainSize, segments, pos.getY(), reach)
+
+};
+
+TerrainFunctions.prototype.setHeightAt = function(module, posVec, array1d, terrainSize, segments, height, reach) {
+    pos = posVec.data;
+
+    var htP = terrainSize;
+    var htN = -htP;
+
+    if (pos[0] < htN || pos[0] > htP || pos[2] < htN || pos[2] > htP) {
+
+        console.log("Terrain!", pos[0], pos[2], "Is Outside")
+        //    return -1000;
+        pos[0] = MATH.clamp(pos[0], htN, htP);
+        pos[2] = MATH.clamp(pos[2], htN, htP);
+    }
+
+
+    var x = this.displaceAxisDimensions(2*pos[0]-terrainSize, htN, htP, segments);
+    var y = this.displaceAxisDimensions(2*pos[2]-terrainSize, htN, htP, segments);
+
+
+    var xc = Math.ceil(x);
+    var xf = Math.floor(x);
+    var yc = Math.ceil(y);
+    var yf = Math.floor(y);
+
+
+    var vertexReach = Math.ceil(reach / (terrainSize/segments));
+
+    // height = -1
+
+    for (var i = -vertexReach; i < vertexReach; i++) {
+
+        for (var j = -vertexReach; j < vertexReach; j++) {
+            this.setAt(height, array1d, segments,xf+i, yc+j);
+            this.setAt(height, array1d, segments,xc+i, yf+j);
+            this.setAt(height, array1d, segments,xf+i, yf+j);
+            this.setAt(height, array1d, segments,xc+i, yc+j);
+        }
+    }
+};
+
 TerrainFunctions.prototype.getTerrainHeightAt = function(groundPiece, pos, normalStore) {
 
     var module = this.getPieceTerrainModule(groundPiece);
@@ -258,6 +335,7 @@ TerrainFunctions.prototype.getTerrainHeightAt = function(groundPiece, pos, norma
 
 
 
+
 TerrainFunctions.prototype.getHeightAt = function(module, posVec, array1d, terrainSize, segments, normalStore) {
     pos = posVec.data;
 
@@ -276,10 +354,6 @@ TerrainFunctions.prototype.getHeightAt = function(module, posVec, array1d, terra
 
     var tx = this.displaceAxisDimensions(2*pos[0]-terrainSize, htN, htP, segments);
     var tz = this.displaceAxisDimensions(2*pos[2]-terrainSize, htN, htP, segments);
-
- //   console.log("tz tn:",tz, tx)
-
-
 
     return this.getPreciseHeight(array1d, segments, tx, tz, normalStore);
 };

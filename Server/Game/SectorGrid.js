@@ -10,7 +10,7 @@ SectorGrid = function() {
 
     this.rows = [];
 
-    this.terrainFunctions = new TerrainFunctions();
+    
     this.gridData = null;
 
     this.worldConfigs = null;
@@ -40,7 +40,7 @@ SectorGrid = function() {
 
 SectorGrid.prototype.setServerWorld = function(serverWorld) {
     this.serverWorld = serverWorld;
-
+    this.terrainFunctions = this.serverWorld.terrainFunctions;
 };
 
 

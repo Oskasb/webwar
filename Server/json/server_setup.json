@@ -2,8 +2,11 @@
   "dataType":"server_setup",
   "setup": {
     "system":{
-      "tickNetworkTime":250,
-      "tickSimulationTime":16
+      "tickNetworkTime":910,
+      "tickSimulationTime":25,
+      "temporalTolerance": 0.3,
+      "angularVelocityTolerance": 0.1,
+      "spatialTolerance":1.3
     }
   }
 },{
@@ -12,6 +15,7 @@
   "loadFiles":[
     "piece_data",
     "space_piece_module_data",
+    "buildings_module_data",
     "bullet_piece_data",
     "player_piece_data",
     "module_data",

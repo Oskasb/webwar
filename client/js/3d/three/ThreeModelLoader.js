@@ -165,6 +165,7 @@ define([
 
 
             new PipelineObject("MODELS", "THREE", modelListLoaded);
+            new PipelineObject("MODELS", "THREE_BUILDINGS", modelListLoaded);
         };
 
 

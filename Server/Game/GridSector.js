@@ -1,6 +1,6 @@
 GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sectorConfigs) {
 
-    this.terrainFunctions = new TerrainFunctions();
+    this.terrainFunctions = serverWorld.terrainFunctions;
 
     this.serverWorld = serverWorld;
 
@@ -54,9 +54,21 @@ GridSector.prototype.activateSector = function() {
         this.spawnGround(this.sectorConfig.ground[i])
     }
 
+    if (this.sectorConfig.buildings) {
+        for (var i = 0; i < this.sectorConfig.buildings.length; i++) {
+            this.spawnSelection(this.sectorConfig.buildings[i])
+        }
+    }
+    
+    
     for (var i = 0; i < this.sectorConfig.spawn.length; i++) {
         this.spawnSelection(this.sectorConfig.spawn[i])
     }
+
+
+// Wont handle rebuilding the world that well...
+    // delete olf body when rebuilding a new one maybe?
+    this.terrainFunctions.addTerrainToPhysics(this.groundPiece);
 
 };
 
@@ -82,11 +94,9 @@ GridSector.prototype.spawnGround = function(spawnData) {
 };
 
 GridSector.prototype.stitchTerrain = function() {
-
     for (var i = 0; i < this.neighborSectors.length; i++) {
         this.stitchTerrainToNeighbor(this.neighborSectors[i]);
     }
-
 };
 
 GridSector.prototype.stitchTerrainToNeighbor = function(neightborSector) {
@@ -98,34 +108,63 @@ GridSector.prototype.stitchTerrainToNeighbor = function(neightborSector) {
     var rowOffset = neightborSector.row - this.row;
 
     var vertsCenter = this.terrainFunctions.getPieceTerrainModule(this.groundPiece).state.value;
-
     var vertsNeighbor = this.terrainFunctions.getPieceTerrainModule(neightborSector.groundPiece).state.value;
 
     this.terrainFunctions.stitchEdgeVertices(vertsCenter, vertsNeighbor, colOffset, rowOffset);
+};
+
+var pos = [];
+
+GridSector.prototype.getRandomPointInSector = function(margin) {
+
+    pos[0] = margin + this.sectorData.minX + ((Math.random()*0.98)+0.01) * (this.sectorData.size - margin*2);
+    pos[2] = margin + this.sectorData.minY + ((Math.random()*0.98)+0.01) * (this.sectorData.size - margin*2);
+    pos[1] = this.terrainFunctions.getTerrainHeightAt(this.groundPiece, {data:[pos[0], 0, pos[2]]});
+    return pos
+};
+
+
+GridSector.prototype.spawnRandomSectorPiece = function(spawnData, count, amount) {
+
+
+
+    var rotVel = 0;
+
+    var rot = Math.random()*MATH.TWO_PI;
+
+    var piece = this.serverWorld.createWorldPiece(spawnData.pieceType, 0, 0, rot, rotVel, 0);
+  //  piece.spatial.updateSpatial(10);
+
+    pos = this.getRandomPointInSector(piece.config.size * 0.5);
+
+    piece.spatial.pos.setXYZ(pos[0], pos[1], pos[2]);
+
+    piece.setState(GAME.ENUMS.PieceStates.SPAWN);
+    piece.groundPiece = this.groundPiece;
+    
+    
+    if (spawnData.flatten) {
+        this.flattenTerrainForPiece(piece);   
+    }
+    
+    this.activeSectorPieces.push(piece)
 
 };
+
+GridSector.prototype.flattenTerrainForPiece = function(piece) {
+    
+ 
+    this.terrainFunctions.setTerrainHeightAt(this.groundPiece, piece.spatial.pos, piece.config.size + 1 || 2);
+
+};
+
 
 GridSector.prototype.spawnSelection = function(spawnData) {
 
     var amount = spawnData.min + Math.floor(Math.random()* spawnData.max);
 
-    var terrainModule = this.terrainFunctions.getPieceTerrainModule(this.groundPiece);
-
     for (var i = 0; i < amount; i++) {
-        var posx = this.sectorData.minX + ((Math.random()*0.98)+0.01) * this.sectorData.size;
-        var posz = this.sectorData.minY + ((Math.random()*0.98)+0.01) * this.sectorData.size;
-        var rot = Math.random()*MATH.TWO_PI;
-        var rotVel = 0; // (Math.random()-0.5)*3;
-        
-        var posY = this.terrainFunctions.getTerrainHeightAt(this.groundPiece, {data:[posx, 0, posz]});
-
-        
-        var piece = this.serverWorld.createWorldPiece(spawnData.pieceType, posx, posz, rot, rotVel, posY);
-
-        piece.spatial.updateSpatial(10);
-        piece.setState(GAME.ENUMS.PieceStates.SPAWN);
-        piece.groundPiece = this.groundPiece;
-        this.activeSectorPieces.push(piece)
+        this.spawnRandomSectorPiece(spawnData, i, amount);
     }
 };
 

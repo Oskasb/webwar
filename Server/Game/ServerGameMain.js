@@ -33,25 +33,29 @@ ServerGameMain.prototype.applySetupConfig = function(config) {
 	console.log("Setup Loop: ", JSON.stringify(config));
 	clearInterval(SIMULATION_LOOP);
     clearInterval(NETWORK_LOOP);
-	this.setupLoop(config.setup.system.tickSimulationTime, config.setup.system.tickNetworkTime);
+	this.setupLoop(config.setup.system);
 };
 
-ServerGameMain.prototype.setupLoop = function(tickSim, tickNet) {
+ServerGameMain.prototype.setupLoop = function(systemParams) {
 	var _this = this;
-    MODEL.SimulationTime = tickSim * 0.001;
-    MODEL.NetworkTime = tickNet * 0.001;
+	
+    MODEL.SimulationTime = systemParams.tickSimulationTime * 0.001;
+    MODEL.NetworkTime = systemParams.tickNetworkTime * 0.001;
+	MODEL.SpatialTolerance = systemParams.spatialTolerance;
+	MODEL.TemporalTolerance = systemParams.temporalTolerance;
+	MODEL.AngularVelocityTolerance = systemParams.angularVelocityTolerance;
     MODEL.NetworkFPS = 1 / MODEL.NetworkTime;
     MODEL.SimulationFPS = 1 / MODEL.SimulationTime;
     
-	console.log("Setup Loop: ", tickSim, tickNet);
+	console.log("Setup Loop: ", MODEL.SimulationTime, MODEL.NetworkTime);
     
     SIMULATION_LOOP = setInterval(function() {
 		_this.tickGameSimulation();
-	}, tickSim);
+	}, MODEL.SimulationTime * 1000);
 
     NETWORK_LOOP = setInterval(function() {
         _this.tickGameNetwork();
-    }, tickNet);
+    }, MODEL.NetworkTime * 1000);
 };
 
 ServerGameMain.prototype.endServerGame = function() {

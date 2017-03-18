@@ -1,0 +1,53 @@
+[{
+  "dataType":"MODULE_DATA",
+  "modules":{
+    "small_house_exterior_module":{
+      "id":"small_house_exterior_module",
+      "type":"hull",
+      "size":15,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "three_model":"small_house_exterior"
+      }
+    },
+    "small_house_interior_module":{
+      "id":"small_house_interior_module",
+      "type":"hull",
+      "size":15,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "three_model":"small_house_interior"
+      }
+    },
+    "small_house_window_bars_module":{
+      "id":"small_house_window_bars_module",
+      "type":"hull",
+      "size":15,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "three_model":"small_house_window_bars"
+      }
+    },
+    "small_house_window_glass_module":{
+      "id":"small_house_window_glass_module",
+      "type":"hull",
+      "size":15,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "three_model":"small_house_window_glass"
+      }
+    }
+  }
+}]

@@ -283,7 +283,7 @@ var createVehicle = function(world, spatial, bodyParams) {
         directionLocal: new CANNON.Vec3(0, 0, -1),
         suspensionStiffness: 24,
         suspensionRestLength: 0.6,
-        frictionSlip: 4.8,
+        frictionSlip: 7.8,
         dampingRelaxation: 1.81,
         dampingCompression: 8.3,
         maxSuspensionForce: 168000,
@@ -291,7 +291,7 @@ var createVehicle = function(world, spatial, bodyParams) {
         axleLocal: new CANNON.Vec3(0, -1, 0),
         chassisConnectionPointLocal: new CANNON.Vec3(width/2, length/1.7, height*0.05),
         maxSuspensionTravel: 0.6,
-        customSlidingRotationalSpeed: -50,
+        customSlidingRotationalSpeed: -20,
         useCustomSlidingRotationalSpeed: true
     };
 

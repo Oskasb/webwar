@@ -2,6 +2,29 @@
   {
     "dataType":"PIECE_DATA",
     "pieces":{
+      "small_house_building":{
+        "size":20,
+        "controls":{
+          "actions": {
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 7, 0], "size":[17, 14, 29]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 7, 0], "size":[17, 14, 29]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 7, 0], "size":[17, 14, 29]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 7, 0], "size":[17, 14, 29]}}
+        ],
+        "default_modules":[
+          "small_house_exterior_module",
+          "small_house_interior_module",
+          "small_house_window_bars_module",
+          "small_house_window_glass_module"
+        ]
+      },
+
       "plasma_blob_piece":{
         "size":5,
         "controls":{

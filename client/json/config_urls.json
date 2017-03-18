@@ -29,6 +29,7 @@
       
       "threedata/models/three_materials.json",
       "threedata/models/three_models.json",
+      "threedata/models/three_building_models.json",
       "threedata/models/three_environment.json",
 
       "threedata/shaders/three_shader_chunks.json",

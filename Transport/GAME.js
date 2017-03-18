@@ -134,6 +134,7 @@ if(typeof(GAME) == "undefined"){
 		this.broadcast = broadcast;
 		this.pieceControls = new GAME.PieceControls();
 		this.temporal = new MODEL.Temporal(creationTime, lifeTime);
+        this.sendTime = 0;
 		this.calcVec = new MATH.Vec3(0, 0, 0);
 
 		this.spatial = new MODEL.Spatial();
@@ -238,6 +239,8 @@ if(typeof(GAME) == "undefined"){
 
 	GAME.Piece.prototype.makePacket = function() {
 
+		this.serverSpatial.setSpatial(this.spatial);
+
 		var data = {
             playerId:this.id,
             type:this.type,
@@ -247,6 +250,9 @@ if(typeof(GAME) == "undefined"){
             temporal:this.temporal.getSendTemporal(),
             state:this.getState()
         };
+
+        this.sendTime = this.temporal.currentTime;
+
 /*
 		var sendData = {
             playerId:this.id
@@ -294,12 +300,18 @@ if(typeof(GAME) == "undefined"){
 
 		this.setState(GAME.ENUMS.PieceStates.TELEPORT);
 		this.spatial.stop();
-		this.spatial.setPosXYZ(5+Math.random()*3, 4, 5+Math.random()*5);
+		this.spatial.setPosXYZ(5+Math.random()*25, 4, 5+Math.random()*25);
 
 		if (this.physics) {
 			this.physics.body.position.x = this.spatial.posX();
 			this.physics.body.position.z = this.spatial.posY();
 			this.physics.body.position.y = this.spatial.posZ();
+
+			this.physics.body.quaternion.x = 0;
+			this.physics.body.quaternion.y = 0;
+			this.physics.body.quaternion.z = 0;
+			this.physics.body.quaternion.w = 1;
+
 			this.physics.body.angularVelocity.x = 0;
 			this.physics.body.angularVelocity.z = 10;
 			this.physics.body.angularVelocity.y = 0;
@@ -410,7 +422,7 @@ if(typeof(GAME) == "undefined"){
 
 	GAME.Piece.prototype.updateServerSpatial = function(tickDelta, terrainFunctions) {
 	//	var timeFactor = this.pieceControls.getTimeFactor(this.timeSinceInput);
-		this.applyControlStates(tickDelta);
+
 
 		
 		
@@ -462,6 +474,7 @@ if(typeof(GAME) == "undefined"){
 	GAME.Piece.prototype.processPhysicsServerSpatialState = function(tickDelta) {
 
 	//	this.updateServerSpatial(tickDelta, terrainFunctions);
+        this.spatial.updateSpatial(tickDelta);
 		this.setState(GAME.ENUMS.PieceStates.MOVING);
 
 	};
@@ -483,20 +496,37 @@ if(typeof(GAME) == "undefined"){
 		this.processTemporalState(currentTime, MODEL.SimulationTime);
 		this.processModuleStates();
 
-		if (this.physics_) {
-			this.physics.body.calcVec.x = 1001;
-			this.physics.body.calcVec.y = 0;
-			this.physics.body.calcVec.z = 0;
-			this.physics.body.calcVec2.x = 0.1;
-			this.physics.body.calcVec2.y = 0.1;
-			this.physics.body.calcVec2.z = 0;
-			this.physics.body.applyLocalForce(this.physics.body.calcVec, this.physics.body.calcVec);
+        this.applyControlStates(MODEL.SimulationTime);
+
+		if (this.physics) {
+	//		this.physics.body.applyLocalForce(this.physics.body.calcVec, this.physics.body.calcVec);
 			this.processPhysicsServerSpatialState(MODEL.SimulationTime);
 		} else {
 			this.processSpatialState(MODEL.SimulationTime, terrainFunctions);
 		}
 
+		if (Math.abs(MATH.nearestAngle(this.spatial.rot.getX())) > 1.3 || Math.abs(MATH.nearestAngle(this.spatial.rot.getZ())) > 1.3) {
+			console.log(this.spatial.rot.getX())
+			this.teleportRandom();
+		};
+        
+
+
+
+     var velDiff = this.spatial.compareVelocity(this.serverSpatial);
+     var angVelDiff = this.spatial.compareAngularVelocity(this.serverSpatial);
+
+		if (velDiff > MODEL.SpatialTolerance || angVelDiff > MODEL.AngularVelocityTolerance) {
+
+            if (this.temporal.currentTime - this.sendTime > MODEL.TemporalTolerance) {
+                console.log("DIFFS: ",velDiff , angVelDiff, this.temporal.currentTime - this.sendTime );
+                this.networkDirty = true;
+            }
+		}
+
+
 		if (this.networkDirty) {
+
 			this.broadcast(this.makePacket());
 			this.networkDirty = false;
 		}
