@@ -230,38 +230,36 @@ define([
         };
 
 
-        
+        var material1 = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true, fog:false } );
+        var material2 = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true, fog:false } );
+
 
         ThreeModelLoader.loadThreeDebugBox = function(sx, sy, sz) {
 
-            var geometry, material;
+            var geometry;
 
-        //    geometry = new THREE.SphereBufferGeometry( sx, 10, 10);
+            geometry = new THREE.BoxBufferGeometry( sx || 1, sy || 1, sz || 1);
 
-           geometry = new THREE.BoxBufferGeometry( sx || 1, sy || 1, sz || 1);
-            material = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true } );
-            return new THREE.Mesh( geometry, material );
+            return new THREE.Mesh( geometry, material1 );
         };
 
         ThreeModelLoader.loadThreeModel = function(sx, sy, sz) {
 
-            var geometry, material;
+            var geometry;
 
             geometry = new THREE.SphereBufferGeometry( sx, 10, 10);
 
-        //    geometry = new THREE.BoxGeometry( sx || 1, sy || 1, sz || 1);
-            material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
-            return new THREE.Mesh( geometry, material );
+            return new THREE.Mesh( geometry, material2 );
         };
 
         ThreeModelLoader.loadThreeQuad = function(sx, sy) {
 
-            var geometry, material;
+            var geometry;
 
             geometry = new THREE.PlaneBufferGeometry( sx || 1, sy || 1, 1 ,1);
-            material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
+            material2 = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
 
-            return new THREE.Mesh( geometry, material );
+            return new THREE.Mesh( geometry, material2 );
         };
         
         ThreeModelLoader.loadGroundMesh = function(applies, array1d, rootObject, ThreeSetup, partsReady) {

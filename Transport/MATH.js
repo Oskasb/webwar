@@ -18,7 +18,7 @@ if(typeof(MATH) == "undefined"){
 		"quickFadeOut": [[0, 1], [0.9,1], [1,   0]],
 		"quickFadeIn":  [[0, 0], [0.2,1], [1,   1]],
 		"attackIn":     [[0, 1], [0.1,0], [1,   0]],
-		"centerStep":   [[0, 0], [0.45,0],[0.55,1], [1, 1]],
+		"centerStep":   [[0, 0], [0.25,0],[0.75,1], [1, 0]],
 		"quickInOut":   [[0, 0], [0.1,1], [0.9, 1], [1, 0]],
 		"posToNeg":     [[0, 1], [1,-1]],
 		"negToPos":     [[0,-1], [1, 1]],
@@ -218,7 +218,7 @@ if(typeof(MATH) == "undefined"){
 	MATH.sillyRandom = function(seed) {
 		return MATH.remainder(Math.sin(seed) * 9999.991 + Math.cos(seed));
 	};
-	
+
 	MATH.angleInsideCircle = function(angle) {
 		if (angle < 0) angle+= MATH.TWO_PI;
 		if (angle > MATH.TWO_PI) angle-= MATH.TWO_PI;

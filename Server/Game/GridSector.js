@@ -31,6 +31,9 @@ GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sec
     this.groundPhysics = false;
 
     this.configsUpdated(sectorConfigs);
+
+    this.normalStore = new MATH.Vec3(0, 0, 0);
+    this.calcVec = new MATH.Vec3(0, 0, 0);
 };
 
 
@@ -66,7 +69,7 @@ GridSector.prototype.activateSector = function() {
     for (var i = 0; i < this.sectorConfig.spawn.length; i++) {
         this.spawnSelection(this.sectorConfig.spawn[i])
     }
-    
+
 
     if (!this.groundPhysics) {
         this.terrainFunctions.addTerrainToPhysics(this.groundPiece);
@@ -119,8 +122,8 @@ GridSector.prototype.stitchTerrainToNeighbor = function(neightborSector) {
 var pos = [];
 
 GridSector.prototype.sectorSeed = function(seed) {
-    seed = this.activeSectorPieces.length + MATH.subAngles(Math.sqrt(seed), MATH.TWO_PI) * 1.151231;
-    return (seed * this.sectorData.minX + seed * this.sectorData.minX);
+    seed = this.activeSectorPieces.length + MATH.subAngles(Math.sqrt(seed*2.5162), MATH.TWO_PI) * 1.151231;
+    return (seed * ((this.sectorData.minX*1.52123)+this.sectorData.minY*5.61231) + seed * this.sectorData.minY+seed+Math.cos(seed))*999.5121;
 };
 
 GridSector.prototype.sectorRandom = function(seed) {
@@ -128,21 +131,51 @@ GridSector.prototype.sectorRandom = function(seed) {
 };
 
 
-GridSector.prototype.getRandomPointInSector = function(margin) {
+GridSector.prototype.getRandomPointInSector = function(margin, nmStore, baseSeed) {
 
-    pos[0] = margin + this.sectorData.minX + this.sectorRandom(1234) * (this.sectorData.size - margin*2);
-    pos[2] = margin + this.sectorData.minY + this.sectorRandom(4321) * (this.sectorData.size - margin*2);
-    pos[1] = this.terrainFunctions.getTerrainHeightAt(this.groundPiece, {data:[pos[0], 0, pos[2]]});
+    pos[0] = margin + this.sectorData.minX + this.sectorRandom(baseSeed*0.38) * (this.sectorData.size - margin*2);
+    pos[2] = margin + this.sectorData.minY + this.sectorRandom(baseSeed*0.77) * (this.sectorData.size - margin*2);
+    pos[1] = this.terrainFunctions.getTerrainHeightAt(this.groundPiece, {data:[pos[0], 0, pos[2]]}, nmStore);
     return pos
 };
 
+var tries = 0;
+var maxTries = 500;
+var normalLimit = 0.95;
+
+GridSector.prototype.checkPosForLegit = function(margin, nmStore, baseSeed) {
+
+    pos = this.getRandomPointInSector(margin, nmStore, baseSeed);
+    this.calcVec.setArray(pos);
+
+    tries++;
+
+    for (var i = 0; i < this.activeSectorPieces.length; i++) {
+        var distance = this.activeSectorPieces[i].spatial.pos.getDistance(this.calcVec) ;
+        if ((2 * distance - (2 * distance * (tries/maxTries))) < this.activeSectorPieces[i].config.size + margin  && tries < maxTries) {
+            baseSeed += 8.612;
+            return this.checkPosForLegit(margin, nmStore, baseSeed)
+        }
+    }
+
+    if (nmStore.getY() < (normalLimit - (normalLimit * (tries/maxTries))) && tries < maxTries) {
+        baseSeed += 4.212;
+        return this.checkPosForLegit(margin, nmStore, baseSeed)
+    }
+
+    if (nmStore.getY() < 0.99) {
+        this.flattenTerrainForPiece(this.groundPiece,  this.calcVec, 1);
+    }
+
+    return pos
+};
+
+
 GridSector.prototype.getLegitNewPointInSector = function(margin) {
 
-    pos[0] = margin + this.sectorData.minX + this.sectorRandom(1234) * (this.sectorData.size - margin*2);
-    pos[2] = margin + this.sectorData.minY + this.sectorRandom(4321) * (this.sectorData.size - margin*2);
-    
-    pos[1] = this.terrainFunctions.getTerrainHeightAt(this.groundPiece, {data:[pos[0], 0, pos[2]]});
-    
+    var baseSeed = 3612.2;
+    tries = 0;
+    pos = this.checkPosForLegit(margin, this.normalStore, baseSeed);
     return pos
 };
 
@@ -169,17 +202,17 @@ GridSector.prototype.spawnRandomSectorPiece = function(spawnData, count, amount)
     
     
     if (spawnData.flatten) {
-        this.flattenTerrainForPiece(piece);   
+        this.flattenTerrainForPiece(piece, piece.config.size);
     }
     
     this.activeSectorPieces.push(piece)
 
 };
 
-GridSector.prototype.flattenTerrainForPiece = function(piece) {
+GridSector.prototype.flattenTerrainForPiece = function(piece, reach) {
     
  
-    this.terrainFunctions.setTerrainHeightAt(this.groundPiece, piece.spatial.pos, piece.config.size + 1 || 2);
+    this.terrainFunctions.setTerrainHeightAt(this.groundPiece, piece.spatial.pos, reach);
 
 };
 

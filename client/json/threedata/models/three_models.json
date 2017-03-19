@@ -120,7 +120,7 @@
         },
         {
           "id": "rock_10m",
-          "material": "nature_opaque",
+          "material": "natrue_alphakill",
           "url": "./client/assets/models/rock_10m",
           "transform": {
             "pos": [
@@ -143,8 +143,8 @@
 
         {
           "id": "tree_trunk_1",
-          "material": "nature_opaque",
-          "url": "./client/assets/models/tree_trunk_1",
+          "material": "natrue_alphakill",
+          "url": "./client/assets/models/trees/tree_1_combined",
           "transform": {
             "pos": [
               0,
@@ -164,31 +164,9 @@
           }
         },
         {
-          "id": "tree_leaves_1",
-          "material": "natrue_alphakill",
-          "url": "./client/assets/models/tree_leaves_1",
-          "transform": {
-            "pos": [
-               0,
-               -18,
-               0
-            ],
-            "rot": [
-              0,
-              0,
-              0
-            ],
-            "scale": [
-              0.6,
-              0.6,
-              0.6
-            ]
-          }
-        },
-        {
           "id": "tree_trunk_2",
-          "material": "nature_opaque",
-          "url": "./client/assets/models/tree_trunk_2",
+          "material": "natrue_alphakill",
+          "url": "./client/assets/models/trees/tree_2_combined",
           "transform": {
             "pos": [
               0,
@@ -208,31 +186,9 @@
           }
         },
         {
-          "id": "tree_leaves_2",
-          "material": "natrue_alphakill",
-          "url": "./client/assets/models/tree_leaves_2",
-          "transform": {
-            "pos": [
-              0,
-              -8,
-              0
-            ],
-            "rot": [
-              0,
-              0,
-              0
-            ],
-            "scale": [
-              0.4,
-              0.4,
-              0.4
-            ]
-          }
-        },
-        {
           "id": "tree_trunk_3",
-          "material": "nature_opaque",
-          "url": "./client/assets/models/tree_trunk_3",
+          "material": "natrue_alphakill",
+          "url": "./client/assets/models/trees/tree_3_combined",
           "transform": {
             "pos": [
               0,
@@ -252,13 +208,13 @@
           }
         },
         {
-          "id": "tree_leaves_3",
+          "id": "tree_model_4",
           "material": "natrue_alphakill",
-          "url": "./client/assets/models/tree_leaves_3",
+          "url": "./client/assets/models/trees/tree_4_combined",
           "transform": {
             "pos": [
               0,
-              -20,
+              -50,
               0
             ],
             "rot": [
@@ -266,7 +222,11 @@
               0,
               0
             ],
-            "scale": [0.5, 0.5, 0.5]
+            "scale": [
+              0.5,
+              0.5,
+              0.5
+            ]
           }
         }
       ]

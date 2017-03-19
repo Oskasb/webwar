@@ -12,16 +12,10 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 7, 0], "size":[17, 14, 29]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 7, 0], "size":[17, 14, 29]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 7, 0], "size":[17, 14, 29]}},
           {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 7, 0], "size":[17, 14, 29]}}
         ],
         "default_modules":[
-          "small_house_exterior_module",
-          "small_house_interior_module",
-          "small_house_window_bars_module",
-          "small_house_window_glass_module"
+          "small_house_combined_module"
         ]
       },
 
@@ -64,39 +58,39 @@
         ]
       },
       "ground_plane":{
-        "size":325,
+        "size":700,
         "controls":{
           "actions": {},
           "constants":{}
         },
         "attachment_points":[
-          {"slot":"ground" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0], "size":[200, 0, 200]}}
+          {"slot":"ground" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0], "size":[400, 0, 400]}}
         ],
         "default_modules":[
           "plane_ground_module"
         ]
       },
       "ground_pit":{
-        "size":325,
+        "size":700,
         "controls":{
           "actions": {},
           "constants":{}
         },
         "attachment_points":[
-          {"slot":"ground" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0], "size":[200, 0, 200]}}
+          {"slot":"ground" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0], "size":[400, 0, 400]}}
         ],
         "default_modules":[
           "plane_ground_pit_module"
         ]
       },
       "ground_hill":{
-        "size":325,
+        "size":700,
         "controls":{
           "actions": {},
           "constants":{}
         },
         "attachment_points":[
-          {"slot":"ground" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0], "size":[200, 0, 200]}}
+          {"slot":"ground" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0], "size":[400, 0, 400]}}
         ],
         "default_modules":[
           "plane_ground_hill_module"
@@ -121,8 +115,27 @@
           "rock_10m_module"
         ]
       },
+      "huge_tree_piece":{
+        "size":8,
+        "controls":{
+          "actions": {
+            "applyForward":1,
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+            "velocityDrag":0.5,
+            "radialDrag":1
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  50, 0], "size":[25, 100, 25]}}
+        ],
+        "default_modules":[
+          "tree_trunk_4_module"
+        ]
+      },
     "big_tree_piece":{
-      "size":45,
+      "size":5,
       "controls":{
         "actions": {
           "applyForward":1,
@@ -142,8 +155,8 @@
         "tree_leaves_1_module"
       ]
     },
-      "medium_tree_piece":{
-        "size":35,
+      "small_tree_piece":{
+        "size":2,
         "controls":{
           "actions": {
             "applyForward":1,
@@ -163,8 +176,8 @@
           "tree_leaves_2_module"
         ]
       },
-      "small_tree_piece":{
-        "size":15,
+      "medium_tree_piece":{
+        "size":4,
         "controls":{
           "actions": {
             "applyForward":1,

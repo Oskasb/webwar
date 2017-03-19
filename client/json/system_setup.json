@@ -15,6 +15,7 @@
             "monitorServer":false,
             "monitorSpatial":false,
             "monitorModules":false,
+            "monitorBounds":false,
             "monitorVegetation":false,
             "graphPoints":50
         },

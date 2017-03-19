@@ -3,12 +3,18 @@ var THREE = require('three');
 var calcVec1;
 var calcVec2;
 var CannonAPI;
+var iWeightCurve;
+var jWeightCurve;
 
 TerrainFunctions = function(CNNAPI) {
     this.CannonAPI = CNNAPI;
     CannonAPI = CNNAPI;
     calcVec1 = new MATH.Vec3();
     calcVec2 = new MATH.Vec3();
+
+    iWeightCurve = new MATH.CurveState(MATH.curves['zeroOneZero'], 1);
+    jWeightCurve = new MATH.CurveState(MATH.curves['zeroOneZero'], 1);
+
 };
 
 
@@ -166,8 +172,10 @@ TerrainFunctions.prototype.getAt = function(array1d, segments, x, y) {
 };
 
 // get the value at the precise integer (x, y) coordinates
-TerrainFunctions.prototype.setAt = function(height, array1d, segments, x, y) {
+TerrainFunctions.prototype.setAt = function(height, array1d, segments, x, y, weight) {
 
+    var factor = weight || 1;
+    
     if (x <= 0 || x >= segments || y <= 0 || y >= segments) {
         console.log("FLATTEN OUTSIDE TERRING WONT WORK!");
         return;
@@ -178,7 +186,7 @@ TerrainFunctions.prototype.setAt = function(height, array1d, segments, x, y) {
 
     var idx = (yFactor + xFactor);
 //    console.log(y, yFactor, xFactor, idx);
-    array1d[idx] = height;
+    array1d[idx] = height * factor + array1d[idx]* (1 - factor);
 };
 
 
@@ -282,6 +290,8 @@ TerrainFunctions.prototype.setTerrainHeightAt = function(groundPiece, pos, reach
 
 };
 
+
+
 TerrainFunctions.prototype.setHeightAt = function(module, posVec, array1d, terrainSize, segments, height, reach) {
     pos = posVec.data;
 
@@ -307,17 +317,28 @@ TerrainFunctions.prototype.setHeightAt = function(module, posVec, array1d, terra
     var yf = Math.floor(y);
 
 
-    var vertexReach = Math.ceil(reach / (terrainSize/segments));
+    var vertexReach = Math.ceil(reach / (terrainSize/segments))+1;
 
     // height = -1
 
-    for (var i = -vertexReach; i < vertexReach; i++) {
 
-        for (var j = -vertexReach; j < vertexReach; j++) {
-            this.setAt(height, array1d, segments,xf+i, yc+j);
-            this.setAt(height, array1d, segments,xc+i, yf+j);
-            this.setAt(height, array1d, segments,xf+i, yf+j);
-            this.setAt(height, array1d, segments,xc+i, yc+j);
+    for (var i = -vertexReach; i < vertexReach+1; i++) {
+
+
+        var iw =  Math.cos((i) / (vertexReach+1));
+
+        for (var j = -vertexReach; j < vertexReach+1; j++) {
+
+            var jw = Math.cos((j) / (vertexReach+1));
+
+            var cw = MATH.clamp(iw*jw * 1.25, 0, 1);
+
+            var ijW = cw * cw * ((cw)+MATH.sillyRandom(i*2.1231+j*31.5123)*(1-cw)) * ((cw)+MATH.sillyRandom((i+j)*4.31+j*31.513)*(1-cw)); // jWeight*iWeight;
+
+            this.setAt(height, array1d, segments,xf+i, yf+j, ijW);
+        //    this.setAt(height, array1d, segments,xc+i, yf+j, ijW);
+        //    this.setAt(height, array1d, segments,xf+i, yf+j, ijW);
+        //    this.setAt(height, array1d, segments,xc+i, yc+j, ijW);
         }
     }
 };

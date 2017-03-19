@@ -137,6 +137,7 @@ define([
 			for (var i = 0; i < this.attachmentPoints.length; i++) {
 				startedPoints++;
 				this.attachmentPoints[i].attachClientModule(new ClientModule(this, this.attachmentPoints[i], serverState.modules[this.attachmentPoints[i].data.module]), apReady);
+				this.threePiece.includeAttachmentForVisibility(this.attachmentPoints[i])
 			}
 
 			this.buildHierarchy(hierarchyReady);

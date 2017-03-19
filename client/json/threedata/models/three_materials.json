@@ -76,13 +76,15 @@
             "alphaTest": 0.8,
             "shininess":0.1,
             "reflectivity":0.4,
-            "aoMapIntensity":0.3,
-            "color":{"r":0.0, "g":0.0, "b":0.0}
+            "aoMapIntensity":0.5,
+            "lightMapIntensity":1,
+            "emissiveIntensity":1,
+            "color":{"r":1, "g":1, "b":1}
           },
           "textures":[{
             "map":"./client/assets/images/textures/main_diff.png",
             "normalMap":"./client/assets/images/textures/main_nm.png",
-            "aoMap":"./client/assets/images/textures/tank_lm.png"
+            "lightMap":"./client/assets/images/textures/main_emit.png"
           }]
         },{
           "id":"nature_opaque",
@@ -93,12 +95,14 @@
             "shininess":0.1,
             "reflectivity":0.4,
             "aoMapIntensity":0.5,
-            "color":{"r":0.5, "g":0.5, "b":0.5}
+            "lightMapIntensity":1,
+            "emissiveIntensity":1,
+            "color":{"r":1, "g":1, "b":1}
           },
           "textures":[{
             "map":"./client/assets/images/textures/main_diff.png",
             "normalMap":"./client/assets/images/textures/main_nm.png",
-            "aoMap":"./client/assets/images/textures/tank_lm.png"
+            "lightMap":"./client/assets/images/textures/main_emit.png"
           }]
         },{
           "id":"load_texture_data",

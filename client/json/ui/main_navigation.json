@@ -473,6 +473,25 @@
           "text":"MODULES"
         }
       },{
+
+        "id":"buttonContainerBounds",
+        "data":{
+          "parentId":"panelRoot",
+          "style":["dev_button_container", "coloring_container_dev_panel"]
+        }
+      },{
+        "id":"button",
+        "data":{
+          "parentId":"buttonContainerBounds",
+          "style":["dev_panel_button", "coloring_button_dev_panel"],
+          "button":{
+            "id":"dev_panel_button",
+            "event":{"category":"STATUS", "key":"MON_BOUNDS", "type":"toggle"}
+          },
+          "text":"BOUNDS"
+        }
+      },{
+
         "id":"buttonContainerSpatial",
         "data":{
           "parentId":"panelRoot",

@@ -48,8 +48,7 @@
       "applies":{
         "type":"string",
         "state":true,
-        "remove_effect":"shell_detonate",
-        "three_model":"tree_leaves_1"
+        "remove_effect":"shell_detonate"
       }
     },
 
@@ -76,8 +75,7 @@
       "applies":{
         "type":"string",
         "state":true,
-        "remove_effect":"shell_detonate",
-        "three_model":"tree_leaves_2"
+        "remove_effect":"shell_detonate"
       }
     },
     "tree_trunk_3_module":{
@@ -103,8 +101,20 @@
       "applies":{
         "type":"string",
         "state":true,
+        "remove_effect":"shell_detonate"
+      }
+    },
+    "tree_trunk_4_module":{
+      "id":"tree_trunk_4_module",
+      "type":"hull",
+      "size":100,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
         "remove_effect":"shell_detonate",
-        "three_model":"tree_leaves_3"
+        "three_model":"tree_model_4"
       }
     },
     "rock_physical_10m_module":{
@@ -231,15 +241,15 @@
         "state":true,
         "three_terrain":"plain_ground",
         "vegetation_system":"basic_grassland",
-        "terrain_size":200,
+        "terrain_size":400,
         "terrain_segments":15,
         "invert_hill":false,
-        "terrain_edge_size":1,
+        "terrain_edge_size":2,
         "edge_easing":"EaseInOut",
-        "max_height":26,
+        "max_height":45,
         "min_height":0,
-        "frequency":1.4,
-        "steps":1
+        "frequency":3,
+        "steps":2
       }
     },
 
@@ -254,14 +264,14 @@
         "state":true,
         "three_terrain":"plain_ground",
         "vegetation_system":"basic_grassland",
-        "terrain_size":200,
+        "terrain_size":400,
         "terrain_segments":15,
         "invert_hill":true,
-        "terrain_edge_size":5,
+        "terrain_edge_size":2,
         "edge_easing":"EaseInOut",
-        "max_height":-15,
+        "max_height":-65,
         "min_height":0,
-        "frequency":0.5,
+        "frequency":2.5,
         "steps":1
       }
     },
@@ -276,14 +286,14 @@
         "state":true,
         "three_terrain":"plain_ground",
         "vegetation_system":"basic_grassland",
-        "terrain_size":200,
+        "terrain_size":400,
         "terrain_segments":15,
         "invert_hill":false,
-        "terrain_edge_size":0.5,
+        "terrain_edge_size":2.2,
         "edge_easing":"EaseInOut",
-        "max_height":70,
+        "max_height":100,
         "min_height":0,
-        "frequency":2.5,
+        "frequency":4,
         "steps":2
       }
     },

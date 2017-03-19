@@ -2,7 +2,7 @@
   "dataType":"PIECE_DATA",
   "pieces":{
     "player_ship":{
-      "size":20,
+      "size":3,
       "controls":{
         "input": {
           "pointer":"InputSegmentRadial",

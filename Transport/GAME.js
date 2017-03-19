@@ -336,7 +336,7 @@ if(typeof(GAME) == "undefined"){
 
 		var yawState = this.pieceControls.inputState.getSteeringY()*1;
 
-		yawState = yawState*Math.abs(yawState);
+		yawState = yawState*Math.abs(yawState) * 0.5;
 
 		vehicle = this.physics.body.vehicle;
 
