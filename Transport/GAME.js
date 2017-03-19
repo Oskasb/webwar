@@ -352,10 +352,12 @@ if(typeof(GAME) == "undefined"){
 		}
 
 		var speed = this.spatial.vel.getLengthSquared()+1;
-		var speedFactor = Math.sqrt(23200000 / speed) + 3000 / speed;
+		var speedFactor = Math.sqrt(800000 / (speed*0.5)) + 1500 / (1+speed*0.1);
 
 	//	var maxSteerVal = 0.5;//	var maxForce = 1000;
 		var trackForce = (throttleState + Math.abs(yawState*0.1)) * speedFactor ;
+
+        yawState *=  (1 / Math.sqrt(speed*0.5) + Math.abs(yawState*0.9));
 
 		var trackYawL = - yawState*12.3*speedFactor;
 		var trackYawR = + yawState*12.3*speedFactor;
