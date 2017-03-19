@@ -30,16 +30,19 @@
           "shader":"MeshPhysicalMaterial",
           "settings":{
             "blending":"NoBlending",
-            "color":{"r":0.9, "g":0.9, "b":0.9},
-            "clearCoat":0.2,
-            "clearCoatRoughness":0.8,
-            "roughness":0.6,
-            "reflectivity":0.6,
-            "metalness":1.2,
+            "side":"DoubleSide",
+            "emissive":{"r":0, "g":1.0, "b":1.0},
+            "color":{"r":0, "g":1.0, "b":1.0},
+            "clearCoat":0.5,
+            "alphaTest": 0.8,
+            "clearCoatRoughness":0.5,
+            "roughness":1.0,
+            "reflectivity":1.0,
+            "metalness":1.0,
             "envMapIntensity":1.0,
-            "lightMapIntensity":1,
             "emissiveIntensity":1,
-            "aoMapIntensity":0.5
+            "lightMapIntensity":2,
+            "aoMapIntensity":1.0
           },
           "textures":[{
             "map":"./client/assets/images/textures/main_diff.png",
@@ -54,7 +57,8 @@
           "shader":"MeshPhysicalMaterial",
           "settings":{
             "blending":"NoBlending",
-            "color":{"r":0.5, "g":0.5, "b":0.5},
+            "emissive":{"r":1.0, "g":1.0, "b":1.0},
+            "color":{"r":1.0, "g":1.0, "b":1.0},
             "clearCoat":0,
             "roughness":0.2,
             "reflectivity":1.4,
@@ -78,15 +82,16 @@
             "alphaTest": 0.8,
             "shininess":0.1,
             "reflectivity":0.4,
-            "aoMapIntensity":0.5,
-            "lightMapIntensity":1,
-            "emissiveIntensity":1,
+            "aoMapIntensity":1.0,
+            "lightMapIntensity":2,
+            "emissiveIntensity":2,
             "color":{"r":1, "g":1, "b":1}
           },
           "textures":[{
             "map":"./client/assets/images/textures/main_diff.png",
             "normalMap":"./client/assets/images/textures/main_nm.png",
-            "lightMap":"./client/assets/images/textures/main_emit.png"
+            "lightMap":"./client/assets/images/textures/main_emit.png",
+            "aoMap":"./client/assets/images/textures/main_emit.png"
           }]
         },{
           "id":"nature_opaque",

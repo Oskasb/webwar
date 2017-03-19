@@ -7,6 +7,7 @@
           "material": "main_atlas",
           "format":"obj",
           "url": "./client/assets/models/buildings/scraper_10",
+          "urlUv2": "./client/assets/models/buildings/scraper_10",
           "transform": {
             "pos":    [0,    -7, -0],
             "rot":    [0,    0,  0],
@@ -15,7 +16,7 @@
         },
         {
           "id": "tall_building_17_combined",
-          "material": "main_atlas",
+          "material": "natrue_alphakill",
           "format":"obj",
           "url": "./client/assets/models/buildings/scraper_17",
           "transform": {
@@ -26,9 +27,10 @@
         },
         {
           "id": "small_house_combined",
-          "material": "natrue_alphakill",
+          "material": "main_atlas",
           "format":"obj",
           "url": "./client/assets/models/buildings/small_house_combined",
+          "urlUv2": "./client/assets/models/buildings/small_house_combined",
           "transform": {
             "pos":    [0,    -7, -0],
             "rot":    [0,    0,  0],
