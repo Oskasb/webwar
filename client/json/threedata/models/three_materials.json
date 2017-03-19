@@ -37,6 +37,8 @@
             "reflectivity":0.6,
             "metalness":1.2,
             "envMapIntensity":1.0,
+            "lightMapIntensity":1,
+            "emissiveIntensity":1,
             "aoMapIntensity":0.5
           },
           "textures":[{
@@ -45,7 +47,7 @@
             "roughnessMap":"./client/assets/images/textures/main_roughness.png",
             "envMap":"./client/assets/images/textures/ref_sphere.png",
             "normalMap":"./client/assets/images/textures/main_nm.png",
-            "aoMap":"./client/assets/images/textures/bodyShadowsMap.png"
+            "lightMap":"./client/assets/images/textures/main_emit.png"
           }]
         },{
           "id":"tank_track",

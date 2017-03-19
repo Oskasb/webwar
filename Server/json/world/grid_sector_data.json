@@ -20,45 +20,65 @@
   "sectors":{
     "data":[
 
-      {"id":"sparse",
-        "weight":3,
-        "ground":[{"pieceType":"ground_hill", "min":1, "max":1}],
-        "spawn":[
-          {"pieceType":"small_tree_piece", "min":3, "max":6},
-          {"pieceType":"medium_tree_piece", "min":3, "max":7},
-          {"pieceType":"big_tree_piece", "min":2, "max":6}
-        ],
-        "buildings":[
-          {"pieceType":"small_house_building", "min":1, "max":3, "flatten":true}
-        ]},
-
       {"id":"average",
         "weight":3,
         "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
         "spawn":[
           {"pieceType":"huge_tree_piece", "min":1, "max":2},
           {"pieceType":"small_tree_piece", "min":1, "max":6},
-          {"pieceType":"medium_tree_piece", "min":3, "max":7},
-          {"pieceType":"plasma_blob_piece", "min":0, "max":5}
+          {"pieceType":"medium_tree_piece", "min":1, "max":3},
+          {"pieceType":"plasma_blob_piece", "min":0, "max":2}
         ],
         "buildings":[
-          {"pieceType":"small_house_building", "min":1, "max":2, "flatten":true}
+          {"pieceType":"small_house_building", "min":1, "max":2, "flatten":true},
+          {"pieceType":"tall_building_17", "min":0, "max":0, "flatten":true},
+          {"pieceType":"tall_building_10", "min":0, "max":0, "flatten":true}
         ]},
+
+      {"id":"sparse",
+        "weight":3,
+        "ground":[{"pieceType":"ground_hill", "min":1, "max":1}],
+        "spawn":[
+          {"pieceType":"huge_tree_piece", "min":1, "max":2},
+          {"pieceType":"small_tree_piece", "min":3, "max":6},
+          {"pieceType":"medium_tree_piece", "min":1, "max":2},
+          {"pieceType":"big_tree_piece", "min":1, "max":2}
+        ],
+        "buildings":[
+          {"pieceType":"small_house_building", "min":1, "max":3, "flatten":true},
+          {"pieceType":"tall_building_17", "min":0, "max":0, "flatten":true},
+          {"pieceType":"tall_building_10", "min":0, "max":0, "flatten":true}
+        ]},
+
+
 
       {"id":"dense",
         "weight":3,
         "ground":[{"pieceType":"ground_pit", "min":1, "max":1}],
         "spawn":[
-          {"pieceType":"huge_tree_piece", "min":2, "max":3},
-          {"pieceType":"small_tree_piece", "min":3, "max":6},
-          {"pieceType":"medium_tree_piece", "min":3, "max":7},
-          {"pieceType":"big_tree_piece", "min":2, "max":6},
+          {"pieceType":"huge_tree_piece", "min":2, "max":4},
+          {"pieceType":"small_tree_piece", "min":1, "max":7},
+          {"pieceType":"medium_tree_piece", "min":1, "max":4},
+          {"pieceType":"big_tree_piece", "min":2, "max":4},
           {"pieceType":"plasma_blob_piece", "min":1, "max":2}
         ],
         "buildings":[
-        {"pieceType":"small_house_building", "min":1, "max":3, "flatten":true}
+        {"pieceType":"small_house_building", "min":1, "max":3, "flatten":true},
+          {"pieceType":"tall_building_17", "min":0, "max":0, "flatten":true},
+          {"pieceType":"tall_building_10", "min":0, "max":0, "flatten":true}
       ]},
-
+      {"id":"city",
+        "weight":2,
+        "ground":[{"pieceType":"ground_pit", "min":1, "max":1}],
+        "spawn":[
+          {"pieceType":"small_tree_piece", "min":1, "max":4},
+          {"pieceType":"medium_tree_piece", "min":1, "max":2},
+          {"pieceType":"big_tree_piece", "min":0, "max":2}
+        ],
+        "buildings":[
+          {"pieceType":"tall_building_17", "min":0, "max":2, "flatten":true},
+          {"pieceType":"tall_building_10", "min":1, "max":3, "flatten":true}
+        ]},
       {"id":"crowded",
         "weight":2,
         "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
@@ -70,7 +90,9 @@
           {"pieceType":"plasma_blob_piece", "min":1, "max":1}
         ],
         "buildings":[
-          {"pieceType":"small_house_building", "min":2, "max":3, "flatten":true}
+          {"pieceType":"small_house_building", "min":2, "max":3, "flatten":true},
+          {"pieceType":"tall_building_17", "min":0, "max":0, "flatten":true},
+          {"pieceType":"tall_building_10", "min":0, "max":0, "flatten":true}
         ]},
       {"id":"plasmatic",
         "weight":1,
@@ -80,6 +102,11 @@
           {"pieceType":"medium_tree_piece", "min":0, "max":2},
           {"pieceType":"big_tree_piece", "min":0, "max":2},
           {"pieceType":"plasma_blob_piece", "min":2, "max":4}
+        ],
+        "buildings":[
+          {"pieceType":"small_house_building", "min":0, "max":0, "flatten":true},
+          {"pieceType":"tall_building_17", "min":0, "max":0, "flatten":true},
+          {"pieceType":"tall_building_10", "min":0, "max":0, "flatten":true}
         ]},
       {"id":"rockness",
         "weight":1,
@@ -89,6 +116,11 @@
           {"pieceType":"medium_tree_piece", "min":1, "max":2},
           {"pieceType":"big_tree_piece", "min":1, "max":2},
           {"pieceType":"plasma_blob_piece", "min":1, "max":2}
+        ],
+        "buildings":[
+          {"pieceType":"small_house_building", "min":0, "max":0, "flatten":true},
+          {"pieceType":"tall_building_17", "min":0, "max":0, "flatten":true},
+          {"pieceType":"tall_building_10", "min":0, "max":0, "flatten":true}
         ]}
     ]
 

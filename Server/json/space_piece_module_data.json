@@ -28,7 +28,7 @@
     "tree_trunk_1_module":{
       "id":"tree_trunk_1_module",
       "type":"hull",
-      "size":8,
+      "size":2,
       "source":"initiate",
       "initState": true,
       "applies":{
@@ -55,7 +55,7 @@
     "tree_trunk_2_module":{
       "id":"tree_trunk_2_module",
       "type":"hull",
-      "size":8,
+      "size":2,
       "source":"initiate",
       "initState": true,
       "applies":{
@@ -69,7 +69,7 @@
     "tree_leaves_2_module":{
       "id":"tree_leaves_2_module",
       "type":"hull",
-      "size":8,
+      "size":17,
       "source":"initiate",
       "initState": true,
       "applies":{
@@ -81,7 +81,7 @@
     "tree_trunk_3_module":{
       "id":"tree_trunk_3_module",
       "type":"hull",
-      "size":8,
+      "size":3,
       "source":"initiate",
       "initState": true,
       "applies":{
@@ -95,7 +95,7 @@
     "tree_leaves_3_module":{
       "id":"tree_leaves_3_module",
       "type":"hull",
-      "size":8,
+      "size":4,
       "source":"initiate",
       "initState": true,
       "applies":{
@@ -107,7 +107,7 @@
     "tree_trunk_4_module":{
       "id":"tree_trunk_4_module",
       "type":"hull",
-      "size":100,
+      "size":8,
       "source":"initiate",
       "initState": true,
       "applies":{
@@ -244,11 +244,11 @@
         "terrain_size":400,
         "terrain_segments":15,
         "invert_hill":false,
-        "terrain_edge_size":2,
+        "terrain_edge_size":4,
         "edge_easing":"EaseInOut",
-        "max_height":45,
+        "max_height":25,
         "min_height":0,
-        "frequency":3,
+        "frequency":5,
         "steps":2
       }
     },
@@ -266,10 +266,10 @@
         "vegetation_system":"basic_grassland",
         "terrain_size":400,
         "terrain_segments":15,
-        "invert_hill":true,
-        "terrain_edge_size":2,
+        "invert_hill":false,
+        "terrain_edge_size":3.1,
         "edge_easing":"EaseInOut",
-        "max_height":-65,
+        "max_height":12,
         "min_height":0,
         "frequency":2.5,
         "steps":1
@@ -293,8 +293,8 @@
         "edge_easing":"EaseInOut",
         "max_height":100,
         "min_height":0,
-        "frequency":4,
-        "steps":2
+        "frequency":45,
+        "steps":1
       }
     },
     "clay_blob_module":{

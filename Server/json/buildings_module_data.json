@@ -1,6 +1,33 @@
 [{
   "dataType":"MODULE_DATA",
   "modules":{
+
+    "tall_building_17_module":{
+      "id":"tall_building_17_module",
+      "type":"hull",
+      "size":15,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "three_model":"tall_building_17_combined"
+      }
+    },
+
+    "tall_building_10_module":{
+      "id":"tall_building_10_module",
+      "type":"hull",
+      "size":15,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "three_model":"tall_building_10_combined"
+      }
+    },
+
     "small_house_combined_module":{
       "id":"small_house_combined_module",
       "type":"hull",

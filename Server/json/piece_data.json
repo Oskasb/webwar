@@ -2,8 +2,43 @@
   {
     "dataType":"PIECE_DATA",
     "pieces":{
+
+      "tall_building_17":{
+        "size":52,
+        "controls":{
+          "actions": {
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 7, 0], "size":[17, 134, 29]}}
+        ],
+        "default_modules":[
+          "tall_building_17_module"
+        ]
+      },
+
+      "tall_building_10":{
+        "size":42,
+        "controls":{
+          "actions": {
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 7, 0], "size":[17, 84, 29]}}
+        ],
+        "default_modules":[
+          "tall_building_10_module"
+        ]
+      },
+
       "small_house_building":{
-        "size":20,
+        "size":14,
         "controls":{
           "actions": {
             "timeoutEvent": "EXPLODE"
@@ -116,7 +151,7 @@
         ]
       },
       "huge_tree_piece":{
-        "size":8,
+        "size":3,
         "controls":{
           "actions": {
             "applyForward":1,
@@ -128,14 +163,14 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  50, 0], "size":[25, 100, 25]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  5, 0], "size":[25, 100, 25]}}
         ],
         "default_modules":[
           "tree_trunk_4_module"
         ]
       },
     "big_tree_piece":{
-      "size":5,
+      "size":2,
       "controls":{
         "actions": {
           "applyForward":1,
@@ -156,7 +191,7 @@
       ]
     },
       "small_tree_piece":{
-        "size":2,
+        "size":1,
         "controls":{
           "actions": {
             "applyForward":1,
@@ -177,7 +212,7 @@
         ]
       },
       "medium_tree_piece":{
-        "size":4,
+        "size":1,
         "controls":{
           "actions": {
             "applyForward":1,
@@ -198,7 +233,7 @@
         ]
       },
       "small_space_rock_piece":{
-        "size":23,
+        "size":17,
         "controls":{
           "actions": {
             "applyForward":1,

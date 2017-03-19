@@ -163,10 +163,6 @@ GridSector.prototype.checkPosForLegit = function(margin, nmStore, baseSeed) {
         return this.checkPosForLegit(margin, nmStore, baseSeed)
     }
 
-    if (nmStore.getY() < 0.99) {
-        this.flattenTerrainForPiece(this.groundPiece,  this.calcVec, 1);
-    }
-
     return pos
 };
 
@@ -175,7 +171,7 @@ GridSector.prototype.getLegitNewPointInSector = function(margin) {
 
     var baseSeed = 3612.2;
     tries = 0;
-    pos = this.checkPosForLegit(margin, this.normalStore, baseSeed);
+    pos = this.checkPosForLegit(margin * 3, this.normalStore, baseSeed);
     return pos
 };
 
@@ -381,15 +377,15 @@ GridSector.prototype.configsUpdated = function(sectorConfigs) {
         weightsum += data[i].weight;
     }
 
-    var selection = this.sectorRandom(i*123)*weightsum;
+    var selection = this.sectorRandom(weightsum*9123.1521)*weightsum;
     
     for (var i = 0; i < data.length; i++) {
 
-        if (data[i].weight < selection) {
+        if (data[i].weight > selection) {
             useData = data[i];
             i = data.length+1;
         } else {
-            selection += data[i].weight;
+            selection -= data[i].weight;
         }
     }
     

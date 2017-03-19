@@ -3,6 +3,28 @@
     "MODELS": {
       "THREE_BUILDINGS": [
         {
+          "id": "tall_building_10_combined",
+          "material": "main_atlas",
+          "format":"obj",
+          "url": "./client/assets/models/buildings/scraper_10",
+          "transform": {
+            "pos":    [0,    -7, -0],
+            "rot":    [0,    0,  0],
+            "scale":  [1,    1,  1]
+          }
+        },
+        {
+          "id": "tall_building_17_combined",
+          "material": "main_atlas",
+          "format":"obj",
+          "url": "./client/assets/models/buildings/scraper_17",
+          "transform": {
+            "pos":    [0,    -7, -0],
+            "rot":    [0,    0,  0],
+            "scale":  [1,    1,  1]
+          }
+        },
+        {
           "id": "small_house_combined",
           "material": "natrue_alphakill",
           "format":"obj",
