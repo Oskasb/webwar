@@ -76,6 +76,8 @@ GridSector.prototype.activateSector = function() {
         this.groundPhysics = true;
     }
     this.terrainFunctions.enableTerrainPhysics(this.groundPiece);
+    this.groundPiece.networdDirty = true;
+    this.activeSectorPieces.push(this.groundPiece);
 };
 
 GridSector.prototype.spawnGround = function(spawnData) {
@@ -95,7 +97,7 @@ GridSector.prototype.spawnGround = function(spawnData) {
 
     }
 
-    this.activeSectorPieces.push(this.groundPiece);
+
 
 };
 

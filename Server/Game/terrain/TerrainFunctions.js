@@ -341,6 +341,9 @@ TerrainFunctions.prototype.setHeightAt = function(module, posVec, array1d, terra
         //    this.setAt(height, array1d, segments,xc+i, yc+j, ijW);
         }
     }
+
+    THREE.Terrain.fromArray1D(module.terrain.geometry.vertices, module.state.value);
+
 };
 
 TerrainFunctions.prototype.getTerrainHeightAt = function(groundPiece, pos, normalStore) {
