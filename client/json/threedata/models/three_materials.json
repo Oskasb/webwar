@@ -9,13 +9,13 @@
           "settings":{
             "blending":"NoBlending",
             "color":{"r":0.9, "g":0.9, "b":0.9},
-            "clearCoat":0.03,
-            "clearCoatRoughness":0.3,
-            "roughness":0.75,
+            "clearCoat":0.18,
+            "clearCoatRoughness":0.6,
+            "roughness":1,
             "reflectivity":1.0,
             "metalness":1.0,
-            "envMapIntensity":1.4,
-            "aoMapIntensity":1
+            "envMapIntensity":1.0,
+            "aoMapIntensity":2.0
           },
           "textures":[{
             "map":"./client/assets/images/textures/main_diff.png",

@@ -16,9 +16,10 @@
         },
         {
           "id": "tall_building_17_combined",
-          "material": "natrue_alphakill",
+          "material": "main_atlas",
           "format":"obj",
           "url": "./client/assets/models/buildings/scraper_17",
+          "urlUv2": "./client/assets/models/buildings/scraper_17",
           "transform": {
             "pos":    [0,    -7, -0],
             "rot":    [0,    0,  0],
