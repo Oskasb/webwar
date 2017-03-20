@@ -356,7 +356,7 @@ if(typeof(GAME) == "undefined"){
 	//	var maxSteerVal = 0.5;//	var maxForce = 1000;
 		var trackForce = (throttleState + Math.abs(yawState*0.1)) * speedFactor ;
 
-        yawState *=  (1 / Math.sqrt(speed*0.5) + Math.abs(yawState*0.9));
+        yawState *=  (1 / Math.sqrt(speed*0.5) + Math.abs(yawState*0.9)) * MATH.clamp(throttleState*10, -1, 1);
 
 		var trackYawL = - yawState*12.3*speedFactor;
 		var trackYawR = + yawState*12.3*speedFactor;

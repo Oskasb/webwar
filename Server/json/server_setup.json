@@ -2,11 +2,13 @@
   "dataType":"server_setup",
   "setup": {
     "system":{
-      "tickNetworkTime":910,
-      "tickSimulationTime":25,
+      "tickNetworkTime":1200,
+      "tickSimulationTime":35,
+      "physicsStepTime":0.02,
+      "physicsMaxSubSteps":2,
       "temporalTolerance": 0.3,
-      "angularVelocityTolerance": 0.1,
-      "spatialTolerance":1.3
+      "angularVelocityTolerance": 0.15,
+      "spatialTolerance":1.5
     }
   }
 },{

@@ -21,6 +21,8 @@ if(typeof(MODEL) == "undefined"){
     MODEL.SimulationTime = 1;
     MODEL.NetworkFPS = 1;
     MODEL.SimulationFPS = 1;
+	MODEL.PhysicsStepTime = 0.01;
+    MODEL.PhysicsMaxSubSteps = 5;
 	MODEL.SpatialTolerance = 1;
 	MODEL.AngularVelocityTolerance = 1;
 	MODEL.TemporalTolerance = 1;
