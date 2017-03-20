@@ -136,9 +136,9 @@ var orders = [
     'ZYX',
     'YZX',
     'XZY'
-]
-PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
+];
 
+PhysicsFunctions.prototype.applyBodyToSpatial = function(piece) {
     
     
     var body = piece.physics.body;

@@ -148,7 +148,6 @@ if(typeof(GAME) == "undefined"){
 		this.attachmentPoints = [];
 		this.serverState = {};
 		this.config = null;
-
 	};
 
 
@@ -342,11 +341,11 @@ if(typeof(GAME) == "undefined"){
 
 		var brakeForce = 70*(1/Math.abs(throttleState));
 		if (Math.abs(throttleState) < 0.1) {
-			brakeForce = 40;
+			brakeForce = 20;
 
 			if (Math.abs(yawState) < 0.2) {
 				throttleState = 0;
-				brakeForce = 180;
+				brakeForce = 80;
 				yawState = 0;
 			}
 		}

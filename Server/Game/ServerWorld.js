@@ -239,19 +239,19 @@ ServerWorld.prototype.removeTerrain = function(piece) {
 };
 
 ServerWorld.prototype.updateTerrains = function(currentTime) {
-    var timeouts = [];
+    //var timeouts = [];
 
 
     for (var i = 0; i < this.terrains.length; i++) {
-        this.updateWorldPiece(this.terrains[i], currentTime);
+    //    this.updateWorldPiece(this.terrains[i], currentTime);
         if (this.terrains[i].getState() == GAME.ENUMS.PieceStates.TIME_OUT) {
-            timeouts.push(this.terrains[i]);
+    //        timeouts.push(this.terrains[i]);
         }
     }
 
-    for (var i = 0; i < timeouts.length; i++) {
+  //  for (var i = 0; i < timeouts.length; i++) {
     //    this.removeTerrain(timeouts[i]);
-    }
+  //  }
 
 };
 

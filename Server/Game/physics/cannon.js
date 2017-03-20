@@ -6018,8 +6018,14 @@ Body.prototype.updateMassProperties = function(){
  * @param  {Vec3} result
  * @return {Vec3} The result vector.
  */
+
+var t_r = new Vec3();
+
 Body.prototype.getVelocityAtWorldPoint = function(worldPoint, result){
-    var r = new Vec3();
+    t_r.x = 0;
+    t_r.y = 0;
+    t_r.z = 0;
+    var r = t_r;
     worldPoint.vsub(this.position, r);
     this.angularVelocity.cross(r, result);
     this.velocity.vadd(result, result);

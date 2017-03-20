@@ -103,14 +103,14 @@ TerrainFunctions.prototype.setupTerrainPiece = function(piece) {
 
     THREE.Terrain.RadialEdges(terrain.children[0].geometry.vertices, opts, edges.invert, edges.edgeSize, THREE.Terrain[edges.easingFunc]);
 
-    var vertices = THREE.Terrain.toArray1D(terrain.children[0].geometry.vertices);
+    var array1d = THREE.Terrain.toArray1D(terrain.children[0].geometry.vertices);
 
-    this.setEdgeVerticeHeight(vertices, opts.minHeight);
+    this.setEdgeVerticeHeight(array1d, opts.minHeight);
 
-    THREE.Terrain.fromArray1D(terrain.children[0].geometry.vertices, vertices);
+    // THREE.Terrain.fromArray1D(terrain.children[0].geometry.vertices, array1d);
 
-    module.terrain = terrain.children[0];
-    module.setModuleState(vertices);
+   //  module.terrain = terrain.children[0];
+    module.setModuleState(array1d);
 
 };
 
@@ -124,6 +124,24 @@ TerrainFunctions.prototype.disableTerrainPhysics = function(piece) {
     this.CannonAPI.excludeBody(module.body);
 };
 
+
+var makeMatrix2D = function(array1d) {
+
+    var tgt = new Array(Math.sqrt(array1d.length)),
+        xl = Math.sqrt(array1d.length),
+        yl = Math.sqrt(array1d.length),
+        i, j;
+    for (i = 0; i < xl; i++) {
+        tgt[i] = new Float64Array(xl);
+        for (j = 0; j < yl; j++) {
+            tgt[i][j] = array1d[j * xl + i];
+        }
+    }
+
+    return tgt;
+
+};
+
 // get a height at point from matrix
 TerrainFunctions.prototype.addTerrainToPhysics = function(piece) {
     var module = this.getPieceTerrainModule(piece);
@@ -131,9 +149,9 @@ TerrainFunctions.prototype.addTerrainToPhysics = function(piece) {
     var applies = module.data.applies;
     var opts = this.getTerrainModuleOpts(applies);
 
-    THREE.Terrain.fromArray1D(module.terrain.geometry.vertices, module.state.value);
+    //   THREE.Terrain.fromArray1D(module.terrain.geometry.vertices, module.state.value);
 
-    var matrix = THREE.Terrain.toArray2D(module.terrain.geometry.vertices, opts);
+    var matrix = makeMatrix2D(module.state.value);
 
     var body = this.CannonAPI.buildPhysicalTerrain(matrix, module.data.applies.terrain_size, piece.spatial.posX(), piece.spatial.posZ(), module.data.applies.min_height,module.data.applies.max_height)
     module.body = body;
@@ -286,8 +304,9 @@ TerrainFunctions.prototype.setTerrainHeightAt = function(groundPiece, pos, reach
     var terrainSize = this.getTerrainModuleSize(module);
     var segments = this.getTerrainSegmentse(module);
 
-    this.setHeightAt(module, calcVec2, module.state.value, terrainSize, segments, pos.getY(), reach)
-
+    var array1d = module.state.value;
+    
+    this.setHeightAt(module, calcVec2, array1d, terrainSize, segments, pos.getY(), reach);
 };
 
 
@@ -331,7 +350,7 @@ TerrainFunctions.prototype.setHeightAt = function(module, posVec, array1d, terra
 
             var jw = Math.cos((j) / (vertexReach+1));
 
-            var cw = MATH.clamp(iw*jw * 1.25, 0, 1);
+            var cw = MATH.clamp(iw*jw * 1.40, 0, 1);
 
             var ijW = cw * cw * ((cw)+MATH.sillyRandom(i*2.1231+j*31.5123)*(1-cw)) * ((cw)+MATH.sillyRandom((i+j)*4.31+j*31.513)*(1-cw)); // jWeight*iWeight;
 
@@ -342,8 +361,6 @@ TerrainFunctions.prototype.setHeightAt = function(module, posVec, array1d, terra
         }
     }
 
-    THREE.Terrain.fromArray1D(module.terrain.geometry.vertices, module.state.value);
-
 };
 
 TerrainFunctions.prototype.getTerrainHeightAt = function(groundPiece, pos, normalStore) {
@@ -351,20 +368,13 @@ TerrainFunctions.prototype.getTerrainHeightAt = function(groundPiece, pos, norma
     var module = this.getPieceTerrainModule(groundPiece);
 
     calcVec1.setVec(groundPiece.spatial.pos);
-
     calcVec2.setVec(pos);
     calcVec2.subVec(calcVec1);
-
 
     var terrainSize = this.getTerrainModuleSize(module);
     var segments = this.getTerrainSegmentse(module);
 
-//
-
-
-
     return this.getHeightAt(module, calcVec2, module.state.value, terrainSize, segments, normalStore)
-
 };
 
 

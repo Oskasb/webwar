@@ -34,6 +34,10 @@ GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sec
 
     this.normalStore = new MATH.Vec3(0, 0, 0);
     this.calcVec = new MATH.Vec3(0, 0, 0);
+
+
+ //   this.activateSector();
+ //   this.deactivateSector();
 };
 
 
@@ -71,34 +75,30 @@ GridSector.prototype.activateSector = function() {
     }
 
 
-    if (!this.groundPhysics) {
+  //  if (!this.groundPhysics) {
         this.terrainFunctions.addTerrainToPhysics(this.groundPiece);
         this.groundPhysics = true;
-    }
+  //  }
     this.terrainFunctions.enableTerrainPhysics(this.groundPiece);
-    this.groundPiece.networdDirty = true;
+    this.groundPiece.setState(GAME.ENUMS.PieceStates.APPEAR);
+ //   this.groundPiece.networdDirty = true;
     this.activeSectorPieces.push(this.groundPiece);
 };
 
 GridSector.prototype.spawnGround = function(spawnData) {
-
     
     if (!this.groundPiece) {
-    var posx = this.sectorData.minX // + 0.5 * this.sectorData.size;
-    var posz = this.sectorData.minY // + 0.5 * this.sectorData.size;
+    var posx = this.sectorData.minX;
+    var posz = this.sectorData.minY;
     var rot = 0; //Math.random()*MATH.TWO_PI;
     var rotVel = 0; // (Math.random()-0.5)*3;
         var piece = this.groundPiece || this.serverWorld.createWorldTerrainPiece(spawnData.pieceType, posx, posz, rot, rotVel);
         this.groundPiece = piece;
     //    this.stitchTerrain();
 
-        piece.spatial.updateSpatial(10);
-        piece.setState(GAME.ENUMS.PieceStates.APPEAR);
+    //    piece.spatial.updateSpatial(10);
 
     }
-
-
-
 };
 
 GridSector.prototype.stitchTerrain = function() {
