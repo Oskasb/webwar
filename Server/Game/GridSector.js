@@ -28,7 +28,7 @@ GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sec
 
     this.activeSectorPieces = [];
 
-    this.elevation = 4;
+    this.elevation = 2;
     
     this.groundPiece;
     
@@ -81,10 +81,10 @@ GridSector.prototype.activateSector = function() {
     }
 
 
-  //  if (!this.groundPhysics) {
+    if (!this.groundPhysics) {
         this.terrainFunctions.addTerrainToPhysics(this.groundPiece);
         this.groundPhysics = true;
-  //  }
+    }
     this.terrainFunctions.enableTerrainPhysics(this.groundPiece);
     this.groundPiece.setState(GAME.ENUMS.PieceStates.APPEAR);
  //   this.groundPiece.networdDirty = true;
@@ -104,11 +104,13 @@ GridSector.prototype.spawnGround = function(spawnData, elevation) {
 
     //    piece.spatial.updateSpatial(10);
         this.terrainFunctions.applyEdgeElevation(
-            this.row == this.gridData.minX,
-            this.row == this.gridData.maxX,
-            this.column == this.gridData.minY,
-            this.column == this.gridData.maxY,
-            -4
+            piece,
+
+            this.column == 0,
+            this.column == this.gridData.columns-1,
+            this.row == 0,
+            this.row == this.gridData.rows-1,
+            -25 // MATH.expand(7 - this.sectorRandom((this.row + this.column)*99)*14, -2, 2)
         );
     }
 };
@@ -136,8 +138,7 @@ GridSector.prototype.stitchTerrainToNeighbor = function(neightborSector) {
 var pos = [];
 
 GridSector.prototype.sectorSeed = function(seed) {
-    seed = this.activeSectorPieces.length + Math.sqrt(seed*2.2);
-    return (seed & ((this.sectorData.minX*5.2+this.sectorData.minY*5.61 + seed * this.sectorData.minY+seed+Math.cos(seed*9999.1234))));
+    return ((this.column+this.row+(this.column*this.row*seed)) & 0xFFFFFFF) / 0x10000000;
 };
 
 var dsees = 0;
@@ -170,7 +171,7 @@ GridSector.prototype.getRandomPointInSector = function(margin, nmStore, baseSeed
 };
 
 var tries = 0;
-var maxTries = 500;
+var maxTries = 550;
 var normalLimit = 0.95;
 
 GridSector.prototype.checkPosForLegit = function(margin, nmStore, baseSeed) {
@@ -260,7 +261,7 @@ GridSector.prototype.spawnSelection = function(spawnData) {
 
 
 GridSector.prototype.deactivateSector = function() {
-
+    dsees = 0;
     for (var i = 0; i < this.activeSectorPieces.length; i++) {
         var piece = this.activeSectorPieces[i];
         if (piece) {

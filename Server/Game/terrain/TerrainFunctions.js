@@ -71,19 +71,19 @@ TerrainFunctions.prototype.setEdgeVerticeHeight = function(array1d, height) {
     var leftVert = 0;
     var rightVert = 0;
 
-        for (var i = 0; i < sideVerts; i++) {
+    for (var i = 0; i < sideVerts; i++) {
 
-            bottomVert = i;
-            topVert = totalVerts - sideVerts + i;
+        bottomVert = i;
+        topVert = totalVerts - sideVerts + i;
 
-            leftVert = sideVerts * i;
-            rightVert = sideVerts * i + sideVerts - 1;
+        leftVert = sideVerts * i;
+        rightVert = sideVerts * i + sideVerts - 1;
 
-            array1d[bottomVert] = height;
-            array1d[topVert] = height;
-            array1d[leftVert] = height;
-            array1d[rightVert] = height;
-        }
+        array1d[bottomVert] = height;
+        array1d[topVert] = height;
+        array1d[leftVert] = height;
+        array1d[rightVert] = height;
+    }
 
 };
 
@@ -116,18 +116,83 @@ TerrainFunctions.prototype.setupTerrainPiece = function(piece, elevation) {
 
     // THREE.Terrain.fromArray1D(terrain.children[0].geometry.vertices, array1d);
 
-   //  module.terrain = terrain.children[0];
+    //  module.terrain = terrain.children[0];
     if (elevation) elevateTerrain(array1d, elevation);
     this.setEdgeVerticeHeight(array1d, elevation);
-    
+
     module.setModuleState(array1d);
 
 };
 
-TerrainFunctions.prototype.applyEdgeElevation = function(isMinX, isMaxX, isMinY, isMaxY, elevation) {
+TerrainFunctions.prototype.applyEdgeElevation = function(piece, isMinX, isMaxX, isMinY, isMaxY, elevation) {
 
-    
-    
+    var module = this.getPieceTerrainModule(piece);
+    var array1d = module.state.value;
+
+    var sideVerts = Math.sqrt(array1d.length);
+    var totalVerts = array1d.length;
+
+    var bottomVert = 0;
+    var topVert = 0;
+    var leftVert = 0;
+    var rightVert = 0;
+
+    var shoreBumb = 1;
+
+
+
+    var half = Math.ceil(sideVerts/2);
+
+    var idx = Math.floor(array1d.length / 2);
+
+
+    var setHeight = MATH.expand(array1d[idx]+4, -2, 2);
+
+
+    for (var i = 0; i < sideVerts; i++) {
+
+        bottomVert = i;
+        topVert = totalVerts - sideVerts + i;
+
+        leftVert = sideVerts * i;
+        rightVert = sideVerts * i + sideVerts - 1;
+
+
+        if (isMinX) {
+
+            for (var j = 0; j < half; j++) {
+                array1d[bottomVert + j*sideVerts] = MATH.expand(array1d[bottomVert + j*sideVerts]*(j/half) + elevation*(1-(j/half)),-0.5, 0.2);
+            }
+        }
+
+        if (isMaxX) {
+
+            for (var j = 0; j < half; j++) {
+                array1d[topVert - j*sideVerts] = MATH.expand(array1d[topVert - j*sideVerts]*(j/half) + elevation*(1-(j/half)),-0.5, 0.2);
+            }
+        }
+
+        if (isMinY) {
+
+            for (var j = 0; j < half; j++) {
+                array1d[leftVert + j] = MATH.expand(array1d[leftVert + j]*(j/half) + elevation*(1-(j/half)),-0.5, 0.2);
+            }
+        }
+
+        if (isMaxY) {
+
+            for (var j = 0; j < half; j++) {
+                array1d[rightVert - j] =  MATH.expand(array1d[rightVert - j]*(j/half) + elevation*(1-(j/half)),-0.5, 0.2);
+            }
+        }
+    }
+
+    if (isMinX || isMaxX || isMinY || isMaxY) {
+
+        this.setHeightByIndexAndReach(array1d, idx, idx, Math.round(i*shoreBumb), setHeight)
+
+    }
+
 };
 
 TerrainFunctions.prototype.enableTerrainPhysics = function(piece) {
@@ -209,8 +274,8 @@ TerrainFunctions.prototype.getAt = function(array1d, segments, x, y) {
 TerrainFunctions.prototype.setAt = function(height, array1d, segments, x, y, weight) {
 
     var factor = weight || 1;
-    
-    if (x <= 0 || x >= segments || y <= 0 || y >= segments) {
+
+    if (x <= 2 || x >= segments-2 || y <= 2 || y >= segments-2) {
         console.log("FLATTEN OUTSIDE TERRING WONT WORK!");
         return;
     }
@@ -251,7 +316,7 @@ TerrainFunctions.prototype.getTriangleAt = function(array1d, segments, x, y) {
     p1.x = xf;
     p1.y = yc;
 
- //   console.log(xf, yc);
+    //   console.log(xf, yc);
     p1.z = this.getAt(array1d, segments, xf, yc);
 
 
@@ -274,7 +339,7 @@ TerrainFunctions.prototype.getTriangleAt = function(array1d, segments, x, y) {
 var p0  = {x:0, y:0, z:0};
 
 TerrainFunctions.prototype.getHeightForPlayer = function(serverPlayer, normalStore) {
-    
+
     var gridSector = serverPlayer.currentGridSector;
     if (!gridSector) return 0;
 
@@ -321,7 +386,7 @@ TerrainFunctions.prototype.setTerrainHeightAt = function(groundPiece, pos, reach
     var segments = this.getTerrainSegmentse(module);
 
     var array1d = module.state.value;
-    
+
     this.setHeightAt(module, calcVec2, array1d, terrainSize, segments, pos.getY(), reach);
 };
 
@@ -346,19 +411,22 @@ TerrainFunctions.prototype.setHeightAt = function(module, posVec, array1d, terra
     var y = this.displaceAxisDimensions(2*pos[2]-terrainSize, htN, htP, segments);
 
 
-    var xc = Math.ceil(x);
     var xf = Math.floor(x);
-    var yc = Math.ceil(y);
     var yf = Math.floor(y);
 
 
     var vertexReach = Math.ceil(reach / (terrainSize/segments))+1;
 
     // height = -1
+    this.setHeightByIndexAndReach(array1d, xf, yf, vertexReach, height)
 
+};
+
+TerrainFunctions.prototype.setHeightByIndexAndReach = function(array1d, xf, yf, vertexReach, height) {
+
+    var segments = Math.sqrt(array1d.length)-1;
 
     for (var i = -vertexReach; i < vertexReach+1; i++) {
-
 
         var iw =  Math.cos((i) / (vertexReach+1));
 
@@ -371,13 +439,11 @@ TerrainFunctions.prototype.setHeightAt = function(module, posVec, array1d, terra
             var ijW = cw * cw * ((cw)+MATH.sillyRandom(i*2.1231+j*31.5123)*(1-cw)) * ((cw)+MATH.sillyRandom((i+j)*4.31+j*31.513)*(1-cw)); // jWeight*iWeight;
 
             this.setAt(height, array1d, segments,xf+i, yf+j, ijW);
-        //    this.setAt(height, array1d, segments,xc+i, yf+j, ijW);
-        //    this.setAt(height, array1d, segments,xf+i, yf+j, ijW);
-        //    this.setAt(height, array1d, segments,xc+i, yc+j, ijW);
         }
     }
-
 };
+
+
 
 TerrainFunctions.prototype.getTerrainHeightAt = function(groundPiece, pos, normalStore) {
 
@@ -405,7 +471,7 @@ TerrainFunctions.prototype.getHeightAt = function(module, posVec, array1d, terra
     if (pos[0] < htN || pos[0] > htP || pos[2] < htN || pos[2] > htP) {
 
         console.log("Terrain!", pos[0], pos[2], "Is Outside")
-    //    return -1000;
+        //    return -1000;
 
         pos[0] = MATH.clamp(pos[0], htN, htP);
         pos[2] = MATH.clamp(pos[2], htN, htP);

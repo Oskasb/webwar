@@ -339,6 +339,7 @@
           "uniform vec2 tx4repeat;",
           "uniform vec2 tx5repeat;",
           "uniform vec2 tx6repeat;",
+          "varying float height;",
           "varying float slope;",
           "varying vec2 vUv0;",
           "varying vec2 vUv1;",
@@ -351,6 +352,7 @@
         ],
 
         "fx_terrainTextureLayers":[
+          "varying float height;",
           "varying float slope;",
           "varying vec2 vUv0;",
           "varying vec2 vUv1;",

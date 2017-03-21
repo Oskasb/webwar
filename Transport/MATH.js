@@ -284,6 +284,13 @@ if(typeof(MATH) == "undefined"){
         return value < min ? min : value > max ? max : value;
     };
 
+	MATH.expand = function(value, min, max) {
+		if (value > min && value < max) {
+			return min;
+		}
+		return value;
+	};
+	
 	MATH.Vec3 = function(x,y,z){
 		this.data = new Float32Array([x,y,z]);
 	};
