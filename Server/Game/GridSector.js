@@ -81,10 +81,10 @@ GridSector.prototype.activateSector = function() {
     }
 
 
-    if (!this.groundPhysics) {
+  //  if (!this.groundPhysics) {
         this.terrainFunctions.addTerrainToPhysics(this.groundPiece);
         this.groundPhysics = true;
-    }
+  //  }
     this.terrainFunctions.enableTerrainPhysics(this.groundPiece);
     this.groundPiece.setState(GAME.ENUMS.PieceStates.APPEAR);
  //   this.groundPiece.networdDirty = true;
