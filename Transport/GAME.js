@@ -148,6 +148,7 @@ if(typeof(GAME) == "undefined"){
 		this.attachmentPoints = [];
 		this.serverState = {};
 		this.config = null;
+        this.terrainFunctions = null;
 	};
 
 
@@ -155,6 +156,9 @@ if(typeof(GAME) == "undefined"){
 		this.parentPiece = piece;
 	};
 
+    GAME.Piece.prototype.setTerrainFunctions = function(terrainFunctions) {
+        this.terrainFunctions = terrainFunctions;
+    };
 
 	
 	GAME.Piece.prototype.applyConfig = function(pieceConfigs) {
@@ -301,6 +305,8 @@ if(typeof(GAME) == "undefined"){
 		this.spatial.stop();
 		this.spatial.setPosXYZ(5+Math.random()*25, 4, 5+Math.random()*25);
 
+        this.spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this) + 5);
+
 		if (this.physics) {
 			this.physics.body.position.x = this.spatial.posX();
 			this.physics.body.position.z = this.spatial.posY();
@@ -442,7 +448,7 @@ if(typeof(GAME) == "undefined"){
 	GAME.Piece.prototype.predictFutureElevation = function(terrainFunctions) {
 		
 		var currentElevation = this.spatial.pos.getY();
-		var nextFrameElevation = terrainFunctions.getHeightForPlayer(this.players[key]);
+		var nextFrameElevation = terrainFunctions.getHeightForPlayer(this);
 		this.spatial.vel.setY((nextFrameElevation - currentElevation));
 		
 		

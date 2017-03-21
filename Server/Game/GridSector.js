@@ -26,6 +26,8 @@ GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sec
 
     this.activeSectorPieces = [];
 
+    this.elevation = 4;
+    
     this.groundPiece;
     
     this.groundPhysics = false;
@@ -58,9 +60,10 @@ GridSector.prototype.makeHidePacket = function(piece) {
 GridSector.prototype.activateSector = function() {
 
 
+    
 
     for (var i = 0; i < this.sectorConfig.ground.length; i++) {
-        this.spawnGround(this.sectorConfig.ground[i])
+        this.spawnGround(this.sectorConfig.ground[i], this.elevation)
     }
 
     if (this.sectorConfig.buildings) {
@@ -85,14 +88,14 @@ GridSector.prototype.activateSector = function() {
     this.activeSectorPieces.push(this.groundPiece);
 };
 
-GridSector.prototype.spawnGround = function(spawnData) {
+GridSector.prototype.spawnGround = function(spawnData, elevation) {
     
     if (!this.groundPiece) {
     var posx = this.sectorData.minX;
     var posz = this.sectorData.minY;
     var rot = 0; //Math.random()*MATH.TWO_PI;
     var rotVel = 0; // (Math.random()-0.5)*3;
-        var piece = this.groundPiece || this.serverWorld.createWorldTerrainPiece(spawnData.pieceType, posx, posz, rot, rotVel);
+        var piece = this.groundPiece || this.serverWorld.createWorldTerrainPiece(spawnData.pieceType, elevation, posx, posz, rot, rotVel);
         this.groundPiece = piece;
     //    this.stitchTerrain();
 
@@ -124,11 +127,27 @@ GridSector.prototype.stitchTerrainToNeighbor = function(neightborSector) {
 var pos = [];
 
 GridSector.prototype.sectorSeed = function(seed) {
-    seed = this.activeSectorPieces.length + MATH.subAngles(Math.sqrt(seed*2.5162), MATH.TWO_PI) * 1.151231;
-    return (seed * ((this.sectorData.minX*1.52123)+this.sectorData.minY*5.61231) + seed * this.sectorData.minY+seed+Math.cos(seed))*999.5121;
+    seed = this.activeSectorPieces.length + Math.sqrt(seed*2.2);
+    return (seed & ((this.sectorData.minX*5.2+this.sectorData.minY*5.61 + seed * this.sectorData.minY+seed+Math.cos(seed*9999.1234))));
 };
 
+var dsees = 0;
+
 GridSector.prototype.sectorRandom = function(seed) {
+
+    if (!dsees) dsees = seed;
+
+    return function() {
+        // Robert Jenkins’ 32 bit integer hash function
+        dsees = ((dsees + 0x7ED55D16) + (dsees << 12))  & 0xFFFFFFFF;
+        dsees = ((dsees ^ 0xC761C23C) ^ (dsees >>> 19)) & 0xFFFFFFFF;
+        dsees = ((dsees + 0x165667B1) + (dsees << 5))   & 0xFFFFFFFF;
+        dsees = ((dsees + 0xD3A2646C) ^ (dsees << 9))   & 0xFFFFFFFF;
+        dsees = ((dsees + 0xFD7046C5) + (dsees << 3))   & 0xFFFFFFFF;
+        dsees = ((dsees ^ 0xB55A4F09) ^ (dsees >>> 16)) & 0xFFFFFFFF;
+        return (dsees & 0xFFFFFFF) / 0x10000000;
+    }();
+
     return MATH.sillyRandom(this.sectorSeed(seed));
 };
 

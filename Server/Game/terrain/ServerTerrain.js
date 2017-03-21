@@ -491,8 +491,6 @@ THREE.Terrain.toArray2D = function(vertices, options) {
 
     return matrix;
 
-
-
 };
 
 /**

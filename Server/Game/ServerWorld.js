@@ -76,12 +76,12 @@ ServerWorld.prototype.createWorldPiece = function(pieceType, posx, posz, rot, ro
     return piece;
 };
 
-ServerWorld.prototype.createWorldTerrainPiece = function(pieceType, posx, posz, rot, rotVel) {
+ServerWorld.prototype.createWorldTerrainPiece = function(pieceType, elevation, posx, posz, rot, rotVel) {
 
     var piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel);
     this.addWorldTerrainPiece(piece);
     
-    this.terrainFunctions.setupTerrainPiece(piece);
+    this.terrainFunctions.setupTerrainPiece(piece, elevation);
     
     return piece;
 };
@@ -100,6 +100,7 @@ ServerWorld.prototype.addWorldPiece = function(piece) {
     if (piece.physics) {
         CnnAPI.attachPiecePhysics(piece);
     }
+    piece.setTerrainFunctions(this.terrainFunctions);
 	this.pieces.push(piece);
 };
 
@@ -112,6 +113,8 @@ ServerWorld.prototype.addPlayer = function(player) {
         CnnAPI.attachPiecePhysics(player.piece);
     }
 
+    player.piece.setTerrainFunctions(this.terrainFunctions);
+    player.piece.teleportRandom();
 	this.players[player.id] = player;
 };
 

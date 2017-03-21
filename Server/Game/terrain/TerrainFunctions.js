@@ -88,9 +88,16 @@ TerrainFunctions.prototype.setEdgeVerticeHeight = function(array1d, height) {
 };
 
 
+var elevateTerrain = function(array1d, elevation) {
+
+    for (var i = 0; i < array1d.length; i++) {
+        array1d[i] += elevation;
+    }
+
+};
 
 
-TerrainFunctions.prototype.setupTerrainPiece = function(piece) {
+TerrainFunctions.prototype.setupTerrainPiece = function(piece, elevation) {
     var module = this.getPieceTerrainModule(piece);
 
     var applies = module.data.applies;
@@ -105,11 +112,14 @@ TerrainFunctions.prototype.setupTerrainPiece = function(piece) {
 
     var array1d = THREE.Terrain.toArray1D(terrain.children[0].geometry.vertices);
 
-    this.setEdgeVerticeHeight(array1d, opts.minHeight);
+
 
     // THREE.Terrain.fromArray1D(terrain.children[0].geometry.vertices, array1d);
 
    //  module.terrain = terrain.children[0];
+    if (elevation) elevateTerrain(array1d, elevation);
+    this.setEdgeVerticeHeight(array1d, elevation);
+    
     module.setModuleState(array1d);
 
 };

@@ -1,11 +1,13 @@
 "use strict";
 
 define([
-        '3d/effects/vegetation/Vegetation',
+        '3d/effects/water/WaterFX',    
+    '3d/effects/vegetation/Vegetation',
         '3d/effects/particles/ParticleSpawner',
         '3d/effects/filters/ScreenSpaceFX'
     ],
     function(
+        WaterFX,
         Vegetation,
         ParticleSpawner,
         ScreenSpaceFX
@@ -14,6 +16,7 @@ define([
         var vegetation;
         var particleSpawner;
         var screenSpaceFX;
+        var waterFx;
 
         var debugVegetation = false;
 
@@ -24,7 +27,9 @@ define([
         EffectsAPI.initEffects = function() {
             vegetation = new Vegetation(this);
             particleSpawner = new ParticleSpawner();
+            waterFx = new WaterFX();
             particleSpawner.initParticleSpawner();
+            waterFx.initWaterEffect();
             //    screenSpaceFX = new ScreenSpaceFX();
             //    screenSpaceFX.initFilterEffects();
 

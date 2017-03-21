@@ -397,7 +397,7 @@
             "id":"dev_panel_button",
             "event":{"category":"STATUS", "key":"MON_SERVER", "type":"toggle"}
           },
-          "text":"SERVER"
+          "text":"HEALTH"
         }
       },{
         "id":"buttonContainer",

@@ -33,15 +33,16 @@
             "side":"DoubleSide",
             "emissive":{"r":0, "g":1.0, "b":1.0},
             "color":{"r":0, "g":1.0, "b":1.0},
-            "clearCoat":0.2,
+            "clearCoat":0.3,
             "alphaTest": 0.8,
-            "clearCoatRoughness":0.5,
+            "clearCoatRoughness":1.0,
             "roughness":1.0,
             "reflectivity":1.0,
             "metalness":1.0,
             "envMapIntensity":1.0,
             "emissiveIntensity":1,
             "lightMapIntensity":2,
+            "refractionRatio":10.1,
             "aoMapIntensity":1.0
           },
           "textures":[{

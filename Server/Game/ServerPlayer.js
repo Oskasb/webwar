@@ -25,7 +25,6 @@ ServerPlayer = function(pieceType, clientId, client, simTime) {
 	
 	piece = new GAME.Piece(pieceType, this.id, simTime, Number.MAX_VALUE, broadcast);
 	this.piece = piece;
-	this.piece.teleportRandom();
 
 	this.piece.networkDirty = true;
 	this.piece.setName(clientId);
