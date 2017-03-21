@@ -1,4 +1,4 @@
-GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sectorConfigs) {
+GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sectorConfigs, gridData) {
 
     this.terrainFunctions = serverWorld.terrainFunctions;
 
@@ -13,6 +13,8 @@ GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sec
         config:this.sectorConfig,
         presentPlayers:0
     };
+
+    this.gridData = gridData;
 
     this.row = row;
     this.column = column;
@@ -41,6 +43,7 @@ GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sec
  //   this.activateSector();
  //   this.deactivateSector();
 };
+
 
 
 GridSector.prototype.makeAppearPacket = function(piece) {
@@ -100,7 +103,13 @@ GridSector.prototype.spawnGround = function(spawnData, elevation) {
     //    this.stitchTerrain();
 
     //    piece.spatial.updateSpatial(10);
-
+        this.terrainFunctions.applyEdgeElevation(
+            this.row == this.gridData.minX,
+            this.row == this.gridData.maxX,
+            this.column == this.gridData.minY,
+            this.column == this.gridData.maxY,
+            -4
+        );
     }
 };
 
@@ -170,6 +179,12 @@ GridSector.prototype.checkPosForLegit = function(margin, nmStore, baseSeed) {
     this.calcVec.setArray(pos);
 
     tries++;
+
+    if (pos[1] < 0.1) {
+        baseSeed += 4.212;
+        return this.checkPosForLegit(margin, nmStore, baseSeed)
+    }
+
 
     for (var i = 0; i < this.activeSectorPieces.length; i++) {
         var distance = this.activeSectorPieces[i].spatial.pos.getDistance(this.calcVec) ;

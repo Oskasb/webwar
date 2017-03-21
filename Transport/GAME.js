@@ -346,10 +346,10 @@ if(typeof(GAME) == "undefined"){
 		vehicle = this.physics.body.vehicle;
 
 		var brakeForce = 70*(1/Math.abs(throttleState));
-		if (Math.abs(throttleState) < 0.1) {
+		if (Math.abs(throttleState) < 0.05) {
 			brakeForce = 20;
 
-			if (Math.abs(yawState) < 0.2) {
+			if (Math.abs(yawState) < 0.1) {
 				throttleState = 0;
 				brakeForce = 80;
 				yawState = 0;

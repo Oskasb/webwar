@@ -124,6 +124,12 @@ TerrainFunctions.prototype.setupTerrainPiece = function(piece, elevation) {
 
 };
 
+TerrainFunctions.prototype.applyEdgeElevation = function(isMinX, isMaxX, isMinY, isMaxY, elevation) {
+
+    
+    
+};
+
 TerrainFunctions.prototype.enableTerrainPhysics = function(piece) {
     var module = this.getPieceTerrainModule(piece);
     this.CannonAPI.includeBody(module.body);

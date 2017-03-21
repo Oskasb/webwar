@@ -78,7 +78,7 @@ SectorGrid.prototype.createSectorGrid = function() {
             var minY = this.minY + j * size;
             var maxY = this.minY + minY + size;
             
-            var gridSector = new GridSector(minX, minY, size, i, j, this.gridSectors.length, this.serverWorld, this.sectorConfigs);
+            var gridSector = new GridSector(minX, minY, size, i, j, this.gridSectors.length, this.serverWorld, this.sectorConfigs, this.gridData);
             
             this.gridSectors.push(gridSector);
             this.rows[i][j] = gridSector;
