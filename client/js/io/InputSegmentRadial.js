@@ -163,7 +163,7 @@ define([
         };
 
         var lastFromX = 0;
-        var lastToX = 0;
+        var lastTox = 0;
 
         InputSegmentRadial.prototype.determineSelectedSegment = function(line) {
 
@@ -178,17 +178,16 @@ define([
             var fromX = line.fromX;
             var toX = line.toX;
 
-            if (Math.abs(line.w) < pad) {
-                distanceSegment = 0;
+            if (Math.abs(fromX - toX) < pad) {
                 toX = fromX;
             } else {
                 toX -= Math.clamp(toX-fromX, -pad, pad);
             }
 
-            var distanceSegment =  Math.clamp(Math.round(this.currentState[1] + (Math.sign(fromX - toX) * (fromX - toX) * distanceSegment) / this.configs.radius) / segs, - 1, 1) ;
+            var distanceSegment = Math.clamp(Math.round((fromX - toX ) / this.configs.radius) / segs, - 1, 1) ;
 
             lastFromX = fromX;
-            lastToX = toX;
+            lastTox = toX;
 
             if (this.currentState[1]!=distanceSegment) {
                 this.currentState[1] = distanceSegment;
