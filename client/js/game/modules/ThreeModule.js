@@ -126,11 +126,13 @@ define([
             if(this.model) {
 
             //    ThreeAPI.removeModel(this.model);
-                
+                this.parentObject3d.remove(this.model);
                 if (this.clientPiece.threePiece.render) {
                     ModuleEffectCreator.createModuleRemovedEffect(this.piece, this.model, this.applies, this.transform)
                 }
             }
+
+            ThreeAPI.removeModel(this.parentObject3d);
         };
 
 

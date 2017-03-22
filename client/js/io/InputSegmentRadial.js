@@ -162,6 +162,9 @@ define([
             this.active = false;
         };
 
+        var lastFromX = 0;
+        var lastToX = 0;
+
         InputSegmentRadial.prototype.determineSelectedSegment = function(line) {
 
             this.line = line;
@@ -174,13 +177,18 @@ define([
 
             var fromX = line.fromX;
             var toX = line.toX;
-            if (Math.abs(fromX - toX) < pad) {
+
+            if (Math.abs(line.w) < pad) {
+                distanceSegment = 0;
                 toX = fromX;
             } else {
                 toX -= Math.clamp(toX-fromX, -pad, pad);
             }
 
-            var distanceSegment = Math.clamp(Math.round((fromX - toX ) / this.configs.radius) / segs, - 1, 1) ;
+            var distanceSegment =  Math.clamp(Math.round(this.currentState[1] + (Math.sign(fromX - toX) * (fromX - toX) * distanceSegment) / this.configs.radius) / segs, - 1, 1) ;
+
+            lastFromX = fromX;
+            lastToX = toX;
 
             if (this.currentState[1]!=distanceSegment) {
                 this.currentState[1] = distanceSegment;
@@ -190,6 +198,7 @@ define([
                     message.animateToXYZscale(this.pointer.x + 50, this.pointer.y - 51, 0, 1.1);
                 }
                 this.dirty = true;
+
             }
             
             var radians = ((line.zrot + Math.PI) * (this.configs.radialSegments) / MATH.TWO_PI);

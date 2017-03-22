@@ -71,6 +71,12 @@ define([
         };
 
         ParticleRenderer.prototype.createParticles = function() {
+            if (this.particles.length) {
+                console.error("Particles already added!")
+                this.particles = [];
+
+            }
+
             for (var i = 0; i < this.poolSize; i++) {
                 var particle = new Particle(i);
                 for (var key in this.attributeConfigs) {

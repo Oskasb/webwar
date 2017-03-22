@@ -39,7 +39,7 @@ define([
             var material = new THREE.MeshStandardMaterial( { map:waterNormals, color: 0xffffff, wireframe: false, fog:false } );
 
             var mirrorMesh = new THREE.Mesh(
-                new THREE.PlaneBufferGeometry( parameters.width * 50000, parameters.height * 50000, 100, 100 ),
+                new THREE.PlaneBufferGeometry( parameters.width * 50000, parameters.height * 50000, 16, 16 ),
                 material
             );
 

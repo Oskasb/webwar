@@ -24,7 +24,15 @@ define([
 
         };
 
+        var init = false;
+        
         EffectsAPI.initEffects = function() {
+            
+            if (init) {
+                console.error("Init FX already called!")
+                return;
+            }
+            init = true;
             vegetation = new Vegetation(this);
             particleSpawner = new ParticleSpawner();
             waterFx = new WaterFX();

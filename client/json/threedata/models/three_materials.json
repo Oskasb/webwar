@@ -9,8 +9,8 @@
           "settings":{
             "blending":"NoBlending",
             "color":{"r":0.9, "g":0.9, "b":0.9},
-            "clearCoat":0.18,
-            "clearCoatRoughness":0.6,
+            "clearCoat":0.68,
+            "clearCoatRoughness":0.35,
             "roughness":1,
             "reflectivity":1.0,
             "metalness":1.0,
