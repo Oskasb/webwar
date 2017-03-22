@@ -38,12 +38,17 @@ define([
             ThreeAPI.getRenderer().gammaOutput = true;
 
 
-                bloomPass.threshold = 0.2;
+                bloomPass.threshold = 0.8;
                 bloomPass.exposure = 2;
 
                 bloomPass.strength = 3;
 
-                bloomPass.radius = 1.0;
+                bloomPass.radius = 10.0;
+
+            setTimeout(function() {
+                composer.render();
+            }, 10);
+
 
         };
         

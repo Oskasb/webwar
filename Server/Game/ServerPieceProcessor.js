@@ -74,28 +74,29 @@ ServerPieceProcessor.prototype.playerAgainstPiece = function(playerPiece, piece)
     //    console.log("hit: ", this.hitNormal.data[0], this.hitNormal.data[1], this.hitNormal.data[2]);
 
 
-            playerPiece.setState(GAME.ENUMS.PieceStates.BURST);
-            piece.setState(GAME.ENUMS.PieceStates.EXPLODE);
+        //    playerPiece.setState(GAME.ENUMS.PieceStates.BURST);
+        //    piece.setState(GAME.ENUMS.PieceStates.EXPLODE);
 
-            piece.spatial.pos.setVec(this.hitPoint);
-            piece.spatial.vel.setXYZ(0, 0, 0);
+        //    piece.spatial.pos.setVec(this.hitPoint);
+        //    piece.spatial.vel.setXYZ(0, 0, 0);
 
-            this.calcVec.setVec(this.hitNormal);
+        //    this.calcVec.setVec(this.hitNormal);
 
         //    this.calcVec.subVec(playerPiece.spatial.getPosVec());
         //    fastPiece.spatial.getVelVec().addVec(this.calcVec);
 
         //    this.calcVec.scale(-0.6);
-            playerPiece.spatial.getVelVec().scale(0.5);
-            playerPiece.spatial.getVelVec().addVec(this.calcVec);
+        //    playerPiece.spatial.getVelVec().scale(0.5);
+        //    playerPiece.spatial.getVelVec().addVec(this.calcVec);
 
-            piece.networkDirty = true;
-            playerPiece.networkDirty = true;
+       //     piece.networkDirty = true;
+        //    playerPiece.networkDirty = true;
 
-            this.callbacks.broadcast(piece);
-            this.callbacks.broadcast(playerPiece);
-            playerPiece.setState(GAME.ENUMS.PieceStates.MOVING);
+         //   this.callbacks.broadcast(piece);
+       //     this.callbacks.broadcast(playerPiece);
+       //     playerPiece.setState(GAME.ENUMS.PieceStates.MOVING);
             piece.setState(GAME.ENUMS.PieceStates.TIME_OUT);
+            piece.networkDirty = true;
     }
 };
 

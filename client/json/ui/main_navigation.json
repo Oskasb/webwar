@@ -709,7 +709,7 @@
           "parentId": "monitorContainer2_1",
           "style": ["data_list_container"],
           "dataField":{
-            "dataKeys":["SERVER_PIECES", "SERVER_PLAYERS"],
+            "dataKeys":["SERVER_PIECES", "WORLD_PIECES", "TERRAIN_PIECES", "SERVER_PLAYERS"],
             "dataCategory":"STATUS"
           }
         }

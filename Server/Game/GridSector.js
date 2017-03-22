@@ -100,9 +100,10 @@ GridSector.prototype.spawnGround = function(spawnData, elevation) {
     var rotVel = 0; // (Math.random()-0.5)*3;
         var piece = this.groundPiece || this.serverWorld.createWorldTerrainPiece(spawnData.pieceType, elevation, posx, posz, rot, rotVel);
         this.groundPiece = piece;
-    //    this.stitchTerrain();
 
+    //    this.stitchTerrain();
     //    piece.spatial.updateSpatial(10);
+
         this.terrainFunctions.applyEdgeElevation(
             piece,
 
@@ -161,7 +162,6 @@ GridSector.prototype.sectorRandom = function(seed) {
     return MATH.sillyRandom(this.sectorSeed(seed));
 };
 
-
 GridSector.prototype.getRandomPointInSector = function(margin, nmStore, baseSeed) {
 
     pos[0] = margin + this.sectorData.minX + this.sectorRandom(baseSeed*0.38) * (this.sectorData.size - margin*2);
@@ -185,7 +185,6 @@ GridSector.prototype.checkPosForLegit = function(margin, nmStore, baseSeed) {
         baseSeed += 4.212;
         return this.checkPosForLegit(margin, nmStore, baseSeed)
     }
-
 
     for (var i = 0; i < this.activeSectorPieces.length; i++) {
         var distance = this.activeSectorPieces[i].spatial.pos.getDistance(this.calcVec) ;
@@ -213,40 +212,31 @@ GridSector.prototype.getLegitNewPointInSector = function(margin) {
 };
 
 
-
-
 GridSector.prototype.spawnRandomSectorPiece = function(spawnData, count, amount) {
-
-
 
     var rotVel = 0;
 
     var rot = this.sectorRandom(512)*MATH.TWO_PI;
 
     var piece = this.serverWorld.createWorldPiece(spawnData.pieceType, 0, 0, rot, rotVel, 0);
-  //  piece.spatial.updateSpatial(10);
+    //  piece.spatial.updateSpatial(10);
 
     pos = this.getLegitNewPointInSector(piece.config.size + 5);
-
     piece.spatial.pos.setXYZ(pos[0], pos[1], pos[2]);
 
     piece.setState(GAME.ENUMS.PieceStates.SPAWN);
     piece.groundPiece = this.groundPiece;
-    
-    
-    if (spawnData.flatten) {
+
+    if (spawnData.flatten && !this.groundPhysics) {
         this.flattenTerrainForPiece(piece, piece.config.size);
     }
     
     this.activeSectorPieces.push(piece)
-
 };
 
 GridSector.prototype.flattenTerrainForPiece = function(piece, reach) {
-    
- 
-    this.terrainFunctions.setTerrainHeightAt(this.groundPiece, piece.spatial.pos, reach);
 
+    this.terrainFunctions.setTerrainHeightAt(this.groundPiece, piece.spatial.pos, reach);
 };
 
 
@@ -265,7 +255,7 @@ GridSector.prototype.deactivateSector = function() {
     for (var i = 0; i < this.activeSectorPieces.length; i++) {
         var piece = this.activeSectorPieces[i];
         if (piece) {
-            piece.setState(GAME.ENUMS.PieceStates.TIME_OUT)
+            piece.setState(GAME.ENUMS.PieceStates.REMOVED)
         }
     }
 
@@ -288,9 +278,9 @@ GridSector.prototype.notifyPlayerLeave = function(player) {
 
 
     // clears the sector, makes it glitch... out and back
- //   for (var i = 0; i < this.activeSectorPieces.length; i++) {
+//    for (var i = 0; i < this.activeSectorPieces.length; i++) {
 //        player.client.sendToClient(this.makeHidePacket(this.activeSectorPieces[i]));
- //   }
+//    }
 
     this.visiblePlayers.length = 0;
 
@@ -304,6 +294,24 @@ GridSector.prototype.notifyPlayerLeave = function(player) {
 
 };
 
+
+GridSector.prototype.getActivePieces = function(store) {
+
+    for (var i = 0; i < this.neighborSectors.length; i++) {
+        for (var j = 0; j < this.neighborSectors[i].activeSectorPieces.length; j++) {
+            if (store.indexOf(this.neighborSectors[i].activeSectorPieces[j]) == -1) {
+                store.push(this.neighborSectors[i].activeSectorPieces[j]);
+            }
+        }
+    }
+
+    for (var j = 0; j < this.activeSectorPieces.length; j++) {
+        if (store.indexOf(this.activeSectorPieces[j]) == -1) {
+            store.push(this.activeSectorPieces[j]);
+        }
+    }
+};
+
 GridSector.prototype.getVisiblePlayers = function(store) {
 
     for (var i = 0; i < this.neighborSectors.length; i++) {
@@ -311,7 +319,6 @@ GridSector.prototype.getVisiblePlayers = function(store) {
             if (store.indexOf(this.neighborSectors[i].activeSectorPlayers[j]) == -1) {
                 store.push(this.neighborSectors[i].activeSectorPlayers[j]);
             }
-
         }
     }
 
@@ -358,7 +365,7 @@ GridSector.prototype.playerSeeSectorPieces = function(player) {
 
     for (var i = 0; i < this.activeSectorPieces.length; i++) {
         if (!this.activeSectorPieces[i].removed) {
-            player.client.sendToClient(this.makeAppearPacket(this.activeSectorPieces[i]));
+        //    player.client.sendToClient(this.makeAppearPacket(this.activeSectorPieces[i]));
         }
     }
 

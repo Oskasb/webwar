@@ -246,10 +246,11 @@ define([
 		
 		ClientPiece.prototype.playerRemove = function() {
 			if (!this.pipelineObject) {
-				console.log("Broken Piece: ", this);
-				return;
+				console.log("Broken Piece, no pipeline Object?: ", this);
+			} else {
+				this.pipelineObject.removePipelineObject();
+				
 			}
-            this.pipelineObject.removePipelineObject();
 
 			this.detachModules();
 		//	this.gooPiece.removeGooPiece();

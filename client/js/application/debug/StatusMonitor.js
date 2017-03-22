@@ -172,7 +172,9 @@ define([
 
             evt.fire(evt.list().MONITOR_STATUS, {SERVER_BODIES:     status.bodies     });
             evt.fire(evt.list().MONITOR_STATUS, {BODY_CONTACTS:     status.contacts   });
-            evt.fire(evt.list().MONITOR_STATUS, {SERVER_PIECES:     status.pieces     });
+            evt.fire(evt.list().MONITOR_STATUS, {SERVER_PIECES:     status.pieces + status.terrains + status.players  });
+            evt.fire(evt.list().MONITOR_STATUS, {WORLD_PIECES:      status.pieces     });
+            evt.fire(evt.list().MONITOR_STATUS, {TERRAIN_PIECES:    status.terrains   });
             evt.fire(evt.list().MONITOR_STATUS, {SERVER_PLAYERS:    status.players    });
             evt.fire(evt.list().MONITOR_STATUS, {MEM_RSS:           rssMb             });
             evt.fire(evt.list().MONITOR_STATUS, {HEAP_USED:         heapMb +' MB  ('+ Math.round(heapUsed*100) + ' %)'  });

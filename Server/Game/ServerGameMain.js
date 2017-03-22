@@ -145,6 +145,7 @@ ServerGameMain.prototype.tickGameSimulation = function() {
 		idle:this.headroom,
 		busy:this.tickComputeTime,
 		pieces:this.serverWorld.pieces.length,
+		terrains:this.serverWorld.terrains.length,
 		players:this.serverWorld.playerCount,
 		bodies:bodies,
 		contacts:contacts,

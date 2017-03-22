@@ -47,6 +47,7 @@ define([
             status.contacts     = resData.contacts;
             status.pieces       = resData.pieces;
             status.players      = resData.players;
+            status.terrains     = resData.terrains;
             status.rss          = resData.memoryUsage.rss;
             status.heapTotal    = resData.memoryUsage.heapTotal;
             status.heapUsed     = resData.memoryUsage.heapUsed;

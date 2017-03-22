@@ -60,18 +60,22 @@ define([
 		};
 
 
+
+
 		GameMain.prototype.createPlayer = function(data) {
 
-            var _this = this;
+            var pieces = this.pieces;
+			var _this = this;
+
 
             var removeCallback = function(playerId) {
                 setTimeout(function() {
-                    delete _this.pieces[playerId];
+                    delete pieces[playerId];
                 }, 20)
             };
 
             var pieceReady = function(clientPiece) {
-                _this.pieces[clientPiece.playerId] = clientPiece;
+                pieces[clientPiece.playerId] = clientPiece;
                 _this.registerPlayer(clientPiece);
             };
 
@@ -137,6 +141,9 @@ define([
 		};
 
 		GameMain.prototype.trackClientPieces = function(count) {
+
+
+
 			if (this.lastPieceCount != count) {
 				this.lastPieceCount = count;
 				evt.fire(evt.list().MONITOR_STATUS, {CLIENT_PIECES:this.pieceCount});

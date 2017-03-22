@@ -191,19 +191,20 @@ ServerWorld.prototype.updateWorldPiece = function(piece, currentTime) {
 
 ServerWorld.prototype.removePiece = function(piece) {
     this.pieces.splice(this.pieces.indexOf(piece), 1);
-    this.broadcastPieceState(piece);
-    piece.setRemoved()
+
+    //piece.setRemoved()
 };
 
 ServerWorld.prototype.updatePieces = function(currentTime) {
 	var timeouts = [];
+    var remove = [];
 
 	for (var i = 0; i < this.pieces.length; i++) {
 
 
         if (this.pieces[i].physics) {
             this.cannonAPI.updatePhysicalPiece(this.pieces[i]);
-        };
+        }
 
 
         if (this.pieces[i].spatial.vel.getX() > 0.05 || this.pieces[i].spatial.vel.getZ() > 0.05) {
@@ -219,7 +220,7 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
 
                 if (this.pieces[i].spatial.posY() != y) {
                     this.broadcastPieceState(this.pieces[i]);
-                };
+                }
 
             }
 
@@ -228,11 +229,20 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
         if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.TIME_OUT) {
 			timeouts.push(this.pieces[i]);
 		}
+
+        if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.REMOVED) {
+            remove.push(this.pieces[i]);
+        }
 	}
 
 	for (var i = 0; i < timeouts.length; i++) {
+        this.broadcastPieceState(timeouts[i]);
 		this.removePiece(timeouts[i]);
 	}
+
+    for (var i = 0; i < remove.length; i++) {
+        this.removePiece(remove[i]);
+    }
 };
 
 ServerWorld.prototype.removeTerrain = function(piece) {
