@@ -238,9 +238,9 @@
         {
           "id": "plain_ground",
           "textures": [
-            {"uniform":"tx0", "file":"striperock",       "repeat":[4, 4]},
-            {"uniform":"tx1", "file":"darkrock",         "repeat":[13, 13]},
-            {"uniform":"tx2", "file":"mud",              "repeat":[8,  8]},
+            {"uniform":"tx0", "file":"striperock",       "repeat":[9,   9]},
+            {"uniform":"tx1", "file":"darkrock",         "repeat":[19, 19]},
+            {"uniform":"tx2", "file":"mud",              "repeat":[58,  58]},
             {"uniform":"tx3", "file":"dark_grass",       "repeat":[7, 7]},
             {"uniform":"tx4", "file":"grass",            "repeat":[22,  22]},
             {"uniform":"tx5", "file":"detail",           "repeat":[25,  25]},

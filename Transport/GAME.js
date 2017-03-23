@@ -345,16 +345,36 @@ if(typeof(GAME) == "undefined"){
 
 		vehicle = this.physics.body.vehicle;
 
-		var brakeForce = 70*(1/Math.abs(throttleState));
-		if (Math.abs(throttleState) < 0.05) {
-			brakeForce = 20;
+		this.spatial.getForwardVector(this.calcVec);
 
-			if (Math.abs(yawState) < 0.1) {
+		var brakeForce = 1;
+
+		if (this.spatial.vel.dotVec(this.calcVec)*throttleState < 0) {
+		//	throttleState *= 0.6;
+		//	this.pieceControls.inputState.currentState[1] *= 0.96;
+
+			this.pieceControls.inputState.setThrottle(this.spatial.vel.dotVec(this.calcVec) * -1);
+
+			if (this.spatial.vel.getLengthSquared() < 1) {
+				this.pieceControls.inputState.currentState[1] = 0;
+				this.pieceControls.inputState.setThrottle(this.pieceControls.inputState.currentState[1]);
+			}
+
+			brakeForce = 25 * (Math.sqrt(this.spatial.vel.getLength())+1);
+		}
+
+
+		if (Math.abs(throttleState) < 0.15) {
+	//		brakeForce = 20;
+			if (Math.abs(yawState) < 0.05) {
 				throttleState = 0;
-				brakeForce = 80;
+			//	brakeForce = 5 * (this.spatial.vel.getLength()+1);
 				yawState = 0;
 			}
+			brakeForce = 6 + 25 / (Math.sqrt(this.spatial.vel.getLength())+0.01);
 		}
+
+
 
 		var speed = this.spatial.vel.getLengthSquared()+1;
 		var speedFactor = Math.sqrt(800000 / (speed*0.5)) + 1500 / (1+speed*0.1);
@@ -376,13 +396,14 @@ if(typeof(GAME) == "undefined"){
 		vehicle.applyEngineForce(trackForce+ trackYawL, 6);
 		vehicle.applyEngineForce(trackForce+ trackYawR, 7);
 
-		vehicle.setBrake(brakeForce, 0);
-		vehicle.setBrake(brakeForce, 1);
-		vehicle.setBrake(brakeForce, 2);
-		vehicle.setBrake(brakeForce, 3);
-		vehicle.setBrake(brakeForce, 4);
-		vehicle.setBrake(brakeForce, 5);
-
+		vehicle.setBrake(brakeForce * 0.2, 0);
+		vehicle.setBrake(brakeForce * 0.2, 1);
+		vehicle.setBrake(brakeForce , 2);
+		vehicle.setBrake(brakeForce , 3);
+		vehicle.setBrake(brakeForce , 4);
+		vehicle.setBrake(brakeForce , 5);
+		vehicle.setBrake(brakeForce*0.2 , 6);
+		vehicle.setBrake(brakeForce*0.2 , 7);
 
 		var forward = MATH.clamp(trackForce+1, -1, 1);
 

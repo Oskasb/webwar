@@ -92,6 +92,7 @@ define([
             };
 
             var cursorPress = function(e) {
+                lastSegment = 0;
                 _this.enableSegments(evt.args(e));
             };
 
@@ -165,11 +166,13 @@ define([
         var lastFromX = 0;
         var lastTox = 0;
 
+        var lastSegment = 0;
+
         InputSegmentRadial.prototype.determineSelectedSegment = function(line) {
 
             this.line = line;
 
-            var pad = 80;
+            var pad = 20;
 
             var distanceSegment = Math.min(this.configs.distanceSegments, Math.floor(this.configs.distanceSegments * (line.w / this.configs.radius*2)* (line.w / this.configs.radius*2)));
 
@@ -184,22 +187,29 @@ define([
                 toX -= Math.clamp(toX-fromX, -pad, pad);
             }
 
-            var distanceSegment = Math.clamp(Math.round((fromX - toX ) / this.configs.radius) / segs, - 1, 1) ;
+            var distanceSegment = Math.round((fromX - toX ) / this.configs.radius) / segs;
 
             lastFromX = fromX;
             lastTox = toX;
 
-            if (this.currentState[1]!=distanceSegment) {
-                this.currentState[1] = distanceSegment;
-                if (SYSTEM_SETUP.DEBUG.renderInput) {
+            if (lastSegment - distanceSegment) {
 
-                    var message = new DomMessage(GameScreen.getElement(), "Length " + distanceSegment, 'ui_state_hint_on', this.pointer.x + 50, this.pointer.y - 30, 0.4);
-                    message.animateToXYZscale(this.pointer.x + 50, this.pointer.y - 51, 0, 1.1);
-                }
-                this.dirty = true;
+                distanceSegment = MATH.clamp(this.currentState[1] + distanceSegment-lastSegment, -1, 1);
+
+            //    if (this.currentState[1]!=distanceSegment) {
+                    this.currentState[1] = distanceSegment;
+                    if (SYSTEM_SETUP.DEBUG.renderInput) {
+
+                        var message = new DomMessage(GameScreen.getElement(), "Length " + distanceSegment, 'ui_state_hint_on', this.pointer.x + 50, this.pointer.y - 30, 0.4);
+                        message.animateToXYZscale(this.pointer.x + 50, this.pointer.y - 51, 0, 1.1);
+                    }
+                    this.dirty = true;
+             //   }
 
             }
-            
+
+            lastSegment = distanceSegment;
+
             var radians = ((line.zrot + Math.PI) * (this.configs.radialSegments) / MATH.TWO_PI);
 
 

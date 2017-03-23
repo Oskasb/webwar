@@ -142,13 +142,13 @@
 
         "fragmentTerrainTxLayersMain":[
 
-          "vec4 txColor0 = (smoothstep(0.12, 0.32, slope))                                  * texture2D( tx0, vUv0 );",
+          "vec4 txColor0 = (smoothstep(0.09, 0.19, slope))                                  * texture2D( tx0, vUv0 );",
 
-          "vec4 txColor1 = (smoothstep(0.05, 0.11, slope) - smoothstep(0.10, 0.52, slope)) * texture2D( tx1, vUv1  );",
+          "vec4 txColor1 = (smoothstep(0.04, 0.08, slope) - smoothstep(0.06, 0.25, slope)) * texture2D( tx1, vUv1  );",
 
-          "vec4 txColor2 = (smoothstep(0.02, 0.06, slope) - smoothstep(0.05, 0.09, slope)) * texture2D( tx2, vUv2 );",
+          "vec4 txColor2 = (smoothstep(0.005, 0.04, slope) - smoothstep(0.03, 0.13, slope)) * texture2D( tx2, vUv2 );",
 
-          "vec4 txColor3 = (smoothstep( -0.21, 0.05, slope) - smoothstep(0.03, 0.07, slope)) * texture2D( tx3, vUv3 );",
+          "vec4 txColor3 = (smoothstep( -0.21, 0.03, slope) - smoothstep(0.02, 0.06, slope)) * texture2D( tx3, vUv3 );",
 
           "vec4 txColor4 = (smoothstep(-1.0, 0.01, slope) - smoothstep(-0.01, 0.03, slope)) * texture2D( tx4, vUv4 );",
 
