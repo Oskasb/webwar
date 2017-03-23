@@ -65,7 +65,7 @@ define([
 
             if (this.applies.static_effect) {
 
-                this.staticEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.static_effect, this.piece.spatial.pos)
+                this.staticEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.static_effect, this.piece.spatial.pos, this.transform);
 
             }
 
@@ -134,9 +134,7 @@ define([
 
             //    ThreeAPI.removeModel(this.model);
                 this.parentObject3d.remove(this.model);
-                if (this.clientPiece.threePiece.render) {
-                    ModuleEffectCreator.createModuleRemovedEffect(this.piece, this.model, this.applies, this.transform)
-                }
+
             }
 
             if (this.staticEffect) {
@@ -144,6 +142,16 @@ define([
                 this.staticEffect = null;
             }
 
+            if (this.clientPiece.threePiece.render) {
+                if(this.model) {
+                    ModuleEffectCreator.createModuleModelEffect(this.piece, this.model, this.applies.remove_effect, this.transform) 
+                } else {
+                    ModuleEffectCreator.createPositionEffect(this.piece.spatial.pos, this.applies.remove_effect, this.transform)
+                }
+                
+            }
+            
+            
             ThreeAPI.removeModel(this.parentObject3d);
         };
 

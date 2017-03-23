@@ -185,7 +185,7 @@
 
           "effectAge = systemTime - startTime;",
 
-          "progress = min(effectAge*0.2, 0.8);",
+          "progress = min(effectAge*0.1, 0.8);",
 
           "float zHideFactor = 1.0;",
 

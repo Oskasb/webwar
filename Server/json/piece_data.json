@@ -250,10 +250,30 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 2,  0], "size":[4, 4, 4]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0.8,  0], "size":[4, 6, 4]}}
         ],
         "default_modules":[
           "big_shrub_module"
+        ]
+      },
+
+      "big_fuzzy_shrub_piece":{
+        "size":1,
+        "controls":{
+          "actions": {
+            "applyForward":1,
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+            "velocityDrag":0.5,
+            "radialDrag":1
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0.8,  0], "size":[4, 6, 4]}}
+        ],
+        "default_modules":[
+          "big_fuzzy_shrub_module"
         ]
       },
 

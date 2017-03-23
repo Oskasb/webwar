@@ -26,6 +26,18 @@
       }
     ],
 
+    "shrub_remove_effect":[
+      {
+        "particle_effects":[
+          {"id":"big_sparkly_shatter"},
+          {"id":"big_shockwave_hit"},
+          {"id":"big_leafy_swirl"},
+          {"id":"implosion_shockwave_hit"},
+          {"id":"leafy_ground_spray"}
+        ]
+      }
+    ],
+
     "tank_track_fx":[
       {
         "particle_effects":[

@@ -27,6 +27,10 @@
           "tiles":[[4, 5]]
         },
         {
+          "id":"free_leafs",
+          "tiles":[[5, 4]]
+        },
+        {
           "id":"flare_bloomy",
           "tiles":[[2, 4]]
         },

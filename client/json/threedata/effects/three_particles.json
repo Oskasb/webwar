@@ -115,7 +115,7 @@
           "sprite_id":"fielddot",
           "config":{
             "age":     {"min":0.01, "max":0.5},
-            "lifeTime":{"min":0.5,"max":8.0},
+            "lifeTime":{"min":1.5,"max":8.0},
             "positionSpread":{"x":3, "y":3, "z":3},
             "gravity":2.201,
             "drag":0.5,
@@ -125,13 +125,39 @@
             "alphaCurve":"oneToZero",
             "diffusionCurve":"oneToZero",
             "scaleCurve":"noiseFadeOut",
-            "size":{"value":0.1, "min": -0.1, "max": 0.4},
+            "size":{"value":0.1, "min": -0.1, "max": 0.8},
             "spin":{"value":0.01, "min":-2.5, "max":2.5},
             "velocitySpread":{"min":1,"max":1},
             "velocityDiffusion":1,
             "accelerationDiffusion":0.5,
             "colorDiffusion":0.35,
             "velocityFactor":0.013
+          }
+        },
+
+        {
+          "id":"big_leafy_swirl_particles",
+          "sprite_key":"ATLAS",
+          "sprite_id":"free_leafs",
+          "config":{
+            "age":     {"min":0.01, "max":0.1},
+            "lifeTime":{"min":2.5,"max":6.0},
+            "positionSpread":{"x":2, "y":4, "z":2},
+            "gravity":-1.201,
+            "drag":0.412,
+            "bend":0.2,
+            "spinDrag":0.1,
+            "colorCurve":"nearWhite",
+            "alphaCurve":"nearWhite",
+            "diffusionCurve":"oneToZero",
+            "scaleCurve":"oneToZero",
+            "size":{"value":0.3, "min": 0.0, "max": 2.2},
+            "spin":{"value":0.01, "min":-44.5, "max":44.5},
+            "velocitySpread":{"min":1,"max":1},
+            "velocityDiffusion":0.7,
+            "accelerationDiffusion":0.3,
+            "colorDiffusion":0.15,
+            "velocityFactor":3.613
           }
         },
 
@@ -278,14 +304,29 @@
             "alphaCurve":"quickIn",
             "diffusionCurve":"zeroOneZero",
             "scaleCurve":"nearWhite",
-            "size":{"value":4.5, "min":-1.3, "max":2.7},
+            "size":{"value":4.3, "min":0, "max":0.8},
             "velocityDiffusion":0.00001,
             "accelerationDiffusion":0.00001,
-            "colorDiffusion":0.25,
+            "colorDiffusion":0.15,
             "velocityFactor":1
           }
         },
-
+        {
+          "id":"big_fuzzy_shrub_particle",
+          "sprite_key":"ATLAS",
+          "sprite_id":"fuzzy_shrub",
+          "config":{
+            "colorCurve":"nearWhite",
+            "alphaCurve":"quickIn",
+            "diffusionCurve":"zeroOneZero",
+            "scaleCurve":"nearWhite",
+            "size":{"value":1.7, "min":0, "max":1.2},
+            "velocityDiffusion":0.00001,
+            "accelerationDiffusion":0.00001,
+            "colorDiffusion":0.15,
+            "velocityFactor":1
+          }
+        },
         {
           "id":"fuzzy_shrub_particle",
           "sprite_key":"ATLAS",

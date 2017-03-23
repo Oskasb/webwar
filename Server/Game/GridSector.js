@@ -172,7 +172,7 @@ GridSector.prototype.getRandomPointInSector = function(margin, nmStore, baseSeed
 
 var tries = 0;
 var maxTries = 550;
-var normalLimit = 0.95;
+var normalLimit = 0.65;
 
 GridSector.prototype.checkPosForLegit = function(margin, nmStore, baseSeed) {
 

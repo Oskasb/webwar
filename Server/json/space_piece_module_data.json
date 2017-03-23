@@ -48,7 +48,7 @@
       "applies":{
         "type":"string",
         "state":true,
-        "remove_effect":"shell_detonate"
+        "remove_effect":"shrub_remove_effect"
       }
     },
 
@@ -75,7 +75,7 @@
       "applies":{
         "type":"string",
         "state":true,
-        "remove_effect":"shell_detonate"
+        "remove_effect":"shrub_remove_effect"
       }
     },
     "tree_trunk_3_module":{
@@ -101,7 +101,7 @@
       "applies":{
         "type":"string",
         "state":true,
-        "remove_effect":"shell_detonate"
+        "remove_effect":"shrub_remove_effect"
       }
     },
     "tree_trunk_4_module":{
@@ -126,9 +126,21 @@
       "applies":{
         "type":"string",
         "state":true,
-        "remove_effect":"shell_detonate",
-        "three_model":"tree_trunk_2",
+        "remove_effect":"shrub_remove_effect",
         "static_effect":"big_shrub_veg"
+      }
+    },
+    "big_fuzzy_shrub_module":{
+      "id":"big_fuzzy_shrub_module",
+      "type":"hull",
+      "size":4,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "remove_effect":"shrub_remove_effect",
+        "static_effect":"big_fuzzy_shrub_veg"
       }
     },
     "rock_physical_10m_module":{
