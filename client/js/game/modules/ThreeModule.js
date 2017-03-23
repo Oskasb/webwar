@@ -21,6 +21,7 @@ define([
             this.module = module;
             this.clientPiece = clientPiece;
             this.piece = clientPiece.piece;
+            this.staticEffect = null;
         //    this.addModuleDebugBox()
         };
 
@@ -60,6 +61,12 @@ define([
                 started++
                 this.model = ThreeAPI.loadGround(this.applies, this.module.state.value, this.parentObject3d, partsReady);
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
+            }
+
+            if (this.applies.static_effect) {
+
+                this.staticEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.static_effect, this.piece.spatial.pos)
+
             }
 
             if (!this.model) {
@@ -130,6 +137,11 @@ define([
                 if (this.clientPiece.threePiece.render) {
                     ModuleEffectCreator.createModuleRemovedEffect(this.piece, this.model, this.applies, this.transform)
                 }
+            }
+
+            if (this.staticEffect) {
+                ModuleEffectCreator.removeModuleStaticEffect(this.staticEffect);
+                this.staticEffect = null;
             }
 
             ThreeAPI.removeModel(this.parentObject3d);

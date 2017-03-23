@@ -57,7 +57,7 @@ define([
         };
 
         ThreePiece.prototype.getVisibilityRange = function() {
-            return (1+(this.boundingSize/10)*(this.boundingSize/10)) * 150;
+            return (1+(this.boundingSize/10)*(this.boundingSize/10)) * 250;
         };
 
 

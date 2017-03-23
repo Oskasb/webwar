@@ -2,7 +2,6 @@
   {
     "dataType":"PIECE_DATA",
     "pieces":{
-
       "tall_building_17":{
         "size":25,
         "controls":{
@@ -169,29 +168,9 @@
           "tree_trunk_4_module"
         ]
       },
-    "big_tree_piece":{
-      "size":2,
-      "controls":{
-        "actions": {
-          "applyForward":1,
-          "timeoutEvent": "EXPLODE"
-        },
-        "constants":{
-          "velocityDrag":0.5,
-          "radialDrag":1
-        }
-      },
-      "attachment_points":[
-        {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  8, 0], "size":[7, 20, 7]}},
-        {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  18,  0], "size":[22, 12, 22]}}
-      ],
-      "default_modules":[
-        "tree_trunk_1_module",
-        "tree_leaves_1_module"
-      ]
-    },
-      "small_tree_piece":{
-        "size":1,
+
+      "big_tree_piece":{
+        "size":2,
         "controls":{
           "actions": {
             "applyForward":1,
@@ -203,14 +182,17 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 4,  0], "size":[4, 14, 4]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 8,  0], "size":[12, 8, 12]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  8, 0], "size":[7, 20, 7]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  18,  0], "size":[22, 12, 22]}}
         ],
         "default_modules":[
-          "tree_trunk_2_module",
-          "tree_leaves_2_module"
+          "tree_trunk_1_module",
+          "tree_leaves_1_module"
         ]
       },
+
+
+
       "medium_tree_piece":{
         "size":1,
         "controls":{
@@ -232,6 +214,49 @@
           "tree_leaves_3_module"
         ]
       },
+
+      "small_tree_piece":{
+        "size":1,
+        "controls":{
+          "actions": {
+            "applyForward":1,
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+            "velocityDrag":0.5,
+            "radialDrag":1
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 4,  0], "size":[4, 14, 4]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 8,  0], "size":[12, 8, 12]}}
+        ],
+        "default_modules":[
+          "tree_trunk_2_module",
+          "tree_leaves_2_module"
+        ]
+      },
+
+      "big_shrub_piece":{
+        "size":1,
+        "controls":{
+          "actions": {
+            "applyForward":1,
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+            "velocityDrag":0.5,
+            "radialDrag":1
+          }
+        },
+        "attachment_points":[
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 2,  0], "size":[4, 4, 4]}}
+        ],
+        "default_modules":[
+          "big_shrub_module"
+        ]
+      },
+
       "small_space_rock_piece":{
         "size":17,
         "controls":{

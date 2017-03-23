@@ -20,7 +20,7 @@
         },
         {
           "name":"big",
-          "vegetationSectorSize":43,
+          "vegetationSectorSize":65,
           "rowsNColumns":5,
           "spawnFrames":6,
           "plantCount":12
@@ -50,6 +50,7 @@
                 {"id":"standing_grass_veg", "slope":{"min":0, "max":0.15}},
                 {"id":"little_shrub_veg",   "slope":{"min":0.1, "max":0.75}},
                 {"id":"standing_fern_veg",  "slope":{"min":0.03, "max":0.62}},
+                {"id":"big_shrub_veg",  "slope":{"min":0.03, "max":0.62}},
                 {"id":"fuzzy_shrub_veg",    "slope":{"min":0.2, "max":0.3}}
               ]
             }

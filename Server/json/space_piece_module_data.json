@@ -117,6 +117,20 @@
         "three_model":"tree_model_4"
       }
     },
+    "big_shrub_module":{
+      "id":"big_shrub_module",
+      "type":"hull",
+      "size":3,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "remove_effect":"shell_detonate",
+        "three_model":"tree_trunk_2",
+        "static_effect":"big_shrub_veg"
+      }
+    },
     "rock_physical_10m_module":{
       "id":"rock_physical_10m_module",
       "type":"hull",

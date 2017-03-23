@@ -107,7 +107,7 @@ define([
 
         ConfiguredGpuEffect.prototype.setDefaults = function() {
             this.age.setValues(tV, 0.02);
-            this.lifeTime.setValues(1, 2);
+            this.lifeTime.setValues(0.01, 0.1);
             this.tiles.setValues(1, 1, tV, tV);
             this.position.setValues(tV, tV, tV, 8, tV, tV);
             this.acceleration.setValues(tV, -9.81, tV, tV, tV, tV);

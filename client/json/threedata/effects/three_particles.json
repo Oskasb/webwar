@@ -259,7 +259,7 @@
           "sprite_id":"little_shrub",
           "config":{
             "colorCurve":"nearWhite",
-            "alphaCurve":"zeroToOne",
+            "alphaCurve":"quickIn",
             "diffusionCurve":"zeroOneZero",
             "scaleCurve":"nearWhite",
             "size":{"value":0.5, "min":-0.1, "max":1.6},
@@ -269,6 +269,23 @@
             "velocityFactor":1
           }
         },
+        {
+          "id":"big_shrub_particle",
+          "sprite_key":"ATLAS",
+          "sprite_id":"little_shrub",
+          "config":{
+            "colorCurve":"nearWhite",
+            "alphaCurve":"quickIn",
+            "diffusionCurve":"zeroOneZero",
+            "scaleCurve":"nearWhite",
+            "size":{"value":4.5, "min":-1.3, "max":2.7},
+            "velocityDiffusion":0.00001,
+            "accelerationDiffusion":0.00001,
+            "colorDiffusion":0.25,
+            "velocityFactor":1
+          }
+        },
+
         {
           "id":"fuzzy_shrub_particle",
           "sprite_key":"ATLAS",

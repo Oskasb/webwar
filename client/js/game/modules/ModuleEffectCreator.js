@@ -3,11 +3,13 @@
 
 define([
         'Events',
-        'PipelineAPI'
+        'PipelineAPI',
+    'EffectsAPI'
     ],
     function(
         evt,
-        PipelineAPI
+        PipelineAPI,
+        EffectsAPI
     ) {
 
         var calcVec = new THREE.Vector3();
@@ -44,8 +46,6 @@ define([
 
         ModuleEffectCreator.createModuleRemovedEffect = function(piece, model, applies, transform) {
 
-
-
             if (!applies.remove_effect) {
                 var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', 'default_remove_effect');
             } else {
@@ -62,7 +62,6 @@ define([
             if (!calcVec.x) return;
             if (!piece.spatial.pos.data) return;
 
-
             for (var i = 0; i < fx.length; i++) {
                 for (var j = 0; j < fx[i].particle_effects.length; j++) {
                     ModuleEffectCreator.createModelTransformedEffects(fx[i].particle_effects[j].id, piece, calcVec, transform, calcQuat, 1);
@@ -71,6 +70,7 @@ define([
         };
 
 
+        
         ModuleEffectCreator.createModuleApplyEmitEffect = function(piece, model, applies, transform, stateValue) {
 
             var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', applies.emit_effect);
@@ -105,6 +105,21 @@ define([
         };
 
 
+        ModuleEffectCreator.createModuleStaticEffect = function(effectId, pos) {
+
+            calcVec.set(0, 0, 0);
+
+            calcVec2.set(pos.data[0], pos.data[1], pos.data[2]);
+
+            return EffectsAPI.requestPassiveEffect(effectId, calcVec2, calcVec);
+
+        };
+
+
+        ModuleEffectCreator.removeModuleStaticEffect = function(effect) {
+            EffectsAPI.returnPassiveEffect(effect);
+        };
+        
         return ModuleEffectCreator;
 
     });
