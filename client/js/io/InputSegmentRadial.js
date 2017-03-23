@@ -93,6 +93,7 @@ define([
 
             var cursorPress = function(e) {
                 lastSegment = 0;
+                lastRadial = 0;
                 _this.enableSegments(evt.args(e));
             };
 
@@ -167,6 +168,7 @@ define([
         var lastTox = 0;
 
         var lastSegment = 0;
+        var lastRadial = 0;
 
         InputSegmentRadial.prototype.determineSelectedSegment = function(line) {
 
@@ -215,13 +217,15 @@ define([
 
 
             var selection = MATH.moduloPositive(Math.clamp(Math.round(radians), 0 ,this.configs.radialSegments), this.configs.radialSegments) ;
-            if (selection != this.selectionIndex) {
+            if (selection != lastRadial) {
 
                 this.dirty = true;
                 this.currentState[0] = selection;
 
                 this.selectionIndex = selection;
             }
+
+            lastRadial = this.selectionIndex;
 
             if (this.dirty) {
                 this.segmentSelected();
