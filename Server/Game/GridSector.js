@@ -432,7 +432,7 @@ GridSector.prototype.neighborActive = function() {
         }
 
         for (var i = 0; i < this.visiblePlayers.length; i++) {
-            this.playerSeeSectorPieces(this.visiblePlayers[i]);
+        //    this.playerSeeSectorPieces(this.visiblePlayers[i]);
         }
     }
 
@@ -475,7 +475,7 @@ GridSector.prototype.notifyPlayerEnter = function(player) {
     this.notifyNeighborSectors();
 
     this.sectorData.presentPlayers = this.activeSectorPlayers.length;
-    this.playerSeeSectorPieces(player);
+ //   this.playerSeeSectorPieces(player);
 };
 
 

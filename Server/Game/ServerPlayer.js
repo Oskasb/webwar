@@ -31,6 +31,7 @@ ServerPlayer = function(pieceType, clientId, client, simTime) {
 	client.attachPlayer(this);
 
     this.visiblePieces = [];
+    this.otherPlayers = [];
 
     this.sendSeeQueue = [];
     this.sendUnseeQueue = [];
@@ -85,15 +86,20 @@ ServerPlayer.prototype.unseePieces = function(gridSector, piecesRemove) {
 
 ServerPlayer.prototype.seePlayers = function(iAppearPacket, playersAppear) {
     for (var i = 0; i < playersAppear.length; i++) {
-        playersAppear[i].client.sendToClient(iAppearPacket);
-        this.client.sendToClient(playersAppear[i].makeAppearPacket());
+        if (playersAppear[i].id != this.id) {
+            playersAppear[i].client.sendToClient(iAppearPacket);
+            this.client.sendToClient(playersAppear[i].makeAppearPacket());
+        }
+
     }
 };
 
 ServerPlayer.prototype.unseePlayers = function(iHidePAcket, playersRemove) {
     for (var i = 0; i < playersRemove.length; i++) {
-        playersRemove[i].client.sendToClient(iHidePAcket);
-        this.client.sendToClient(playersRemove[i].makeHidePacket());
+        if (playersRemove[i].id != this.id) {
+            playersRemove[i].client.sendToClient(iHidePAcket);
+            this.client.sendToClient(playersRemove[i].makeHidePacket());
+        }
     }
 };
 
@@ -112,6 +118,8 @@ ServerPlayer.prototype.switchGridSector = function(gridSector) {
     var piecesRemove = [];
     var piecesAppear = [];
 
+    console.log("Add player to Secotr", this.id);
+
     gridSector.addPlayerToSector(this);
 
     if (this.currentGridSector) {
@@ -119,38 +127,36 @@ ServerPlayer.prototype.switchGridSector = function(gridSector) {
     //    this.currentGridSector.getActivePieces(piecesPre);
         this.currentGridSector.notifyPlayerLeave(this);
 
-        this.currentGridSector.getVisiblePlayers(visiblePre);
+    //    this.currentGridSector.getVisiblePlayers(visiblePre);
     }
 
 
     this.currentGridSector = gridSector;
-    this.currentGridSector.getVisiblePlayers(visiblePost);
+  //  this.currentGridSector.getVisiblePlayers(visiblePost);
 
     this.currentGridSector.notifyPlayerEnter(this);
  //   this.currentGridSector.getActivePieces(piecesPost);
 
-    this.arrayDiff(visiblePre,  visiblePost, playersRemove );
+ //   this.arrayDiff(visiblePre,  visiblePost, playersRemove );
 
-    this.arrayDiff(visiblePost, visiblePre,  playersAppear );
+ //   this.arrayDiff(visiblePost, visiblePre,  playersAppear );
 
  //   this.arrayDiff(piecesPre,   piecesPost,  piecesRemove  );
  //  this.arrayDiff(piecesPost,  piecesPre,   piecesAppear  );
 
-    var iHidePacket   = this.makeHidePacket();
-    var iAppearPacket = this.makeAppearPacket();
+ //   var iHidePacket   = this.makeHidePacket();
+ //   var iAppearPacket = this.makeAppearPacket();
 
-    this.unseePlayers(iHidePacket, playersRemove);
-    this.seePlayers(iAppearPacket, playersAppear);
+  //  this.unseePlayers(iHidePacket, playersRemove);
+  //  this.seePlayers(iAppearPacket, playersAppear);
  //   this.unseePieces(gridSector, piecesRemove);
 
-    this.client.setVisiblePlayers(visiblePost);
+
 
     //       console.log("Player diff APP, REM", playersAppear.length, playersRemove.length);
 
     return gridSector;
 };
-
-
 
 ServerPlayer.prototype.arraySwitch = function(source, target, untarget) {
 
@@ -163,6 +169,33 @@ ServerPlayer.prototype.arraySwitch = function(source, target, untarget) {
             untarget.splice(untarget.indexOf(source[i]), 1);
         }
     }
+};
+
+ServerPlayer.prototype.updateVisiblePlayers = function() {
+
+    var playersRemove = [];
+    var playersAppear = [];
+
+    var piecesPre = this.otherPlayers;
+ //   console.log("pieces Pre: ", piecesPre);
+    this.otherPlayers = [];
+    this.currentGridSector.getVisiblePlayers(this.otherPlayers);
+
+    this.arrayDiff(piecesPre,   this.otherPlayers,  playersRemove  );
+    this.arrayDiff(this.otherPlayers,  piecesPre,   playersAppear  );
+
+    if (playersRemove.length) {
+        var iHidePacket   = this.makeHidePacket();
+        this.unseePlayers(iHidePacket, playersRemove);
+    }
+
+    if (playersAppear.length) {
+ //       console.log(playersAppear[0].id, this.id)
+        var iAppearPacket = this.makeAppearPacket();
+        this.seePlayers(iAppearPacket, playersAppear);
+    }
+
+    this.client.setVisiblePlayers(this.otherPlayers);
 
 };
 
@@ -256,10 +289,12 @@ ServerPlayer.prototype.notifyCurrentGridSector = function(gridSector) {
         return this.switchGridSector(gridSector);
 	}
 
+    this.updateVisiblePlayers();
+
     if (this.sendSeeQueue.length + this.sendUnseeQueue.length < 20) {
         this.updateVisiblePieces();
     }
-    
+
 };
 
 ServerPlayer.prototype.makePacket = function() {
