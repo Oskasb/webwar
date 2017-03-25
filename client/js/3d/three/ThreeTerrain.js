@@ -100,6 +100,8 @@ define([
             terrain.children[0].position.x += applies.terrain_size*0.5;
             terrain.children[0].position.y -= applies.terrain_size*0.5;
 
+            terrain.children[0].geometry = new THREE.BufferGeometry().fromGeometry( terrain.children[0].geometry );
+
             terrain.size = applies.terrain_size;
             terrain.segments = applies.terrain_segments;
             terrain.array1d = array1d;

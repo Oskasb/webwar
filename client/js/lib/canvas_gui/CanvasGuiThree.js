@@ -220,7 +220,7 @@ define([
 
 
 		CanvasGuiThree.prototype.remove3dGuiHost = function() {
-			ThreeAPI.removeModel(this.uiQuad);
+			ThreeAPI.disposeModel(this.uiQuad);
 			this.canvas.removeElement();
 		};
 

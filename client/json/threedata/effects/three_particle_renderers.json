@@ -57,12 +57,12 @@
         {
           "id":"gpu_opaque_vegetation_renderer",
           "material_id":"gpu_vegetation_sprite_material",
-          "particle_pool":4000,
+          "particle_pool":3000,
           "particle_geometry":"plant3d",
           "material_options":{
             "blending":"NoBlending",
             "transparent":false,
-            "alphaTest":0.6,
+            "alphaTest":0.4,
             "depthWrite":true,
             "depthTest":true
           }

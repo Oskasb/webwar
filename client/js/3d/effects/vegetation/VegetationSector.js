@@ -137,7 +137,7 @@ define([
 
         VegetationSector.prototype.disableVegetationSector = function() {
             if (this.debugging) {
-                ThreeAPI.removeModel(this.parentObject3d);
+                ThreeAPI.disposeModel(this.parentObject3d);
                 this.debugging = false;
             }
         };

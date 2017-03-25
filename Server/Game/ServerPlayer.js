@@ -29,7 +29,11 @@ ServerPlayer = function(pieceType, clientId, client, simTime) {
 	this.piece.networkDirty = true;
 	this.piece.setName(clientId);
 	client.attachPlayer(this);
-    
+
+    this.visiblePieces = [];
+
+    this.sendSeeQueue = [];
+    this.sendUnseeQueue = [];
 };
 
 
@@ -93,6 +97,7 @@ ServerPlayer.prototype.unseePlayers = function(iHidePAcket, playersRemove) {
 };
 
 
+
 ServerPlayer.prototype.switchGridSector = function(gridSector) {
     var visiblePre = [];
     var visiblePost = [];
@@ -110,14 +115,12 @@ ServerPlayer.prototype.switchGridSector = function(gridSector) {
 
     if (this.currentGridSector) {
 
-        
         this.currentGridSector.getActivePieces(piecesPre);
         this.currentGridSector.notifyPlayerLeave(this);
 
-
-        
         this.currentGridSector.getVisiblePlayers(visiblePre);
     }
+
 
     this.currentGridSector = gridSector;
     this.currentGridSector.getVisiblePlayers(visiblePost);
@@ -125,26 +128,87 @@ ServerPlayer.prototype.switchGridSector = function(gridSector) {
     this.currentGridSector.notifyPlayerEnter(this);
     this.currentGridSector.getActivePieces(piecesPost);
 
-    this.arrayDiff(visiblePre,  visiblePost, playersRemove);
-    this.arrayDiff(piecesPre,   piecesPost,  piecesRemove);
-    this.arrayDiff(visiblePost, visiblePre,  playersAppear);
-    this.arrayDiff(piecesPost,  piecesPre,   piecesAppear);
+    this.arrayDiff(visiblePre,  visiblePost, playersRemove );
 
-    var iHidePacket = this.makeHidePacket();
+    this.arrayDiff(visiblePost, visiblePre,  playersAppear );
+
+    this.arrayDiff(piecesPre,   piecesPost,  piecesRemove  );
+    this.arrayDiff(piecesPost,  piecesPre,   piecesAppear  );
+
+    var iHidePacket   = this.makeHidePacket();
     var iAppearPacket = this.makeAppearPacket();
 
     this.unseePlayers(iHidePacket, playersRemove);
     this.seePlayers(iAppearPacket, playersAppear);
-    this.unseePieces(gridSector, piecesRemove);
-    this.seePieces(gridSector, piecesAppear);
-
+ //   this.unseePieces(gridSector, piecesRemove);
 
     this.client.setVisiblePlayers(visiblePost);
 
     //       console.log("Player diff APP, REM", playersAppear.length, playersRemove.length);
 
     return gridSector;
+};
 
+ServerPlayer.prototype.updateVisiblePieces = function() {
+
+    var piecesRemove = [];
+    var piecesAppear = [];
+
+    var piecesPre = this.visiblePieces;
+    this.visiblePieces = [];
+    this.currentGridSector.getVisibleFromPosition(this.piece.spatial.pos, this.visiblePieces);
+
+    var piecesPost = this.visiblePieces;
+
+    this.arrayDiff(piecesPre,   piecesPost,  piecesRemove  );
+    this.arrayDiff(piecesPost,  piecesPre,   piecesAppear  );
+
+    for (var i = 0; i < piecesRemove.length; i++) {
+        if (this.sendUnseeQueue.indexOf(piecesRemove[i]) == -1) {
+            this.sendUnseeQueue.push(piecesRemove[i]);
+        }
+
+        if (this.sendSeeQueue.indexOf(piecesRemove[i]) != -1) {
+            this.sendSeeQueue.splice(this.sendSeeQueue.indexOf(piecesRemove[i]), 1);
+        }
+    }
+
+    for (var i = 0; i < piecesAppear.length; i++) {
+        if (this.sendSeeQueue.indexOf(piecesAppear[i]) == -1) {
+            this.sendSeeQueue.push(piecesAppear[i]);
+        }
+
+        if (this.sendUnseeQueue.indexOf(piecesAppear[i]) != -1) {
+            this.sendUnseeQueue.splice(this.sendSeeQueue.indexOf(piecesAppear[i]), 1);
+        }
+    }
+
+};
+
+
+ServerPlayer.prototype.processSeeSendQueue = function() {
+
+    var send = 4;
+
+ //   if (this.sendSeeQueue.length < send) {
+        send = this.sendSeeQueue.length;
+ //   }
+
+    var see = this.sendSeeQueue.splice(0, send);
+
+    this.seePieces(this.currentGridSector, see);
+};
+
+
+ServerPlayer.prototype.processUnseeSendQueue = function() {
+
+    var send = 4;
+
+ //   if (this.sendUnseeQueue.length < send) {
+        send = this.sendUnseeQueue.length;
+  //  }
+
+    this.unseePieces(this.currentGridSector, this.sendUnseeQueue.splice(0, send));
 };
 
 
@@ -159,10 +223,10 @@ ServerPlayer.prototype.notifyCurrentGridSector = function(gridSector) {
 
 	if (this.currentGridSector != gridSector) {
         return this.switchGridSector(gridSector);
-
-
 	}
-    
+
+    this.updateVisiblePieces();
+
 };
 
 ServerPlayer.prototype.makePacket = function() {

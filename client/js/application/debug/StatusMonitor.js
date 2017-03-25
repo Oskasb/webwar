@@ -67,6 +67,7 @@ define([
         StatusMonitor.prototype.monitorRenderStates = function() {
             evt.fire(evt.list().MONITOR_STATUS, {CANVAS_TICKS:CanvasGuiAPI.getCalledTicks()});
             evt.fire(evt.list().MONITOR_STATUS, {SCENE_NODES:ThreeAPI.countAddedSceneModels()});
+            evt.fire(evt.list().MONITOR_STATUS, {MESH_POOL:ThreeAPI.countPooledModels()});
             evt.fire(evt.list().MONITOR_STATUS, {DRAW_CALLS:ThreeAPI.sampleRenderInfo('render', 'calls')});
             evt.fire(evt.list().MONITOR_STATUS, {VERTICES:ThreeAPI.sampleRenderInfo('render', 'vertices')});
 

@@ -86,7 +86,7 @@ GridSector.prototype.activateSector = function() {
         this.groundPhysics = true;
   //  }
     this.terrainFunctions.enableTerrainPhysics(this.groundPiece);
-    this.groundPiece.setState(GAME.ENUMS.PieceStates.APPEAR);
+ //   this.groundPiece.setState(GAME.ENUMS.PieceStates.APPEAR);
  //   this.groundPiece.networdDirty = true;
     this.activeSectorPieces.push(this.groundPiece);
 };
@@ -224,7 +224,7 @@ GridSector.prototype.spawnRandomSectorPiece = function(spawnData, count, amount)
     pos = this.getLegitNewPointInSector(piece.config.size + 5);
     piece.spatial.pos.setXYZ(pos[0], pos[1], pos[2]);
 
-    piece.setState(GAME.ENUMS.PieceStates.SPAWN);
+ //   piece.setState(GAME.ENUMS.PieceStates.SPAWN);
     piece.groundPiece = this.groundPiece;
 
     if (spawnData.flatten && !this.groundPhysics) {
@@ -232,6 +232,7 @@ GridSector.prototype.spawnRandomSectorPiece = function(spawnData, count, amount)
     }
     
     this.activeSectorPieces.push(piece)
+    return piece;
 };
 
 GridSector.prototype.flattenTerrainForPiece = function(piece, reach) {
@@ -245,7 +246,8 @@ GridSector.prototype.spawnSelection = function(spawnData) {
     var amount = spawnData.min + Math.floor(this.sectorRandom(213)* spawnData.max);
 
     for (var i = 0; i < amount; i++) {
-        this.spawnRandomSectorPiece(spawnData, i, amount);
+        var piece = this.spawnRandomSectorPiece(spawnData, i, amount);
+        piece.gridSector = this;
     }
 };
 
@@ -261,6 +263,12 @@ GridSector.prototype.deactivateSector = function() {
 
     this.activeSectorPieces.length = 0;
     this.terrainFunctions.disableTerrainPhysics(this.groundPiece);
+};
+
+GridSector.prototype.deactivatePiece = function(piece) {
+
+    this.activeSectorPieces.splice(this.activeSectorPieces.indexOf(piece), 1);
+    
 };
 
 
@@ -300,6 +308,9 @@ GridSector.prototype.getActivePieces = function(store) {
     for (var i = 0; i < this.neighborSectors.length; i++) {
         for (var j = 0; j < this.neighborSectors[i].activeSectorPieces.length; j++) {
             if (store.indexOf(this.neighborSectors[i].activeSectorPieces[j]) == -1) {
+                
+                
+                
                 store.push(this.neighborSectors[i].activeSectorPieces[j]);
             }
         }
@@ -308,6 +319,44 @@ GridSector.prototype.getActivePieces = function(store) {
     for (var j = 0; j < this.activeSectorPieces.length; j++) {
         if (store.indexOf(this.activeSectorPieces[j]) == -1) {
             store.push(this.activeSectorPieces[j]);
+        }
+    }
+};
+
+
+GridSector.prototype.getVisibleFromPosition = function(pos, store) {
+
+    var terrains = 0;
+
+    for (var i = 0; i < this.neighborSectors.length; i++) {
+        for (var j = 0; j < this.neighborSectors[i].activeSectorPieces.length; j++) {
+            var activePiece = this.neighborSectors[i].activeSectorPieces[j];
+            if (store.indexOf(activePiece) == -1) {
+
+                var size = activePiece.config.size || 700;
+                var distance = activePiece.spatial.pos.getDistance(pos) || 100;
+
+                if (distance < this.sectorData.size * 0.5 + size*size*2 ) {
+
+                    store.push(activePiece);
+
+                }
+            }
+        }
+    }
+
+    for (var j = 0; j < this.activeSectorPieces.length; j++) {
+        if (store.indexOf(this.activeSectorPieces[j]) == -1) {
+
+            var activePiece = this.activeSectorPieces[j];
+            if (store.indexOf(activePiece) == -1) {
+                var size = activePiece.config.size || 700;
+                var distance = activePiece.spatial.pos.getDistance(pos) || 100;
+
+                if (distance < this.sectorData.size * 0.5 + size*size*2 ) {
+                    store.push(activePiece);
+                }
+            }
         }
     }
 };
@@ -373,6 +422,10 @@ GridSector.prototype.playerSeeSectorPieces = function(player) {
 
 GridSector.prototype.addPlayerToSector = function(player) {
     this.activeSectorPlayers.push(player);
+};
+
+GridSector.prototype.getVisiblePieces = function(player) {
+    
 };
 
 

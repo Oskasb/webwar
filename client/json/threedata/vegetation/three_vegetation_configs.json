@@ -13,17 +13,17 @@
         },
         {
           "name":"medium",
-          "vegetationSectorSize":29,
+          "vegetationSectorSize":23,
           "rowsNColumns":5,
           "spawnFrames":6,
-          "plantCount":12
+          "plantCount":5
         },
         {
           "name":"big",
-          "vegetationSectorSize":65,
+          "vegetationSectorSize":45,
           "rowsNColumns":5,
           "spawnFrames":6,
-          "plantCount":12
+          "plantCount":4
         }
       ],
       "SYSTEMS":[
@@ -40,17 +40,13 @@
             {
               "vegetation_effects":[
                 {"id":"standing_grass_veg", "slope":{"min":0, "max":0.25}},
-                {"id":"standing_fern_veg",  "slope":{"min":0.01, "max":0.45}},
-                {"id":"little_shrub_veg",   "slope":{"min":0.3, "max":0.75}},
-                {"id":"fuzzy_shrub_veg",    "slope":{"min":0.2, "max":0.63}}
+                {"id":"standing_fern_veg",  "slope":{"min":0.01, "max":0.45}}
               ]
             },
             {
               "vegetation_effects":[
                 {"id":"standing_grass_veg", "slope":{"min":0, "max":0.15}},
-                {"id":"little_shrub_veg",   "slope":{"min":0.1, "max":0.75}},
-                {"id":"standing_fern_veg",  "slope":{"min":0.03, "max":0.62}},
-                {"id":"fuzzy_shrub_veg",    "slope":{"min":0.2, "max":0.3}}
+                {"id":"standing_fern_veg",  "slope":{"min":0.03, "max":0.62}}
               ]
             }
           ]

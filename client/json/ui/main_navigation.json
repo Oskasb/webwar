@@ -645,7 +645,7 @@
           "parentId": "monitorContainer5",
           "style": ["data_list_container"],
           "dataField":{
-            "dataKeys":["MEM", "GEOMETRIES", "TEXTURES", "SHADERS", "DRAW_CALLS", "SCENE_NODES", "VERTICES"],
+            "dataKeys":["MEM", "MESH_POOL", "GEOMETRIES", "TEXTURES", "SHADERS", "DRAW_CALLS", "SCENE_NODES", "VERTICES"],
             "dataCategory":"STATUS"
           }
         }

@@ -197,24 +197,30 @@ define([
         ThreeAPI.animateModelTexture = function(model, z, y) {
             ThreeFeedbackFunctions.applyModelTextureTranslation(model, z, y)
         };
-
         
         ThreeAPI.setObjectVisibility = function(object3d, bool) {
             object3d.visible = bool;
         };
 
-        ThreeAPI.showModel = function(model) {
-            ThreeSetup.addToScene(model);
+        ThreeAPI.showModel = function(obj3d) {
+            ThreeSetup.addToScene(obj3d);
         };
 
-        ThreeAPI.hideModel = function(model) {
-            ThreeSetup.removeModelFromScene(model);
+        ThreeAPI.hideModel = function(obj3d) {
+            ThreeSetup.removeModelFromScene(obj3d);
         };
         
         ThreeAPI.removeModel = function(model) {
-            ThreeSetup.removeModelFromScene(model);
+
+//            ThreeSetup.removeModelFromScene(model);
+            ThreeModelLoader.returnModelToPool(model);
         };
 
+        ThreeAPI.disposeModel = function(model) {
+            ThreeSetup.removeModelFromScene(model);
+            ThreeModelLoader.disposeHierarchy(model);
+        };
+        
         ThreeAPI.countAddedSceneModels = function() {
             return ThreeSetup.getSceneChildrenCount();
         };
@@ -222,7 +228,11 @@ define([
         ThreeAPI.sampleRenderInfo = function(source, key) {
             return ThreeSetup.getInfoFromRenderer(source, key);
         };
-        
+
+        ThreeAPI.countPooledModels = function() {
+            return ThreeModelLoader.getPooledModelCount();
+        };
+
         return ThreeAPI;
     });
 

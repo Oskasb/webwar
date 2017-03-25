@@ -43,8 +43,7 @@ define([
         };
 
         ThreeInstanceBufferModel.prototype.dispose = function() {
-            ThreeAPI.removeModel(this.mesh);
-            this.geometry.dispose();
+            ThreeAPI.disposeModel(this.mesh);
         };
 
         ThreeInstanceBufferModel.prototype.addToScene = function() {

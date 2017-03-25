@@ -129,30 +129,29 @@ define([
 
 
         ThreeModule.prototype.removeThreeModule = function() {
-            ThreeAPI.removeModel(this.parentObject3d);
-            if(this.model) {
-
-            //    ThreeAPI.removeModel(this.model);
-                this.parentObject3d.remove(this.model);
-
-            }
-
-            if (this.staticEffect) {
-                ModuleEffectCreator.removeModuleStaticEffect(this.staticEffect);
-                this.staticEffect = null;
-            }
-
+            
             if (this.clientPiece.threePiece.render) {
                 if(this.model) {
                     ModuleEffectCreator.createModuleModelEffect(this.piece, this.model, this.applies.remove_effect, this.transform) 
                 } else {
                     ModuleEffectCreator.createPositionEffect(this.piece.spatial.pos, this.applies.remove_effect, this.transform)
                 }
-                
+            }
+
+            if(this.model) {
+                if (this.applies.three_terrain ) {
+                    ThreeAPI.disposeModel(this.model);
+                } else {
+                    ThreeAPI.removeModel(this.model);
+                }
+            }
+
+            if (this.staticEffect) {
+                ModuleEffectCreator.removeModuleStaticEffect(this.staticEffect);
+                this.staticEffect = null;
             }
             
-            
-            ThreeAPI.removeModel(this.parentObject3d);
+            ThreeAPI.disposeModel(this.parentObject3d);
         };
 
 
@@ -230,7 +229,7 @@ define([
             if (this.applies.three_terrain) {
 
                 if (!this.model) return;
-                var verts = this.model.children[0].children[0].geometry.vertices;
+            //    var verts = this.model.children[0].children[0].geometry.vertices;
 
             //    this.model.children[0].position.x = 100;
             //    this.model.children[0].position.z = 100;

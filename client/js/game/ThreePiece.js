@@ -67,7 +67,7 @@ define([
 
         ThreePiece.prototype.removeThreePiece = function() {
             this.debugPipe.removePipelineObject();
-            ThreeAPI.removeModel(this.parentObject3d);
+            ThreeAPI.hideModel(this.parentObject3d);
         };
 
         ThreePiece.prototype.sampleSpatial = function(spatial) {
@@ -96,8 +96,6 @@ define([
 
         ThreePiece.prototype.determineVisibility = function() {
 
-
-
             var distance = ThreeAPI.distanceToCamera(this.piece.spatial.posX(), this.piece.spatial.posY(), this.piece.spatial.posZ())
 
             // out of visibility range
@@ -123,7 +121,7 @@ define([
             //        }
             //    }
 
-            var pad = this.boundingSize*Math.PI / Math.sqrt(distance);
+        //    var pad = this.boundingSize*Math.PI / Math.sqrt(distance);
 
             if (MATH.valueIsBetween(this.frustumCoords.x, 0, 1) && MATH.valueIsBetween(this.frustumCoords.y, 0, 1) ) {
                 this.setRendereable(true);

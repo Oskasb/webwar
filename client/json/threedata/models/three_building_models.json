@@ -6,6 +6,7 @@
           "id": "tall_building_10_combined",
           "material": "main_atlas",
           "format":"obj",
+          "pool": 10,
           "url": "./client/assets/models/buildings/scraper_10",
           "urlUv2": "./client/assets/models/buildings/scraper_10",
           "transform": {
@@ -18,6 +19,7 @@
           "id": "tall_building_17_combined",
           "material": "main_atlas",
           "format":"obj",
+          "pool": 10,
           "url": "./client/assets/models/buildings/scraper_17",
           "urlUv2": "./client/assets/models/buildings/scraper_17",
           "transform": {
@@ -30,51 +32,9 @@
           "id": "small_house_combined",
           "material": "main_atlas",
           "format":"obj",
+          "pool": 10,
           "url": "./client/assets/models/buildings/small_house_combined",
           "urlUv2": "./client/assets/models/buildings/small_house_combined",
-          "transform": {
-            "pos":    [0,    -7, -0],
-            "rot":    [0,    0,  0],
-            "scale":  [1,    1,  1]
-          }
-        },
-
-        {
-          "id": "small_house_exterior",
-          "material": "nature_opaque",
-          "format":"obj",
-          "url": "./client/assets/models/buildings/small_house_exterior",
-          "transform": {
-            "pos":    [0,    -7, -0],
-            "rot":    [0,    0,  0],
-            "scale":  [1,    1,  1]
-          }
-        },
-        {
-          "id": "small_house_interior",
-          "material": "nature_opaque",
-          "format":"obj",
-          "url": "./client/assets/models/buildings/small_house_interior",
-          "transform": {
-            "pos":    [0,    -7, -0],
-            "rot":    [0,    0,  0],
-            "scale":  [1,    1,  1]
-          }
-        },        {
-          "id": "small_house_window_bars",
-          "material": "nature_opaque",
-          "format":"obj",
-          "url": "./client/assets/models/buildings/small_house_window_bars",
-          "transform": {
-            "pos":    [0,    -7, -0],
-            "rot":    [0,    0,  0],
-            "scale":  [1,    1,  1]
-          }
-        },        {
-          "id": "small_house_window_glass",
-          "material": "nature_opaque",
-          "format":"obj",
-          "url": "./client/assets/models/buildings/small_house_window_glass",
           "transform": {
             "pos":    [0,    -7, -0],
             "rot":    [0,    0,  0],

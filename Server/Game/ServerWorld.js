@@ -88,15 +88,15 @@ ServerWorld.prototype.createWorldTerrainPiece = function(pieceType, elevation, p
 
 ServerWorld.prototype.addWorldTerrainPiece = function(piece) {
 
-    this.broadcastPieceState(piece);
-    piece.setState(GAME.ENUMS.PieceStates.MOVING);
+//    this.broadcastPieceState(piece);
+//    piece.setState(GAME.ENUMS.PieceStates.MOVING);
     this.terrains.push(piece);
 };
 
 ServerWorld.prototype.addWorldPiece = function(piece) {
     
-    this.broadcastPieceState(piece);
-    piece.setState(GAME.ENUMS.PieceStates.MOVING);
+//    this.broadcastPieceState(piece);
+//    piece.setState(GAME.ENUMS.PieceStates.MOVING);
     if (piece.physics) {
         CnnAPI.attachPiecePhysics(piece);
     }
@@ -192,6 +192,10 @@ ServerWorld.prototype.updateWorldPiece = function(piece, currentTime) {
 ServerWorld.prototype.removePiece = function(piece) {
     this.pieces.splice(this.pieces.indexOf(piece), 1);
 
+    if (piece.gridSector) {
+        piece.gridSector.deactivatePiece(piece);
+    }
+
     //piece.setRemoved()
 };
 
@@ -219,7 +223,7 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
                 piece.spatial.updateSpatial(piece.temporal.stepTime);
 
                 if (this.pieces[i].spatial.posY() != y) {
-                    this.broadcastPieceState(this.pieces[i]);
+            //        this.broadcastPieceState(this.pieces[i]);
                 }
 
             }
@@ -270,11 +274,14 @@ ServerWorld.prototype.updateTerrains = function(currentTime) {
 
 ServerWorld.prototype.updateSectorStatus = function(player) {
     var sector = player.notifyCurrentGridSector(this.sectorGrid.getGridSectorForSpatial(player.piece.spatial));
-
-    if (sector) {
-    //    console.log("Sector change", sector.row, sector.column);
+    
+    if (player.sendSeeQueue.length) {
+        player.processSeeSendQueue();
     }
-
+    
+    if (player.sendUnseeQueue.length) {
+        player.processUnseeSendQueue();
+    }
 };
 
 

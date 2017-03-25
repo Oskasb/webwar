@@ -239,7 +239,7 @@ define([
 
 
         VegetationPatch.prototype.debugRemove = function() {
-            ThreeAPI.removeModel(this.parentObject3d);
+            ThreeAPI.disposeModel(this.parentObject3d);
             this.debugging = false;
         };
 
