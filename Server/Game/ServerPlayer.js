@@ -256,8 +256,10 @@ ServerPlayer.prototype.notifyCurrentGridSector = function(gridSector) {
         return this.switchGridSector(gridSector);
 	}
 
-    this.updateVisiblePieces();
-
+    if (this.sendSeeQueue.length + this.sendUnseeQueue.length < 20) {
+        this.updateVisiblePieces();
+    }
+    
 };
 
 ServerPlayer.prototype.makePacket = function() {

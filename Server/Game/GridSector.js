@@ -274,7 +274,7 @@ GridSector.prototype.queueSelection = function(spawnData) {
             this.spawnPiece(piece);
         }
     }
-    this.processSpawnQueue();
+//    this.processSpawnQueue();
 };
 
 
