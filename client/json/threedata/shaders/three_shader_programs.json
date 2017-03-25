@@ -144,7 +144,7 @@
 
           "vec4 txColor0 = (smoothstep(0.09, 0.19, slope))                                  * texture2D( tx0, vUv0 );",
 
-          "vec4 txColor1 = (smoothstep(0.04, 0.08, slope) - smoothstep(0.06, 0.25, slope)) * texture2D( tx1, vUv1  );",
+          "vec4 txColor1 = (smoothstep(0.04, 0.08, slope) - smoothstep(0.08, 0.23, slope)) * texture2D( tx1, vUv1  );",
 
           "vec4 txColor2 = (smoothstep(0.005, 0.04, slope) - smoothstep(0.03, 0.13, slope)) * texture2D( tx2, vUv2 );",
 
