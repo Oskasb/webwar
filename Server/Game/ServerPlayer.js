@@ -34,6 +34,7 @@ ServerPlayer = function(pieceType, clientId, client, simTime) {
 
     this.sendSeeQueue = [];
     this.sendUnseeQueue = [];
+
 };
 
 
@@ -115,7 +116,7 @@ ServerPlayer.prototype.switchGridSector = function(gridSector) {
 
     if (this.currentGridSector) {
 
-        this.currentGridSector.getActivePieces(piecesPre);
+    //    this.currentGridSector.getActivePieces(piecesPre);
         this.currentGridSector.notifyPlayerLeave(this);
 
         this.currentGridSector.getVisiblePlayers(visiblePre);
@@ -126,14 +127,14 @@ ServerPlayer.prototype.switchGridSector = function(gridSector) {
     this.currentGridSector.getVisiblePlayers(visiblePost);
 
     this.currentGridSector.notifyPlayerEnter(this);
-    this.currentGridSector.getActivePieces(piecesPost);
+ //   this.currentGridSector.getActivePieces(piecesPost);
 
     this.arrayDiff(visiblePre,  visiblePost, playersRemove );
 
     this.arrayDiff(visiblePost, visiblePre,  playersAppear );
 
-    this.arrayDiff(piecesPre,   piecesPost,  piecesRemove  );
-    this.arrayDiff(piecesPost,  piecesPre,   piecesAppear  );
+ //   this.arrayDiff(piecesPre,   piecesPost,  piecesRemove  );
+ //  this.arrayDiff(piecesPost,  piecesPre,   piecesAppear  );
 
     var iHidePacket   = this.makeHidePacket();
     var iAppearPacket = this.makeAppearPacket();
@@ -147,6 +148,22 @@ ServerPlayer.prototype.switchGridSector = function(gridSector) {
     //       console.log("Player diff APP, REM", playersAppear.length, playersRemove.length);
 
     return gridSector;
+};
+
+
+
+ServerPlayer.prototype.arraySwitch = function(source, target, untarget) {
+
+    for (var i = 0; i < source.length; i++) {
+        if (target.indexOf(source[i]) == -1) {
+            target.push(source[i]);
+        }
+
+        if (untarget.indexOf(source[i]) != -1) {
+            untarget.splice(untarget.indexOf(source[i]), 1);
+        }
+    }
+
 };
 
 ServerPlayer.prototype.updateVisiblePieces = function() {
@@ -163,24 +180,39 @@ ServerPlayer.prototype.updateVisiblePieces = function() {
     this.arrayDiff(piecesPre,   piecesPost,  piecesRemove  );
     this.arrayDiff(piecesPost,  piecesPre,   piecesAppear  );
 
-    for (var i = 0; i < piecesRemove.length; i++) {
-        if (this.sendUnseeQueue.indexOf(piecesRemove[i]) == -1) {
-            this.sendUnseeQueue.push(piecesRemove[i]);
-        }
+    this.arraySwitch(piecesRemove, this.sendUnseeQueue, this.sendSeeQueue);
+    this.arraySwitch(piecesAppear, this.sendSeeQueue, this.sendUnseeQueue);
 
-        if (this.sendSeeQueue.indexOf(piecesRemove[i]) != -1) {
-            this.sendSeeQueue.splice(this.sendSeeQueue.indexOf(piecesRemove[i]), 1);
+};
+
+
+ServerPlayer.prototype.prioritizeQueue = function(count, sourcQueue, prioStore) {
+
+    var send = count;
+
+    var tail = [];
+
+    for (var i = 0; i < sourcQueue.length; i++) {
+        if (!sourcQueue[i].config.priority) {
+            prioStore.push(sourcQueue[i])
+        } else {
+            tail.push(sourcQueue[i])
         }
     }
 
-    for (var i = 0; i < piecesAppear.length; i++) {
-        if (this.sendSeeQueue.indexOf(piecesAppear[i]) == -1) {
-            this.sendSeeQueue.push(piecesAppear[i]);
-        }
+    if (send - prioStore.length > 0) {
+        send = Math.min(send-prioStore.length, tail.length);
+    }
 
-        if (this.sendUnseeQueue.indexOf(piecesAppear[i]) != -1) {
-            this.sendUnseeQueue.splice(this.sendSeeQueue.indexOf(piecesAppear[i]), 1);
-        }
+    while (send) {
+        send--;
+        prioStore.push(tail.pop());
+    }
+
+    sourcQueue.length = 0;
+
+    while (tail.length) {
+        sourcQueue.push(tail.pop());
     }
 
 };
@@ -188,27 +220,26 @@ ServerPlayer.prototype.updateVisiblePieces = function() {
 
 ServerPlayer.prototype.processSeeSendQueue = function() {
 
-    var send = 4;
+    if (!this.sendSeeQueue.length) return;
+    var send = 25;
 
- //   if (this.sendSeeQueue.length < send) {
-        send = this.sendSeeQueue.length;
- //   }
+    var seeNow = [];
+    this.prioritizeQueue(send, this.sendSeeQueue, seeNow);
 
-    var see = this.sendSeeQueue.splice(0, send);
-
-    this.seePieces(this.currentGridSector, see);
+    this.seePieces(this.currentGridSector, seeNow);
 };
 
 
 ServerPlayer.prototype.processUnseeSendQueue = function() {
 
-    var send = 4;
+    if (!this.sendUnseeQueue.length) return;
 
- //   if (this.sendUnseeQueue.length < send) {
-        send = this.sendUnseeQueue.length;
-  //  }
+    var send = 25;
 
-    this.unseePieces(this.currentGridSector, this.sendUnseeQueue.splice(0, send));
+    var unseeNow = [];
+    this.prioritizeQueue(send, this.sendUnseeQueue, unseeNow);
+
+    this.unseePieces(this.currentGridSector, unseeNow);
 };
 
 

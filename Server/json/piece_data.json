@@ -239,6 +239,7 @@
 
       "big_shrub_piece":{
         "size":6,
+        "priority":2,
         "controls":{
           "actions": {
             "applyForward":1,
@@ -259,6 +260,7 @@
 
       "big_fuzzy_shrub_piece":{
         "size":4,
+        "priority":3,
         "controls":{
           "actions": {
             "applyForward":1,

@@ -39,6 +39,8 @@ GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sec
     this.normalStore = new MATH.Vec3(0, 0, 0);
     this.calcVec = new MATH.Vec3(0, 0, 0);
 
+    this.spawnQueue = [];
+
 
  //   this.activateSector();
  //   this.deactivateSector();
@@ -62,7 +64,7 @@ GridSector.prototype.makeHidePacket = function(piece) {
 
 GridSector.prototype.activateSector = function() {
 
-
+    this.spawnQueue = [];
     
 
     for (var i = 0; i < this.sectorConfig.ground.length; i++) {
@@ -71,13 +73,13 @@ GridSector.prototype.activateSector = function() {
 
     if (this.sectorConfig.buildings) {
         for (var i = 0; i < this.sectorConfig.buildings.length; i++) {
-            this.spawnSelection(this.sectorConfig.buildings[i])
+            this.queueSelection(this.sectorConfig.buildings[i])
         }
     }
     
     
     for (var i = 0; i < this.sectorConfig.spawn.length; i++) {
-        this.spawnSelection(this.sectorConfig.spawn[i])
+        this.queueSelection(this.sectorConfig.spawn[i])
     }
 
 
@@ -202,7 +204,6 @@ GridSector.prototype.checkPosForLegit = function(margin, nmStore, baseSeed) {
     return pos
 };
 
-
 GridSector.prototype.getLegitNewPointInSector = function(margin) {
 
     var baseSeed = 3612.2;
@@ -211,28 +212,25 @@ GridSector.prototype.getLegitNewPointInSector = function(margin) {
     return pos
 };
 
-
-GridSector.prototype.spawnRandomSectorPiece = function(spawnData, count, amount) {
-
+GridSector.prototype.buildSectorPiece = function(spawnData) {
     var rotVel = 0;
-
     var rot = this.sectorRandom(512)*MATH.TWO_PI;
-
     var piece = this.serverWorld.createWorldPiece(spawnData.pieceType, 0, 0, rot, rotVel, 0);
-    //  piece.spatial.updateSpatial(10);
+    piece.spawnData = spawnData;
+    return piece;
+};
+
+
+GridSector.prototype.spawnRandomSectorPiece = function(piece) {
+    piece.gridSector = this;
 
     pos = this.getLegitNewPointInSector(piece.config.size + 5);
     piece.spatial.pos.setXYZ(pos[0], pos[1], pos[2]);
 
- //   piece.setState(GAME.ENUMS.PieceStates.SPAWN);
     piece.groundPiece = this.groundPiece;
 
-    if (spawnData.flatten && !this.groundPhysics) {
-        this.flattenTerrainForPiece(piece, piece.config.size);
-    }
-    
-    this.activeSectorPieces.push(piece)
-    return piece;
+    this.activeSectorPieces.push(piece);
+
 };
 
 GridSector.prototype.flattenTerrainForPiece = function(piece, reach) {
@@ -241,15 +239,44 @@ GridSector.prototype.flattenTerrainForPiece = function(piece, reach) {
 };
 
 
-GridSector.prototype.spawnSelection = function(spawnData) {
+GridSector.prototype.spawnPiece = function(piece) {
+
+
+    this.spawnRandomSectorPiece(piece);
+
+    this.serverWorld.addWorldPiece(piece);
+
+    if (piece.spawnData.flatten && !this.groundPhysics) {
+        this.flattenTerrainForPiece(piece, piece.config.size);
+    }
+
+};
+
+GridSector.prototype.processSpawnQueue = function() {
+    var spawnCount = Math.min(5, this.spawnQueue.length);
+    while (spawnCount) {
+        spawnCount--;
+        this.spawnPiece(this.spawnQueue.pop());
+    }
+
+
+};
+
+GridSector.prototype.queueSelection = function(spawnData) {
 
     var amount = spawnData.min + Math.floor(this.sectorRandom(213)* spawnData.max);
 
     for (var i = 0; i < amount; i++) {
-        var piece = this.spawnRandomSectorPiece(spawnData, i, amount);
-        piece.gridSector = this;
+        var piece = this.buildSectorPiece(spawnData);
+        if (piece.config.priority) {
+            this.spawnQueue.push(piece);
+        } else {
+            this.spawnPiece(piece);
+        }
     }
+    this.processSpawnQueue();
 };
+
 
 
 GridSector.prototype.deactivateSector = function() {
@@ -302,10 +329,16 @@ GridSector.prototype.notifyPlayerLeave = function(player) {
 
 };
 
+GridSector.prototype.processVisible = function() {
+
+    this.processSpawnQueue();
+
+};
 
 GridSector.prototype.getActivePieces = function(store) {
 
     for (var i = 0; i < this.neighborSectors.length; i++) {
+
         for (var j = 0; j < this.neighborSectors[i].activeSectorPieces.length; j++) {
             if (store.indexOf(this.neighborSectors[i].activeSectorPieces[j]) == -1) {
                 
@@ -328,8 +361,11 @@ GridSector.prototype.getVisibleFromPosition = function(pos, store) {
 
     var terrains = 0;
 
+    this.processVisible();
+
     for (var i = 0; i < this.neighborSectors.length; i++) {
         for (var j = 0; j < this.neighborSectors[i].activeSectorPieces.length; j++) {
+            this.neighborSectors[i].processVisible();
             var activePiece = this.neighborSectors[i].activeSectorPieces[j];
             if (store.indexOf(activePiece) == -1) {
 

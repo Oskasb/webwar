@@ -38,7 +38,10 @@ ServerPieceProcessor.prototype.checkProximity = function(players, pieces) {
     }
 
     for (var i = 0; i < pieces.length; i++) {
-        this.pieceAgainstPieces(pieces[i], pieces);
+        if (pieces[i].spatial.vel.getLengthSquared()) {
+            this.pieceAgainstPieces(pieces[i], pieces);
+        }
+        
     }
 
 };

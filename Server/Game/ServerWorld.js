@@ -66,13 +66,9 @@ ServerWorld.prototype.applyControlModule = function(sourcePiece, moduleData, act
 
 
 ServerWorld.prototype.createWorldPiece = function(pieceType, posx, posz, rot, rotVel, posY) {
-
-
-        piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel, posY);
-
-
-
-    this.addWorldPiece(piece);
+    
+    piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel, posY);
+    
     return piece;
 };
 
