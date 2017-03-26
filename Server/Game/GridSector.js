@@ -49,6 +49,11 @@ GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sec
 
 
 GridSector.prototype.makeAppearPacket = function(piece) {
+    if (!piece) {
+        console.log("Bad piece in Grid Sector.. something aint right!");
+        return;
+    }
+
     piece.spatial.updateSpatial(piece.temporal.stepTime);
     var iAppearPacket = piece.makePacket();
     iAppearPacket.data.state = GAME.ENUMS.PieceStates.APPEAR;

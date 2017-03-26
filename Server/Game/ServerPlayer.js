@@ -74,12 +74,22 @@ ServerPlayer.prototype.arrayDiff = function(array1, array2, store) {
 
 ServerPlayer.prototype.seePieces = function(gridSector, piecesAppear) {
     for (var i = 0; i < piecesAppear.length; i++) {
+        if (!piecesAppear[i]) {
+            console.log("No piece in Appear Queue!", i);
+            return;
+        }
+
         this.client.sendToClient(gridSector.makeAppearPacket(piecesAppear[i]));
     }
 };
 
 ServerPlayer.prototype.unseePieces = function(gridSector, piecesRemove) {
     for (var i = 0; i < piecesRemove.length; i++) {
+
+        if (!piecesRemove[i]) {
+            console.log("No piece in Remove Queue!", i);
+            return;
+        }
         this.client.sendToClient(gridSector.makeHidePacket(piecesRemove[i]));
     }
 };

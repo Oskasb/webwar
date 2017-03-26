@@ -227,10 +227,10 @@
         },
         "attachment_points":[
           {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 10, 0], "size":[6, 20, 6]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 20, 0], "size":[22, 9, 22]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[14,  15,  0], "size":[5, 3, 5]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  15,  4], "size":[5, 3, 5]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[-8,  15,  -8], "size":[5, 3, 5]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 14, 0], "size":[22, 5, 22]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[14,  9,  0], "size":[5, 2, 5]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  9,  4], "size":[5, 2, 5]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[-8,  9,  -8], "size":[5, 2, 5]}}
         ],
         "default_modules":[
           "tree_trunk_3_module",
