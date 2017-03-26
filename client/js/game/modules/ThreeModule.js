@@ -34,18 +34,18 @@ define([
 
 
         ThreeModule.prototype.buildModel = function(parentObj3d, apReady) {
-            
+
             var started = 0;
             var finished = 0;
             var partsReady = function() {
                 finished++
                 if (started == finished) {
-                    apReady(); 
+                    apReady();
                 }
             };
 
             started++;
-            
+
             if (!this.applies) {
                 partsReady();
                 return;
@@ -65,9 +65,9 @@ define([
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
             }
 
-        //    this.attachEffects();
+            this.attachEffects();
 
-            
+
             if (!this.model) {
 
                 this.model = this.parentObject3d;
@@ -75,9 +75,9 @@ define([
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
             }
 
-                this.parentObject3d.position.x = this.transform.posX();
-                this.parentObject3d.position.y = this.transform.posY();
-                this.parentObject3d.position.z = this.transform.posZ();
+            this.parentObject3d.position.x = this.transform.posX();
+            this.parentObject3d.position.y = this.transform.posY();
+            this.parentObject3d.position.z = this.transform.posZ();
 
 
             partsReady();
@@ -87,11 +87,15 @@ define([
         ThreeModule.prototype.attachEffects = function() {
 
             if (this.applies.static_effect) {
-                this.staticEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.static_effect, this.piece.spatial.pos, this.transform);
+                if (!this.staticEffect) {
+                    this.staticEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.static_effect, this.piece.spatial.pos, this.transform);
+                }
             }
 
             if (this.applies.dynamic_effect) {
-                this.dynamicEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.dynamic_effect, this.piece.spatial.pos, this.transform);
+                if (!this.dynamicEffect) {
+                    this.dynamicEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.dynamic_effect, this.piece.spatial.pos, this.transform);
+                }
             }
         };
 
@@ -123,10 +127,10 @@ define([
         ThreeModule.prototype.getParentObject3d = function() {
             return this.parentObject3d;
         };
-        
+
         ThreeModule.prototype.attachToParent = function(parentObject3d) {
             if (!this.applies) return;
-            
+
             if (this.applies.game_effect || this.applies.three_model || this.applies.module_model_child) {
                 ThreeAPI.addChildToObject3D(this.model, parentObject3d);
                 ThreeAPI.applySpatialToModel(this.transform, this.model);
@@ -138,10 +142,10 @@ define([
 
 
         ThreeModule.prototype.removeThreeModule = function() {
-            
+
             if (this.clientPiece.threePiece.render) {
                 if(this.model) {
-                    ModuleEffectCreator.createModuleModelEffect(this.piece, this.model, this.applies.remove_effect, this.transform) 
+                    ModuleEffectCreator.createModuleModelEffect(this.piece, this.model, this.applies.remove_effect, this.transform)
                 } else {
                     ModuleEffectCreator.createPositionEffect(this.piece.spatial.pos, this.applies.remove_effect, this.transform)
                 }
@@ -181,15 +185,15 @@ define([
 
             if (!this.applies) return;
             if (!this.transform) return;
-            
-            
+
+
             if (this.applies.dynamic_effect) {
                 ModuleEffectCreator.updateEffect(this.dynamicEffect, this.piece.spatial.pos, this.transform, stateValue, this.piece.temporal.tickDelta)
             }
-            
-            
+
+
             if (!stateValue) return;
-            
+
 
             if (this.applies.spatial_axis) {
                 var diff = this.angleDiffForAxis(stateValue, this.applies.spatial_axis);
@@ -207,16 +211,16 @@ define([
 
 
             if (this.applies.emit_effect) {
-                
+
                 ModuleEffectCreator.createModuleApplyEmitEffect(this.piece, this.model, this.applies, this.transform, stateValue)
-              
+
 
             }
 
 
 
-            
-            
+
+
             return;
 
 
