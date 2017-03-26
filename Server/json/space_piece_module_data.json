@@ -10,17 +10,7 @@
       "applies":{
         "type":"string",
         "state":true,
-        "game_effect":"plasma_blob_effect",
-        "effect_data":{
-          "intensity":0.5,
-          "color":[0.4,1,0.4, 1],
-          "size":12,
-          "growth":[-200, -180],
-          "lifespan": [0.05, 0.5],
-          "strength":450,
-          "acceleration":0.6
-        },
-        "emit_effect":"plasma_green_splatter",
+        "static_effect":"sparkle_cloud",
         "remove_effect":"shell_detonate"
       }
     },
@@ -35,6 +25,7 @@
         "type":"string",
         "state":true,
         "remove_effect":"shell_detonate",
+        "static_effect":"sparkly_stars_module_effect",
         "three_model":"tree_trunk_1"
       }
     },
@@ -48,6 +39,7 @@
       "applies":{
         "type":"string",
         "state":true,
+        "static_effect":"falling_tree_leafs_module_fx",
         "remove_effect":"shrub_remove_effect"
       }
     },
@@ -62,6 +54,7 @@
         "type":"string",
         "state":true,
         "remove_effect":"shell_detonate",
+        "static_effect":"sparkly_stars_module_effect",
         "three_model":"tree_trunk_2"
       }
     },
@@ -75,6 +68,7 @@
       "applies":{
         "type":"string",
         "state":true,
+        "static_effect":"falling_tree_leafs_module_fx",
         "remove_effect":"shrub_remove_effect"
       }
     },
@@ -88,6 +82,7 @@
         "type":"string",
         "state":true,
         "remove_effect":"shell_detonate",
+        "static_effect":"sparkly_stars_module_effect",
         "three_model":"tree_trunk_3"
       }
     },
@@ -101,6 +96,7 @@
       "applies":{
         "type":"string",
         "state":true,
+        "static_effect":"falling_tree_leafs_module_fx",
         "remove_effect":"shrub_remove_effect"
       }
     },
@@ -114,7 +110,21 @@
         "type":"string",
         "state":true,
         "remove_effect":"shell_detonate",
+        "static_effect":"sparkly_stars_module_effect",
         "three_model":"tree_model_4"
+      }
+    },
+    "tree_leaves_volume_module":{
+      "id":"tree_leaves_volume_module",
+      "type":"hull",
+      "size":24,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "static_effect":"falling_tree_leafs_module_fx",
+        "remove_effect":"shrub_remove_effect"
       }
     },
     "big_shrub_module":{
@@ -130,6 +140,33 @@
         "static_effect":"big_shrub_veg_module_fx"
       }
     },
+
+    "shrub_volume_module":{
+      "id":"shrub_volume_module",
+      "type":"hull",
+      "size":3,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "remove_effect":"shrub_remove_effect"
+      }
+    },
+
+    "select_point_module":{
+      "id":"select_point_module",
+      "type":"hull",
+      "size":3,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "static_effect":"sparkle_cloud"
+      }
+    },
+
     "big_fuzzy_shrub_module":{
       "id":"big_fuzzy_shrub_module",
       "type":"hull",

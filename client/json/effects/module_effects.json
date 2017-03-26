@@ -40,7 +40,25 @@
     "sparkle_cloud":[
       {
         "particle_effects":[
-          {"id":"big_sparkly_shatter"}
+          {"id":"swirly_module_effect"},
+          {"id":"flare_dot_module_effect"}
+        ]
+      }
+    ],
+
+
+    "sparkly_stars_module_effect":[
+      {
+        "particle_effects":[
+          {"id":"sparkly_stars_effect"}
+        ]
+      }
+    ],
+
+    "falling_tree_leafs_module_fx":[
+      {
+        "particle_effects":[
+          {"id":"falling_leaf_effect"}
         ]
       }
     ],

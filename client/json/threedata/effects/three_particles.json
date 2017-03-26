@@ -11,7 +11,7 @@
           "sprite_id":"thick_smoke",
           "config":{
             "age":     {"min":0.0, "max":0.02},
-            "lifeTime":{"min":5.15,"max":9.15},
+            "lifeTime":{"min":3.15,"max":6.15},
             "positionSpread":{"x":2.01, "y":2.01, "z":2.01},
             "gravity":2.001,
             "drag":0.15,
@@ -21,9 +21,8 @@
             "alphaCurve":"zeroOneZero",
             "diffusionCurve":"halfQuickIn",
             "scaleCurve":"zeroToOne",
-            "size":{"value":1.6, "min": -0.7, "max": 0.5},
-            "spin":{"value":0.01, "min":-7.5, "max":7.5},
-            "velocitySpread":{"min":-0.1,"max":0.1},
+            "size":{"value":1.6, "min": -0.7, "max": 1.5},
+            "spin":{"value":0.01, "min":-17.5, "max":17.5},
             "velocityDiffusion":1,
             "accelerationDiffusion":0.6,
             "colorDiffusion":0.2,
@@ -114,7 +113,7 @@
           "sprite_key":"ATLAS",
           "sprite_id":"fielddot",
           "config":{
-            "age":     {"min":0.01, "max":0.5},
+            "age":     {"min":0.01, "max":0.05},
             "lifeTime":{"min":1.5,"max":8.0},
             "positionSpread":{"x":3, "y":3, "z":3},
             "gravity":2.201,
@@ -136,11 +135,111 @@
         },
 
         {
+          "id":"swirly_module_effect_particles",
+          "sprite_key":"ATLAS",
+          "sprite_id":"spinfield",
+          "config":{
+            "age":     {"min":0.01, "max":2.5},
+            "lifeTime":{"min":4.5,"max":5.5},
+            "positionSpread":{"x":0.02, "y":0.01, "z":0.02},
+            "gravity":0.01,
+            "drag":2.7,
+            "bend":0.0001,
+            "spinDrag":0.05,
+            "colorCurve":"randomBlue",
+            "alphaCurve":"sin",
+            "diffusionCurve":"nearBlack",
+            "scaleCurve":"sublteSin",
+            "size":{"value":1.0, "min": 0.001, "max": 0.01},
+            "spin":{"value":-2.3, "min": -3.1, "max": -1},
+            "velocityDiffusion":0.0001,
+            "accelerationDiffusion":0.0001,
+            "colorDiffusion":0.35,
+            "velocityFactor":0.23
+          }
+        },
+
+        {
+          "id":"flare_dot_effect_particles",
+          "sprite_key":"ATLAS",
+          "sprite_id":"star",
+          "config":{
+            "age":     {"min":0.01, "max":2.5},
+            "lifeTime":{"min":3.2,"max":4.3},
+            "positionSpread":{"x":0.02, "y":0.01, "z":0.02},
+            "gravity":0.01,
+            "drag":2.7,
+            "bend":0.0001,
+            "spinDrag":0.05,
+            "colorCurve":"rainbow",
+            "alphaCurve":"sin",
+            "diffusionCurve":"nearBlack",
+            "scaleCurve":"sublteSin",
+            "size":{"value":1.7, "min": 0.001, "max": 0.01},
+            "spin":{"value":0.1, "min": -6.1, "max": 6},
+            "velocityDiffusion":0.0001,
+            "accelerationDiffusion":0.0001,
+            "colorDiffusion":0.35,
+            "velocityFactor":0.23
+          }
+        },
+
+
+        {
+          "id":"sparkly_stars_particles",
+          "sprite_key":"ATLAS",
+          "sprite_id":"star",
+          "config":{
+            "age":     {"min":0.01, "max":2.5},
+            "lifeTime":{"min":2.2,"max":6.3},
+            "positionSpread":{"x":3.02, "y":2.01, "z":3.02},
+            "gravity":4.01,
+            "drag":0.4,
+            "bend":0.5,
+            "spinDrag":0.05,
+            "colorCurve":"rainbow",
+            "alphaCurve":"sin",
+            "diffusionCurve":"sin",
+            "scaleCurve":"sublteSin",
+            "size":{"value":0.5, "min": 0.1, "max": 0.2},
+            "spin":{"value":0.5, "min": -8.1, "max": 6},
+            "velocityDiffusion":1.2,
+            "accelerationDiffusion":0.4,
+            "colorDiffusion":0.35,
+            "velocityFactor":0.63
+          }
+        },
+
+        {
+          "id":"falling_leaf_particles",
+          "sprite_key":"ATLAS",
+          "sprite_id":"free_leafs",
+          "config":{
+            "age":     {"min":0.01, "max":0.4},
+            "lifeTime":{"min":1.5,"max":3.0},
+            "positionSpread":{"x":2, "y":0.5, "z":2},
+            "gravity":-7.201,
+            "drag":0.412,
+            "bend":0.4,
+            "spinDrag":0.1,
+            "colorCurve":"nearWhite",
+            "alphaCurve":"nearWhite",
+            "diffusionCurve":"nearWhite",
+            "scaleCurve":"sin",
+            "size":{"value":0.6, "min": 0.0, "max": 0.31},
+            "spin":{"value":0.01, "min":-24.5, "max":24.5},
+            "accelerationDiffusion":0.3,
+            "colorDiffusion":0.15,
+            "velocityFactor":0.613
+          }
+        },
+
+        {
           "id":"big_leafy_swirl_particles",
           "sprite_key":"ATLAS",
           "sprite_id":"free_leafs",
           "config":{
-            "age":     {"min":0.01, "max":0.1},
+            "age":     {"min":0.01, "max":0.05},
             "lifeTime":{"min":2.5,"max":6.0},
             "positionSpread":{"x":2, "y":2, "z":2},
             "gravity":-1.201,

@@ -233,8 +233,11 @@
 
           "effectAge = systemTime - startTime;",
 
-          "progress = effectAge / duration;",
+          "float totProg = effectAge / duration;",
 
+          "progress = (totProg - floor(totProg));",
+
+          "float cycleAge = (progress * duration)*1.0;",
           "float zHideFactor = 1.0 - floor(progress);",
 
           "offset = offsetSize.xyz;",
@@ -246,14 +249,14 @@
           "rowSize  =     texelRowSelect.z;",
 
 
-          "float sillySeed = sin((offset.x*929.1 + offset.y*78.1 + offset.z*99.1)*99.9+cos(startTime*2999.9));",
-          "float sillySeed2 = cos((offset.x*199.1 + offset.y*738.1 + offset.z*199.1)*99.9+cos(startTime*3929.9));",
-          "float sillySeed3 = sin((offset.x*929.1 + offset.y*178.1 + offset.z*919.1)*99.9+cos(startTime*5299.9));",
+          "float sillySeed  = sin((duration*4919.1  ) *99.9+cos(startTime*2999.9));",
+          "float sillySeed2 = cos((duration*3199.1 ) *99.9+cos(startTime*3929.9));",
+          "float sillySeed3 = sin((duration*2929.1  ) *99.9+cos(startTime*5299.9));",
 
-          "float sillyRandom1 = sin(sillySeed*3.4     + progress*1.2 + effectAge * duration * 0.18);",
-          "float sillyRandom2 = sin(sillySeed2*3.1 + progress*1.5 + effectAge * duration * 0.23);",
-          "float sillyRandom3 = sin(sillySeed3*2.4 + progress*1.7 + effectAge * duration * 0.21);",
-          "float sillyRandom4 = sin(sillySeed*9.9 + progress*3.5 + effectAge * duration * 0.23);",
+          "float sillyRandom1 = sin(sillySeed*3.4  + 1.2*cos(effectAge*1.251*sillySeed) + 0.18);",
+          "float sillyRandom2 = sin(sillySeed2*3.1 + 1.5*cos(effectAge*1.151*sillySeed2) + 0.23);",
+          "float sillyRandom3 = sin(sillySeed3*2.4 + 1.7*cos(effectAge*1.551*sillySeed3) + 0.21);",
+          "float sillyRandom4 = sin(sillySeed*9.9  + 3.5*cos(effectAge*1.251*sillySeed2) + 0.23);",
 
           "vec3 motionBend = vec3(sillyRandom3* acceleration.z, sillyRandom4* acceleration.z, sillyRandom2* acceleration.z);",
 
@@ -306,17 +309,17 @@
 
           "float gravityDiffusion = 1.0 - (sillySeed * diffusors.y);",
 
-          "float dragFactor = 1.0 / (1.0 + (0.5 * acceleration.x * gravityDiffusion * effectAge * effectAge));",
-          "float gravityFactor = 0.5 * acceleration.y * effectAge * effectAge;",
+          "float dragFactor = 1.0 / (1.0 + (0.5 * acceleration.x * gravityDiffusion * cycleAge * cycleAge));",
+          "float gravityFactor = 0.5 * acceleration.y * cycleAge * cycleAge;",
 
 
-          "float verticalComponent =  (diffusedVelocity.y * effectAge + gravityFactor)  * dragFactor * accelerationDiffusion.y;",
-          "float xComponent =         diffusedVelocity.x * effectAge * dragFactor * accelerationDiffusion.x;",
-          "float zComponent =         diffusedVelocity.z * effectAge * dragFactor * accelerationDiffusion.z;",
+          "float verticalComponent =  (diffusedVelocity.y * cycleAge + gravityFactor)  * dragFactor * accelerationDiffusion.y;",
+          "float xComponent =         diffusedVelocity.x * cycleAge * dragFactor * accelerationDiffusion.x;",
+          "float zComponent =         diffusedVelocity.z * cycleAge * dragFactor * accelerationDiffusion.z;",
 
           "vec3 velInfluence = vec3(xComponent, verticalComponent, zComponent);",
 
-          "velocityOffset = offset + velInfluence + motionBend * effectAge;"
+          "velocityOffset = offset + velInfluence + motionBend * cycleAge;"
         ],
 
 
@@ -324,12 +327,12 @@
 
           "float baseRotation = 100.0 * sillySeed * (1.0 - acceleration.w);",
 
-          "float rotation = velocity.w * effectAge  + 0.5 * acceleration.w * effectAge * effectAge;",
+          "float rotation = velocity.w * cycleAge  +  0.5 * acceleration.w * cycleAge * cycleAge;",
 
-          "float spinDragFactor = 1.0 / (1.0 + (0.5 * acceleration.w * effectAge * effectAge));",
+          "float spinDragFactor = 1.0 / (1.0 + (0.5 * acceleration.w * cycleAge * cycleAge));",
 
-          "float c = cos(baseRotation + rotation* spinDragFactor);",
-          "float s = sin(baseRotation + rotation* spinDragFactor);",
+          "float c = cos(baseRotation + rotation * spinDragFactor);",
+          "float s = sin(baseRotation + rotation * spinDragFactor);",
 
           "vec2 rotated = vec2(c* vPosition.x - s * vPosition.y, s*vPosition.x + c*vPosition.y);",
 

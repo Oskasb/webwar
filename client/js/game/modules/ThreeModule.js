@@ -157,7 +157,12 @@ define([
                 ModuleEffectCreator.removeModuleStaticEffect(this.staticEffect);
                 this.staticEffect = null;
             }
-            
+
+            if (this.dynamicEffect) {
+                ModuleEffectCreator.removeModuleStaticEffect(this.dynamicEffect);
+                this.dynamicEffect = null;
+            }
+
             ThreeAPI.disposeModel(this.parentObject3d);
         };
 
@@ -185,7 +190,7 @@ define([
             
             
             if (this.applies.dynamic_effect) {
-                ModuleEffectCreator.updateEffect(this.dynamicEffect, this.piece.spatial.pos, this.transform)
+                ModuleEffectCreator.updateEffect(this.dynamicEffect, this.piece.spatial.pos, this.transform, stateValue, this.piece.temporal.tickDelta)
             }
             
             

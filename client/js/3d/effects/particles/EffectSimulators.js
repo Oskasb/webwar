@@ -7,20 +7,6 @@ define([],
 
         var calcVec = new THREE.Vector3();
 
-        var simProcs = {
-            age:"age",
-            lifeTime:"lifeTime",
-            systemTime:"systemTime",
-            lifeTime:"lifeTime",
-            duration:"duration",
-
-            attrib1D:"attrib1D",
-            attrib2D:"attrib2D",
-            attrib3D:"attrib3D",
-            attrib4D:"attrib4D"
-        }
-
-
         function addVectorsTpf(source, target, tpf) {
             calcVec.x = source.x;
             calcVec.y = source.y;
@@ -64,6 +50,11 @@ define([],
             acceleration:   {process:"attrib4D",      source:"acceleration"     ,target:"acceleration" },
             velocity:       {process:"attrib4D",      source:"velocity"         ,target:"velocity"     }
 
+        };
+
+        EffectSimulators.reset = function(particle, tpf, source, target) {
+            particle.params[target].value = particle.params[source].value;
+            particle.params[source].value = 0;
         };
 
         EffectSimulators.age = function(particle, tpf, source, target) {

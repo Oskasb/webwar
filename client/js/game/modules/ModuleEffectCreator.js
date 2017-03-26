@@ -22,6 +22,10 @@ define([
             storeVec3.set(pos.data[0]+ transform.pos.data[0], pos.data[1] + transform.pos.data[1], pos.data[2] + transform.pos.data[2]);
         };
 
+        var sizeFromTransform = function(transform, storeVec3) {
+            storeVec3.set(transform.size.data[0], transform.size.data[1],  transform.size.data[2]);
+        };
+        
         var ModuleEffectCreator = function() {
 
         };
@@ -130,9 +134,10 @@ define([
             }
         };
         
-        ModuleEffectCreator.createModuleStaticEffect = function(effectId, pos, transform) {
+        ModuleEffectCreator.createModuleStaticEffect = function(effectId, pos, transform, tpf) {
 
             posFromTransform(pos, transform, calcVec);
+            sizeFromTransform(transform, calcVec2);
             var fxArray = [];
             var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', effectId);
 
@@ -144,7 +149,7 @@ define([
                 }
 
                 for (var j = 0; j < fx[i].particle_effects.length; j++) {
-                    fxArray.push(EffectsAPI.requestPassiveEffect(fx[i].particle_effects[j].id, calcVec, zeroVec));
+                    fxArray.push(EffectsAPI.requestPassiveEffect(fx[i].particle_effects[j].id, calcVec, zeroVec, calcVec2));
                 //    ModuleEffectCreator.createModelTransformedEffects(fx[i].particle_effects[j].id, piece, calcVec, transform, calcQuat, stateValue);
                 }
             }
@@ -158,11 +163,11 @@ define([
             }
         };
 
-        ModuleEffectCreator.updateEffect = function(fxArray, pos, transform, state) {
+        ModuleEffectCreator.updateEffect = function(fxArray, pos, transform, state, tpf) {
             posFromTransform(pos, transform, calcVec);
 
             for (var i = 0; i < fxArray.length; i++) {
-                EffectsAPI.updateEffectPosition(fxArray[i], calcVec, state);
+                EffectsAPI.updateEffectPosition(fxArray[i], calcVec, state, tpf);
             }
         };
 

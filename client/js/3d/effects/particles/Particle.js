@@ -36,11 +36,15 @@ define([],
             this.buffers = {};
             this.attributes = {};
 
+
+            this.posOffset = new THREE.Vector3();
             this.velVec = new THREE.Vector4();
             this.posVec = new THREE.Vector4();
 
             this.systemTime = {value:0};
 
+            
+            
             this.params = {
                 position:this.posVec,
                 velocity:this.velVec,
@@ -51,22 +55,29 @@ define([],
             this.attributeBuffers = {};
         };
 
-        Particle.prototype.resetParticle = function() {
-
-        };
-        
-        Particle.prototype.initToSimulation = function(systemTime, pos, vel) {
-            this.usedCount++
-            this.params.systemTime.value = systemTime;
+        Particle.prototype.setStartTime = function(systemTime) {
             this.progress = 0;
+            this.systemTime = {value:systemTime};
+            this.params.systemTime.value = systemTime;
+        };
+
+        Particle.prototype.initToSimulation = function(systemTime, pos, vel) {
+            this.usedCount++;
             this.addPosition(pos);
             this.addVelocity(vel);
+            this.setStartTime(systemTime);
         };
         
         Particle.prototype.addPosition = function(pos) {
             this.params.position.x += pos.x;
             this.params.position.y += pos.y;
             this.params.position.z += pos.z;
+        };
+
+        Particle.prototype.setPosition = function(pos) {
+            this.params.position.x = pos.x;
+            this.params.position.y = pos.y;
+            this.params.position.z = pos.z;
         };
         
         Particle.prototype.addVelocity = function(vel) {

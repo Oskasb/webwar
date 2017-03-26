@@ -13,6 +13,7 @@ define([
 
 
         var EffectAPI;
+        var zeroVec = new THREE.Vector3();
         var tempVec = new THREE.Vector3();
         var tempVec2 = new THREE.Vector3();
         var tempVec3 = new THREE.Vector3();
@@ -183,7 +184,7 @@ define([
                 return;
             }
 
-            var effect = EffectAPI.requestPassiveEffect(plantId, pos, tempVec2);
+            var effect = EffectAPI.requestPassiveEffect(plantId, pos, tempVec2, null);
             if (effect) {
                 this.spawnedPlants.push(effect);
             } else {

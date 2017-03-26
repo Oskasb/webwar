@@ -117,8 +117,7 @@
         "rotation_velocity":0.5,
         "rotation_min":-6.2,
         "rotation_max":6.2,
-        "three_model":"sherman_turret",
-        "dynamic_effect":"sparkle_cloud"
+        "three_model":"sherman_turret"
       }
     },
 

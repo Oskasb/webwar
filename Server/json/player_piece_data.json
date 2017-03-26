@@ -49,7 +49,7 @@
         {"point_id":"toggle_attack", "slot":"control"  },
         {"point_id":"aim_pitch",     "slot":"control"  },
         {"point_id":"aim_yaw",       "slot":"control"  },
-        {"point_id":"nameplate",     "slot":"name"     }
+        {"point_id":"nameplate",     "slot":"name",                                 "transform":{ "rot":[0, 1, 0],   "pos":[0,      0.80,      0],   "size":[ 0.01,  0.01,  0.01]}}
       ],
       "default_modules":[
         "hull",

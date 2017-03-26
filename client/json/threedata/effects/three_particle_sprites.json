@@ -72,7 +72,7 @@
           "tiles":[[0, 3]]
         },
         {
-          "id":"tree_sprite_1",
+          "id":"star",
           "tiles":[[1, 5]]
         },
         {
@@ -147,7 +147,7 @@
         },
         {
           "id":"spinfield",
-          "tiles":[[4, 0]]
+          "tiles":[[3, 1]]
         },
         {
           "id":"fielddot",

@@ -37,6 +37,8 @@ define([
             this.attributeConfigs = {};
             this.particleMaterial = {};
 
+            this.systemTime = 0;
+
             var particleMaterialData = function(src, data) {
                 this.applyRendererMaterialData(data)
             }.bind(this);
@@ -162,8 +164,10 @@ define([
 
         ParticleRenderer.prototype.updateParticleRenderer = function(systemTime) {
 
+            this.systemTime = systemTime;
+
             if (this.material.uniforms.systemTime) {
-                this.material.uniforms.systemTime.value = systemTime;
+                this.material.uniforms.systemTime.value = this.systemTime;
             } else {
                 console.log("no uniform yet...")
             }

@@ -75,11 +75,20 @@ define([
 
 
 
-        ParticleSpawner.prototype.buildEffect = function(id, pos, vel) {
+        ParticleSpawner.prototype.buildEffect = function(id, pos, vel, size) {
 
             var effect = this.getEffect();
 
             effect.setEffectPosition(pos);
+            
+            if (size) {
+                effect.setEffectSize(size);
+            } else {
+                effect.size.x = 0;
+                effect.size.y = 0;
+                effect.size.z = 0;
+            }
+
             effect.setEffectVelocity(vel);
             effect.setEffectData(this.particleEffectData.buildEffect(effect.effectData, 'THREE', id));
 
@@ -100,7 +109,6 @@ define([
             }
             
             return effect;
-
         };
 
 
@@ -117,12 +125,12 @@ define([
             activeEffects.push(effect);
         };
 
-        ParticleSpawner.prototype.updateActiveParticleEffect = function(effect, pos, state) {
-            
+        ParticleSpawner.prototype.updateActiveParticleEffect = function(effect, pos, state, tpf) {
+            effect.updateEffectPositionSimulator(pos, tpf);
         };
         
-        ParticleSpawner.prototype.spawnPassiveEffect = function(id, pos, vel) {
-            return this.buildEffect(id, pos, vel);
+        ParticleSpawner.prototype.spawnPassiveEffect = function(id, pos, vel, size) {
+            return this.buildEffect(id, pos, vel, size);
         };
 
         ParticleSpawner.prototype.recoverPassiveEffect = function(effect) {

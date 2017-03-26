@@ -7,6 +7,10 @@ define([
     ) {
 
         var dataCurves = {
+            randomGreen:36,
+            randomRed:35,
+            randomYellow:34,
+            randomBlue:33,
             rainbow:32,
             warmToCold:31,
             hotFire:30,
@@ -20,8 +24,10 @@ define([
             nearWhite:22,
             darkSmoke:21,
             nearBlack:20,
-            redFlat:19,
-            greenFlat:17,
+            doubleSin:19,
+            halfSin:18,
+            sin:17,
+            sublteSin:16,
             pulseSlowOut:15,
             slowFadeIn:14,
             halfQuickIn:13,
