@@ -127,7 +127,7 @@
         "type":"string",
         "state":true,
         "remove_effect":"shrub_remove_effect",
-        "static_effect":"big_shrub_veg"
+        "static_effect":"big_shrub_veg_module_fx"
       }
     },
     "big_fuzzy_shrub_module":{
@@ -140,7 +140,7 @@
         "type":"string",
         "state":true,
         "remove_effect":"shrub_remove_effect",
-        "static_effect":"big_fuzzy_shrub_veg"
+        "static_effect":"big_fuzzy_shrub_module_fx"
       }
     },
     "rock_physical_10m_module":{

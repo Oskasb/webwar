@@ -9,21 +9,9 @@
           "url": "./client/assets/models/sherman_hull",
           "urluv2": "./client/assets/models/sherman_hull_ao",
           "transform": {
-            "pos": [
-              0,
-              -1.2,
-              -0.3
-            ],
-            "rot": [
-              0,
-              0,
-              0
-            ],
-            "scale": [
-              1,
-              1,
-              1
-            ]
+            "pos": [0, -1.2, -0.3],
+            "rot": [0, 0, 0],
+            "scale": [1, 1, 1]
           }
         },
         {
@@ -32,21 +20,9 @@
           "url": "./client/assets/models/sherman_turret",
           "urluv2": "./client/assets/models/sherman_turret_ao",
           "transform": {
-            "pos": [
-              0,
-              -2.4,
-              0.3
-            ],
-            "rot": [
-              0,
-              -1,
-              0
-            ],
-            "scale": [
-              1,
-              1,
-              1
-            ]
+            "pos": [0, -2.4, 0.3],
+            "rot": [0, -1, 0],
+            "scale": [1, 1, 1]
           }
         },
         {
@@ -55,21 +31,9 @@
           "url": "./client/assets/models/sherman_cannon",
           "urluv2": "./client/assets/models/sherman_cannon_ao",
           "transform": {
-            "pos": [
-              0,
-              -2.45,
-              3.2
-            ],
-            "rot": [
-              0,
-              0,
-              0
-            ],
-            "scale": [
-              1,
-              1,
-              1
-            ]
+            "pos": [0, -2.45, 3.2],
+            "rot": [0, 0, 0],
+            "scale": [1, 1, 1]
           }
         },
         {
@@ -79,20 +43,9 @@
           "urluv2": "./client/assets/models/sherman_track_l_ao",
           "transform": {
             "pos": [
-               1.3,
-              -0.55,
-              -0.55
-            ],
-            "rot": [
-              0,
-              0,
-              0
-            ],
-            "scale": [
-              1,
-              1,
-              1
-            ]
+              1.3, -0.55, -0.55],
+            "rot": [0, 0, 0],
+            "scale": [1, 1, 1]
           }
         },
         {
@@ -101,21 +54,9 @@
           "url": "./client/assets/models/sherman_track_r",
           "urluv2": "./client/assets/models/sherman_track_r_ao",
           "transform": {
-            "pos": [
-              -1.3,
-              -0.55,
-              -0.55
-            ],
-            "rot": [
-              0,
-              0,
-              0
-            ],
-            "scale": [
-              1,
-              1,
-              1
-            ]
+            "pos": [-1.3, -0.55, -0.55],
+            "rot": [0, 0, 0],
+            "scale": [1, 1, 1]
           }
         },
         {
@@ -124,21 +65,9 @@
           "url": "./client/assets/models/rock_10m",
           "pool": 10,
           "transform": {
-            "pos": [
-              3,
-              -6,
-              8
-            ],
-            "rot": [
-              0,
-              0,
-              0
-            ],
-            "scale": [
-              1,
-              1,
-              1
-            ]
+            "pos": [3, -6, 8],
+            "rot": [0, 0, 0],
+            "scale": [1, 1, 1]
           }
         },
 
@@ -148,21 +77,9 @@
           "url": "./client/assets/models/trees/tree_1_combined",
           "pool": 10,
           "transform": {
-            "pos": [
-              0,
-              -8,
-              0
-            ],
-            "rot": [
-              0,
-              0,
-              0
-            ],
-            "scale": [
-              0.6,
-              0.6,
-              0.6
-            ]
+            "pos": [0, -8, 0],
+            "rot": [0, 0, 0],
+            "scale": [0.6, 0.6, 0.6]
           }
         },
         {
@@ -171,21 +88,9 @@
           "url": "./client/assets/models/trees/tree_2_combined",
           "pool": 10,
           "transform": {
-            "pos": [
-              0,
-              -4,
-              0
-            ],
-            "rot": [
-              0,
-              0,
-              0
-            ],
-            "scale": [
-              0.4,
-              0.4,
-              0.4
-            ]
+            "pos": [0, -4, 0],
+            "rot": [0, 0, 0],
+            "scale": [0.4, 0.4, 0.4]
           }
         },
         {
@@ -194,21 +99,9 @@
           "url": "./client/assets/models/trees/tree_3_combined",
           "pool": 10,
           "transform": {
-            "pos": [
-              0,
-              -10,
-              0
-            ],
-            "rot": [
-              0,
-              0,
-              0
-            ],
-            "scale": [
-             0.5,
-             0.5,
-             0.5
-            ]
+            "pos": [0, -10, 0],
+            "rot": [0, 0, 0],
+            "scale": [0.5, 0.5, 0.5]
           }
         },
         {
@@ -217,21 +110,9 @@
           "url": "./client/assets/models/trees/tree_4_combined",
           "pool": 10,
           "transform": {
-            "pos": [
-              0,
-              -5,
-              0
-            ],
-            "rot": [
-              0,
-              0,
-              0
-            ],
-            "scale": [
-              0.5,
-              0.5,
-              0.5
-            ]
+            "pos": [0, -5, 0],
+            "rot": [0, 0, 0],
+            "scale": [0.5, 0.5, 0.5]
           }
         }
       ]
@@ -248,7 +129,7 @@
             {"uniform":"tx2", "file":"mud",              "repeat":[58,  58]},
             {"uniform":"tx3", "file":"dark_grass",       "repeat":[7, 7]},
             {"uniform":"tx4", "file":"grass",            "repeat":[22,  22]},
-            {"uniform":"tx5", "file":"detail",           "repeat":[25,  25]},
+            {"uniform":"tx5", "file":"detail",           "repeat":[33,  33]},
             {"uniform":"tx6", "file":"fract",            "repeat":[5,   5]}
 
           ],

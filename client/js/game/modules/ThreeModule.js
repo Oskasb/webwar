@@ -22,7 +22,8 @@ define([
             this.clientPiece = clientPiece;
             this.piece = clientPiece.piece;
             this.staticEffect = null;
-        //    this.addModuleDebugBox()
+            this.dynamicEffect = null;
+            //    this.addModuleDebugBox()
         };
 
 
@@ -69,6 +70,12 @@ define([
 
             }
 
+            if (this.applies.dynamic_effect) {
+
+                this.dynamicEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.dynamic_effect, this.piece.spatial.pos, this.transform);
+
+            }
+            
             if (!this.model) {
 
                 this.model = this.parentObject3d // ThreeAPI.createRootObject();
@@ -173,29 +180,17 @@ define([
 
         ThreeModule.prototype.updateThreeModule = function(stateValue) {
 
-
-            if (!stateValue) return;
             if (!this.applies) return;
             if (!this.transform) return;
-
-
-            if (this.applies.pitch_roll__) {
-
-                    var spatial = this.piece.spatial;
-                    ThreeAPI.transformModel(
-                        this.parentObject3d, 0, 0, 0,
-                        spatial.pitch()*this.applies.pitch_roll[0],
-                        0,
-                        spatial.roll()*this.applies.pitch_roll[1]
-                    );
-
-                    this.model.needsUpdate = true;
-                    if (Math.random() < 0.01) {
-                        console.log(spatial.pitch());
-                    }
-                };
-
-
+            
+            
+            if (this.applies.dynamic_effect) {
+                ModuleEffectCreator.updateEffect(this.dynamicEffect, this.piece.spatial.pos, this.transform)
+            }
+            
+            
+            if (!stateValue) return;
+            
 
             if (this.applies.spatial_axis) {
                 var diff = this.angleDiffForAxis(stateValue, this.applies.spatial_axis);
@@ -219,47 +214,10 @@ define([
 
             }
 
-            if (this.applies.fireCannon) {
-                if (stateValue) {
-            //        evt.fire(evt.list().GAME_EFFECT, {effect:"spawn_pulse", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
-                }
-
-            }
-
-            if (this.applies.three_terrain) {
-
-                if (!this.model) return;
-            //    var verts = this.model.children[0].children[0].geometry.vertices;
-
-            //    this.model.children[0].position.x = 100;
-            //    this.model.children[0].position.z = 100;
-            //    this.model.rotation.y = -Math.PI*-0.5
-
-  /*          *
-                if (Math.random() < 0.1) {
-
-                        var va = verts.length-1;
-                        var vb = verts.length-1;
-                        var vc = verts.length-1;
-                        var vd = verts.length-1;
-
-                        verts[0].set(verts[0].x, verts[0].y, stateValue[0] + 20 ); // Math.random());
 
 
-                        verts[va].set(verts[va].x, verts[va].y, stateValue[va] + 10 ); // Math.random());
-                        verts[vb].set(verts[vb].x, verts[vb].y, stateValue[vb] + 10 ); // Math.random());
-                        verts[vc].set(verts[vc].x, verts[vc].y, stateValue[vc] + 10 ); // Math.random());
-                        verts[vd].set(verts[vd].x, verts[vd].y, stateValue[vd] + 100 + Math.random()*50); // ;
-
-
-                    this.model.children[0].children[0].geometry.verticesNeedUpdate  = true;
-
-                //    this.model.children[0].children[0].rotation.y +=-Math.PI*-0.25
-                };
-*/
-            }
-
-
+            
+            
             return;
 
 

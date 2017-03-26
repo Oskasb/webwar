@@ -60,16 +60,16 @@ define(['PipelineObject'],
             return effect[key][id];
         };
 
-        ParticleEffectData.prototype.fetchParticle = function(key, id) {
-            return particles[key][id];
+        ParticleEffectData.prototype.fetchParticle = function(system_key, id) {
+            return particles[system_key][id];
         };
 
-        ParticleEffectData.prototype.fetchSprite = function(imageId, id) {
-            return sprites[imageId][id];
+        ParticleEffectData.prototype.fetchSprite = function(system_key, id) {
+            return sprites[system_key][id];
         };
 
-        ParticleEffectData.prototype.fetchSimulation = function(imageId, id) {
-            return simulations[imageId][id];
+        ParticleEffectData.prototype.fetchSimulation = function(system_key, id) {
+            return simulations[system_key][id];
         };
 
         ParticleEffectData.prototype.buildEffect = function(store, key, id) {

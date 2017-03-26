@@ -37,6 +37,29 @@
         ]
       }
     ],
+    "sparkle_cloud":[
+      {
+        "particle_effects":[
+          {"id":"big_sparkly_shatter"}
+        ]
+      }
+    ],
+
+    "big_fuzzy_shrub_module_fx":[
+      {
+        "particle_effects":[
+          {"id":"big_fuzzy_shrub_veg"}
+        ]
+      }
+    ],
+
+    "big_shrub_veg_module_fx":[
+      {
+        "particle_effects":[
+          {"id":"big_shrub_veg"}
+        ]
+      }
+    ],
 
     "tank_track_fx":[
       {

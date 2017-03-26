@@ -16,6 +16,11 @@ define([
         var calcVec2 = new THREE.Vector3();
         var calcVec3 = new THREE.Vector3();
         var calcQuat = new THREE.Quaternion();
+        var zeroVec = new THREE.Vector3();
+
+        var posFromTransform = function(pos, transform, storeVec3) {
+            storeVec3.set(pos.data[0]+ transform.pos.data[0], pos.data[1] + transform.pos.data[1], pos.data[2] + transform.pos.data[2]);
+        };
 
         var ModuleEffectCreator = function() {
 
@@ -79,7 +84,7 @@ define([
                 var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', remove_effect);
             }
 
-            calcVec.set(pos.data[0]+ transform.pos.data[0], pos.data[1] + transform.pos.data[1], pos.data[2] + transform.pos.data[2]);
+            posFromTransform(pos, transform, calcVec);
 
             calcVec2.set(0, 5, 0);
             
@@ -124,24 +129,43 @@ define([
                 // no effect data here...
             }
         };
-
-
+        
         ModuleEffectCreator.createModuleStaticEffect = function(effectId, pos, transform) {
 
-           
+            posFromTransform(pos, transform, calcVec);
+            var fxArray = [];
+            var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', effectId);
 
-            calcVec.set(pos.data[0]+ transform.pos.data[0], pos.data[1] + transform.pos.data[1], pos.data[2] + transform.pos.data[2]);
-            calcVec2.set(0, 0, 0);
+            for (var i = 0; i < fx.length; i++) {
 
-            return EffectsAPI.requestPassiveEffect(effectId, calcVec, calcVec2);
+                if (!fx[i].particle_effects) {
+                    console.log("Bad FX: ", fx)
+                    return;
+                }
 
+                for (var j = 0; j < fx[i].particle_effects.length; j++) {
+                    fxArray.push(EffectsAPI.requestPassiveEffect(fx[i].particle_effects[j].id, calcVec, zeroVec));
+                //    ModuleEffectCreator.createModelTransformedEffects(fx[i].particle_effects[j].id, piece, calcVec, transform, calcQuat, stateValue);
+                }
+            }
+
+            return fxArray;
         };
 
-
-        ModuleEffectCreator.removeModuleStaticEffect = function(effect) {
-            EffectsAPI.returnPassiveEffect(effect);
+        ModuleEffectCreator.removeModuleStaticEffect = function(fxArray) {
+            for (var i = 0; i < fxArray.length; i++) {
+                EffectsAPI.returnPassiveEffect(fxArray[i]);
+            }
         };
-        
+
+        ModuleEffectCreator.updateEffect = function(fxArray, pos, transform, state) {
+            posFromTransform(pos, transform, calcVec);
+
+            for (var i = 0; i < fxArray.length; i++) {
+                EffectsAPI.updateEffectPosition(fxArray[i], calcVec, state);
+            }
+        };
+
         return ModuleEffectCreator;
 
     });

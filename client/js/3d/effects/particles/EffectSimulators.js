@@ -7,6 +7,20 @@ define([],
 
         var calcVec = new THREE.Vector3();
 
+        var simProcs = {
+            age:"age",
+            lifeTime:"lifeTime",
+            systemTime:"systemTime",
+            lifeTime:"lifeTime",
+            duration:"duration",
+
+            attrib1D:"attrib1D",
+            attrib2D:"attrib2D",
+            attrib3D:"attrib3D",
+            attrib4D:"attrib4D"
+        }
+
+
         function addVectorsTpf(source, target, tpf) {
             calcVec.x = source.x;
             calcVec.y = source.y;
@@ -34,6 +48,21 @@ define([],
         };
 
         var EffectSimulators = function() {
+
+        };
+
+        EffectSimulators.simulators = {
+
+            age:            {process:"age",           source:"age"              ,target:"age"          },
+            lifeTime:       {process:"lifeTime",      source:"age"              ,target:"lifeTime"     },
+            startTime:      {process:"attrib1D",      source:"systemTime"       ,target:"startTime"    },
+            duration:       {process:"attrib1D",      source:"lifeTime"         ,target:"duration"     },
+            tiles:          {process:"attrib2D",      source:"tiles"            ,target:"tileindex"    },
+            position:       {process:"attrib4D",      source:"position"         ,target:"offsetSize"   },
+            texelRowSelect: {process:"attrib4D",      source:"texelRowSelect"   ,target:"texelRowSelect"},
+            diffusors:      {process:"attrib4D",      source:"diffusors"        ,target:"diffusors"    },
+            acceleration:   {process:"attrib4D",      source:"acceleration"     ,target:"acceleration" },
+            velocity:       {process:"attrib4D",      source:"velocity"         ,target:"velocity"     }
 
         };
 

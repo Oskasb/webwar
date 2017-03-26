@@ -117,6 +117,10 @@ define([
             activeEffects.push(effect);
         };
 
+        ParticleSpawner.prototype.updateActiveParticleEffect = function(effect, pos, state) {
+            
+        };
+        
         ParticleSpawner.prototype.spawnPassiveEffect = function(id, pos, vel) {
             return this.buildEffect(id, pos, vel);
         };

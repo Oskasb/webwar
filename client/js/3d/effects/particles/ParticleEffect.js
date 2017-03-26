@@ -53,9 +53,9 @@ define(['3d/effects/particles/EffectSimulators',
         ParticleEffect.prototype.applyRenderer = function(renderer, systemTime) {
             this.renderer = renderer;
             this.age = 0;
-            
+
             var idealCount = this.effectData.effect.count;
-            var allowedCount = renderer.calculateAllowance(idealCount); 
+            var allowedCount = renderer.calculateAllowance(idealCount);
 
             var maxDuration = 0;
 
@@ -65,7 +65,7 @@ define(['3d/effects/particles/EffectSimulators',
                 this.aliveParticles.push(particle);
                 if (particle.params.lifeTime.value > maxDuration) {
                     maxDuration = particle.params.lifeTime.value;
-                //    console.log(maxDuration)
+                    //    console.log(maxDuration)
                 }
             }
 
@@ -73,7 +73,7 @@ define(['3d/effects/particles/EffectSimulators',
 
         };
 
-        
+
         var spreadVector = function(vec, spreadV4) {
             vec.x += spreadV4.vec4.x * (Math.random()-0.5);
             vec.y += spreadV4.vec4.y * (Math.random()-0.5);
@@ -98,36 +98,40 @@ define(['3d/effects/particles/EffectSimulators',
 
 
             ParticleParamParser.applyEffectSprite(particle, this.effectData.sprite);
-            
+
             particle.initToSimulation(systemTime+frameTpfFraction, calcVec, this.vel);
 
             this.updateParticle(particle, frameTpfFraction);
 
         };
 
+        ParticleEffect.prototype.applyParticleSimulator = function(simulator, particle, tpf) {
+            EffectSimulators[simulator.process](
+                particle,
+                tpf,
+                simulator.source,
+                simulator.target
+            );
+        };
+
 
         ParticleEffect.prototype.updateParticle = function(particle, tpf) {
             for (var i = 0; i < this.simulators.length; i++) {
-                EffectSimulators[this.simulators[i].process](
-                    particle,
-                    tpf,
-                    this.simulators[i].source,
-                    this.simulators[i].target
-                );
+                this.applyParticleSimulator(EffectSimulators.simulators[this.simulators[i]], particle, tpf)
             }
         };
 
         ParticleEffect.prototype.updateGpuParticle = function(particle, tpf) {
             return;
             for (var i = 0; i <  this.simulators[i].length; i++) {
-            //    if (this.simulators[i].process == "age" || this.simulators[i].process == "lifeTime" ) {
-                    EffectSimulators[this.simulators[i].process](
-                        particle,
-                        tpf,
-                        this.simulators[i].source,
-                        this.simulators[i].target
-                    );
-            //    }
+                //    if (this.simulators[i].process == "age" || this.simulators[i].process == "lifeTime" ) {
+                EffectSimulators[this.simulators[i].process](
+                    particle,
+                    tpf,
+                    this.simulators[i].source,
+                    this.simulators[i].target
+                );
+                //    }
             }
         };
 
@@ -146,15 +150,12 @@ define(['3d/effects/particles/EffectSimulators',
                         EffectSimulators.dead(this.aliveParticles[i], tpf);
                         this.deadParticles.push(this.aliveParticles[i]);
                     } else {
-                        if (this.aliveParticles[i].params.gpu_sim) {
-                        //    this.updateGpuParticle(this.aliveParticles[i], tpf)
+                            //    this.updateGpuParticle(this.aliveParticles[i], tpf)
                             if (this.aliveParticles[i].params.lifeTime.value < this.age + this.lastTpf * 2) {
                                 EffectSimulators.dead(this.aliveParticles[i], tpf);
                                 this.deadParticles.push(this.aliveParticles[i]);
                             }
-                        } else {
-                            this.updateParticle(this.aliveParticles[i], tpf);
-                        }
+
                     }
                 }
             }

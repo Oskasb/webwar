@@ -47,6 +47,10 @@ define([
             particleSpawner.spawnActiveParticleEffect(id, pos, vel);
         };
 
+        EffectsAPI.updateEffectPosition = function(effect, pos, state) {
+            particleSpawner.updateActiveParticleEffect(effect, pos, state);
+        };
+        
         EffectsAPI.requestPassiveEffect = function(id, pos, vel) {
             return particleSpawner.spawnPassiveEffect(id, pos, vel);
         };
