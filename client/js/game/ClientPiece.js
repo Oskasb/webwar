@@ -171,6 +171,18 @@ define([
 			this.clientModules.length = 0;
 		};
 
+        ClientPiece.prototype.disableModules = function() {
+            for (var i = 0; i < this.clientModules.length; i++) {
+                this.clientModules[i].disableClientModule();
+            }
+        };
+
+        ClientPiece.prototype.enableModules = function() {
+            for (var i = 0; i < this.clientModules.length; i++) {
+                this.clientModules[i].enableClientModule();
+            }
+        };
+        
 		ClientPiece.prototype.getPieceId = function() {
 			return this.piece.id;
 		};
@@ -214,11 +226,19 @@ define([
 
 			}
 
+			this.visible = this.threePiece.render;
+			
 			this.threePiece.updateThreePiece();
 
 			if (this.threePiece.render) {
+                if (!this.visible) {
+                    this.enableModules();   
+                }
 				this.sampleClientModules(this.piece.serverState.modules);
-			}
+                
+			} else if (this.visible) {
+                this.disableModules();
+            }
 
 		};
 

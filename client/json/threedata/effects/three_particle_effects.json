@@ -105,7 +105,7 @@
             "system_key":"THREE",
             "renderer_id":"gpu_opaque_atlas_renderer",
             "particle_id":"falling_leaf_particles",
-            "count":5,
+            "count":3,
             "simulation_id":"gpu_predictive_simulation"
           }
         },
@@ -116,7 +116,7 @@
             "system_key":"THREE",
             "renderer_id":"gpu_opaque_atlas_renderer",
             "particle_id":"big_leafy_swirl_particles",
-            "count":13,
+            "count":8,
             "simulation_id":"gpu_predictive_simulation"
           }
         },

@@ -31,6 +31,8 @@ define([
             this.applies = moduleData.applies;
         };
 
+
+
         ThreeModule.prototype.buildModel = function(parentObj3d, apReady) {
             
             var started = 0;
@@ -55,56 +57,56 @@ define([
                 started++
                 this.model = ThreeAPI.loadMeshModel(this.applies.three_model, this.parentObject3d, partsReady);
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
-        //        this.addModuleDebugBox(this.model);
             }
 
             if (this.applies.three_terrain) {
-                started++
+                started++;
                 this.model = ThreeAPI.loadGround(this.applies, this.module.state.value, this.parentObject3d, partsReady);
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
             }
 
-            if (this.applies.static_effect) {
+        //    this.attachEffects();
 
-                this.staticEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.static_effect, this.piece.spatial.pos, this.transform);
-
-            }
-
-            if (this.applies.dynamic_effect) {
-
-                this.dynamicEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.dynamic_effect, this.piece.spatial.pos, this.transform);
-
-            }
             
             if (!this.model) {
 
-                this.model = this.parentObject3d // ThreeAPI.createRootObject();
+                this.model = this.parentObject3d;
 
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
-            //    this.model = this.parentObject3d;
-          //      ThreeAPI.addChildToObject3D(this.model, this.parentObject3d);
-                
-         //       this.addModuleDebugBox(this.model);
-
             }
 
-        //    if (this.transform) {
                 this.parentObject3d.position.x = this.transform.posX();
                 this.parentObject3d.position.y = this.transform.posY();
                 this.parentObject3d.position.z = this.transform.posZ();
-        //    }
-
-
-        //    if (this.applies.game_effect || this.applies.bundle_model || this.applies.module_model_child) {
-        //        this.addModuleObject3D(parentObj3d);
-        //        ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
-        //    }
 
 
             partsReady();
         };
 
 
+        ThreeModule.prototype.attachEffects = function() {
+
+            if (this.applies.static_effect) {
+                this.staticEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.static_effect, this.piece.spatial.pos, this.transform);
+            }
+
+            if (this.applies.dynamic_effect) {
+                this.dynamicEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.dynamic_effect, this.piece.spatial.pos, this.transform);
+            }
+        };
+
+        ThreeModule.prototype.detatchEffects = function() {
+
+            if (this.staticEffect) {
+                ModuleEffectCreator.removeModuleStaticEffect(this.staticEffect);
+                this.staticEffect = null;
+            }
+
+            if (this.dynamicEffect) {
+                ModuleEffectCreator.removeModuleStaticEffect(this.dynamicEffect);
+                this.dynamicEffect = null;
+            }
+        };
 
         ThreeModule.prototype.addModuleDebugBox = function() {
 
@@ -153,15 +155,7 @@ define([
                 }
             }
 
-            if (this.staticEffect) {
-                ModuleEffectCreator.removeModuleStaticEffect(this.staticEffect);
-                this.staticEffect = null;
-            }
-
-            if (this.dynamicEffect) {
-                ModuleEffectCreator.removeModuleStaticEffect(this.dynamicEffect);
-                this.dynamicEffect = null;
-            }
+            this.detatchEffects();
 
             ThreeAPI.disposeModel(this.parentObject3d);
         };

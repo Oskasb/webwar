@@ -19,8 +19,8 @@
         {
           "id":"gpu_vegetation_simulation",
           "init_params":[
-            {"param":"age",         "value":  {"min":0,  "max":0.2}},
-            {"param":"lifeTime",    "value":  {"min":0.3,"max":4}},
+            {"param":"age",         "value":  {"min":0,  "max":0.0001}},
+            {"param":"lifeTime",    "value":  {"min":0.001,"max":0.002}},
             {"param":"tiles",       "vec2":   {"x":0.5, "y":1, "spread":{"min":0, "max":0}}},
             {"param":"position",    "vec4":   {"x":0,   "y":0,   "z":0,   "w":8,   "spread":{"min":-0.5, "max":0.0}}},
             {"param":"texelRowSelect","vec4": {"x":32,   "y":6,   "z":1,   "w":4,   "spread":{"min": 0,   "max":0}}},

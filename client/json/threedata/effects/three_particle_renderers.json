@@ -44,7 +44,7 @@
         {
           "id":"gpu_opaque_atlas_renderer",
           "material_id":"gpu_fogged_sprite_atlas_material",
-          "particle_pool":2500,
+          "particle_pool":3500,
           "particle_geometry":"quad",
           "material_options":{
             "blending":"NoBlending",

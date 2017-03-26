@@ -162,11 +162,23 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  5, 0], "size":[15, 30, 15]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  38,  0], "size":[35, 16, 35]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,   5,   0], "size":[12, 8, 12]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,   18,  0], "size":[65, 8, 65]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[35,  14,  0], "size":[22, 4, 22]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,   14,  35], "size":[22, 4, 22]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[-23, 14, -13], "size":[22, 4, 22]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[33,  14,  22], "size":[12, 4, 12]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[-12, 14,  33], "size":[12, 4, 12]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[22 , 14, -43], "size":[12, 4, 12]}}
         ],
         "default_modules":[
           "tree_trunk_4_module",
+          "tree_leaves_volume_module",
+          "tree_leaves_volume_module",
+          "tree_leaves_volume_module",
+          "tree_leaves_volume_module",
+          "tree_leaves_volume_module",
+          "tree_leaves_volume_module",
           "tree_leaves_volume_module"
         ]
       },
@@ -185,10 +197,16 @@
         },
         "attachment_points":[
           {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  8, 0], "size":[7, 20, 7]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  18,  0], "size":[16, 9, 16}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  18,  0], "size":[16, 9, 16]}},
+            {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[8,  15,  0], "size":[5, 3, 5]}},
+            {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  15,  8], "size":[5, 3, 5]}},
+            {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[-4,  15,  -4], "size":[5, 3, 5]}}
         ],
         "default_modules":[
           "tree_trunk_1_module",
+          "tree_leaves_volume_module",
+          "tree_leaves_volume_module",
+          "tree_leaves_volume_module",
           "tree_leaves_volume_module"
         ]
       },
@@ -208,11 +226,17 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 10, 0], "size":[6, 22, 6]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 20, 0], "size":[18, 9, 18]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 10, 0], "size":[6, 20, 6]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 20, 0], "size":[22, 9, 22]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[14,  15,  0], "size":[5, 3, 5]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  15,  4], "size":[5, 3, 5]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[-8,  15,  -8], "size":[5, 3, 5]}}
         ],
         "default_modules":[
           "tree_trunk_3_module",
+          "tree_leaves_volume_module",
+          "tree_leaves_volume_module",
+          "tree_leaves_volume_module",
           "tree_leaves_volume_module"
         ]
       },
@@ -230,11 +254,15 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 4,  0], "size":[4, 14, 4]}},
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 8,  0], "size":[9, 6, 9]}}
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 4,  0], "size":[4, 7, 4]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 8,  0], "size":[7, 4, 7]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[5,  7,  0], "size":[2, 1, 2]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0,  7,  5], "size":[2, 1, 2]}}
         ],
         "default_modules":[
           "tree_trunk_2_module",
+          "tree_leaves_volume_module",
+          "tree_leaves_volume_module",
           "tree_leaves_volume_module"
         ]
       },

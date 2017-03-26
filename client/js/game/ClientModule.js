@@ -67,6 +67,15 @@ define([
             this.threeModule.attachToParent(parentModule);
         };
 
+        ClientModule.prototype.enableClientModule = function () {
+            this.threeModule.attachEffects();
+        };
+
+        ClientModule.prototype.disableClientModule = function () {
+            this.threeModule.detatchEffects();
+        };
+        
+
         ClientModule.prototype.applyModuleServerState = function (serverState) {
 
             if (!serverState[this.id]) {
