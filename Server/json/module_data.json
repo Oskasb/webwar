@@ -226,11 +226,7 @@
         "action":"applyForward",
         "state_factor":30,
         "emit_effect":"tank_track_fx",
-        "effect_data":{
-          "intensity":0.3,
-          "strength":10,
-          "lifeSpan":0.4
-        },
+        "ground_print_effect":"track_ground_print_fx",
         "threshold":0.2,
         "message":"wroom",
         "three_model":"sherman_track_l",
@@ -253,11 +249,7 @@
         "action":"applyForward",
         "state_factor":30,
         "emit_effect":"tank_track_fx",
-        "effect_data":{
-          "intensity":0.3,
-          "strength":10,
-          "lifeSpan":0.4
-        },
+        "ground_print_effect":"track_ground_print_fx",
         "threshold":0.2,
         "message":"wroom",
         "three_model":"sherman_track_r",

@@ -1,5 +1,5 @@
 [{
-  "dataType":"GRID_SECTORS",
+  "dataType":"GRID_SECTORS_",
   "sectors":{
     "data":[
 
@@ -17,7 +17,7 @@
     ]
   }
 },{
-  "dataType":"GRID_SECTORS_",
+  "dataType":"GRID_SECTORS",
   "sectors":{
     "data":[
 

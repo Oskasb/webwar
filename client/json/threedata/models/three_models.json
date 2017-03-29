@@ -43,7 +43,7 @@
           "urluv2": "./client/assets/models/sherman_track_l_ao",
           "transform": {
             "pos": [
-              1.3, -0.55, -0.55],
+              1.3, -0.2, -0.55],
             "rot": [0, 0, 0],
             "scale": [1, 1, 1]
           }
@@ -54,7 +54,7 @@
           "url": "./client/assets/models/sherman_track_r",
           "urluv2": "./client/assets/models/sherman_track_r_ao",
           "transform": {
-            "pos": [-1.3, -0.55, -0.55],
+            "pos": [-1.3, -0.2, -0.55],
             "rot": [0, 0, 0],
             "scale": [1, 1, 1]
           }

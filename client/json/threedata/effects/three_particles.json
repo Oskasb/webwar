@@ -166,7 +166,7 @@
           "config":{
             "age":     {"min":0.01, "max":2.5},
             "lifeTime":{"min":3.2,"max":4.3},
-            "positionSpread":{"x":0.02, "y":0.01, "z":0.02},
+            "positionSpread":{"x":0.01, "y":0.01, "z":0.01},
             "gravity":0.01,
             "drag":2.7,
             "bend":0.0001,
@@ -184,6 +184,30 @@
           }
         },
 
+        {
+          "id":"track_ground_effect_particles",
+          "sprite_key":"ATLAS",
+          "sprite_id":"thick_smoke",
+          "config":{
+            "age":     {"min":0.01, "max":0.05},
+            "lifeTime":{"min":1.2,"max":8.0},
+            "positionSpread":{"x":0.032, "y":0.01, "z":0.032},
+            "gravity":0.001,
+            "drag":2.7,
+            "bend":0.00001,
+            "spinDrag":0.05,
+            "colorCurve":"dirt",
+            "alphaCurve":"oneToZero",
+            "diffusionCurve":"nearBlack",
+            "scaleCurve":"nearWhite",
+            "size":{"value":0.12, "min": 0.001, "max": 0.001},
+            "spin":{"value":0.001, "min": -6.1, "max": 6},
+            "velocityDiffusion":0.0001,
+            "accelerationDiffusion":0.0001,
+            "colorDiffusion":0.15,
+            "velocityFactor":0.03
+          }
+        },
 
         {
           "id":"sparkly_stars_particles",
@@ -316,21 +340,20 @@
           "sprite_id":"leafy_tuft",
           "config":{
             "gravity":-6.81,
-            "drag":0.8,
+            "drag":2.5,
             "spinDrag":1.2,
             "lifeTime":{"min":0.2,"max":1.4},
-            "positionSpread":{"x":0.4, "y":0.1, "z":0.4},
+            "positionSpread":{"x":0.1, "y":0.1, "z":0.1},
             "colorCurve":"nearWhite",
             "alphaCurve":"oneToZero",
             "diffusionCurve":"halfQuickIn",
             "scaleCurve":"quickIn",
             "size":{"value":0.3, "min": 0.3, "max": 1.32},
-            "spin":{"value":0.01, "min":-0.5, "max":0.5},
-            "velocitySpread":{"min":-0.4,"max":0.4},
+            "spin":{"value":1.01, "min":-4.5, "max":4.5},
             "velocityDiffusion":0.73,
             "accelerationDiffusion":0.5,
             "colorDiffusion":0.45,
-            "velocityFactor":0.423
+            "velocityFactor":0.9
           }
         },
         {
@@ -338,22 +361,21 @@
           "sprite_key":"ATLAS",
           "sprite_id":"splatter",
           "config":{
-            "gravity":-3.81,
-            "drag":0.1,
+            "gravity":-4.81,
+            "drag":2.5,
             "spinDrag":0.2,
             "lifeTime":{"min":0.3,"max":0.9},
-            "positionSpread":{"x":0.4, "y":0.1, "z":0.4},
+            "positionSpread":{"x":0.2, "y":0.1, "z":0.2},
             "colorCurve":"dirt",
             "alphaCurve":"oneToZero",
             "diffusionCurve":"halfQuickIn",
             "scaleCurve":"halfQuickIn",
             "size":{"value":0.42, "min": 0.1, "max": 1.32},
-            "spin":{"value":0.01, "min":-3.5, "max":3.5},
-            "velocitySpread":{"min":-0.4,"max":0.4},
+            "spin":{"value":1.01, "min":-4.5, "max":3.5},
             "velocityDiffusion":0.43,
             "accelerationDiffusion":0.5,
             "colorDiffusion":0.55,
-            "velocityFactor":0.423
+            "velocityFactor":0.9
           }
         },
         {

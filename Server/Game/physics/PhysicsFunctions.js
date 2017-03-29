@@ -264,7 +264,7 @@ var createVehicle = function(world, spatial, bodyParams) {
     var width = 1.5;
     var length = 3.1;
     var height = 1.1;
-    var clearance = 0.7;
+    var clearance = 0.2;
 
     var chassisShape;
     chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, height));

@@ -89,6 +89,17 @@
         },
 
         {
+          "id":"track_ground_module_effect",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_opaque_atlas_renderer",
+            "particle_id":"track_ground_effect_particles",
+            "count":1,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
+
+        {
           "id":"sparkly_stars_effect",
           "data":{
             "system_key":"THREE",

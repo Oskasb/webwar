@@ -88,6 +88,14 @@
       }
     ],
 
+    "track_ground_print_fx":[
+      {
+        "particle_effects":[
+          {"id":"track_ground_module_effect"}
+        ]
+      }
+    ],
+
     "tank_engine_fx":[
       {
         "particle_effects":[

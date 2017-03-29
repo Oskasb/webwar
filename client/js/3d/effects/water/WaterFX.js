@@ -16,10 +16,10 @@ define([
         var camera, scene, renderer;
         var sphere;
         var parameters = {
-            width: 2000,
-            height: 2000,
-            widthSegments: 250,
-            heightSegments: 250,
+            width: 100000,
+            height: 100000,
+            widthSegments: 32,
+            heightSegments: 32,
             depth: 1500,
             param: 4,
             filterparam: 1
@@ -39,7 +39,7 @@ define([
             var material = new THREE.MeshStandardMaterial( { map:waterNormals, color: 0xffffff, wireframe: false, fog:false } );
 
             var mirrorMesh = new THREE.Mesh(
-                new THREE.PlaneBufferGeometry( parameters.width * 50000, parameters.height * 50000, 16, 16 ),
+                new THREE.PlaneBufferGeometry( parameters.width, parameters.height, 32, 32 ),
                 material
             );
 

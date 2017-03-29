@@ -4,11 +4,13 @@
 define([
         'Events',
         'PipelineAPI',
+    'ThreeAPI',
     'EffectsAPI'
     ],
     function(
         evt,
         PipelineAPI,
+        ThreeAPI,
         EffectsAPI
     ) {
 
@@ -17,6 +19,8 @@ define([
         var calcVec3 = new THREE.Vector3();
         var calcQuat = new THREE.Quaternion();
         var zeroVec = new THREE.Vector3();
+
+        var maxGroundContactDistance = 0.5;
 
         var posFromTransform = function(pos, transform, storeVec3) {
             storeVec3.set(pos.data[0]+ transform.pos.data[0], pos.data[1] + transform.pos.data[1], pos.data[2] + transform.pos.data[2]);
@@ -30,8 +34,9 @@ define([
 
         };
 
+        var pre = 0;
                 
-        ModuleEffectCreator.createModelTransformedEffects = function(effectId, piece, calcVec, transform, calcQuat, stateValue) {
+        ModuleEffectCreator.createModelTransformedEffects = function(effectId, piece, calcVec, transform, calcQuat, stateValue, glueToGround) {
 
             calcVec2.x = transform.size.getX()*Math.random() - transform.size.getX()*0.5;
             calcVec2.y = transform.size.getY()*Math.random() - transform.size.getY()*0.5;
@@ -47,6 +52,16 @@ define([
 
             calcVec3.x += calcVec2.x*0.02;
             calcVec3.z += calcVec2.z*0.02;
+
+
+            if (glueToGround) {
+                pre = calcVec3.y;
+                ThreeAPI.setYbyTerrainHeightAt(calcVec3);
+                if (Math.abs(pre - calcVec3.y) > maxGroundContactDistance) {
+                    return;
+                }
+                calcVec3.y += 0.1;
+            }
 
         //    calcVec2.applyQuaternion(calcQuat);
 
@@ -101,11 +116,11 @@ define([
         };
         
         
-        ModuleEffectCreator.createModuleApplyEmitEffect = function(piece, model, applies, transform, stateValue) {
+        ModuleEffectCreator.createModuleApplyEmitEffect = function(piece, model, emit_effect, transform, stateValue, glueToGround) {
 
-            var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', applies.emit_effect);
+            var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', emit_effect);
 
-            if (fx.length && fx != applies.emit_effect) {
+        //    if (fx.length && fx != emit_effect) {
 
                 if (!model.matrixWorld) {
                     return;
@@ -126,12 +141,13 @@ define([
                     }
 
                     for (var j = 0; j < fx[i].particle_effects.length; j++) {
-                        ModuleEffectCreator.createModelTransformedEffects(fx[i].particle_effects[j].id, piece, calcVec, transform, calcQuat, stateValue);
+                        ModuleEffectCreator.createModelTransformedEffects(fx[i].particle_effects[j].id, piece, calcVec, transform, calcQuat, stateValue, glueToGround);
                     }
                 }
-            } else {
+        //    } else {
                 // no effect data here...
-            }
+        //       console.log("Bad effect config: ", emit_effect)
+        //    }
         };
         
         ModuleEffectCreator.createModuleStaticEffect = function(effectId, pos, transform, tpf) {
