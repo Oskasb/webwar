@@ -190,7 +190,7 @@
           "sprite_id":"thick_smoke",
           "config":{
             "age":     {"min":0.01, "max":0.05},
-            "lifeTime":{"min":1.2,"max":8.0},
+            "lifeTime":{"min":0.2,"max":4.5},
             "positionSpread":{"x":0.032, "y":0.01, "z":0.032},
             "gravity":0.001,
             "drag":2.7,
@@ -200,7 +200,7 @@
             "alphaCurve":"oneToZero",
             "diffusionCurve":"nearBlack",
             "scaleCurve":"nearWhite",
-            "size":{"value":0.12, "min": 0.001, "max": 0.001},
+            "size":{"value":0.2, "min": 0.001, "max": 0.001},
             "spin":{"value":0.001, "min": -6.1, "max": 6},
             "velocityDiffusion":0.0001,
             "accelerationDiffusion":0.0001,
@@ -518,6 +518,23 @@
             "scaleCurve":"nearWhite",
             "size":{"value":0.61, "min":0.2, "max":2},
             "colorDiffusion":0.25
+          }
+        },
+        {
+          "id":"ground_dirt_clob_particle",
+          "sprite_key":"ATLAS",
+          "sprite_id":"smokey",
+          "config":{
+            "positionSpread":{"x":0.01, "y":0.01, "z":0.01},
+            "colorCurve":"dirt",
+            "alphaCurve":"nearWhite",
+            "diffusionCurve":"nearWhite",
+            "scaleCurve":"nearWhite",
+            "size":{"value":0.28, "min":0, "max":0.3},
+            "velocityDiffusion":0.00001,
+            "accelerationDiffusion":0.00001,
+            "colorDiffusion":0.25,
+            "velocityFactor":1
           }
         },
         {

@@ -219,7 +219,7 @@ define([
 
             if (this.applies.ground_print_effect) {
 
-                ModuleEffectCreator.createModuleApplyEmitEffect(this.piece, this.model, this.applies.ground_print_effect, this.transform, stateValue, true)
+                ModuleEffectCreator.addGrundPrintEmitEffect(this.piece, this.model, this.applies.ground_print_effect, this.transform, stateValue, true)
 
             }
             

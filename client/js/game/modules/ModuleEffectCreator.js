@@ -4,8 +4,8 @@
 define([
         'Events',
         'PipelineAPI',
-    'ThreeAPI',
-    'EffectsAPI'
+        'ThreeAPI',
+        'EffectsAPI'
     ],
     function(
         evt,
@@ -22,6 +22,10 @@ define([
 
         var maxGroundContactDistance = 0.5;
 
+        var maxActiveGroundPrints = 1000;
+
+        var groundprints = [];
+
         var posFromTransform = function(pos, transform, storeVec3) {
             storeVec3.set(pos.data[0]+ transform.pos.data[0], pos.data[1] + transform.pos.data[1], pos.data[2] + transform.pos.data[2]);
         };
@@ -29,48 +33,41 @@ define([
         var sizeFromTransform = function(transform, storeVec3) {
             storeVec3.set(transform.size.data[0], transform.size.data[1],  transform.size.data[2]);
         };
-        
+
         var ModuleEffectCreator = function() {
 
         };
 
         var pre = 0;
-                
-        ModuleEffectCreator.createModelTransformedEffects = function(effectId, piece, calcVec, transform, calcQuat, stateValue, glueToGround) {
 
-            calcVec2.x = transform.size.getX()*Math.random() - transform.size.getX()*0.5;
-            calcVec2.y = transform.size.getY()*Math.random() - transform.size.getY()*0.5;
-            calcVec2.z = transform.size.getZ()*Math.random() - transform.size.getZ()*0.5;
+        ModuleEffectCreator.createModelTransformedEffects = function(piece, calcVec, transform, calcQuat, stateValue, velStore, posStore) {
 
-            calcVec2.applyQuaternion(calcQuat);
+            posStore.x = transform.size.getX()*Math.random() - transform.size.getX()*0.5;
+            posStore.y = transform.size.getY()*Math.random() - transform.size.getY()*0.5;
+            posStore.z = transform.size.getZ()*Math.random() - transform.size.getZ()*0.5;
 
-            calcVec3.addVectors(calcVec, calcVec2);
+            posStore.applyQuaternion(calcQuat);
 
-            calcVec2.x = piece.spatial.vel.getX() * - stateValue*0.15 + Math.random()*0.02 - 0.01;
-            calcVec2.y = piece.spatial.vel.getY() + Math.abs(stateValue);
-            calcVec2.z = piece.spatial.vel.getZ() * - stateValue*0.15 + Math.random()*0.02 - 0.01;
+            velStore.addVectors(calcVec, posStore);
 
-            calcVec3.x += calcVec2.x*0.02;
-            calcVec3.z += calcVec2.z*0.02;
+            posStore.x = piece.spatial.vel.getX() * - stateValue*0.15 + Math.random()*0.02 - 0.01;
+            posStore.y = piece.spatial.vel.getY() + Math.abs(stateValue);
+            posStore.z = piece.spatial.vel.getZ() * - stateValue*0.15 + Math.random()*0.02 - 0.01;
+
+            velStore.x += posStore.x*0.02;
+            velStore.z += posStore.z*0.02;
+
+        };
 
 
-            if (glueToGround) {
-                pre = calcVec3.y;
-                ThreeAPI.setYbyTerrainHeightAt(calcVec3);
-                if (Math.abs(pre - calcVec3.y) > maxGroundContactDistance) {
-                    return;
-                }
-                calcVec3.y += 0.1;
-            }
+        ModuleEffectCreator.createActiveEffect = function(effectId, posVec, velVec) {
 
-        //    calcVec2.applyQuaternion(calcQuat);
-
-            evt.fire(evt.list().GAME_EFFECT, {effect:effectId, pos:calcVec3, vel:calcVec2});
+            evt.fire(evt.list().GAME_EFFECT, {effect:effectId, pos:posVec, vel:velVec});
         };
 
 
         ModuleEffectCreator.createModuleModelEffect = function(piece, model, remove_effect, transform) {
-            
+
             if (!model.matrixWorld) {
                 return;
             }
@@ -80,7 +77,7 @@ define([
             } else {
                 var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', remove_effect);
             }
-            
+
             calcVec.setFromMatrixPosition( model.matrixWorld );
             model.getWorldQuaternion(calcQuat);
 
@@ -89,13 +86,15 @@ define([
 
             for (var i = 0; i < fx.length; i++) {
                 for (var j = 0; j < fx[i].particle_effects.length; j++) {
-                    ModuleEffectCreator.createModelTransformedEffects(fx[i].particle_effects[j].id, piece, calcVec, transform, calcQuat, 1);
+                    ModuleEffectCreator.createModelTransformedEffects(piece, calcVec, transform, calcQuat, 1, calcVec2, calcVec3);
+
+                    ModuleEffectCreator.createActiveEffect(fx[i].particle_effects[j].id, calcVec2, calcVec3)
                 }
             }
         };
 
         ModuleEffectCreator.createPositionEffect = function(pos, remove_effect, transform) {
-            
+
 
             if (!remove_effect) {
                 var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', 'default_remove_effect');
@@ -106,49 +105,106 @@ define([
             posFromTransform(pos, transform, calcVec);
 
             calcVec2.set(0, 5, 0);
-            
+
             for (var i = 0; i < fx.length; i++) {
                 for (var j = 0; j < fx[i].particle_effects.length; j++) {
                     evt.fire(evt.list().GAME_EFFECT, {effect:fx[i].particle_effects[j].id, pos:calcVec, vel:calcVec2});
-                //    ModuleEffectCreator.createModelTransformedEffects(fx[i].particle_effects[j].id, piece, calcVec, transform, calcQuat, 1);
+                    //    ModuleEffectCreator.createModelTransformedEffects(fx[i].particle_effects[j].id, piece, calcVec, transform, calcQuat, 1);
                 }
             }
         };
-        
-        
+
+
         ModuleEffectCreator.createModuleApplyEmitEffect = function(piece, model, emit_effect, transform, stateValue, glueToGround) {
 
             var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', emit_effect);
 
-        //    if (fx.length && fx != emit_effect) {
+            if (!model.matrixWorld) {
+                return;
+            }
 
-                if (!model.matrixWorld) {
+            calcVec.setFromMatrixPosition( model.matrixWorld );
+            model.getWorldQuaternion(calcQuat);
+
+            if (!calcVec.x) return;
+            if (!piece.spatial.pos.data) return;
+
+
+            for (var i = 0; i < fx.length; i++) {
+
+                if (!fx[i].particle_effects) {
+                    console.log("Bad FX: ", fx)
                     return;
                 }
 
-                calcVec.setFromMatrixPosition( model.matrixWorld );
-                model.getWorldQuaternion(calcQuat);
+                for (var j = 0; j < fx[i].particle_effects.length; j++) {
+                    ModuleEffectCreator.createModelTransformedEffects(piece, calcVec, transform, calcQuat, stateValue, calcVec2, calcVec3);
 
-                if (!calcVec.x) return;
-                if (!piece.spatial.pos.data) return;
-
-
-                for (var i = 0; i < fx.length; i++) {
-
-                    if (!fx[i].particle_effects) {
-                        console.log("Bad FX: ", fx)
-                        return;
+                    if (glueToGround) {
+                        pre = calcVec2.y;
+                        ThreeAPI.setYbyTerrainHeightAt(calcVec2);
+                        if (Math.abs(pre - calcVec2.y) > maxGroundContactDistance) {
+                            return;
+                        }
+                        calcVec2.y += 0.1;
                     }
 
-                    for (var j = 0; j < fx[i].particle_effects.length; j++) {
-                        ModuleEffectCreator.createModelTransformedEffects(fx[i].particle_effects[j].id, piece, calcVec, transform, calcQuat, stateValue, glueToGround);
-                    }
+                    ModuleEffectCreator.createActiveEffect(fx[i].particle_effects[j].id, calcVec2, calcVec3)
                 }
-        //    } else {
-                // no effect data here...
-        //       console.log("Bad effect config: ", emit_effect)
-        //    }
+            }
         };
+
+        ModuleEffectCreator.addGrundPrintEmitEffect = function(piece, model, emit_effect, transform, stateValue, glueToGround) {
+
+            var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', emit_effect);
+
+            if (!model.matrixWorld) {
+                return;
+            }
+
+            calcVec.setFromMatrixPosition( model.matrixWorld );
+            model.getWorldQuaternion(calcQuat);
+
+            if (!calcVec.x) return;
+            if (!piece.spatial.pos.data) return;
+
+
+            for (var i = 0; i < fx.length; i++) {
+
+                if (!fx[i].particle_effects) {
+                    console.log("Bad FX: ", fx)
+                    return;
+                }
+
+                for (var j = 0; j < fx[i].particle_effects.length; j++) {
+                    ModuleEffectCreator.createModelTransformedEffects(piece, calcVec, transform, calcQuat, stateValue, calcVec2, calcVec3);
+
+                    if (glueToGround) {
+                        pre = calcVec2.y;
+                        ThreeAPI.setYbyTerrainHeightAt(calcVec2);
+                        if (Math.abs(pre - calcVec2.y) > maxGroundContactDistance) {
+                            return;
+                        }
+                        calcVec2.y += 0.01;
+                    }
+
+                    calcVec3.set(0, 0, 0);
+
+                    groundprints.push(EffectsAPI.requestPassiveEffect(fx[i].particle_effects[j].id, calcVec2, zeroVec, zeroVec));
+
+                }
+            }
+
+            while (groundprints.length > maxActiveGroundPrints) {
+                if (Math.random() < 0.2) {
+                    EffectsAPI.returnPassiveEffect(groundprints.shift());
+                } else {
+                    EffectsAPI.returnPassiveEffect(groundprints.splice(Math.floor(groundprints.length*0.5*Math.random()), 1)[0]);
+                }
+            }
+
+        };
+        
         
         ModuleEffectCreator.createModuleStaticEffect = function(effectId, pos, transform, tpf) {
 
@@ -166,18 +222,19 @@ define([
 
                 for (var j = 0; j < fx[i].particle_effects.length; j++) {
                     fxArray.push(EffectsAPI.requestPassiveEffect(fx[i].particle_effects[j].id, calcVec, zeroVec, calcVec2));
-                //    ModuleEffectCreator.createModelTransformedEffects(fx[i].particle_effects[j].id, piece, calcVec, transform, calcQuat, stateValue);
                 }
             }
 
             return fxArray;
         };
 
+
         ModuleEffectCreator.removeModuleStaticEffect = function(fxArray) {
             for (var i = 0; i < fxArray.length; i++) {
                 EffectsAPI.returnPassiveEffect(fxArray[i]);
             }
         };
+
 
         ModuleEffectCreator.updateEffect = function(fxArray, pos, transform, state, tpf) {
             posFromTransform(pos, transform, calcVec);
@@ -186,6 +243,7 @@ define([
                 EffectsAPI.updateEffectPosition(fxArray[i], calcVec, state, tpf);
             }
         };
+
 
         return ModuleEffectCreator;
 

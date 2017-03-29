@@ -91,7 +91,7 @@
     "track_ground_print_fx":[
       {
         "particle_effects":[
-          {"id":"track_ground_module_effect"}
+          {"id":"ground_dirt_clob_effect"}
         ]
       }
     ],
