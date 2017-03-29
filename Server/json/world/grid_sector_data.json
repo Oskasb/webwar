@@ -1,5 +1,5 @@
 [{
-  "dataType":"GRID_SECTORS_",
+  "dataType":"GRID_SECTORS",
   "sectors":{
     "data":[
 
@@ -7,7 +7,8 @@
         "weight":1000,
         "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
         "spawn":[
-          {"pieceType":"small_space_rock_piece", "min":2, "max":2}
+          {"pieceType":"plasma_blob_piece", "min":2, "max":2},
+          {"pieceType":"big_shrub_piece", "min":215, "max":345}
         ],
         "buildings":[
           {"pieceType":"small_house_building", "min":0, "max":2, "flatten":true}
@@ -16,7 +17,7 @@
     ]
   }
 },{
-  "dataType":"GRID_SECTORS",
+  "dataType":"GRID_SECTORS_",
   "sectors":{
     "data":[
 

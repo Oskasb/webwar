@@ -312,18 +312,15 @@ TerrainFunctions.prototype.getTriangleAt = function(array1d, segments, x, y) {
 
     var fracX = x - xf;
     var fracY = y - yf;
-
+    
     p1.x = xf;
     p1.y = yc;
-
-    //   console.log(xf, yc);
+    
     p1.z = this.getAt(array1d, segments, xf, yc);
-
-
+    
     setTri(p1, xf, yc, this.getAt(array1d, segments,xf, yc));
     setTri(p2, xc, yf, this.getAt(array1d, segments,xc, yf));
-
-
+    
     if (fracX < 1-fracY) {
         setTri(p3,xf,yf,this.getAt(array1d, segments,xf, yf));
     } else {
@@ -350,23 +347,30 @@ TerrainFunctions.prototype.getHeightForPlayer = function(serverPlayer, normalSto
 
 
 
-TerrainFunctions.prototype.getPreciseHeight = function(array1d, segments, x, y, normalStore) {
-    var tri = this.getTriangleAt(array1d, segments, x, y);
+TerrainFunctions.prototype.getPreciseHeight = function(array1d, segments, x, z, normalStore) {
+    var tri = this.getTriangleAt(array1d, segments, x, z);
 
-    setTri(p0, x, 0, y);
+    setTri(p0, x, z, 0);
 
     var find = MATH.barycentricInterpolation(tri[0], tri[1], tri[2], p0);
-
 
     if (normalStore) {
         calcVec1.setXYZ((tri[1].x-tri[0].x), (tri[1].z-tri[0].z), (tri[1].y-tri[0].y));
         calcVec2.setXYZ((tri[2].x-tri[0].x), (tri[2].z-tri[0].z), (tri[2].y-tri[0].y));
         calcVec1.crossVec(calcVec2);
         if (calcVec1.data[1] < 0) {
-            calcVec1.invert();
+            calcVec1.invert();//
         }
+
         calcVec1.normalize();
-        normalStore.setVec(calcVec1);
+
+        //    if (calcVec1.data[1] != 1) {
+        //        console.log(calcVec1.data);
+        //    }
+
+        normalStore.x = calcVec1.getX();
+        normalStore.y = calcVec1.getY();
+        normalStore.z = calcVec1.getZ();
     }
 
     return find.z;
@@ -459,14 +463,20 @@ TerrainFunctions.prototype.getTerrainHeightAt = function(groundPiece, pos, norma
     return this.getHeightAt(module, calcVec2, module.state.value, terrainSize, segments, normalStore)
 };
 
+TerrainFunctions.prototype.getDisplacedHeight = function(array1d, segments, x, z, htP, htN, normalStore) {
+    var tx = this.displaceAxisDimensions(x, htN, htP, segments);
+    var tz = this.displaceAxisDimensions(z, htN, htP, segments);
+    
+    return this.getPreciseHeight(array1d, segments, tx, tz, normalStore);
 
+};
 
 
 TerrainFunctions.prototype.getHeightAt = function(module, posVec, array1d, terrainSize, segments, normalStore) {
-    pos = posVec.data;
+    var pos = posVec.data;
 
     var htP = terrainSize;
-    var htN = -htP;
+    var htN = 0;
 
     if (pos[0] < htN || pos[0] > htP || pos[2] < htN || pos[2] > htP) {
 
@@ -477,81 +487,8 @@ TerrainFunctions.prototype.getHeightAt = function(module, posVec, array1d, terra
         pos[2] = MATH.clamp(pos[2], htN, htP);
     }
 
-
-    var tx = this.displaceAxisDimensions(2*pos[0]-terrainSize, htN, htP, segments);
-    var tz = this.displaceAxisDimensions(2*pos[2]-terrainSize, htN, htP, segments);
-
-    return this.getPreciseHeight(array1d, segments, tx, tz, normalStore);
+    return this.getDisplacedHeight(array1d, segments, pos[0], pos[2], htP, htN, normalStore);
+    
 };
 
-
-
-TerrainFunctions.prototype.getNormalForPlayer = function(serverPlayer) {
-
-    var gridSector = serverPlayer.currentGridSector;
-    if (!gridSector) return MATH.AXIS_Y;
-
-    var groundPiece = gridSector.groundPiece;
-
-
-    return this.getTerrainNormalAt(groundPiece, serverPlayer.piece.spatial.pos);
-};
-
-TerrainFunctions.prototype.getTerrainNormalAt = function(groundPiece, pos) {
-
-    var module = this.getPieceTerrainModule(groundPiece);
-
-    calcVec1.setVec(groundPiece.spatial.pos);
-
-    calcVec2.setVec(pos);
-    calcVec2.subVec(calcVec1);
-
-
-    var terrainSize = this.getTerrainModuleSize(module);
-    var segments = this.getTerrainSegmentse(module);
-
-    return this.getNormalAt(module, calcVec2, module.state.value, terrainSize, segments);
-
-};
-
-
-TerrainFunctions.prototype.getNormalAt = function(module, posVec, array1d, terrainSize, segments) {
-    var pos = posVec;
-    var scale = 1;
-
-    var htP = terrainSize;
-    var htN = -htP;
-
-    if (pos[0] < htN || pos[0] > htP || pos[2] < htN || pos[2] > htP) {
-
-        console.log("Normal Lookup", pos[0], pos[2], "Is Outside")
-
-        calcVec1.setXYZ(0, 1, 0);
-        return -1000;
-    }
-
-
-
-    var tx = this.displaceAxisDimensions(2*pos[0]-terrainSize, htN, htP, segments);
-    var tz = this.displaceAxisDimensions(2*pos[2]-terrainSize, htN, htP, segments);
-
-    var tri = this.getTriangleAt(array1d, terrainSize, tx, tz);
-
-    for (var i = 0; i < tri.length; i++) {
-        tri[i].x = this.returnToWorldDimensions(tri[i].x, 0, 1, terrainSize-1);
-        //    tri[i].z = this.returnToWorldDimensions(tri[i].z, dims.minY, dims.maxY, 1);
-        tri[i].y = this.returnToWorldDimensions(tri[i].y, 0, 1, terrainSize-1);
-    }
-
-    calcVec1.setXYZ((tri[1].x-tri[0].x), (tri[1].z-tri[0].z), (tri[1].y-tri[0].y));
-    calcVec2.setXYZ((tri[2].x-tri[0].x), (tri[2].z-tri[0].z), (tri[2].y-tri[0].y));
-    calcVec1.dotVec(calcVec2);
-    if (calcVec1.data[1] < 0) {
-        calcVec1.invert();
-    }
-
-    calcVec1.normalize();
-    return calcVec1;
-
-};
 
