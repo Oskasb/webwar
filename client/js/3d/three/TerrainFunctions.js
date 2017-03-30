@@ -125,10 +125,11 @@ define([
 
             //    THREETri.normal(normalStore);
                 calcVec1.crossVec(calcVec2);
-            //    if (calcVec1.data[1] < 0) {
-            //        calcVec1.invert();//            //    }
+                if (calcVec1.data[1] < 0) {
+                    calcVec1.invert();
+                }
 
-            //    calcVec1.normalize();
+                calcVec1.normalize();
 
                 //    if (calcVec1.data[1] != 1) {
                 //        console.log(calcVec1.data);

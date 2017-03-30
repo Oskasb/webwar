@@ -526,6 +526,7 @@
           "sprite_id":"smokey",
           "config":{
             "positionSpread":{"x":0.01, "y":0.01, "z":0.01},
+            "lifeTime":{"min":5.001,"max":7.01},
             "colorCurve":"dirt",
             "alphaCurve":"quickIn",
             "diffusionCurve":"nearWhite",

@@ -281,7 +281,7 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0.8,  0], "size":[0, 0.01, 0]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0.3,  0], "size":[0, 0.01, 0]}},
           {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0.8,  0], "size":[4, 6,    4]}}
         ],
         "default_modules":[
@@ -304,7 +304,7 @@
           }
         },
         "attachment_points":[
-          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0.8,  0], "size":[0, 0.01, 0]}},
+          {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0.3,  0], "size":[0, 0.01, 0]}},
           {"slot":"hull" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0.8,  0], "size":[4, 6,    4]}}
         ],
         "default_modules":[

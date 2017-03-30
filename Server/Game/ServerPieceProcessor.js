@@ -110,7 +110,7 @@ ServerPieceProcessor.prototype.playerAgainstPlayers = function(playerA, players)
         }
     }
 
-    this.collissions.length = 0;
+    this.collissions = [];
 };
 
 

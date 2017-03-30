@@ -186,7 +186,7 @@ define([
                         if (Math.abs(pre - calcVec2.y) > maxGroundContactDistance) {
                             return;
                         }
-                        calcVec2.y += 0.01;
+                        calcVec2.y += 0.01+Math.random()*0.1;
                         threeObj.lookAt(calcVec);
                     //    calcQuat.setFromAxisAngle(calcVec, 1);
                     }
