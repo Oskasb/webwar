@@ -61,9 +61,35 @@
             {"name":"offsetSize",  "dimensions":4, "dynamic":false},
             {"name":"texelRowSelect", "dimensions":4, "dynamic":false},
             {"name":"tileindex",   "dimensions":2},
+            {"name":"diffusors",   "dimensions":4, "dynamic":false}
+          ],
+          "particle_texture":"./client/assets/images/effects/particle_atlas_6x6.png",
+          "data_texture":"./client/assets/images/effects/data_texture.png",
+
+          "global_uniforms":{
+            "fogDensity": { "value": 0.00025 },
+            "fogColor": { "value": {"r":1, "g":1, "b":1}},
+            "ambientLightColor": { "value": {"r":1, "g":1, "b":1}},
+            "sunLightColor": { "value": {"r":1, "g":1, "b":1}}
+          },
+
+          "settings":{
+            "tiles_x":6,
+            "tiles_y":6,
+            "flip_y":true,
+            "data_rows":64
+          }
+        },{
+          "id":"gpu_stamp_sprite_material",
+          "shader":"INSTANCING_GPU_SPATIAL",
+          "attributes": [
+            {"name":"startTime",   "dimensions":1, "dynamic":true},
+            {"name":"duration",    "dimensions":1, "dynamic":false},
+            {"name":"offsetSize",  "dimensions":4, "dynamic":false},
+            {"name":"texelRowSelect", "dimensions":4, "dynamic":false},
+            {"name":"tileindex",   "dimensions":2},
             {"name":"diffusors",   "dimensions":4, "dynamic":false},
-            {"name":"acceleration","dimensions":4, "dynamic":false},
-            {"name":"velocity",    "dimensions":4, "dynamic":false}
+            {"name":"orientation", "dimensions":4, "dynamic":false}
           ],
           "particle_texture":"./client/assets/images/effects/particle_atlas_6x6.png",
           "data_texture":"./client/assets/images/effects/data_texture.png",
@@ -76,7 +102,6 @@
             "sunLightColor": { "value": {"r":1, "g":1, "b":1}}
 
           },
-
 
           "settings":{
             "tiles_x":6,

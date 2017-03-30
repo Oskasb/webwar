@@ -41,15 +41,18 @@ define([],
             this.velVec = new THREE.Vector4();
             this.posVec = new THREE.Vector4();
 
+            this.quat = new THREE.Quaternion();
+
             this.systemTime = {value:0};
 
-            
-            
+
             this.params = {
                 position:this.posVec,
                 velocity:this.velVec,
+                quaternion:this.quat,
                 systemTime:this.systemTime
             };
+
             this.progress = 0;
             this.dead = false;
             this.attributeBuffers = {};
@@ -78,6 +81,13 @@ define([],
             this.params.position.x = pos.x;
             this.params.position.y = pos.y;
             this.params.position.z = pos.z;
+        };
+
+        Particle.prototype.setQuaternion = function(quat) {
+            this.params.quaternion.x = quat.x;
+            this.params.quaternion.y = quat.y;
+            this.params.quaternion.z = quat.z;
+            this.params.quaternion.w = quat.w;
         };
         
         Particle.prototype.addVelocity = function(vel) {

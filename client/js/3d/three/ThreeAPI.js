@@ -76,8 +76,8 @@ define([
             return ThreeModelLoader.terrainVegetationAt(pos, normalStore);
         };
         
-        ThreeAPI.setYbyTerrainHeightAt = function(pos) {
-            return ThreeModelLoader.getHeightFromTerrainAt(pos);
+        ThreeAPI.setYbyTerrainHeightAt = function(pos, normalStore) {
+            return ThreeModelLoader.getHeightFromTerrainAt(pos, normalStore);
         };
         
         ThreeAPI.updateWindowParameters = function(width, height, aspect, pxRatio) {

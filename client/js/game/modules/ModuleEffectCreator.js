@@ -18,11 +18,12 @@ define([
         var calcVec2 = new THREE.Vector3();
         var calcVec3 = new THREE.Vector3();
         var calcQuat = new THREE.Quaternion();
+        var threeObj = new THREE.Object3D();
         var zeroVec = new THREE.Vector3();
 
         var maxGroundContactDistance = 0.5;
 
-        var maxActiveGroundPrints = 1000;
+        var maxActiveGroundPrints = 2200;
 
         var groundprints = [];
 
@@ -181,16 +182,18 @@ define([
 
                     if (glueToGround) {
                         pre = calcVec2.y;
-                        ThreeAPI.setYbyTerrainHeightAt(calcVec2);
+                        ThreeAPI.setYbyTerrainHeightAt(calcVec2, calcVec);
                         if (Math.abs(pre - calcVec2.y) > maxGroundContactDistance) {
                             return;
                         }
                         calcVec2.y += 0.01;
+                        threeObj.lookAt(calcVec);
+                    //    calcQuat.setFromAxisAngle(calcVec, 1);
                     }
 
                     calcVec3.set(0, 0, 0);
 
-                    groundprints.push(EffectsAPI.requestPassiveEffect(fx[i].particle_effects[j].id, calcVec2, zeroVec, zeroVec));
+                    groundprints.push(EffectsAPI.requestPassiveEffect(fx[i].particle_effects[j].id, calcVec2, zeroVec, zeroVec, threeObj.quaternion));
 
                 }
             }

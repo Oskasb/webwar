@@ -328,8 +328,8 @@ define([
             return ThreeTerrain.terrainVegetationIdAt(pos, nmStore);
         };
 
-        ThreeModelLoader.getHeightFromTerrainAt = function(pos) {
-            return ThreeTerrain.getThreeHeightAt(pos);
+        ThreeModelLoader.getHeightFromTerrainAt = function(pos, normalStore) {
+            return ThreeTerrain.getThreeHeightAt(pos, normalStore);
         };
 
         ThreeModelLoader.attachInstancedModelTo3DObject = function(modelId, rootObject, ThreeSetup) {

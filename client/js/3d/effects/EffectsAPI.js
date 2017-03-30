@@ -51,8 +51,8 @@ define([
             particleSpawner.updateActiveParticleEffect(effect, pos, state, tpf);
         };
         
-        EffectsAPI.requestPassiveEffect = function(id, pos, vel, size) {
-            return particleSpawner.spawnPassiveEffect(id, pos, vel, size);
+        EffectsAPI.requestPassiveEffect = function(id, pos, vel, size, quat) {
+            return particleSpawner.spawnPassiveEffect(id, pos, vel, size, quat);
         };
 
         EffectsAPI.returnPassiveEffect = function(effect) {

@@ -517,7 +517,7 @@
             "diffusionCurve":"zeroOneZero",
             "scaleCurve":"nearWhite",
             "size":{"value":0.61, "min":0.2, "max":2},
-            "colorDiffusion":0.25
+            "colorDiffusion":0.55
           }
         },
         {
@@ -527,10 +527,27 @@
           "config":{
             "positionSpread":{"x":0.01, "y":0.01, "z":0.01},
             "colorCurve":"dirt",
-            "alphaCurve":"nearWhite",
+            "alphaCurve":"quickIn",
             "diffusionCurve":"nearWhite",
             "scaleCurve":"nearWhite",
-            "size":{"value":0.28, "min":0, "max":0.3},
+            "size":{"value":0.4, "min":0.1, "max":0.4},
+            "velocityDiffusion":0.00001,
+            "accelerationDiffusion":0.00001,
+            "colorDiffusion":0.25,
+            "velocityFactor":1
+          }
+        },
+        {
+          "id":"ground_dirt_dark_clob_particle",
+          "sprite_key":"ATLAS",
+          "sprite_id":"thick_smoke",
+          "config":{
+            "positionSpread":{"x":0.01, "y":0.01, "z":0.01},
+            "colorCurve":"dirt",
+            "alphaCurve":"quickIn",
+            "diffusionCurve":"nearWhite",
+            "scaleCurve":"nearWhite",
+            "size":{"value":0.5, "min":0.1, "max":0.6},
             "velocityDiffusion":0.00001,
             "accelerationDiffusion":0.00001,
             "colorDiffusion":0.25,

@@ -3,6 +3,7 @@
     "SHADERS_THREE": {
       "LOAD_SHADER_INDEX":[
         "TERRAIN_SHADER",
+        "INSTANCING_GPU_SPATIAL",
         "INSTANCING_GPU_SIMPLE_LIT_TEXTURED",
         "INSTANCING_GPU_FLAT_TEXTURED",
         "INSTANCING_GPU_VEGETATION"
@@ -260,6 +261,67 @@
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexVegetationTextureData"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexColorFromAttribColor4"},
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPositionMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexShadeLowerVerts"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSimpleVertexLight"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSizeMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSpatialFinal"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexFogExp2Verts"},
+
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ],
+        "fragment": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_view"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_uv"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_alphaTest"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_attribute_vertexColor"},
+
+          {"source":"THREE_CHUNKS", "chunk":"common"},
+
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_fog"},
+
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentColoredTextureMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentBlendTxColorVertexColor"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentAlphaTest"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentVColorFinal"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentFogExp2Verts"},
+
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ]
+      }, "INSTANCING_GPU_SPATIAL": {
+        "vertex": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_predictive_simulation"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_data_texture"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv_tiles"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv"},
+
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_varying_vColor4"},
+
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_orientation_quat"},
+
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_simple_light"},
+
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_fog"},
+
+          {"source":"THREE_CHUNKS", "chunk":"common"},
+
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexVegetationTextureData"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexColorFromAttribColor4"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPositionMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSpatialMain"},
 
           {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
 

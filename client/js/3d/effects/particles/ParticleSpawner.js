@@ -75,7 +75,7 @@ define([
 
 
 
-        ParticleSpawner.prototype.buildEffect = function(id, pos, vel, size) {
+        ParticleSpawner.prototype.buildEffect = function(id, pos, vel, size, quat) {
 
             var effect = this.getEffect();
 
@@ -89,6 +89,15 @@ define([
                 effect.size.z = 0;
             }
 
+            if (quat) {
+                effect.setEffectQuaternion(quat);
+            } else {
+                effect.quat.x = 0;
+                effect.quat.y = 0;
+                effect.quat.z = 0;
+                effect.quat.w = 1;
+            }
+            
             effect.setEffectVelocity(vel);
             effect.setEffectData(this.particleEffectData.buildEffect(effect.effectData, 'THREE', id));
 
@@ -129,8 +138,8 @@ define([
             effect.updateEffectPositionSimulator(pos, tpf);
         };
         
-        ParticleSpawner.prototype.spawnPassiveEffect = function(id, pos, vel, size) {
-            return this.buildEffect(id, pos, vel, size);
+        ParticleSpawner.prototype.spawnPassiveEffect = function(id, pos, vel, size, quat) {
+            return this.buildEffect(id, pos, vel, size, quat);
         };
 
         ParticleSpawner.prototype.recoverPassiveEffect = function(effect) {

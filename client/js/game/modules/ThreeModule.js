@@ -211,16 +211,12 @@ define([
 
 
             if (this.applies.emit_effect) {
-
-                ModuleEffectCreator.createModuleApplyEmitEffect(this.piece, this.model, this.applies.emit_effect, this.transform, stateValue, true)
-
+                ModuleEffectCreator.createModuleApplyEmitEffect(this.piece, this.model, this.applies.emit_effect, this.transform, stateValue, this.applies.ground_print_effect)
             }
 
 
             if (this.applies.ground_print_effect) {
-
                 ModuleEffectCreator.addGrundPrintEmitEffect(this.piece, this.model, this.applies.ground_print_effect, this.transform, stateValue, true)
-
             }
             
             return;

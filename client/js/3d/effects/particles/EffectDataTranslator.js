@@ -131,8 +131,6 @@ define([
         var effect = new ConfiguredGpuEffect();
         
 
-
-
         EffectDataTranslator.interpretCustomEffectData = function(effectData, pCfg, customEffectData) {
 
             effect.setDefaults();

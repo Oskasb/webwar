@@ -5,6 +5,13 @@
 define([],
     function() {
 
+        var stampVerts = [
+            -1,  0,  1,
+            1,   0,  1,
+            -1,  0, -1,
+            1,   0, -1
+        ];
+      
         var quadVerts = [
             -1,  1, 0,
             1,   1, 0,
@@ -192,6 +199,11 @@ define([],
             return {verts:quadVerts, indices:quadInds, uvs:quadUvs};
         };
 
+
+        ParticleMesh.stamp = function() {
+            return {verts:stampVerts, indices:quadInds, uvs:quadUvs};
+        };
+        
         ParticleMesh.box3d = function() {
             return {verts:boxVerts, indices:boxIndices, uvs:boxUvs};
         };

@@ -27,6 +27,19 @@
             {"param":"diffusors",   "vec4":   {"x":0.5, "y":0.3, "z":1,   "w":1,   "spread":{"min": 0,   "max":0}}}
           ],
           "simulators":["age", "lifeTime", "startTime", "duration", "tiles", "position", "texelRowSelect", "diffusors"]
+        },
+        {
+          "id":"gpu_stamp_simulation",
+          "init_params":[
+            {"param":"age",         "value":  {"min":0,     "max":0.0001}},
+            {"param":"lifeTime",    "value":  {"min":0.001, "max":0.002}},
+            {"param":"tiles",       "vec2":   {"x":0.5, "y":1,   "spread":{"min":0, "max":0}}},
+            {"param":"position",    "vec4":   {"x":0,   "y":0,   "z":0,   "w":8,   "spread":{"min":-0.5, "max":0.0}}},
+            {"param":"texelRowSelect","vec4": {"x":32,  "y":6,   "z":1,   "w":4,   "spread":{"min": 0,   "max":0}}},
+            {"param":"orientation", "vec4":   {"x":0,   "y":0,   "z":0,   "w":1,   "spread":{"min": 0,   "max":0}}},
+            {"param":"diffusors",   "vec4":   {"x":0.5, "y":0.3, "z":1,   "w":1,   "spread":{"min": 0,   "max":0}}}
+          ],
+          "simulators":["age", "lifeTime", "startTime", "duration", "tiles", "position", "orientation","texelRowSelect", "diffusors"]
         }
       ]
     }

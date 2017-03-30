@@ -81,16 +81,6 @@
             "count":1,
             "simulation_id":"gpu_vegetation_simulation"
           }
-        },
-        {
-          "id":"ground_dirt_clob_effect",
-          "data":{
-            "system_key":"THREE",
-            "renderer_id":"gpu_opaque_vegetation_renderer",
-            "particle_id":"ground_dirt_clob_particle",
-            "count":1,
-            "simulation_id":"gpu_vegetation_simulation"
-          }
         }
       ]
     }

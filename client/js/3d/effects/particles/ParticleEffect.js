@@ -19,6 +19,7 @@ define(['3d/effects/particles/EffectSimulators',
             this.size = new THREE.Vector3();
             this.pos = new THREE.Vector3();
             this.vel = new THREE.Vector3();
+            this.quat = new THREE.Quaternion();
             this.deadParticles = [];
         };
 
@@ -34,6 +35,13 @@ define(['3d/effects/particles/EffectSimulators',
             this.pos.x = pos.x;
             this.pos.y = pos.y;
             this.pos.z = pos.z;
+        };
+
+        ParticleEffect.prototype.setEffectQuaternion = function(quat) {
+            this.quat.x = quat.x;
+            this.quat.y = quat.y;
+            this.quat.z = quat.z;
+            this.quat.w = quat.w;
         };
 
         ParticleEffect.prototype.setEffectSize = function(size) {
@@ -92,22 +100,18 @@ define(['3d/effects/particles/EffectSimulators',
 
             if (this.effectData.gpuEffect) {
                 ParticleParamParser.applyEffectParams(particle, this.effectData.gpuEffect.init_params);
-
                 particle.posOffset.set(0, 0, 0);
 
                 spreadVector(particle.posOffset, this.size);
-
                 spreadVector(particle.posOffset, this.effectData.gpuEffect.positionSpread.vec4);
                 
-            //    calcVec.copy(this.pos);
+                particle.setQuaternion(this.quat);
                 particle.setPosition(this.pos);
                 particle.addPosition(particle.posOffset)
             } else {
                 ParticleParamParser.applyEffectParams(particle, this.effectData.simulation.init_params);
             }
-
-
-
+            
             ParticleParamParser.applyEffectSprite(particle, this.effectData.sprite);
 
             particle.initToSimulation(systemTime+frameTpfFraction, calcVec, this.vel);
@@ -129,27 +133,9 @@ define(['3d/effects/particles/EffectSimulators',
 
         //    this.updateEffectAge(tpf);
             for (var i = 0; i < this.aliveParticles.length; i++) {
-            //    if (i != 0) return;
-            //    console.log(this.aliveParticles[i].params);
+
                 this.aliveParticles[i].setPosition(pos);
                 this.aliveParticles[i].addPosition(this.aliveParticles[i].posOffset);
-                /*
-                this.applyParticleSimulator(EffectSimulators.simulators.age,      this.aliveParticles[i], tpf);
-            //    this.applyParticleSimulator(EffectSimulators.simulators.lifeTime, this.aliveParticles[i], tpf);
-                this.applyParticleSimulator(EffectSimulators.simulators.lifeTime, this.aliveParticles[i], tpf);
-
-                if (this.aliveParticles[i].dead) {
-                    console.log("Reset particle", this.aliveParticles[i].params.age.value, this.aliveParticles[i].params.lifeTime.value);
-                    this.aliveParticles[i].dead = false;
-                    this.aliveParticles[i].setStartTime(this.renderer.systemTime);
-
-                    this.applyParticleSimulator(EffectSimulators.simulators.startTime, this.aliveParticles[i], tpf);
-                    this.applyParticleSimulator(EffectSimulators.simulators.recycle,   this.aliveParticles[i], tpf);
-                //    this.applyParticleSimulator(EffectSimulators.simulators.duration,  this.aliveParticles[i], tpf);
-
-                }
-*/
-
 
                 this.applyParticleSimulator(EffectSimulators.simulators.position, this.aliveParticles[i], tpf)
             }
