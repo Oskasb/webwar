@@ -204,21 +204,33 @@ define([
         Client.prototype.setupSimulation = function(sceneController, ready) {
             var _this = this;
 
+            console.log("Setup Simulation");
+
             var clientTick = function(tpf) {
                 _this.tick(tpf)
             };
 
-            var fxReady = function() {
-                sceneController.setup3dScene(clientTick, ready);
+            var systems = 0;
+
+            var sysReady = function() {
+
+                systems++
+                console.log("Sys Ready", systems);
+
+                if (systems == 1) {
+
+                }
+
+                if (systems == 2) {
+                    ready();
+                }
+
             };
 
+            sceneController.setup3dScene(clientTick, sysReady);
+            sceneController.setupEffectPlayers(sysReady);
 
-
-            var setupEffects = function() {
-                sceneController.setupEffectPlayers(fxReady);
-            };
-
-            evt.once(evt.list().PLAYER_READY, setupEffects);
+            evt.once(evt.list().PLAYER_READY, sysReady);
 
         };
 

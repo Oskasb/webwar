@@ -27,6 +27,8 @@ define([
     ThreeController.setupThreeRenderer = function(clientTickCallback, ready) {
 
 
+        console.log("Setup Three Renderer");
+
         pxRatio = window.devicePixelRatio;
         var antialias = PipelineAPI.readCachedConfigKey('SETUP', 'ANTIALIAS');;
         pxRatio =  PipelineAPI.readCachedConfigKey('SETUP', 'PX_SCALE');

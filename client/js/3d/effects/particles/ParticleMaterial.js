@@ -143,11 +143,16 @@ define([
 
         ParticleMaterial.prototype.setupShaders = function() {
 
+            var _this = this;
+
             var applyShaders = function(src, data) {
-                this.txSettings.shaders = data;
-                this.configureTxSettings()
-                this.setupMaterial();
-            }.bind(this);
+
+                if (_this.txSettings.shaders != data) {
+                    _this.txSettings.shaders = data;
+                    _this.configureTxSettings();
+                    _this.setupMaterial();
+                }
+            };
 
             this.shaderPipe = new PipelineObject("SHADERS", this.txMatSettings.shader, applyShaders);
         };
@@ -155,10 +160,12 @@ define([
 
         ParticleMaterial.prototype.setupMapTexture = function() {
 
+            var _this = this;
+
             var applyTexture = function(src, data) {
-                mapTextures[this.txMatSettings.particle_texture] = data;
-                this.setupShaders();
-            }.bind(this);
+                mapTextures[_this.txMatSettings.particle_texture] = data;
+                _this.setupShaders();
+            };
 
             this.txPipe = new PipelineObject("THREE_TEXTURE", "particle_texture_"+this.txMatSettings.particle_texture, applyTexture);
         };

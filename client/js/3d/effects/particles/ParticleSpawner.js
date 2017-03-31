@@ -32,24 +32,25 @@ define([
         var rendererReady = function(renderer) {
             renderers[renderer.id] = renderer;
             finished ++;
-            
+
+            console.log("ParticleSpawner load: r/s", started, finished);
             if (started == finished) {
                 ready();
             }
         };
         
         
-        var ParticleSpawner = function(onReady) {
+        var ParticleSpawner = function() {
             this.particleEffectData = new ParticleEffectData();
             this.particleEffectData.loadEffectData();
-            ready = onReady;
+
         };
 
-        ParticleSpawner.prototype.initParticleSpawner = function() {
+        ParticleSpawner.prototype.initParticleSpawner = function(onReady) {
 
             this.setupParticleRenderers();
-            
-            
+
+            ready = onReady;
         };
 
         ParticleSpawner.prototype.setupParticleRenderers = function() {
