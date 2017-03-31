@@ -24,9 +24,11 @@ define([
         var fxAdds = 0;
         var systemTime = 0;
 
+        var started = 0;
         
         var rendererReady = function(renderer) {
             renderers[renderer.id] = renderer;
+            started--;
         };
         
         
@@ -52,6 +54,8 @@ define([
             
             var renderersData = function(src, data) {
                 for (var i = 0; i < data.length; i++) {
+
+                    started++;
 
                     console.log("SETUP PARTICLE RENDERER:", src, data[i]);
                     if (renderers[data[i].id]) {
@@ -111,6 +115,11 @@ define([
             effect.setEffectData(this.particleEffectData.buildEffect(effect.effectData, 'THREE', id));
 
             var renderer = this.getRendererById(effect.effectData.effect.renderer_id);
+
+            if (!renderer) {
+                console.log("Renderer not yet ready...", effect.effectData.effect.renderer_id);
+                return;
+            }
 
             if (renderer.particles.length < effect.effectData.effect.count) {
                 console.log("Not enough available particles...");
