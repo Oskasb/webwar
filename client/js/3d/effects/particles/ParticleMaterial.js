@@ -62,7 +62,13 @@ define([
         };
 
 
+        var matCount = 0;
+
         var ParticleMaterial = function(systemOptions, txMatSettings, readyCallback) {
+
+            matCount++;
+
+            console.log("new ParticleMaterial, count:", matCount);
 
             this.txSettings = {};
             this.opts = {};
@@ -166,9 +172,9 @@ define([
             }.bind(this);
 
             if (this.txMatSettings.data_texture) {
-                this.particleDataTexture = new ParticleDataTexture(this.txMatSettings.data_texture, bindDataTexture);
+                new ParticleDataTexture(this.txMatSettings.data_texture, bindDataTexture);
             } else {
-                this.setupMapTexture(this.txMatSettings);
+                this.setupMapTexture();
             }
         };
 

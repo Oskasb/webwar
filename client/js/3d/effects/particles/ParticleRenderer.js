@@ -19,12 +19,12 @@ define([
         PipelineObject
     ) {
 
-        var ParticleRenderer = function(rendererConfig) {
+        var ParticleRenderer = function(rendererConfig, rendererReady) {
             this.id = rendererConfig.id;
-            this.setupRendererMaterial(rendererConfig);
+            this.setupRendererMaterial(rendererConfig, rendererReady);
         };
 
-        ParticleRenderer.prototype.setupRendererMaterial = function(rendererConfig) {
+        ParticleRenderer.prototype.setupRendererMaterial = function(rendererConfig, rendererReady) {
 
             this.isRendering = false;
 
@@ -39,21 +39,21 @@ define([
             this.systemTime = 0;
 
             var particleMaterialData = function(src, data) {
-                this.applyRendererMaterialData(data)
+                this.applyRendererMaterialData(data, rendererReady)
             }.bind(this);
 
             this.materialPipe = new PipelineObject("PARTICLE_MATERIALS", "THREE", particleMaterialData)
         };
 
-        ParticleRenderer.prototype.setMaterial = function(material) {
+        ParticleRenderer.prototype.setMaterial = function(material, rendererReady) {
             this.material = material;
-            this.setupRendererBuffers();
+            this.setupRendererBuffers(rendererReady);
         };
 
-        ParticleRenderer.prototype.applyRendererMaterialData = function(data) {
+        ParticleRenderer.prototype.applyRendererMaterialData = function(data, rendererReady) {
 
             var materialReady = function(material) {
-                this.setMaterial(material);
+                this.setMaterial(material, rendererReady);
             }.bind(this);
 
             for (var i = 0; i < data.length; i++) {
@@ -64,13 +64,13 @@ define([
             }
         };
 
-        ParticleRenderer.prototype.setupRendererBuffers = function() {
+        ParticleRenderer.prototype.setupRendererBuffers = function(rendererReady) {
             this.buildMeshBuffer();
             this.attachMaterial();
-            this.createParticles();
+            this.createParticles(rendererReady);
         };
 
-        ParticleRenderer.prototype.createParticles = function() {
+        ParticleRenderer.prototype.createParticles = function(rendererReady) {
             if (this.particles.length) {
                 console.error("Replace added particles");
                 this.particles = [];
@@ -83,6 +83,7 @@ define([
                 }
                 this.particles.push(particle);
             }
+            rendererReady(this);
         };
 
         ParticleRenderer.prototype.buildParticleMaterial = function(material_config, materialReady) {

@@ -25,6 +25,10 @@ define([
         var systemTime = 0;
 
         
+        var rendererReady = function(renderer) {
+            renderers[renderer.id] = renderer;
+        };
+        
         
         var ParticleSpawner = function() {
             this.particleEffectData = new ParticleEffectData();
@@ -41,16 +45,21 @@ define([
         ParticleSpawner.prototype.setupParticleRenderers = function() {
 
 
+            console.log("SETUP PARTICLE RENDERERS");
+
+            
+            
+            
             var renderersData = function(src, data) {
                 for (var i = 0; i < data.length; i++) {
 
-                    console.log("SETUP PARTICLE RENDERER", src, data[i]);
+                    console.log("SETUP PARTICLE RENDERER:", src, data[i]);
                     if (renderers[data[i].id]) {
                         console.log("DELETE EXISTING PARTICLE RENDERER", data[i].id);
                         renderers[data[i].id].dispose();
                         delete renderers[data[i].id];
                     }
-                    renderers[data[i].id] = new ParticleRenderer(data[i]);
+                    new ParticleRenderer(data[i], rendererReady);
                 }
             };
             

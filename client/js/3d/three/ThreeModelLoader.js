@@ -241,7 +241,7 @@ define([
 
             if (!modelPool[id].length) {
 
-                console.log("Model Pool Exhausted!");
+                console.log("Increase Model Pool", id);
                 var modelData = function(src, cached) {
                     var clone = cached.clone();
                     clone.poolId = cached.poolId;
