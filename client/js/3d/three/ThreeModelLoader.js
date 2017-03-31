@@ -236,8 +236,22 @@ define([
             return rootObject;
         };
 
+        var queueFetch = function(id, cb) {
+            var mId = id;
+            var fCb = cb;
+
+            setTimeout(function() {
+                ThreeModelLoader.fetchPooledMeshModel(mId, fCb)
+            }, 500)
+        };
 
         ThreeModelLoader.fetchPooledMeshModel = function(id, cb) {
+
+
+            if (!modelPool[id]) {
+                queueFetch(id, cb);
+                return;
+            }
 
             if (!modelPool[id].length) {
 
