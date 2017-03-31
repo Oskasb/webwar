@@ -208,10 +208,14 @@ define([
                 _this.tick(tpf)
             };
 
-            sceneController.setup3dScene(clientTick, ready);
+            var fxReady = function() {
+                sceneController.setup3dScene(clientTick, ready);
+            };
+
+
 
             var setupEffects = function() {
-                sceneController.setupEffectPlayers();
+                sceneController.setupEffectPlayers(fxReady);
             };
 
             evt.once(evt.list().PLAYER_READY, setupEffects);

@@ -21,9 +21,9 @@ define([
         ThreeController.setupThreeRenderer(clientTickCallback, ready);
     };
 
-    SceneController.prototype.setupEffectPlayers = function() {
+    SceneController.prototype.setupEffectPlayers = function(onReady) {
 
-        EffectsAPI.initEffects();
+        EffectsAPI.initEffects(onReady);
         EffectListeners.setupListeners();
     };
     

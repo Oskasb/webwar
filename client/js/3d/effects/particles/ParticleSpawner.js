@@ -25,16 +25,24 @@ define([
         var systemTime = 0;
 
         var started = 0;
+        var finished = 0;
+        
+        var ready = function() {};
         
         var rendererReady = function(renderer) {
             renderers[renderer.id] = renderer;
-            started--;
+            finished ++;
+            
+            if (started == finished) {
+                ready();
+            }
         };
         
         
-        var ParticleSpawner = function() {
+        var ParticleSpawner = function(onReady) {
             this.particleEffectData = new ParticleEffectData();
             this.particleEffectData.loadEffectData();
+            ready = onReady;
         };
 
         ParticleSpawner.prototype.initParticleSpawner = function() {

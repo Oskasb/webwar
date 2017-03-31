@@ -26,7 +26,7 @@ define([
 
         var init = false;
         
-        EffectsAPI.initEffects = function() {
+        EffectsAPI.initEffects = function(onReady) {
             
             if (init) {
                 console.error("Init FX already called!")
@@ -36,7 +36,7 @@ define([
             vegetation = new Vegetation(this);
             particleSpawner = new ParticleSpawner();
             waterFx = new WaterFX();
-            particleSpawner.initParticleSpawner();
+            particleSpawner.initParticleSpawner(onReady);
             waterFx.initWaterEffect();
             //    screenSpaceFX = new ScreenSpaceFX();
             //    screenSpaceFX.initFilterEffects();

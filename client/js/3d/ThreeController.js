@@ -44,12 +44,13 @@ define([
 
 
         setTimeout(function() {
-            ready();
+
             evt.fire(evt.list().ENGINE_READY, {});
 
             setTimeout(function() {
 
                 fireResize();
+                ready();
             }, 10)
 
         },20);
