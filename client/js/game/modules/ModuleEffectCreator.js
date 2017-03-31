@@ -121,6 +121,7 @@ define([
             var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', emit_effect);
 
             if (!model.matrixWorld) {
+                console.log("No model matrix world?");
                 return;
             }
 
@@ -155,11 +156,13 @@ define([
             }
         };
 
+
         ModuleEffectCreator.addGrundPrintEmitEffect = function(piece, model, emit_effect, transform, stateValue, glueToGround) {
 
             var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', emit_effect);
 
             if (!model.matrixWorld) {
+                console.log("No model matrix world?");
                 return;
             }
 
@@ -191,10 +194,9 @@ define([
                     //    calcQuat.setFromAxisAngle(calcVec, 1);
                     }
 
-                    calcVec3.set(0, 0, 0);
+                //    calcVec3.set(0, 0, 0);
 
-                    groundprints.push(EffectsAPI.requestPassiveEffect(fx[i].particle_effects[j].id, calcVec2, zeroVec, zeroVec, threeObj.quaternion));
-
+                    ModuleEffectCreator.createPassiveEffect(fx[i].particle_effects[j].id, calcVec2, zeroVec, zeroVec, threeObj.quaternion, groundprints);
                 }
             }
 
@@ -205,7 +207,6 @@ define([
                     EffectsAPI.returnPassiveEffect(groundprints.splice(Math.floor(groundprints.length*0.5*Math.random()), 1)[0]);
                 }
             }
-
         };
         
         
@@ -224,20 +225,33 @@ define([
                 }
 
                 for (var j = 0; j < fx[i].particle_effects.length; j++) {
-                    fxArray.push(EffectsAPI.requestPassiveEffect(fx[i].particle_effects[j].id, calcVec, zeroVec, calcVec2));
+                    ModuleEffectCreator.createPassiveEffect(fx[i].particle_effects[j].id, calcVec, zeroVec, calcVec2, null, fxArray);
                 }
             }
 
             return fxArray;
         };
 
+        ModuleEffectCreator.createPassiveEffect = function(fxId, pos, vel, size, quat, store) {
 
-        ModuleEffectCreator.removeModuleStaticEffect = function(fxArray) {
-            for (var i = 0; i < fxArray.length; i++) {
-                EffectsAPI.returnPassiveEffect(fxArray[i]);
+            var fx = EffectsAPI.requestPassiveEffect(fxId, pos, vel, size, quat);
+
+            if (!fx) {
+                console.log("effect pool dry:", fxId)
+            } else {
+                store.push(fx);
             }
         };
 
+        ModuleEffectCreator.removeModuleStaticEffect = function(fxArray) {
+            for (var i = 0; i < fxArray.length; i++) {
+                if (!fxArray[i]) {
+                    console.log("Returning empty effect")
+                } else {
+                    EffectsAPI.returnPassiveEffect(fxArray[i]);
+                }
+            }
+        };
 
         ModuleEffectCreator.updateEffect = function(fxArray, pos, transform, state, tpf) {
             posFromTransform(pos, transform, calcVec);

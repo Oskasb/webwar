@@ -18,16 +18,7 @@ define([
         new PipelineObject("THREE_TEXTURE", "data_texture_"+txId, dataTextureReady);
 
     };
-
-
-    ParticleDataTexture.prototype.setup3dScene = function(clientTickCallback, ready) {
-
-    };
-
-    ParticleDataTexture.prototype.setupEffectPlayers = function() {
-        
-    };
-
+    
     return ParticleDataTexture;
 
 });

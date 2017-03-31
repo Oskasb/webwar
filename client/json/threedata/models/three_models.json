@@ -8,6 +8,7 @@
           "format":"obj",
           "url": "./client/assets/models/sherman_hull",
           "urluv2": "./client/assets/models/sherman_hull_ao",
+          "pool": 5,
           "transform": {
             "pos": [0, -1.2, -0.3],
             "rot": [0, 0, 0],
@@ -19,6 +20,7 @@
           "material": "tank_atlas",
           "url": "./client/assets/models/sherman_turret",
           "urluv2": "./client/assets/models/sherman_turret_ao",
+          "pool": 5,
           "transform": {
             "pos": [0, -2.4, 0.3],
             "rot": [0, -1, 0],
@@ -30,6 +32,7 @@
           "material": "tank_atlas",
           "url": "./client/assets/models/sherman_cannon",
           "urluv2": "./client/assets/models/sherman_cannon_ao",
+          "pool": 5,
           "transform": {
             "pos": [0, -2.45, 3.2],
             "rot": [0, 0, 0],
@@ -41,6 +44,7 @@
           "material": "tank_track",
           "url": "./client/assets/models/sherman_track_l",
           "urluv2": "./client/assets/models/sherman_track_l_ao",
+          "pool": 5,
           "transform": {
             "pos": [
               1.3, -0.2, -0.55],
@@ -53,6 +57,7 @@
           "material": "tank_track",
           "url": "./client/assets/models/sherman_track_r",
           "urluv2": "./client/assets/models/sherman_track_r_ao",
+          "pool": 5,
           "transform": {
             "pos": [-1.3, -0.2, -0.55],
             "rot": [0, 0, 0],
@@ -63,7 +68,7 @@
           "id": "rock_10m",
           "material": "main_atlas",
           "url": "./client/assets/models/rock_10m",
-          "pool": 10,
+          "pool": 5,
           "transform": {
             "pos": [3, -6, 8],
             "rot": [0, 0, 0],
@@ -75,7 +80,7 @@
           "id": "tree_trunk_1",
           "material": "main_atlas",
           "url": "./client/assets/models/trees/tree_1_combined",
-          "pool": 10,
+          "pool": 5,
           "transform": {
             "pos": [0, -8, 0],
             "rot": [0, 0, 0],
@@ -86,7 +91,7 @@
           "id": "tree_trunk_2",
           "material": "main_atlas",
           "url": "./client/assets/models/trees/tree_2_combined",
-          "pool": 10,
+          "pool": 5,
           "transform": {
             "pos": [0, -4, 0],
             "rot": [0, 0, 0],
@@ -97,7 +102,7 @@
           "id": "tree_trunk_3",
           "material": "main_atlas",
           "url": "./client/assets/models/trees/tree_3_combined",
-          "pool": 10,
+          "pool": 5,
           "transform": {
             "pos": [0, -10, 0],
             "rot": [0, 0, 0],
@@ -108,7 +113,7 @@
           "id": "tree_model_4",
           "material": "main_atlas",
           "url": "./client/assets/models/trees/tree_4_combined",
-          "pool": 10,
+          "pool": 5,
           "transform": {
             "pos": [0, -5, 0],
             "rot": [0, 0, 0],

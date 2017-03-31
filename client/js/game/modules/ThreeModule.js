@@ -65,7 +65,7 @@ define([
                 ThreeAPI.addChildToObject3D(this.parentObject3d, parentObj3d);
             }
 
-            this.attachEffects();
+        //    this.attachEffects();
 
 
             if (!this.model) {

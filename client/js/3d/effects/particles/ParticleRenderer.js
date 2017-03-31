@@ -1,7 +1,7 @@
 "use strict";
 
 define([
-    'ThreeAPI',
+        'ThreeAPI',
         '3d/effects/particles/ParticleMaterial',
         '3d/effects/particles/ParticleMesh',
         '3d/effects/particles/ParticleBuffer',
@@ -35,7 +35,6 @@ define([
             this.particles = [];
             this.attributes = {};
             this.attributeConfigs = {};
-            this.particleMaterial = {};
 
             this.systemTime = 0;
 
@@ -57,16 +56,15 @@ define([
                 this.setMaterial(material);
             }.bind(this);
 
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].id == this.config.material_id) {
-                        this.setupBufferAttributes(data[i].attributes);
-                        this.buildParticleMaterial(data[i], materialReady);
-                        return;
-                    }
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].id == this.config.material_id) {
+                    this.setupBufferAttributes(data[i].attributes);
+                    this.buildParticleMaterial(data[i], materialReady);
                 }
+            }
         };
 
-        ParticleRenderer.prototype.setupRendererBuffers = function(renderersReady) {
+        ParticleRenderer.prototype.setupRendererBuffers = function() {
             this.buildMeshBuffer();
             this.attachMaterial();
             this.createParticles();
@@ -74,9 +72,8 @@ define([
 
         ParticleRenderer.prototype.createParticles = function() {
             if (this.particles.length) {
-                console.error("Particles already added!")
+                console.error("Replace added particles");
                 this.particles = [];
-
             }
 
             for (var i = 0; i < this.poolSize; i++) {
@@ -89,7 +86,7 @@ define([
         };
 
         ParticleRenderer.prototype.buildParticleMaterial = function(material_config, materialReady) {
-            this.particleMaterial =  new ParticleMaterial(this.config.material_options, material_config, materialReady);
+            new ParticleMaterial(this.config.material_options, material_config, materialReady);
         };
 
         ParticleRenderer.prototype.buildMeshBuffer = function() {
@@ -107,7 +104,7 @@ define([
                 this.attributes[key] = this.particleBuffer.geometry.attributes[key];
             }
 
-           this.particleBuffer.addToScene();
+            this.particleBuffer.addToScene();
         };
 
         ParticleRenderer.prototype.attachMaterial = function() {
@@ -119,11 +116,11 @@ define([
                 var config = attributes_config[i];
                 this.attributeConfigs[config.name] = config;
                 var dimensions = config.dimensions;
-                this.attributes[config.name] = new THREE.InstancedBufferAttribute(new Float32Array(this.poolSize * dimensions), dimensions, 1).setDynamic( config.dynamic );;
+                this.attributes[config.name] = new THREE.InstancedBufferAttribute(new Float32Array(this.poolSize * dimensions), dimensions, 1).setDynamic( config.dynamic );
             }
         };
 
-        
+
         ParticleRenderer.prototype.calculateAllowance = function(requestSize) {
             if (this.particles.length > requestSize * 3) {
                 return requestSize;
@@ -196,7 +193,7 @@ define([
             this.materialPipe.removePipelineObject();
             delete this;
         };
-        
+
         return ParticleRenderer;
 
     });

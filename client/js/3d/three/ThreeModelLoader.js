@@ -263,6 +263,7 @@ define([
                 }
                 if (!mesh.poolId) {
                     console.log("Missing Pool ID on Mesh", mesh);
+                    return;
                 }
                 modelPool[mesh.poolId].push(mesh);
             };

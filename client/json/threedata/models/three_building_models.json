@@ -6,7 +6,7 @@
           "id": "tall_building_10_combined",
           "material": "main_atlas",
           "format":"obj",
-          "pool": 10,
+          "pool": 3,
           "url": "./client/assets/models/buildings/scraper_10",
           "urlUv2": "./client/assets/models/buildings/scraper_10",
           "transform": {
@@ -19,7 +19,7 @@
           "id": "tall_building_17_combined",
           "material": "main_atlas",
           "format":"obj",
-          "pool": 10,
+          "pool": 3,
           "url": "./client/assets/models/buildings/scraper_17",
           "urlUv2": "./client/assets/models/buildings/scraper_17",
           "transform": {
@@ -32,7 +32,7 @@
           "id": "small_house_combined",
           "material": "main_atlas",
           "format":"obj",
-          "pool": 10,
+          "pool": 3,
           "url": "./client/assets/models/buildings/small_house_combined",
           "urlUv2": "./client/assets/models/buildings/small_house_combined",
           "transform": {

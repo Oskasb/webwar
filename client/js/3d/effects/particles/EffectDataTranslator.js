@@ -113,14 +113,14 @@ define([
 
         ConfiguredGpuEffect.prototype.setDefaults = function() {
             this.age.setValues(tV, 0.02);
-            this.lifeTime.setValues(0.01, 0.1);
+            this.lifeTime.setValues(0.1, 0.2);
             this.tiles.setValues(1, 1, tV, tV);
             this.position.setValues(tV, tV, tV, 8, tV, tV);
             this.acceleration.setValues(tV, -9.81, tV, tV, tV, tV);
             this.velocity.setValues(tV, tV, tV, 1, tV, tV);
             this.texelRowSelect.setValues(2, 1, 2, 1, 0, 0);
             this.diffusors.setValues(0.5, 0.3, 1, 1, tV, tV);
-            this.positionSpread.setValues(0.5, 0.5, 0.5, tV, tV, tV);
+            this.positionSpread.setValues(tV, tV, tV, tV, tV, tV);
             this.velocitySpread.setValues(0.5, 0.5, 0.5, tV, tV, tV);
         };
         
@@ -129,7 +129,7 @@ define([
         };
 
         var effect = new ConfiguredGpuEffect();
-        
+
 
         EffectDataTranslator.interpretCustomEffectData = function(effectData, pCfg, customEffectData) {
 

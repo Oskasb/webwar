@@ -16,6 +16,8 @@ define([
 
         var gl;
 
+        var okCount = 0;
+
 
         function testShader( src, type ) {
 
@@ -55,7 +57,9 @@ define([
                 return null;
             }
 
-            evt.fire(evt.list().MESSAGE_UI, {channel:'connection_status', message:'-> Shader Compiled OK <-'});
+            okCount++;
+            console.log("Shader OK:", okCount);
+            evt.fire(evt.list().MESSAGE_UI, {channel:'connection_status', message:'-> Shader ('+okCount+') Compiled OK <- '});
             return shader;
         }
 
@@ -103,17 +107,6 @@ define([
             for (var key in data) {
                 program[key] = combineProgramFromSources(data[key]);
 
-                if (cached) {
-                    if (cached[key] != program[key]) {
-                        if (!testShader(program[key], key)) {
-                            console.log("Broke Good Shader", src, key, [PipelineAPI.getCachedConfigs()], data);
-                            return;
-                        }
-                    } else {
-                        diff --;
-                    }
-                }
-
                 if (!diff) {
                     console.log("Shader not changed", src, key);
                     return;
@@ -121,7 +114,21 @@ define([
 
                 if (!testShader(program[key], key)) {
                     console.log("Bad Shader", key, data);
+
+                    if (cached[key] != program[key]) {
+                        console.log("Broke Good Shader", src, key, [PipelineAPI.getCachedConfigs()], data);
+                        return;
+                    }
+
                     return;
+                } else {
+                    console.log("Shader Test success: ", src, key)
+                }
+
+                if (cached) {
+                    if (cached[key] == program[key]) {
+                        diff --;
+                    }
                 }
 
             }
@@ -177,13 +184,8 @@ define([
             mapThreeShaderChunks();
 
             new PipelineObject("SHADER_CHUNKS",   "LOAD_CHUNK_INDEX", loadChunkIndex);
-
             new PipelineObject("SHADER_PROGRAMS", "LOAD_PROGRAM_INDEX", loadProgramIndex);
-
-            setTimeout(function() {
-                new PipelineObject("SHADERS_THREE",   "LOAD_SHADER_INDEX", loadShaderIndex);
-            }, 100);
-
+            new PipelineObject("SHADERS_THREE",   "LOAD_SHADER_INDEX", loadShaderIndex);
 
         };
 
