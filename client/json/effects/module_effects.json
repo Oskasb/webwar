@@ -46,6 +46,23 @@
       }
     ],
 
+    "shield_module_effect":[
+      {
+        "particle_effects":[
+          {"id":"shield_module_sparks_effect"},
+          {"id":"shield_module_sphere_effect"},
+          {"id":"shield_module_edge_effect"}
+        ]
+      }
+    ],
+
+    "hyper_module_effect":[
+      {
+        "particle_effects":[
+          {"id":"hyper_module_sparks_effect"}
+        ]
+      }
+    ],
 
     "sparkly_stars_module_effect":[
       {
@@ -75,6 +92,14 @@
       {
         "particle_effects":[
           {"id":"big_shrub_veg"}
+        ]
+      }
+    ],
+
+    "festive_flowers_veg_module_fx":[
+      {
+        "particle_effects":[
+          {"id":"white_flower_veg"}
         ]
       }
     ],

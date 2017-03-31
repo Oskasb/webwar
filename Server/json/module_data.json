@@ -30,25 +30,13 @@
         "type":"toggle",
         "state":true,
         "control_constants":{
-          "throttleAmplitude":-10,
+          "throttleAmplitude":-1,
           "radialDrag":-0.5,
           "radialLerpFactor":-0.05,
           "velocityDrag":0.5
         },
         "drain":2,
-        "flicker":0.4,
-        "effect_data":{
-          "intensity":1
-        },
-        "animate":{
-          "rotation":-15,
-          "spread":6,
-          "size":0.1,
-          "oscillate":0.0,
-          "speed":8,
-          "diffusion":0.3
-        },
-        "game_effect":"ship_shield"
+        "dynamic_effect":"shield_module_effect"
       }
     },
 
@@ -60,7 +48,7 @@
         "type":"toggle",
         "state":true,
         "control_constants":{
-          "throttleAmplitude":80,
+          "throttleAmplitude":1,
           "radialVelocityClamp":-0.14,
           "radialDrag":-1,
           "velocityDrag":-0.9
@@ -72,8 +60,7 @@
           "strength":32,
           "lifeSpan":0.15
         },
-        "game_effect":"hyper_drive",
-        "emit_effect":"hyper_space_sparks"
+        "dynamic_effect":"hyper_module_effect"
       }
     },
 
@@ -98,7 +85,7 @@
           "color":[1, 0.1, 0.4, 1],
           "lifespan":[0.35, 0.9]
         },
-        "emit_effect":"hyper_space_sparks"
+        "plant_static_effect":"festive_flowers_veg_module_fx"
       }
     },
 

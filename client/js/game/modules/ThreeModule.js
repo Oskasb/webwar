@@ -92,6 +92,11 @@ define([
                 }
             }
 
+        };
+
+        ThreeModule.prototype.attachDynamicEffects = function() {
+
+
             if (this.applies.dynamic_effect) {
                 if (!this.dynamicEffect) {
                     this.dynamicEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.dynamic_effect, this.piece.spatial.pos, this.transform);
@@ -111,6 +116,7 @@ define([
                 this.dynamicEffect = null;
             }
         };
+
 
         ThreeModule.prototype.addModuleDebugBox = function() {
 
@@ -188,7 +194,13 @@ define([
 
 
             if (this.applies.dynamic_effect) {
-                ModuleEffectCreator.updateEffect(this.dynamicEffect, this.piece.spatial.pos, this.transform, stateValue, this.piece.temporal.tickDelta)
+                if (!stateValue) {
+                    this.detatchEffects();
+                } else {
+                    this.attachDynamicEffects();
+                    ModuleEffectCreator.updateEffect(this.dynamicEffect, this.model, this.piece.spatial.pos, this.transform, stateValue, this.piece.temporal.tickDelta)
+                }
+
             }
 
 
@@ -217,6 +229,10 @@ define([
 
             if (this.applies.ground_print_effect) {
                 ModuleEffectCreator.addGrundPrintEmitEffect(this.piece, this.model, this.applies.ground_print_effect, this.transform, stateValue, true)
+            }
+
+            if (this.applies.plant_static_effect) {
+                ModuleEffectCreator.addGeometryEffect(this.model, this.applies.plant_static_effect, this.transform, stateValue, true)
             }
             
             return;

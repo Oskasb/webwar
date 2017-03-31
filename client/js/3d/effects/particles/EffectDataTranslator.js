@@ -7,6 +7,11 @@ define([
     ) {
 
         var dataCurves = {
+            greenToPurple:41,
+            blueYellowRed:40,
+            redToYellow:39,
+            qubeIn:38,
+            rootIn:37,
             randomGreen:36,
             randomRed:35,
             randomYellow:34,

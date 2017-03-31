@@ -78,6 +78,50 @@
         },
 
         {
+          "id":"shield_module_sphere_effect",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_additive_atlas_renderer",
+            "particle_id":"shield_sphere_effect_particles",
+            "count":4,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
+
+        {
+          "id":"shield_module_edge_effect",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_additive_atlas_renderer",
+            "particle_id":"shield_edge_effect_particles",
+            "count":4,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
+
+        {
+          "id":"shield_module_sparks_effect",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_additive_atlas_renderer",
+            "particle_id":"shield_spark_stars_particles",
+            "count":25,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
+
+        {
+          "id":"hyper_module_sparks_effect",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_additive_atlas_renderer",
+            "particle_id":"hyper_spark_stars_particles",
+            "count":25,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
+
+        {
           "id":"flare_dot_module_effect",
           "data":{
             "system_key":"THREE",

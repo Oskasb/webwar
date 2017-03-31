@@ -25,7 +25,10 @@ define([
 
         var maxActiveGroundPrints = 2200;
 
+        var maxGeometryEffetcs = 1000;
+
         var groundprints = [];
+        var geometryEffects = [];
 
         var posFromTransform = function(pos, transform, storeVec3) {
             storeVec3.set(pos.data[0]+ transform.pos.data[0], pos.data[1] + transform.pos.data[1], pos.data[2] + transform.pos.data[2]);
@@ -232,6 +235,39 @@ define([
             return fxArray;
         };
 
+
+        ModuleEffectCreator.addGeometryEffect = function(model, effectId, transform, stateValue, glueToGround) {
+
+        //    posFromTransform(pos, transform, calcVec);
+            sizeFromTransform(transform, calcVec2);
+
+            calcVec.setFromMatrixPosition( model.matrixWorld );
+
+            var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', effectId);
+
+            for (var i = 0; i < fx.length; i++) {
+
+                if (!fx[i].particle_effects) {
+                    console.log("Bad FX: ", fx)
+                    return;
+                }
+
+                for (var j = 0; j < fx[i].particle_effects.length; j++) {
+                    ModuleEffectCreator.createPassiveEffect(fx[i].particle_effects[j].id, calcVec, zeroVec, calcVec2, glueToGround, geometryEffects);
+                }
+            }
+
+            while (geometryEffects.length > maxGeometryEffetcs) {
+                if (Math.random() < 0.2) {
+                    EffectsAPI.returnPassiveEffect(geometryEffects.shift());
+                } else {
+                    EffectsAPI.returnPassiveEffect(geometryEffects.splice(Math.floor(geometryEffects.length*0.5*Math.random()), 1)[0]);
+                }
+            }
+
+        };
+
+
         ModuleEffectCreator.createPassiveEffect = function(fxId, pos, vel, size, quat, store) {
 
             var fx = EffectsAPI.requestPassiveEffect(fxId, pos, vel, size, quat);
@@ -253,8 +289,11 @@ define([
             }
         };
 
-        ModuleEffectCreator.updateEffect = function(fxArray, pos, transform, state, tpf) {
-            posFromTransform(pos, transform, calcVec);
+        ModuleEffectCreator.updateEffect = function(fxArray, model, pos, transform, state, tpf) {
+
+            calcVec.setFromMatrixPosition( model.matrixWorld );
+
+            // posFromTransform(pos, transform, calcVec);
 
             for (var i = 0; i < fxArray.length; i++) {
                 EffectsAPI.updateEffectPosition(fxArray[i], calcVec, state, tpf);
