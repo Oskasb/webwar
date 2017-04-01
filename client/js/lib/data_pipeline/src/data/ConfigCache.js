@@ -399,6 +399,9 @@ define([
 			return configs;
 		};
 
-
+        ConfigCache.tickConfigCache = function(tpf) {
+            GameDataPipeline.tickDataLoader(tpf);
+        };
+        
 		return ConfigCache;
 	});

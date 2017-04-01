@@ -116,7 +116,11 @@ define(['data_pipeline/data/ConfigCache'],
 			var reads = ConfigCache.getCacheReads();
 			ConfigCache.resetCacheReads();
 			return reads;
-		};		
-		
+		};
+
+        PipelineAPI.tickPipelineAPI = function(tpf) {
+            ConfigCache.tickConfigCache(tpf);
+        };
+        
 		return PipelineAPI;
 	});

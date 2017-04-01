@@ -285,6 +285,11 @@ define([
             
             evt.fire(evt.list().CAMERA_TICK, {frame:frame, tpf:tpf});
             PipelineAPI.setCategoryKeyValue('STATUS', 'TIME_GAME_TICK', performance.now() - start);
+
+
+            if (PipelineAPI.getPipelineOptions('jsonPipe').polling.enabled) {
+                PipelineAPI.tickPipelineAPI(tpf);
+            }
             
 		};
 

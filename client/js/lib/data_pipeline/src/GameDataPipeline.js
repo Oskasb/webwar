@@ -47,9 +47,6 @@ define([
 			ImagePipe.setImagePipeOpts(opts.imagePipe, pipelineErrorCb);
 		};
 
-		setInterval(function() {
-			GameDataPipeline.tickDataLoader(0.01)
-		}, 10);
 
 		return GameDataPipeline
 	});
