@@ -38,16 +38,16 @@ function request(request, response) {
 	{
 
 		store += data;
-
+/*
         try {
             var data = JSON.parse(store);
 
-            fs.writeFile(data[0]+'.json', data[1]);
+            fs.writeFile('content/'+data[0], data[1]);
             console.log("Store File: ", data[0]);
         } catch(err) {
             console.log("JSON Parse error")
         }
-
+*/
 	});
 	request.on('end', function()
 	{  
@@ -58,6 +58,18 @@ function request(request, response) {
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
 		response.end(store);
+
+    //    console.log("Response End:", store);
+
+        try {
+            var data = JSON.parse(store);
+            fs.writeFile('content/'+data[0], data[1]);
+            console.log("Store File (END): ", data[0]);
+
+        } catch(err) {
+            console.log("JSON Parse error (END)")
+        }
+
 	});
 }
 

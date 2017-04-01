@@ -17,62 +17,74 @@ define([
             images:{}
         };
 
+        var contentUrl = function(url) {
+            return 'content'+url.slice(1);
+        };
+
+        var saveJsonUrl = function(json, url) {
+            var shiftUrl = url.slice(1);
+        //    shiftUrl.shift();
+            PipelineAPI.saveJsonFileOnServer(json, shiftUrl)
+        };
+
         var ThreeTextureMaker = function() {
 
         };
 
         var createBufferTexture = function(url, txType) {
-            console.log("Create Buffer Texture:  ", url, txType);
 
             textures[txType][url] = {};
 
-            var bufferUpdated = function(src, data) {
+            var registerTexture = function(tx) {
+                if (txType == 'envMap' || txType == 'data_texture' || txType == 'particle_texture') {
+                    tx.combine = THREE.AddOperation;
+                    tx.generateMipmaps = false;
+                    tx.magFilter = THREE.LinearFilter;
+                    tx.minFilter = THREE.LinearFilter;
 
-                console.log("Buffer Data Updated:  ", url, txType, src, [data]);
+                    if (txType == 'envMap') {
+                        tx.mapping = THREE.SphericalReflectionMapping;
+                    }
 
-                    var onLoad = function(tx) {
-                        if (txType == 'envMap' || txType == 'data_texture' || txType == 'particle_texture') {
-                            tx.combine = THREE.AddOperation;
-                            tx.generateMipmaps = false;
-                            tx.magFilter = THREE.LinearFilter;
-                            tx.minFilter = THREE.LinearFilter;
-                            //            console.log("Set as Reflection", src, tx);
+                } else {
+                    tx.wrapS = THREE.RepeatWrapping;
+                    tx.wrapT = THREE.RepeatWrapping;
+                }
 
-                            if (txType == 'envMap') {
-                                tx.mapping = THREE.SphericalReflectionMapping;
-                            }
-
-                        } else {
-                            tx.wrapS = THREE.RepeatWrapping;
-                            tx.wrapT = THREE.RepeatWrapping;
-                        }
-                        textures[txType][src] = tx;
-                    //    tx.flipY = false;
-                    //    tx.flipY = false;
-                        //        console.log("Store THREE_TEXTURE:",txType+'_'+src)
-
-                        /*
-                        if (PipelineAPI.readCachedConfigKey('STATUS', "PIPELINE")) {
-                            var json = JSON.stringify(tx.toJSON(meta));
-                            console.log("JSON TX:", txType, [json], meta);
-                            PipelineAPI.saveJsonFileOnServer(json, src)
-                        }
-                        */
-                        PipelineAPI.setCategoryKeyValue('THREE_TEXTURE', txType+'_'+src, tx);
-
-                    };
-
-                new THREE.TextureLoader().load(src, onLoad);
+                textures[txType][url] = tx;
+                PipelineAPI.setCategoryKeyValue('THREE_TEXTURE', txType+'_'+url, tx);
             };
 
-            new PipelineObject('BUFFER_IMAGE', url, bufferUpdated)
-        };
+            var jsonImageLoaded = function(src, data) {
+            //    var texture = THREE.ImageUtils.loadTexture( data.url );
+                new THREE.TextureLoader().load(data.url, registerTexture);
+            };
 
+            var originalImageUpdated = function(src, data) {
+
+                console.log("Buffer Data Updated:  ", url, txType, src, [data]);
+                var onLoad = function(tx) {
+                    if (PipelineAPI.readCachedConfigKey('STATUS', "PIPELINE")) {
+                        var imgId = tx.toJSON(meta).image;
+                        var json = JSON.stringify(meta.images[imgId]);
+                        console.log("JSON Image:", imgId, [json]);
+                        saveJsonUrl(json, url);
+                    }
+                };
+
+                new THREE.TextureLoader().load(url, onLoad);
+            };
+
+            if (PipelineAPI.readCachedConfigKey('STATUS', "PIPELINE")) {
+                new PipelineObject('BUFFER_IMAGE', url, originalImageUpdated)
+            }
+
+            new PipelineObject('JSON_IMAGE', url, jsonImageLoaded)
+        };
 
         var createTexture = function(textureStore) {
 
             if (!textures[textureStore.txType]) {
-
                 textures[textureStore.txType] = {};
             } else {
 
@@ -91,7 +103,10 @@ define([
         };
 
         var loadImage = function(textureStore) {
-            console.log("loadImage", textureStore.url);
+
+            var jsonImage = function(src, json) {
+                PipelineAPI.setCategoryKeyValue('JSON_IMAGE', textureStore.url, json);
+            };
 
             var ok = function(src, data) {
                 images[textureStore.url] = data;
@@ -106,11 +121,16 @@ define([
 
             if (!images[textureStore.url]) {
                 images[textureStore.url] = {};
-                PipelineAPI.cacheImageFromUrl(textureStore.url, ok, fail)
+
+                if (PipelineAPI.readCachedConfigKey('STATUS', "PIPELINE")) {
+                    PipelineAPI.cacheImageFromUrl(textureStore.url, ok, fail)
+                } else {
+
+                }
+                PipelineAPI.subscribeToConfigUrl(contentUrl(textureStore.url), jsonImage, fail);
             }
 
             createTexture(textureStore);
-
         };
 
 
