@@ -19,7 +19,10 @@ define([
 			JsonPipe.loadJsonFromUrl(url, dataUpdated, fail)
 		};
 
-
+		GameDataPipeline.storeJson = function(json, url) {
+			JsonPipe.saveJsonToUrl(json, url)
+		};
+		
 		GameDataPipeline.loadSvgFromUrl = function(url, dataUpdated, fail) {
 			SvgPipe.loadSvg(url, dataUpdated, fail)
 		};
@@ -45,8 +48,8 @@ define([
 		};
 
 		setInterval(function() {
-			GameDataPipeline.tickDataLoader(0.03)
-		}, 30)
+			GameDataPipeline.tickDataLoader(0.01)
+		}, 10);
 
 		return GameDataPipeline
 	});

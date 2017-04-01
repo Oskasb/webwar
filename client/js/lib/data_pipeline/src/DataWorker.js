@@ -26,6 +26,11 @@ define(['data_pipeline/DataPipelineMessageHandler'],
 			worker.postMessage(['json', url]);
 		};
 
+		var saveJsonData = function(json, url) {
+			worker.postMessage(['storeJson', url, json]);
+		};
+		
+
 		var fetchSvgData = function(url, onDataUpdate, fail) {
 			onUpdateCallbacks[url] = [onDataUpdate, fail];
 			worker.postMessage(['svg', url]);
@@ -38,6 +43,7 @@ define(['data_pipeline/DataPipelineMessageHandler'],
 
 		return {
 			fetchJsonData:fetchJsonData,
+			saveJsonData:saveJsonData,
 			fetchSvgData:fetchSvgData,
 			fetchBinaryData:fetchBinaryData
 		};

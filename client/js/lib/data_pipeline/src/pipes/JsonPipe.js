@@ -58,6 +58,12 @@ define([
 			DataWorker.fetchJsonData(url, onWorkerOk, onWorkerFail);
 		};
 
+		JsonPipe.saveJsonToUrl = function(json, url) {
+
+			DataWorker.saveJsonData(json, url);
+			
+		};
+		
 		JsonPipe.tickJsonPipe = function(tpf) {
 			if (!options.polling.enabled) return;
 			pollDelay = 1/options.polling.frequency;

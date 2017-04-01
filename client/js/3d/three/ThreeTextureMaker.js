@@ -9,16 +9,26 @@ define([
     ) {
 
         var textureImages = {};
+        var images = {};
         var textures = {};
+
+        var meta = {
+            textures:{},
+            images:{}
+        };
 
         var ThreeTextureMaker = function() {
 
         };
 
         var createBufferTexture = function(url, txType) {
+            console.log("Create Buffer Texture:  ", url, txType);
 
+            textures[txType][url] = {};
 
             var bufferUpdated = function(src, data) {
+
+                console.log("Buffer Data Updated:  ", url, txType, src, [data]);
 
                     var onLoad = function(tx) {
                         if (txType == 'envMap' || txType == 'data_texture' || txType == 'particle_texture') {
@@ -40,36 +50,53 @@ define([
                     //    tx.flipY = false;
                     //    tx.flipY = false;
                         //        console.log("Store THREE_TEXTURE:",txType+'_'+src)
+
+                        /*
+                        if (PipelineAPI.readCachedConfigKey('STATUS', "PIPELINE")) {
+                            var json = JSON.stringify(tx.toJSON(meta));
+                            console.log("JSON TX:", txType, [json], meta);
+                            PipelineAPI.saveJsonFileOnServer(json, src)
+                        }
+                        */
                         PipelineAPI.setCategoryKeyValue('THREE_TEXTURE', txType+'_'+src, tx);
+
                     };
 
                 new THREE.TextureLoader().load(src, onLoad);
-
             };
 
             new PipelineObject('BUFFER_IMAGE', url, bufferUpdated)
         };
 
 
-        var loadImage = function(textureStore) {
+        var createTexture = function(textureStore) {
 
+            if (!textures[textureStore.txType]) {
 
-            var ok = function(src, data) {
-                //    console.log("TextureCached", src, textureStore);
-                textureStore.bufferData = data;
-                if (!textures[textureStore.txType]) {
+                textures[textureStore.txType] = {};
+            } else {
 
-                    textures[textureStore.txType] = {};
-                } else {
-                    if (textures[textureStore.txType].src == src) {
-                        console.log("Texture already loaded", textureStore, src, textures);
-                        return;
-                    }
+                if (textures[textureStore.txType][textureStore.url]) {
+                    console.log("Tx url already loaded...", [textureStore.txType], [textureStore.url]);
+                    return;
                 }
 
-                //    setTimeout(function() {
-                createBufferTexture(textureStore.url, textureStore.txType, src);
-                //    },1200);
+                if (textures[textureStore.txType].src == textureStore.url) {
+                    console.log("Texture already loaded", textureStore, textureStore.url, textures);
+                    return;
+                }
+            }
+
+            createBufferTexture(textureStore.url, textureStore.txType);
+        };
+
+        var loadImage = function(textureStore) {
+            console.log("loadImage", textureStore.url);
+
+            var ok = function(src, data) {
+                images[textureStore.url] = data;
+                console.log("TextureCached", src, textureStore);
+                textureStore.bufferData = data;
                 PipelineAPI.setCategoryKeyValue('BUFFER_IMAGE', textureStore.url, data);
             };
 
@@ -77,8 +104,13 @@ define([
                 console.log("Texture Failed", src, data);
             };
 
+            if (!images[textureStore.url]) {
+                images[textureStore.url] = {};
+                PipelineAPI.cacheImageFromUrl(textureStore.url, ok, fail)
+            }
 
-            PipelineAPI.cacheImageFromUrl(textureStore.url, ok, fail)
+            createTexture(textureStore);
+
         };
 
 

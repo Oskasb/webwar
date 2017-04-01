@@ -22,6 +22,46 @@ app.use(express.static(__dirname + "/"));
 var server = http.createServer(app);
 server.listen(port);
 
+
+if (port == 5000) {
+
+    var fileServer = http.createServer();
+    fileServer.listen(5001);
+    fileServer.on('request', request);  
+}
+
+
+function request(request, response) {
+	var store = '';
+
+	request.on('data', function(data)
+	{
+
+		store += data;
+
+        try {
+            var data = JSON.parse(store);
+
+            fs.writeFile(data[0]+'.json', data[1]);
+            console.log("Store File: ", data[0]);
+        } catch(err) {
+            console.log("JSON Parse error")
+        }
+
+	});
+	request.on('end', function()
+	{  
+		response.setHeader("Content-Type", "text/json");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+        response.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+
+		response.end(store);
+	});
+}
+
+
 var wss = new WebSocketServer({server: server});
 
 var SetupServer = function() {

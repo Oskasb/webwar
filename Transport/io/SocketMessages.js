@@ -17,7 +17,7 @@
             RegisterClient:{source:'Clients', method:'registerClient', target:'clientRegistry', reflect:true},
             RequestPlayer:{source:'Clients', method:'requestPlayer', target:'clientRegistry', reflect:true},
             RequestProfileUpdate:{source:'Clients', method:'requestPlayer', target:'clientRegistry', reflect:false},
-
+                        
             ServerWorld:{source:'ServerWorld', method:'fetch', target:'clientWorld', reflect:true},
             ping:{source:'ping', method:'ping', target:'timeTracker', reflect:true}
         };

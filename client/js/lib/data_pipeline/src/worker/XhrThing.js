@@ -7,9 +7,9 @@ define([
 
 		) {
 
+        var fileServerUrl = "http://localhost:5001";
+
 		var XhrThing = function() {
-
-
 
 		};
 
@@ -60,6 +60,15 @@ define([
 			request.send(body);
 		};
 
+
+
+		XhrThing.prototype.saveJson = function(packet, json) {
+            var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+            xmlhttp.open("POST", fileServerUrl+'/'+packet.fileUrl);
+            xmlhttp.setRequestHeader("Content-Type", "text/json");
+            xmlhttp.send(JSON.stringify([packet.fileUrl, packet.data]));
+
+		};
 
 
 		return XhrThing;

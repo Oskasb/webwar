@@ -20,6 +20,10 @@ require(
 			this.workerDataLoader = new WorkerDataLoader();
 		};
 
+		WorkerMain.prototype.storeJsonData = function(url, json) {
+			this.workerDataLoader.storeJson(url, json)
+		};
+		
 		WorkerMain.prototype.setupJsonRequest = function(url) {
 			this.workerDataLoader.fetchJsonData(url)
 		};
@@ -48,6 +52,10 @@ var handleMessage = function(oEvent) {
 		return;
 	}
 
+	if (oEvent.data[0] == 'storeJson') {
+		MainWorker.storeJsonData(oEvent.data[1], oEvent.data[2]);
+	}
+	
 	if (oEvent.data[0] == 'json') {
 		MainWorker.setupJsonRequest(oEvent.data[1]);
 	}

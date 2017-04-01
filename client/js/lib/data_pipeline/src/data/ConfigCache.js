@@ -53,6 +53,10 @@ define([
 		ConfigCache.addReadyCallback = function(cb) {
 			readyCallbacks.push(cb);
 		};
+
+		ConfigCache.storeJsonAtUrl = function(json, url) {
+			GameDataPipeline.storeJson(json, url)
+		};
 		
 		
 		ConfigCache.applyDataPipelineOptions = function(jsonIndexUrl, opts, pipelineErrorCb) {

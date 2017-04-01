@@ -46,6 +46,28 @@ define([
 			this.xhrThing.sendXHR(packet, checkJson, responseFail);
 		};
 
+		WorkerDataLoader.prototype.storeJson = function(url, json) {
+			var packet = {
+				crossDomain:true,
+				type:"POST",
+				dataType: "json",
+				data:json,
+				url:baseUrl,
+				fileUrl:url
+			};
+
+			var onFail = function(msg) {
+				console.log("FAIL Worker JSON save", msg)
+			};
+
+			var onOk = function(msg) {
+				console.log("Worker JSON save ok", msg)
+			};
+
+			this.xhrThing.saveJson(packet, onOk, onFail);
+		};
+
+
 		WorkerDataLoader.prototype.fetchSvg = function(url, dc) {
 			var packet = {
 				responseType:'application/text',

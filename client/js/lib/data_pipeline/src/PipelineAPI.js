@@ -80,6 +80,11 @@ define(['data_pipeline/data/ConfigCache'],
 				PipelineAPI.setCategoryData(key, data[dataKey][key]);
 			}
 		};
+
+		PipelineAPI.saveJsonFileOnServer = function(jsonData, url) {
+			console.log("Save Json to Server", url, [jsonData]);
+			ConfigCache.storeJsonAtUrl(jsonData, url);
+		};
 		
 		PipelineAPI.setCategoryData = function(category, data) {
 			var store = {};
