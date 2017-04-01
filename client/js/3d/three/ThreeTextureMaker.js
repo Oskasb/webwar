@@ -75,7 +75,7 @@ define([
                 new THREE.TextureLoader().load(url, onLoad);
             };
 
-            if (PipelineAPI.readCachedConfigKey('STATUS', "PIPELINE")) {
+            if (PipelineAPI.getPipelineOptions('jsonPipe').polling.enabled) {
                 new PipelineObject('BUFFER_IMAGE', url, originalImageUpdated)
             }
 
@@ -89,12 +89,12 @@ define([
             } else {
 
                 if (textures[textureStore.txType][textureStore.url]) {
-                    console.log("Tx url already loaded...", [textureStore.txType], [textureStore.url]);
+            //        console.log("Tx url already loaded...", [textureStore.txType], [textureStore.url]);
                     return;
                 }
 
                 if (textures[textureStore.txType].src == textureStore.url) {
-                    console.log("Texture already loaded", textureStore, textureStore.url, textures);
+            //        console.log("Texture already loaded", textureStore, textureStore.url, textures);
                     return;
                 }
             }
@@ -122,10 +122,11 @@ define([
             if (!images[textureStore.url]) {
                 images[textureStore.url] = {};
 
-                if (PipelineAPI.readCachedConfigKey('STATUS', "PIPELINE")) {
+                if (PipelineAPI.getPipelineOptions('jsonPipe').polling.enabled) {
+                    console.log("PipelineState:",PipelineAPI.readCachedConfigKey('STATUS', 'PIPELINE'))
                     PipelineAPI.cacheImageFromUrl(textureStore.url, ok, fail)
                 } else {
-
+                    console.log("Load TX Production Mode")
                 }
                 PipelineAPI.subscribeToConfigUrl(contentUrl(textureStore.url), jsonImage, fail);
             }
