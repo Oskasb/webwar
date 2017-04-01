@@ -23,7 +23,6 @@ define([
 
         var saveJsonUrl = function(json, url) {
             var shiftUrl = url.slice(1);
-        //    shiftUrl.shift();
             PipelineAPI.saveJsonFileOnServer(json, shiftUrl)
         };
 

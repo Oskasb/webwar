@@ -16,8 +16,17 @@ define([
         var modelPool = {};
 
 
+        var contentUrl = function(url) {
+            return 'content'+url.slice(1);
+        };
+
+        var saveJsonUrl = function(json, url) {
+            var shiftUrl = url.slice(1);
+            PipelineAPI.saveJsonFileOnServer(json, shiftUrl)
+        };
+
         var poolMesh = function(id, mesh, count) {
-            var poolCount = count || 20;
+            var poolCount = count || 3;
             mesh.poolId = id;
             modelPool[id] = [];
 
@@ -96,10 +105,10 @@ define([
                 object.remove(child);
 
                 if ( child instanceof THREE.Mesh ) {
-                //    var geom = child.geometry;
-                //    child.geometry = geom;
-                //    geom.uvsNeedUpdate = true;
-                //    console.log("Obj Mesh: ", child);
+                    //    var geom = child.geometry;
+                    //    child.geometry = geom;
+                    //    geom.uvsNeedUpdate = true;
+                    //    console.log("Obj Mesh: ", child);
                     cb(child, id);
                 }
             });
@@ -154,7 +163,9 @@ define([
         };
 
         ThreeModelLoader.loadData = function(TAPI) {
+
             ThreeTerrain.loadData(TAPI);
+
             var modelListLoaded = function(scr, data) {
                 for (var i = 0; i < data.length; i++){
 
@@ -177,7 +188,6 @@ define([
                     }
                 }
             };
-
 
 
             new PipelineObject("MODELS", "THREE", modelListLoaded);
@@ -283,7 +293,7 @@ define([
             };
 
             if (!model.poolId) {
-        //        console.log("Shave scrap objects from mesh before returning it...");
+                //        console.log("Shave scrap objects from mesh before returning it...");
                 getMesh(model, null, meshFound)
             } else {
                 meshFound(model);

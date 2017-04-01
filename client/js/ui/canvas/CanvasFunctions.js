@@ -157,6 +157,8 @@ define([
 
             var checkPieceForSelectable = function(piece) {
 
+                if (!piece.threePiece.render) return false;
+
                 for (var i = 0; i < piece.pieceData.attachment_points.length; i++) {
                     if (piece.pieceData.attachment_points[i].slot == 'hull') {
                         return true;
