@@ -322,6 +322,34 @@
           "velocityOffset = offset + velInfluence + motionBend * cycleAge;"
         ],
 
+        "vertexVelocityRotationMain":[
+
+          "float baseRotation = 0.0;",
+
+          "float lastAge = cycleAge - 0.016;",
+
+          "float lastVerticalComponent =  (diffusedVelocity.y * lastAge + gravityFactor)  * dragFactor * accelerationDiffusion.y;",
+          "float lastXComponent =         diffusedVelocity.x * lastAge * dragFactor * accelerationDiffusion.x;",
+          "float lastZComponent =         diffusedVelocity.z * lastAge * dragFactor * accelerationDiffusion.z;",
+
+          "vec3 frameVel = vec3(xComponent - lastXComponent, verticalComponent- lastVerticalComponent, zComponent- lastZComponent);",
+
+
+          "vec4 lastParticleVelocity = modelViewMatrix * vec4(frameVel.x, frameVel.y, frameVel.z, 1);",
+
+          "float rotation = atan(sin(lastParticleVelocity.y) - cos(lastParticleVelocity.x)) * 0.0;",
+
+          "float c = cos(baseRotation + rotation);",
+          "float s = sin(baseRotation + rotation);",
+
+          "vec2 rotated = vec2(c* vPosition.x - s * vPosition.y, s*vPosition.x + c*vPosition.y);",
+
+          "vec2 agedPos = vec2(vPosition.x , vPosition.y );",
+
+          "vPosition.xy = agedPos.xy;"
+
+        ],
+
 
         "vertexPredictRotationMain":[
 
@@ -339,6 +367,8 @@
           "vPosition.xy = rotated.xy;"
 
         ],
+
+
 
 
         "vertexShadeLowerVerts":[
@@ -399,7 +429,6 @@
         "vertexBillboardFinal":[
           "billboardFacing.z = billboardFacing.z * zHideFactor;",
           "gl_Position = billboardFacing;"
-
         ],
 
         "vertexSpatialFinal":[

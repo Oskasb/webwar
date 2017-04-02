@@ -112,15 +112,7 @@ define([
         };
 
         ModuleEffectCreator.createPositionEffect = function(pos, effectId, transform, vel) {
-
-            evt.fire(evt.list().GAME_EFFECT, {
-                effect: "test_effect",
-                pos: pos,
-                vel: vel
-            });
-
-            return
-
+            
             if (!effectId) {
                 var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', 'default_remove_effect');
             } else {

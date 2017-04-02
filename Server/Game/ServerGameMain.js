@@ -131,7 +131,9 @@ ServerGameMain.prototype.tickGameSimulation = function() {
     this.headroom = this.getNow() - this.currentTime;
 	this.currentTime = this.getNow();
 
-    this.serverWorld.tickSimulationWorld(this.currentTime);
+    var tpf =  this.currentTime - this.lastFrameTime;
+    
+    this.serverWorld.tickSimulationWorld(this.currentTime, tpf);
     this.tickComputeTime = this.getNow() - this.currentTime;
 
     if (this.headroom / this.tickComputeTime < 1) console.log("High Load: Headroom, ComputeTime: ", this.headroom, this.tickComputeTime);
@@ -152,6 +154,7 @@ ServerGameMain.prototype.tickGameSimulation = function() {
 		contacts:contacts,
 		memoryUsage:memUse
 	});
+    this.lastFrameTime = this.currentTime;
 };
 
 ServerGameMain.prototype.tickGameNetwork = function() {

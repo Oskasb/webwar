@@ -19,6 +19,7 @@ define([],
             1,  -1, 0
         ];
 
+
         var quadUvs = [
             0, 0,
             1, 0,
@@ -30,8 +31,6 @@ define([],
             0, 1, 2,
             2, 1, 3
         ];
-
-
 
         var plantUvs = [
             0, 0,
@@ -183,6 +182,10 @@ define([],
             22, 21, 23
         ];
 
+
+        var trailGeometry = new THREE.PlaneBufferGeometry(2, 2, 5, 1);
+
+
         var ParticleMesh = function() {2
 
         };
@@ -197,6 +200,15 @@ define([],
 
         ParticleMesh.quad = function() {
             return {verts:quadVerts, indices:quadInds, uvs:quadUvs};
+        };
+
+        ParticleMesh.trail5 = function() {
+
+            var verts = trailGeometry.attributes.position.array;
+            var uv =    trailGeometry.attributes.uv.array;
+            var ind =   trailGeometry.index.array;
+
+            return {verts:verts, indices:ind, uvs:uv};
         };
 
 

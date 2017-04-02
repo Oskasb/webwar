@@ -150,13 +150,15 @@ ServerWorld.prototype.broadcastPieceState = function(piece) {
     }
 };
 
-ServerWorld.prototype.applyGravity = function(piece) {
-    piece.spatial.addVelXYZ(0, this.gravityVector.getY()*piece.temporal.stepTime, 0);
+ServerWorld.prototype.applyGravity = function(piece, tpf) {
+    piece.spatial.addVelXYZ(0, this.gravityVector.getY()*tpf, 0);
 
 
 };
 
-ServerWorld.prototype.updateWorldPiece = function(piece, currentTime) {
+ServerWorld.prototype.updateWorldPiece = function(piece, currentTime, tpf) {
+
+    var tpfMod = tpf+(tpf-piece.temporal.stepTime)*0.1;
 
 	piece.processTemporalState(currentTime);
 
@@ -168,7 +170,7 @@ ServerWorld.prototype.updateWorldPiece = function(piece, currentTime) {
     //    this.broadcastPieceState(piece);
     } else {
         if (piece.spatial.pos.getY() > 0) {
-            this.applyGravity(piece);
+            this.applyGravity(piece, tpfMod);
         }
 
 
@@ -176,7 +178,7 @@ ServerWorld.prototype.updateWorldPiece = function(piece, currentTime) {
             piece.setState(GAME.ENUMS.PieceStates.TIME_OUT);
         }
     }
-    piece.spatial.updateSpatial(piece.temporal.stepTime);
+    piece.spatial.updateSpatial(tpfMod);
 /*
     if (piece.networkDirty) {
         this.broadcastPieceState(piece);
@@ -195,7 +197,7 @@ ServerWorld.prototype.removePiece = function(piece) {
     //piece.setRemoved()
 };
 
-ServerWorld.prototype.updatePieces = function(currentTime) {
+ServerWorld.prototype.updatePieces = function(currentTime, tpf) {
 	var timeouts = [];
     var remove = [];
 
@@ -208,7 +210,7 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
 
 
         if (this.pieces[i].spatial.vel.getX() > 0.05 || this.pieces[i].spatial.vel.getZ() > 0.05) {
-            this.updateWorldPiece(this.pieces[i], currentTime);
+            this.updateWorldPiece(this.pieces[i], currentTime, tpf);
         } else if (this.pieces[i].groundPiece) {
 
             if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.SPAWN) {
@@ -282,7 +284,7 @@ ServerWorld.prototype.updateSectorStatus = function(player) {
 
 
 
-ServerWorld.prototype.updatePlayers = function(currentTime) {
+ServerWorld.prototype.updatePlayers = function(currentTime, tpf) {
 	this.playerCount = 0;
 	for (var key in this.players) {
         var piece = this.players[key].piece;
@@ -308,10 +310,10 @@ ServerWorld.prototype.updatePlayers = function(currentTime) {
 };
 
 
-ServerWorld.prototype.tickSimulationWorld = function(currentTime) {
+ServerWorld.prototype.tickSimulationWorld = function(currentTime, tpf) {
     this.cannonAPI.updatePhysicsSimulation(currentTime);
     this.updateTerrains(currentTime);
-    this.updatePieces(currentTime);
+    this.updatePieces(currentTime, tpf);
     this.updatePlayers(currentTime);
     this.serverPieceProcessor.checkProximity(this.players, this.pieces);
 };
