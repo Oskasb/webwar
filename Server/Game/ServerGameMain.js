@@ -115,8 +115,8 @@ ServerGameMain.prototype.registerPlayer = function(data) {
     var player = this.pieceSpawner.spawnPlayerPiece(client, data, this.connectedClients, this.simulationTime, this.gameConfigs);
 
     this.serverWorld.addPlayer(player);
+	console.log("registerPlayer Add: ", data.clientId);
     client.broadcastToVisible(player.makePacket());
-
 
 };
 

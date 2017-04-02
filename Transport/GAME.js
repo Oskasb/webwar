@@ -299,7 +299,7 @@ if(typeof(GAME) == "undefined"){
 	};
 
 	GAME.Piece.prototype.teleportRandom = function() {
-		console.log("teleport");
+		console.log("Piece teleport", this.id);
 
 		this.setState(GAME.ENUMS.PieceStates.TELEPORT);
 		this.spatial.stop();
@@ -514,9 +514,11 @@ if(typeof(GAME) == "undefined"){
 
 	GAME.Piece.prototype.requestTeleport = function() {
 
+        console.log("Piece: requestTeleport", this.id);
+
         this.teleportRandom();
         this.broadcast(this.makePacket());
-		this.networkDirty = true;
+	//	this.networkDirty = true;
     };
     
     

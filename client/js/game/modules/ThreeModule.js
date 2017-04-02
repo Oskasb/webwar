@@ -33,15 +33,13 @@ define([
 
 
 
-        ThreeModule.prototype.buildModel = function(parentObj3d, apReady) {
+        ThreeModule.prototype.buildModel = function(parentObj3d) {
 
             var started = 0;
             var finished = 0;
+            
             var partsReady = function() {
-                finished++
-                if (started == finished) {
-                    apReady();
-                }
+
             };
 
             started++;

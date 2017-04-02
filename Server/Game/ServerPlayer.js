@@ -20,6 +20,7 @@ ServerPlayer = function(pieceType, clientId, client, simTime) {
 			console.log("Bad ConnectedClient!", piece.id, piecePacket);
 			return;
 		}
+        console.log("ServerPlayer broadcast: ", piece.id, piece.state);
 		client.broadcastToVisible(piecePacket);
 	};
 	
@@ -50,6 +51,7 @@ ServerPlayer.prototype.applyPieceConfig = function(pieceTypeConfigs) {
 
 ServerPlayer.prototype.makeAppearPacket = function() {
     var iAppearPacket = this.piece.makePacket();
+    console.log("Make Appear:", this.id)
     iAppearPacket.data.state = GAME.ENUMS.PieceStates.APPEAR;
     return iAppearPacket;
 };
@@ -97,6 +99,9 @@ ServerPlayer.prototype.unseePieces = function(gridSector, piecesRemove) {
 ServerPlayer.prototype.seePlayers = function(iAppearPacket, playersAppear) {
     for (var i = 0; i < playersAppear.length; i++) {
         if (playersAppear[i].id != this.id) {
+
+            console.log("seePlayer: ", i, playersAppear[i].id);
+
             playersAppear[i].client.sendToClient(iAppearPacket);
             this.client.sendToClient(playersAppear[i].makeAppearPacket());
         }
@@ -116,54 +121,17 @@ ServerPlayer.prototype.unseePlayers = function(iHidePAcket, playersRemove) {
 
 
 ServerPlayer.prototype.switchGridSector = function(gridSector) {
-    var visiblePre = [];
-    var visiblePost = [];
 
-    var playersAppear = [];
-    var playersRemove = [];
-
-    var piecesPre = [];
-    var piecesPost = [];
-
-    var piecesRemove = [];
-    var piecesAppear = [];
-
-    console.log("Add player to Secotr", this.id);
+    console.log("Add player to Sector", this.id);
 
     gridSector.addPlayerToSector(this);
 
     if (this.currentGridSector) {
-
-    //    this.currentGridSector.getActivePieces(piecesPre);
         this.currentGridSector.notifyPlayerLeave(this);
-
-    //    this.currentGridSector.getVisiblePlayers(visiblePre);
     }
 
-
     this.currentGridSector = gridSector;
-  //  this.currentGridSector.getVisiblePlayers(visiblePost);
-
     this.currentGridSector.notifyPlayerEnter(this);
- //   this.currentGridSector.getActivePieces(piecesPost);
-
- //   this.arrayDiff(visiblePre,  visiblePost, playersRemove );
-
- //   this.arrayDiff(visiblePost, visiblePre,  playersAppear );
-
- //   this.arrayDiff(piecesPre,   piecesPost,  piecesRemove  );
- //  this.arrayDiff(piecesPost,  piecesPre,   piecesAppear  );
-
- //   var iHidePacket   = this.makeHidePacket();
- //   var iAppearPacket = this.makeAppearPacket();
-
-  //  this.unseePlayers(iHidePacket, playersRemove);
-  //  this.seePlayers(iAppearPacket, playersAppear);
- //   this.unseePieces(gridSector, piecesRemove);
-
-
-
-    //       console.log("Player diff APP, REM", playersAppear.length, playersRemove.length);
 
     return gridSector;
 };
@@ -187,7 +155,10 @@ ServerPlayer.prototype.updateVisiblePlayers = function() {
     var playersAppear = [];
 
     var piecesPre = this.otherPlayers;
- //   console.log("pieces Pre: ", piecesPre);
+
+
+
+
     this.otherPlayers = [];
     this.currentGridSector.getVisiblePlayers(this.otherPlayers);
 

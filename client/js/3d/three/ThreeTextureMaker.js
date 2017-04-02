@@ -32,30 +32,38 @@ define([
 
         var createBufferTexture = function(url, txType) {
 
-            textures[txType][url] = {};
+            textures[txType][url] = true;
 
             var registerTexture = function(tx) {
-                if (txType == 'envMap' || txType == 'data_texture' || txType == 'particle_texture') {
-                    tx.combine = THREE.AddOperation;
-                    tx.generateMipmaps = false;
-                    tx.magFilter = THREE.LinearFilter;
-                    tx.minFilter = THREE.LinearFilter;
 
-                    if (txType == 'envMap') {
-                        tx.mapping = THREE.SphericalReflectionMapping;
-                    }
+                if (typeof(textures[txType][url]) == 'Texture') {
+
+                    textures[txType][url].image = tx.image;
+                    textures[txType][url].needsUpdate = true;
 
                 } else {
-                    tx.wrapS = THREE.RepeatWrapping;
-                    tx.wrapT = THREE.RepeatWrapping;
+                    if (txType == 'envMap' || txType == 'data_texture' || txType == 'particle_texture') {
+                        tx.combine = THREE.AddOperation;
+                        tx.generateMipmaps = false;
+                        tx.magFilter = THREE.LinearFilter;
+                        tx.minFilter = THREE.LinearFilter;
+
+                        if (txType == 'envMap') {
+                            tx.mapping = THREE.SphericalReflectionMapping;
+                        }
+
+                    } else {
+                        tx.wrapS = THREE.RepeatWrapping;
+                        tx.wrapT = THREE.RepeatWrapping;
+                    }
+
+                    textures[txType][url] = tx;
+                    PipelineAPI.setCategoryKeyValue('THREE_TEXTURE', txType+'_'+url, tx);
                 }
 
-                textures[txType][url] = tx;
-                PipelineAPI.setCategoryKeyValue('THREE_TEXTURE', txType+'_'+url, tx);
             };
 
             var jsonImageLoaded = function(src, data) {
-            //    var texture = THREE.ImageUtils.loadTexture( data.url );
                 new THREE.TextureLoader().load(data.url, registerTexture);
             };
 
@@ -65,7 +73,9 @@ define([
                 var onLoad = function(tx) {
                     if (PipelineAPI.readCachedConfigKey('STATUS', "PIPELINE")) {
                         var imgId = tx.toJSON(meta).image;
+                        delete meta.images[imgId].uuid;
                         var json = JSON.stringify(meta.images[imgId]);
+                        //      var json = meta.images[imgId].url;
                         console.log("JSON Image:", imgId, [json]);
                         saveJsonUrl(json, url);
                     }

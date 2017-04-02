@@ -36,8 +36,8 @@ define([
         var dataPipelineSetup = {
             "jsonPipe":{
                 "polling":{
-                    "enabled":false,
-                    "frequency":10
+                    "enabled":true,
+                    "frequency":17
                 }
             },
             "svgPipe":{
@@ -48,8 +48,8 @@ define([
             },
             "imagePipe":{
                 "polling":{
-                    "enabled":false,
-                    "frequency":2
+                    "enabled":true,
+                    "frequency":7
                 }
             }
         };

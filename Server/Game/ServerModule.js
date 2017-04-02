@@ -159,7 +159,7 @@ ServerModule.prototype.processServerModuleState = function(tpf) {
         if (typeof(this.serverModuleCallbacks[this.data.applies.action]) == 'function') {
             this.serverModuleCallbacks[this.data.applies.action](this.piece, this.state.value, this.data);
         } else {
-            console.log("ServerModuleCallback missing:", this.data.applies.action); 
+    //        console.log("ServerModuleCallback missing:", this.data.applies.action);
         }
         
     } else {

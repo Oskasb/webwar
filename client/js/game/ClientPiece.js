@@ -121,29 +121,18 @@ define([
 		};
 
 		ClientPiece.prototype.attachModules = function(hierarchyReady) {
-
-			var readyPoints = 0;
-			var startedPoints = 0;
-
-			var apReady = function() {
-				readyPoints++;
-				if (readyPoints == startedPoints) {
-					hierarchyReady();
-				}
-			};
-
+            
 			this.detachModules();
 			var serverState = this.piece.serverState;
 			for (var i = 0; i < this.attachmentPoints.length; i++) {
-				startedPoints++;
-				this.attachmentPoints[i].attachClientModule(new ClientModule(this, this.attachmentPoints[i], serverState.modules[this.attachmentPoints[i].data.module]), apReady);
+				this.attachmentPoints[i].attachClientModule(new ClientModule(this, this.attachmentPoints[i], serverState.modules[this.attachmentPoints[i].data.module]));
 				this.threePiece.includeAttachmentForVisibility(this.attachmentPoints[i])
 			}
 
 			this.buildHierarchy(hierarchyReady);
 		};
 
-		ClientPiece.prototype.buildHierarchy = function() {
+		ClientPiece.prototype.buildHierarchy = function(hierarchyReady) {
 
 			for (var i = 0; i < this.attachmentPoints.length; i++) {
 
@@ -154,6 +143,7 @@ define([
 					this.attachmentPoints[i].attachToParent(this.threePiece.getParentObject3d());
 				}
 			}
+            hierarchyReady();
 		};
 
         ClientPiece.prototype.registerModule = function(module) {

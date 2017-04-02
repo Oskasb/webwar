@@ -57,6 +57,7 @@ GridSector.prototype.makeAppearPacket = function(piece) {
     piece.spatial.updateSpatial(piece.temporal.stepTime);
     var iAppearPacket = piece.makePacket();
     iAppearPacket.data.state = GAME.ENUMS.PieceStates.APPEAR;
+    
     return iAppearPacket;
 };
 
@@ -451,22 +452,9 @@ GridSector.prototype.notifyNeighborSectors = function() {
 
 };
 
-GridSector.prototype.playerSeeSectorPieces = function(player) {
-
-    for (var i = 0; i < this.activeSectorPieces.length; i++) {
-        if (!this.activeSectorPieces[i].removed) {
-        //    player.client.sendToClient(this.makeAppearPacket(this.activeSectorPieces[i]));
-        }
-    }
-
-};
 
 GridSector.prototype.addPlayerToSector = function(player) {
     this.activeSectorPlayers.push(player);
-};
-
-GridSector.prototype.getVisiblePieces = function(player) {
-    
 };
 
 
@@ -487,6 +475,7 @@ GridSector.prototype.notifyPlayerEnter = function(player) {
 GridSector.prototype.sendPacketToVisiblePlayers = function(packet, recipients) {
 
     for (var i = 0; i < recipients.length; i++) {
+  //      console.log("Send to visible player: ", i)
         recipients[i].client.sendToClient(packet);
     }
 };

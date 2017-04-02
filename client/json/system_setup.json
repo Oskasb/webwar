@@ -22,7 +22,7 @@
         "pipeline":{
             "jsonPipe":{
                 "polling":{
-                    "enabled":false,
+                    "enabled":true,
                     "frequency":90
                 }
             },

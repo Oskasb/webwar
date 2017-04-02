@@ -215,7 +215,7 @@ define([
 
         var setup;
 
-        var attachAsynchModel = function(modelId, rootObject, partsReady) {
+        var attachAsynchModel = function(modelId, rootObject) {
 
             var attachModel = function(model) {
 
@@ -229,7 +229,7 @@ define([
                     setup.addToScene(model);
                     rootObject.add(model);
                     transformModel(modelList[modelId].transform, model);
-                    partsReady();
+
                 };
 
                 new PipelineObject('THREE_MATERIAL', modelList[modelId].material, attachMaterial);
@@ -239,10 +239,10 @@ define([
         };
 
 
-        ThreeModelLoader.loadThreeMeshModel = function(applies, rootObject, ThreeSetup, partsReady) {
+        ThreeModelLoader.loadThreeMeshModel = function(applies, rootObject, ThreeSetup) {
 
             setup = ThreeSetup;
-            attachAsynchModel(applies, rootObject, partsReady);
+            attachAsynchModel(applies, rootObject);
             return rootObject;
         };
 

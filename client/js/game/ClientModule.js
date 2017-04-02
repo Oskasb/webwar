@@ -59,8 +59,8 @@ define([
         };
         
         
-        ClientModule.prototype.buildGeometry = function (apReady) {
-            this.threeModule.buildModel(this.clientPiece.threePiece.getParentObject3d(), apReady);
+        ClientModule.prototype.buildGeometry = function () {
+            this.threeModule.buildModel(this.clientPiece.threePiece.getParentObject3d());
         };
         
         ClientModule.prototype.attachModuleToParent = function (parentModule) {

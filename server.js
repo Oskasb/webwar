@@ -33,21 +33,9 @@ if (port == 5000) {
 
 function request(request, response) {
 	var store = '';
-
 	request.on('data', function(data)
 	{
-
 		store += data;
-/*
-        try {
-            var data = JSON.parse(store);
-
-            fs.writeFile('content/'+data[0], data[1]);
-            console.log("Store File: ", data[0]);
-        } catch(err) {
-            console.log("JSON Parse error")
-        }
-*/
 	});
 	request.on('end', function()
 	{  
@@ -56,7 +44,6 @@ function request(request, response) {
         response.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
         response.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-
 		response.end(store);
 
     //    console.log("Response End:", store);
@@ -64,10 +51,9 @@ function request(request, response) {
         try {
             var data = JSON.parse(store);
             fs.writeFile('content/'+data[0], data[1]);
-            console.log("Store File (END): ", data[0]);
-
+    //        console.log("Store File (END): ", data[0]);
         } catch(err) {
-            console.log("JSON Parse error (END)")
+    //        console.log("JSON Parse error (END)")
         }
 
 	});

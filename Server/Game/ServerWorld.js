@@ -288,28 +288,19 @@ ServerWorld.prototype.updatePlayers = function(currentTime) {
         var piece = this.players[key].piece;
 
         if (piece.physics.body) {
-
-            //    console.log("Player Body")
+            
             this.cannonAPI.updatePhysicalPiece(piece);
-        //    piece.setState(GAME.ENUMS.PieceStates.MOVING);
-        //    piece.networkDirty = true;
-            //    this.broadcastPieceState(piece);
+
             piece.processServerState(currentTime);
-    //        console.log(piece.spatial.posX(), piece.spatial.posY(), piece.spatial.posZ()  )
+
         } else {
-
-
+            
             piece.spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this.players[key], MATH.tempNormal));
-        //    piece.spatial.alignToGroundNormal(MATH.tempNormal);
 
             piece.processServerState(currentTime, this.terrainFunctions);
         }
 
-        //   var currentY = this.terrainFunctions.getHeightForPlayer(this.players[key]);
 
-		
-                
-    //    this.players[key].piece.spatial.glueToGround();
         this.updateSectorStatus(this.players[key]);
 		this.players[key].client.notifyDataFrame();
 		this.playerCount++;
