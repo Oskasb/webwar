@@ -11,7 +11,7 @@
         "state":true,
         "style":"cannon_bullet",
         "message":"Load Bullet",
-        "game_effect":"bullet_trail",
+        "static_effect":"bullet_trail",
         "spawn_effect":"muzzle_flash_cannon",
         "remove_effect":"shell_detonate"
       }

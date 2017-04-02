@@ -109,6 +109,55 @@
         },
 
         {
+          "id":"muzzle_shockwave_flash_particles",
+          "sprite_key":"ATLAS",
+          "sprite_id":"shockwave",
+          "config":{
+            "age":     {"min":0.001, "max":0.002},
+            "lifeTime":{"min":0.15,"max":0.15},
+            "positionSpread":{"x":0.01, "y":0.01, "z":0.01},
+            "gravity":0.001,
+            "drag":0.41,
+            "spinDrag":0.8,
+            "colorCurve":"fire",
+            "alphaCurve":"pulseSlowOut",
+            "diffusionCurve":"zeroOneZero",
+            "scaleCurve":"zeroToOne",
+            "size":{"value":4.2, "min": -0.7, "max": 1.2},
+            "spin":{"value":0.01, "min":-2.5, "max":2.5},
+            "velocityDiffusion":0.001,
+            "accelerationDiffusion":0.05,
+            "colorDiffusion":0.25,
+            "velocityFactor":0.14
+          }
+        },
+
+        {
+          "id":"muzzle_pulse_flash_particles",
+          "sprite_key":"ATLAS",
+          "sprite_id":"explosion",
+          "config":{
+            "age":     {"min":0.001, "max":0.02},
+            "lifeTime":{"min":0.37,"max":0.58},
+            "positionSpread":{"x":0.01, "y":0.01, "z":0.01},
+            "gravity":0.001,
+            "drag":2.501,
+            "spinDrag":0.1,
+            "colorCurve":"blueYellowRed",
+            "alphaCurve":"pulseSlowOut",
+            "diffusionCurve":"oneToZero",
+            "scaleCurve":"qubeIn",
+            "size":{"value":3.5, "min": -0.7, "max": 0.6},
+            "spin":{"value":0.01, "min":-2.5, "max":2.5},
+            "velocitySpread":{"min":-1.0,"max":1.0},
+            "velocityDiffusion":0.92,
+            "accelerationDiffusion":0.205,
+            "colorDiffusion":0.35,
+            "velocityFactor":1.0
+          }
+        },
+
+        {
           "id":"big_sparkly_shatter_particles",
           "sprite_key":"ATLAS",
           "sprite_id":"fielddot",

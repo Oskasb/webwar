@@ -97,18 +97,23 @@ define([
             }
         };
 
-        ModuleEffectCreator.createPositionEffect = function(pos, remove_effect, transform) {
+        ModuleEffectCreator.createPositionEffect = function(pos, effectId, transform, vel) {
 
 
-            if (!remove_effect) {
+            if (!effectId) {
                 var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', 'default_remove_effect');
             } else {
-                var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', remove_effect);
+                var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', effectId);
             }
 
             posFromTransform(pos, transform, calcVec);
 
-            calcVec2.set(0, 5, 0);
+            if (!vel) {
+                calcVec2.set(0, 5, 0);
+            } else {
+                calcVec2.set(vel.data[0], vel.data[1], vel.data[2]);
+            }
+
 
             for (var i = 0; i < fx.length; i++) {
                 for (var j = 0; j < fx[i].particle_effects.length; j++) {

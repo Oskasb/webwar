@@ -60,6 +60,7 @@ define([
                 this.activePatches[i].applyPatchDebug(bool);
             }
             
+            
         };
         
 

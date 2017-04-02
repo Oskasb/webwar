@@ -14,6 +14,23 @@
       }
     ],
 
+    "bullet_trail":[
+      {
+        "particle_effects":[
+          {"id":"explosion_smoke_plume"}
+        ]
+      }
+    ],
+
+    "muzzle_flash_cannon":[
+      {
+        "particle_effects":[
+          {"id":"muzzle_pulse_flash"},
+          {"id":"muzzle_shockwave_flash"}
+        ]
+      }
+    ],
+
     "default_remove_effect":[
       {
         "particle_effects":[

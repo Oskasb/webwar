@@ -133,7 +133,8 @@ ServerGameMain.prototype.tickGameSimulation = function() {
 
     this.serverWorld.tickSimulationWorld(this.currentTime);
     this.tickComputeTime = this.getNow() - this.currentTime;
-    if (Math.random() < 0.01) console.log("Load idle/tick: ", this.headroom / this.tickComputeTime);
+
+    if (this.headroom / this.tickComputeTime < 1) console.log("High Load: Headroom, ComputeTime: ", this.headroom, this.tickComputeTime);
 
 	var bodies = this.serverWorld.cannonAPI.fetchCannonStatus().bodyCount;
     var contacts = this.serverWorld.cannonAPI.fetchCannonStatus().contactCount;

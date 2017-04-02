@@ -20,7 +20,7 @@ ServerPlayer = function(pieceType, clientId, client, simTime) {
 			console.log("Bad ConnectedClient!", piece.id, piecePacket);
 			return;
 		}
-        console.log("ServerPlayer broadcast: ", piece.id, piece.state);
+    //    console.log("ServerPlayer broadcast: ", piece.id, piece.state);
 		client.broadcastToVisible(piecePacket);
 	};
 	

@@ -2,6 +2,30 @@
   {
     "PARTICLE_MATERIALS": {
       "THREE":[
+
+        {
+          "id":"gpu_sprite_atlas_trail_material",
+          "shader":"INSTANCING_GPU_TRAIL",
+          "attributes": [
+            {"name":"startTime",      "dimensions":1, "dynamic":true},
+            {"name":"duration",       "dimensions":1, "dynamic":false},
+            {"name":"offsetSize",     "dimensions":4, "dynamic":false},
+            {"name":"texelRowSelect", "dimensions":4, "dynamic":false},
+            {"name":"tileindex",      "dimensions":2},
+            {"name":"diffusors",      "dimensions":4, "dynamic":false},
+            {"name":"acceleration",   "dimensions":4, "dynamic":false},
+            {"name":"velocity",       "dimensions":4, "dynamic":false}
+          ],
+          "particle_texture":"./client/assets/images/effects/particle_atlas_6x6.png",
+          "data_texture":"./client/assets/images/effects/data_texture.png",
+          "settings":{
+            "tiles_x":6,
+            "tiles_y":6,
+            "flip_y":true,
+            "data_rows":64
+          }
+        },
+
         {
           "id":"gpu_sprite_atlas_material",
           "shader":"INSTANCING_GPU_FLAT_TEXTURED",

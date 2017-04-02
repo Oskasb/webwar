@@ -84,6 +84,10 @@ define([
 
         ThreeModule.prototype.attachEffects = function() {
 
+            if (this.applies.spawn_effect) {
+                ModuleEffectCreator.createPositionEffect(this.piece.spatial.pos, this.applies.spawn_effect, this.transform, this.piece.spatial.vel);
+            }
+
             if (this.applies.static_effect) {
                 if (!this.staticEffect) {
                     this.staticEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.static_effect, this.piece.spatial.pos, this.transform);

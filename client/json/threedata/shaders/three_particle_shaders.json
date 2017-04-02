@@ -3,6 +3,7 @@
     "SHADERS_THREE": {
       "LOAD_SHADER_INDEX":[
         "TERRAIN_SHADER",
+        "INSTANCING_GPU_TRAIL",
         "INSTANCING_GPU_SPATIAL",
         "INSTANCING_GPU_SIMPLE_LIT_TEXTURED",
         "INSTANCING_GPU_FLAT_TEXTURED",
@@ -152,7 +153,7 @@
           {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
         ]
       },
-      "INSTANCING_GPU_FLAT_TEXTURED": {
+      "INSTANCING_GPU_TRAIL": {
         "vertex": [
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
           {"source":"INSTANCING_CHUNKS", "chunk":"vx_predictive_simulation"},
@@ -191,6 +192,44 @@
         ]
       },
 
+      "INSTANCING_GPU_FLAT_TEXTURED": {
+        "vertex": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_view"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_predictive_simulation"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_data_texture"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv_tiles"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_uv"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"vx_billboard"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_varying_vColor4"},
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSampleTextureData"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexColorFromAttribColor4"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPositionMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPredictPositionMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexUvTilesMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexPredictRotationMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexSampledSizeMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexBillboardFaceMain"},
+
+          {"source":"INSTANCING_PROGRAMS", "chunk":"vertexBillboardFinal"},
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ],
+        "fragment": [
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_view"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_uv"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_alphaTest"},
+          {"source":"INSTANCING_CHUNKS", "chunk":"fx_attribute_vertexColor"},
+          {"source":"SPE_CHUNKS", "chunk":"enterVoidMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentColoredTextureMain"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentBlendTxColorVertexColor"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentAlphaTest"},
+          {"source":"INSTANCING_PROGRAMS", "chunk":"fragmentVColorFinal"},
+          {"source":"SPE_CHUNKS", "chunk":"exitVoidMain"}
+        ]
+      },
 
       "INSTANCING_GPU_SIMPLE_LIT_TEXTURED": {
         "vertex": [

@@ -551,7 +551,7 @@ if(typeof(GAME) == "undefined"){
 		if (velDiff > MODEL.SpatialTolerance || angVelDiff > MODEL.AngularVelocityTolerance) {
 
             if (this.temporal.currentTime - this.sendTime > MODEL.TemporalTolerance) {
-                console.log("DIFFS: ",velDiff , angVelDiff, this.temporal.currentTime - this.sendTime );
+            //    console.log("DIFFS: ",velDiff , angVelDiff, this.temporal.currentTime - this.sendTime );
                 this.networkDirty = true;
             }
 		}

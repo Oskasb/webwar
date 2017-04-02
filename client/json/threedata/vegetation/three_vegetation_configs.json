@@ -32,21 +32,21 @@
           "data":[
             {
               "vegetation_effects":[
-                {"id":"standing_grass_veg", "slope":{"min":0, "max":0.02}},
-                {"id":"red_flower_veg",   "slope":{"min":0, "max":0.05}},
-                {"id":"white_flower_veg", "slope":{"min":0.03, "max":0.12}}
+                {"id":"standing_grass_veg", "slope":{"min":0,    "max":0.02} , "elevation":{"min":1,    "max":50}},
+                {"id":"red_flower_veg",     "slope":{"min":0,    "max":0.05} , "elevation":{"min":1,    "max":50}},
+                {"id":"white_flower_veg",   "slope":{"min":0.03, "max":0.12} , "elevation":{"min":1,    "max":50}}
               ]
             },
             {
               "vegetation_effects":[
-                {"id":"standing_grass_veg", "slope":{"min":0, "max":0.02}},
-                {"id":"standing_fern_veg",  "slope":{"min":0.01, "max":0.04}}
+                {"id":"standing_grass_veg", "slope":{"min":0,    "max":0.02} , "elevation":{"min":1,    "max":50}},
+                {"id":"standing_fern_veg",  "slope":{"min":0.01, "max":0.04} , "elevation":{"min":1,    "max":50}}
               ]
             },
             {
               "vegetation_effects":[
-                {"id":"standing_grass_veg", "slope":{"min":0, "max":0.02}},
-                {"id":"standing_fern_veg",  "slope":{"min":0.03, "max":0.04}}
+                {"id":"standing_grass_veg", "slope":{"min":0,    "max":0.02} , "elevation":{"min":1,    "max":50}},
+                {"id":"standing_fern_veg",  "slope":{"min":0.03, "max":0.04} , "elevation":{"min":1,    "max":50}}
               ]
             }
           ]

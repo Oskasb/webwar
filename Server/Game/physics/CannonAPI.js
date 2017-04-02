@@ -64,7 +64,7 @@ CannonAPI.prototype.updatePhysicalPiece = function(piece) {
 
 
 CannonAPI.prototype.fetchCannonStatus = function() {
-    if (Math.random() < 0.01) {
+    if (Math.random() < 0.001) {
         console.log("BODIES:", this.world.bodies.length);
     }
 

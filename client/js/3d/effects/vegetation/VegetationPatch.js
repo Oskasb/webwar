@@ -130,14 +130,22 @@ define([
 
 
 
-        VegetationPatch.prototype.plantIdBySystemAndNormal = function(sysId, normal) {
+        var checkSlope = function(normal, min, max) {
+            return min <= 1 - normal.y && max > 1 - normal.y
+        };
+
+        var checkElevation = function(pos, min, max) {
+            return min <= pos.y && max > pos.y
+        };
+
+        VegetationPatch.prototype.plantIdBySystemAndNormal = function(sysId, pos, normal) {
 
             var plants = this.getPlants(sysId);
 
             var totalWeight = 0;
 
             for (var i = 0; i < plants.length; i++) {
-                if (plants[i].slope.min <= 1 - normal.y && plants[i].slope.max > 1 - normal.y) {
+                if (checkSlope(normal, plants[i].slope.min, plants[i].slope.max) && checkElevation(pos, plants[i].elevation.min, plants[i].elevation.max)) {
                     this.plantWeights[i] = 1;
                     totalWeight++
                 } else {
@@ -158,6 +166,9 @@ define([
 
         };
 
+
+
+
         VegetationPatch.prototype.spawnVegetation = function(pos) {
 
             tempVec2.x = 0;
@@ -176,7 +187,9 @@ define([
                 return;
             }
 
-            var plantId = this.plantIdBySystemAndNormal(vegSysId, tempVec3);
+
+
+            var plantId = this.plantIdBySystemAndNormal(vegSysId, pos, tempVec3);
 
             if (!plantId) {
                 this.skipCount ++;

@@ -76,11 +76,11 @@ define([
 
             var pieceReady = function(clientPiece) {
                 pieces[clientPiece.playerId] = clientPiece;
-				console.log("GameMain pieceReady", clientPiece.playerId, clientPiece);
+		//		console.log("GameMain pieceReady", clientPiece.playerId, clientPiece);
                 _this.registerPlayer(clientPiece);
             };
 
-			console.log("GameMain createPlayer", data);
+		//	console.log("GameMain createPlayer", data);
 
             new ClientPiece(data, removeCallback, pieceReady);
 		};
