@@ -104,14 +104,14 @@ define(['3d/effects/particles/EffectSimulators',
 
                 spreadVector(particle.posOffset, this.size);
                 spreadVector(particle.posOffset, this.effectData.gpuEffect.positionSpread.vec4);
-                
+
                 particle.setQuaternion(this.quat);
                 particle.setPosition(this.pos);
                 particle.addPosition(particle.posOffset)
             } else {
                 ParticleParamParser.applyEffectParams(particle, this.effectData.simulation.init_params);
             }
-            
+
             ParticleParamParser.applyEffectSprite(particle, this.effectData.sprite);
 
             particle.initToSimulation(systemTime+frameTpfFraction, calcVec, this.vel);
@@ -131,7 +131,7 @@ define(['3d/effects/particles/EffectSimulators',
 
         ParticleEffect.prototype.updateEffectPositionSimulator = function(pos, tpf) {
 
-        //    this.updateEffectAge(tpf);
+            //    this.updateEffectAge(tpf);
             for (var i = 0; i < this.aliveParticles.length; i++) {
 
                 this.aliveParticles[i].setPosition(pos);
@@ -183,11 +183,11 @@ define(['3d/effects/particles/EffectSimulators',
                         EffectSimulators.dead(this.aliveParticles[i], tpf);
                         this.deadParticles.push(this.aliveParticles[i]);
                     } else {
-                            //    this.updateGpuParticle(this.aliveParticles[i], tpf)
-                            if (this.aliveParticles[i].params.lifeTime.value < this.age + this.lastTpf * 2) {
-                                EffectSimulators.dead(this.aliveParticles[i], tpf);
-                                this.deadParticles.push(this.aliveParticles[i]);
-                            }
+                        //    this.updateGpuParticle(this.aliveParticles[i], tpf)
+                        if (this.aliveParticles[i].params.lifeTime.value < this.age + this.lastTpf * 2) {
+                            EffectSimulators.dead(this.aliveParticles[i], tpf);
+                            this.deadParticles.push(this.aliveParticles[i]);
+                        }
 
                     }
                 }

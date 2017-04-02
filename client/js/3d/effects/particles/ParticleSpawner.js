@@ -181,6 +181,8 @@ define([
                 return;
             }
 
+            effect.age = effect.effectDuration+effect.lastTpf;
+
             activeEffects.push(effect)
         };
 

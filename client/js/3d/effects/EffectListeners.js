@@ -69,8 +69,7 @@ define([
                 } else {
                     EffectsAPI.requestParticleEffect(evt.args(e).effect, posVec, velVec);
                 }
-
-
+                
             };
             
             var tickEffectPlayer = function(e) {

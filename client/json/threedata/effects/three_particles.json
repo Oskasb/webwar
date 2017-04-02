@@ -701,6 +701,30 @@
             "velocityFactor":1
           }
         },
+
+        {
+          "id":"cannon_trail_effect_particle",
+          "sprite_key":"ATLAS",
+          "sprite_id":"bigdot",
+          "config":{
+
+            "gravity":-9.81,
+            "drag":0.0001,
+            "spinDrag":0.8,
+            "lifeTime":{"min":25,"max":25},
+            "colorCurve":"hotFire",
+            "alphaCurve":"nearWhite",
+            "diffusionCurve":"nearWhite",
+            "scaleCurve":"nearWhite",
+            "size":{"value":0.3, "min":-0.1, "max":0.1},
+            "spin":{"value":0.1, "min":-0.5, "max":0.5},
+            "velocityDiffusion":0.00001,
+            "accelerationDiffusion":0.00001,
+            "colorDiffusion":0.15,
+            "velocityFactor":1
+          }
+        },
+
         {
           "id":"default",
           "sprite_key":"ATLAS",
@@ -715,7 +739,7 @@
             "diffusionCurve":"zeroOneZero",
             "scaleCurve":"quickInSlowOut",
             "size":{"value":1, "min":0.5, "max":2},
-            "spin":{"value":0.1, "min":-0.5, "max":0.5},
+            "spin":{"value":0.001, "min":-0.0005, "max":0.0005},
             "velocityDiffusion":0.00001,
             "accelerationDiffusion":0.00001,
             "colorDiffusion":0.5,

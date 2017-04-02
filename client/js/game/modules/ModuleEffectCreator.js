@@ -30,6 +30,20 @@ define([
         var groundprints = [];
         var geometryEffects = [];
 
+
+        var effectData = {
+            effect:'',
+            pos:new THREE.Vector3(),
+            vel:new THREE.Vector3()
+        };
+
+        var emitEffect = function(effectId, pos, vel) {
+            effectData.effect = effectId;
+            effectData.pos.set(pos.x, pos.y, pos.z);
+            effectData.vel.set(vel.x, vel.y, vel.z);
+            evt.fire(evt.list().GAME_EFFECT, effectData);
+        };
+
         var posFromTransform = function(pos, transform, storeVec3) {
             storeVec3.set(pos.data[0]+ transform.pos.data[0], pos.data[1] + transform.pos.data[1], pos.data[2] + transform.pos.data[2]);
         };
@@ -65,8 +79,8 @@ define([
 
 
         ModuleEffectCreator.createActiveEffect = function(effectId, posVec, velVec) {
-
-            evt.fire(evt.list().GAME_EFFECT, {effect:effectId, pos:posVec, vel:velVec});
+            emitEffect(effectId, posVec, velVec)
+        //    evt.fire(evt.list().GAME_EFFECT, {effect:effectId, pos:posVec, vel:velVec});
         };
 
 
@@ -99,6 +113,13 @@ define([
 
         ModuleEffectCreator.createPositionEffect = function(pos, effectId, transform, vel) {
 
+            evt.fire(evt.list().GAME_EFFECT, {
+                effect: "test_effect",
+                pos: pos,
+                vel: vel
+            });
+
+            return
 
             if (!effectId) {
                 var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', 'default_remove_effect');
@@ -113,12 +134,10 @@ define([
             } else {
                 calcVec2.set(vel.data[0], vel.data[1], vel.data[2]);
             }
-
-
+            
             for (var i = 0; i < fx.length; i++) {
                 for (var j = 0; j < fx[i].particle_effects.length; j++) {
-                    evt.fire(evt.list().GAME_EFFECT, {effect:fx[i].particle_effects[j].id, pos:calcVec, vel:calcVec2});
-                    //    ModuleEffectCreator.createModelTransformedEffects(fx[i].particle_effects[j].id, piece, calcVec, transform, calcQuat, 1);
+                    ModuleEffectCreator.createActiveEffect(fx[i].particle_effects[j].id, calcVec, calcVec2);
                 }
             }
         };
@@ -218,12 +237,19 @@ define([
         };
         
         
-        ModuleEffectCreator.createModuleStaticEffect = function(effectId, pos, transform, tpf) {
+        ModuleEffectCreator.createModuleStaticEffect = function(effectId, pos, transform, vel) {
 
             posFromTransform(pos, transform, calcVec);
             sizeFromTransform(transform, calcVec2);
             var fxArray = [];
             var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', effectId);
+
+
+            if (!vel) {
+                calcVec3.set(0, 0, 0);
+            } else {
+                calcVec3.set(vel.data[0], vel.data[1], vel.data[2]);
+            }
 
             for (var i = 0; i < fx.length; i++) {
 
@@ -233,7 +259,7 @@ define([
                 }
 
                 for (var j = 0; j < fx[i].particle_effects.length; j++) {
-                    ModuleEffectCreator.createPassiveEffect(fx[i].particle_effects[j].id, calcVec, zeroVec, calcVec2, null, fxArray);
+                    ModuleEffectCreator.createPassiveEffect(fx[i].particle_effects[j].id, calcVec, calcVec3, calcVec2, null, fxArray);
                 }
             }
 

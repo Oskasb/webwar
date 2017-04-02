@@ -3,6 +3,14 @@
     "PARTICLE_SPRITES": {
       "ATLAS": [
         {
+          "id":"dot",
+          "tiles":[[0, 4]]
+        },
+        {
+          "id":"bigdot",
+          "tiles":[[1, 4]]
+        },
+        {
           "id":"explosion",
           "tiles":[[3, 4]]
         },

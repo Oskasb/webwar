@@ -121,7 +121,7 @@ define([
 		};
 
 		ClientPiece.prototype.attachModules = function(hierarchyReady) {
-            
+
 			this.detachModules();
 			var serverState = this.piece.serverState;
 			for (var i = 0; i < this.attachmentPoints.length; i++) {
@@ -377,6 +377,7 @@ define([
 		//		evt.fire(evt.list().PARTICLE_TEXT, {text:'POP', textStyle:textStyle});
 
 			//	this.gooPiece.updateGooPiece();
+                /*
 				if (this.pieceData.default_modules) {
 					if (this.pieceData.default_modules.indexOf('bullet_shell') != -1) {
 						evt.fire(evt.list().GAME_EFFECT, {
@@ -386,6 +387,7 @@ define([
 						});
 					}
 				}
+                */
 			}
 		};
 

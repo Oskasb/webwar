@@ -85,12 +85,13 @@ define([
         ThreeModule.prototype.attachEffects = function() {
 
             if (this.applies.spawn_effect) {
+            //    console.log("Spawn Vel:", this.piece.spatial.vel.data)
                 ModuleEffectCreator.createPositionEffect(this.piece.spatial.pos, this.applies.spawn_effect, this.transform, this.piece.spatial.vel);
             }
 
             if (this.applies.static_effect) {
                 if (!this.staticEffect) {
-                    this.staticEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.static_effect, this.piece.spatial.pos, this.transform);
+                    this.staticEffect = ModuleEffectCreator.createModuleStaticEffect(this.applies.static_effect, this.piece.spatial.pos, this.transform, this.piece.spatial.vel);
                 }
             }
 
