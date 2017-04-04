@@ -152,6 +152,7 @@ ServerGameMain.prototype.tickGameSimulation = function() {
 
     if (this.serverWorld.playerCount == 0) {
         this.clearServerGameState();
+        return;
     }
 
     this.tickComputeTime = this.getNow() - this.currentTime;
