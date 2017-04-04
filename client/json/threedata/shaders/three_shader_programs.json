@@ -324,29 +324,34 @@
 
         "vertexVelocityRotationMain":[
 
+
+
           "float baseRotation = 0.0;",
 
-          "float lastAge = cycleAge - 0.016;",
+          "float lastAge = cycleAge - 0.06;",
 
-          "float lastVerticalComponent =  (diffusedVelocity.y * lastAge + gravityFactor)  * dragFactor * accelerationDiffusion.y;",
-          "float lastXComponent =         diffusedVelocity.x * lastAge * dragFactor * accelerationDiffusion.x;",
-          "float lastZComponent =         diffusedVelocity.z * lastAge * dragFactor * accelerationDiffusion.z;",
+          "float lastDragFactor = 1.0 / (1.0 + (0.5 * acceleration.x * gravityDiffusion * lastAge * lastAge));",
+          "float lastGravityFactor = 0.5 * acceleration.y * lastAge * lastAge;",
 
-          "vec3 frameVel = vec3(xComponent - lastXComponent, verticalComponent- lastVerticalComponent, zComponent- lastZComponent);",
+          "float lastVerticalComponent =  (diffusedVelocity.y * lastAge + lastGravityFactor)  * lastDragFactor * accelerationDiffusion.y;",
+          "float lastXComponent =         diffusedVelocity.x * lastAge * lastDragFactor * accelerationDiffusion.x;",
+          "float lastZComponent =         diffusedVelocity.z * lastAge * lastDragFactor * accelerationDiffusion.z;",
+
+          "vec3 lastVelInfluence = vec3(lastXComponent, lastVerticalComponent, lastZComponent);",
+
+          "vec3 lastVelocityOffset = offset + lastVelInfluence + motionBend * lastAge;",
+
+          "vec3 frameVel = velocityOffset - lastVelocityOffset;",
 
 
-          "vec4 lastParticleVelocity = modelViewMatrix * vec4(frameVel.x, frameVel.y, frameVel.z, 1);",
 
-          "float rotation = atan(sin(lastParticleVelocity.y) - cos(lastParticleVelocity.x)) * 0.0;",
+          "float speed = length(frameVel);",
 
-          "float c = cos(baseRotation + rotation);",
-          "float s = sin(baseRotation + rotation);",
+          "float stretch = vUv.x * (1.0 + vPosition.y);",
 
-          "vec2 rotated = vec2(c* vPosition.x - s * vPosition.y, s*vPosition.x + c*vPosition.y);",
 
-          "vec2 agedPos = vec2(vPosition.x , vPosition.y );",
 
-          "vPosition.xy = agedPos.xy;"
+          "velocityOffset = velocityOffset.xyz + vec3(frameVel.x * stretch, frameVel.y * stretch, frameVel.z * stretch);"
 
         ],
 

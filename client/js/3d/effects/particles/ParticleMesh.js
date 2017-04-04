@@ -204,6 +204,8 @@ define([],
 
         ParticleMesh.trail5 = function() {
 
+            console.log("trailGeometry :", trailGeometry);
+
             var verts = trailGeometry.attributes.position.array;
             var uv =    trailGeometry.attributes.uv.array;
             var ind =   trailGeometry.index.array;
