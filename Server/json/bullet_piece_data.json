@@ -2,7 +2,7 @@
   "dataType":"PIECE_DATA",
   "pieces":{
     "cannon_bullet":{
-      "size":3,
+      "size":2,
       "controls":{
         "actions": {
           "applyForward":1,
@@ -14,7 +14,7 @@
         }
       },
       "attachment_points":[
-        {"slot":"warhead",   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
+        {"slot":"warhead",   "transform":{"rot":[0, 0, 0], "pos":[1.1, 1.1, 1.1]}}
       ],
       "default_modules":[
         "bullet_shell"

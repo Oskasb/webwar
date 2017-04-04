@@ -66,6 +66,19 @@ ServerGameMain.prototype.endServerGame = function() {
     this.removeAllPlayers()
 };
 
+ServerGameMain.prototype.clearServerGameState = function() {
+//    console.log("Clear Server Game:");
+
+    for (var i in this.serverWorld.pieces) {
+        this.serverWorld.removePiece(this.serverWorld.pieces[i]);
+    }
+
+
+    this.removeAllPlayers()
+};
+
+
+
 ServerGameMain.prototype.removeAllPlayers = function() {
     for (var key in this.connectedClients.connectedClients) {
        this.playerDiconected(key);
@@ -132,8 +145,15 @@ ServerGameMain.prototype.tickGameSimulation = function() {
 	this.currentTime = this.getNow();
 
     var tpf =  this.currentTime - this.lastFrameTime;
-    
+
+
+
     this.serverWorld.tickSimulationWorld(this.currentTime, tpf);
+
+    if (this.serverWorld.playerCount == 0) {
+        this.clearServerGameState();
+    }
+
     this.tickComputeTime = this.getNow() - this.currentTime;
 
     if (this.headroom / this.tickComputeTime < 1) console.log("High Load: Headroom, ComputeTime: ", this.headroom, this.tickComputeTime);

@@ -480,8 +480,10 @@ TerrainFunctions.prototype.getHeightAt = function(module, posVec, array1d, terra
 
     if (pos[0] < htN || pos[0] > htP || pos[2] < htN || pos[2] > htP) {
 
-        console.log("Terrain!", pos[0], pos[2], "Is Outside")
+    //    console.log("Terrain!", pos[0], pos[2], "Is Outside")
         //    return -1000;
+
+        return 0;
 
         pos[0] = MATH.clamp(pos[0], htN, htP);
         pos[2] = MATH.clamp(pos[2], htN, htP);

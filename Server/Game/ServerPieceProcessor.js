@@ -49,7 +49,7 @@ ServerPieceProcessor.prototype.checkProximity = function(players, pieces) {
 ServerPieceProcessor.prototype.pieceAgainstPieces = function(piece, pieces) {
 
     for (var i = 0; i < pieces.length; i++) {
-        if (piece != pieces[i]) {
+        if (piece.parentPiece != pieces[i].parentPiece) {
             this.pieceAgainstPiece(piece, pieces[i]);
         }
     }
@@ -59,7 +59,11 @@ ServerPieceProcessor.prototype.pieceAgainstPieces = function(piece, pieces) {
 ServerPieceProcessor.prototype.playerAgainstPieces = function(player, pieces) {
 
     for (var i = 0; i < pieces.length; i++) {
-        this.playerAgainstPiece(player.piece, pieces[i]);
+
+        if (pieces[i].parentPiece != player.piece) {
+            this.playerAgainstPiece(player.piece, pieces[i]);
+        }
+
     }
 
 };

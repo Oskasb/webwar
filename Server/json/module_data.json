@@ -136,7 +136,7 @@
         "action":"fireCannon",
         "master_module_id":"input_toggle_attack",
         "delay":0.4,
-        "cooldown":0.5,
+        "cooldown":0.1,
         "yaw_module":"tank_turret",
         "pitch_module":"cannon_pitch",
         "bullet":"cannon_bullet",

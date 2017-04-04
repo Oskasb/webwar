@@ -149,6 +149,7 @@ if(typeof(GAME) == "undefined"){
 		this.serverState = {};
 		this.config = null;
         this.terrainFunctions = null;
+        this.registerParentPiece(this);
 	};
 
 

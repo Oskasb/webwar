@@ -165,26 +165,38 @@ ServerWorld.prototype.updateWorldPiece = function(piece, currentTime, tpf) {
     if (piece.physics) {
     //    console.log("phys piece")
         this.cannonAPI.updatePhysicalPiece(piece);
-    //    piece.setState(GAME.ENUMS.PieceStates.MOVING);
-    //    piece.networkDirty = true;
-    //    this.broadcastPieceState(piece);
+
     } else {
-        if (piece.spatial.pos.getY() > 0) {
-            this.applyGravity(piece, tpfMod);
+
+        tempVec.setVec(piece.spatial.vel);
+        tempVec.scale(tpfMod);
+        tempVec.addVec(piece.spatial.pos);
+
+        var gridSector = this.sectorGrid.getGridSectorForSpatial(piece.spatial);
+
+        if (gridSector) {
+            piece.groundPiece = gridSector.groundPiece;
         }
 
 
-        if (piece.spatial.pos.getY() < 0) {
+
+
+
+        var groundHeight = 0;
+        if (piece.groundPiece) {
+            groundHeight = this.terrainFunctions.getTerrainHeightAt(piece.groundPiece, tempVec)
+        }
+
+        if (piece.spatial.pos.getY() > groundHeight) {
+            this.applyGravity(piece, tpfMod);
+        } else {
             piece.setState(GAME.ENUMS.PieceStates.TIME_OUT);
         }
+
     }
+
     piece.spatial.updateSpatial(tpfMod);
-/*
-    if (piece.networkDirty) {
-        this.broadcastPieceState(piece);
-        piece.networkDirty = false;
-    }
-*/
+
 };
 
 ServerWorld.prototype.removePiece = function(piece) {
