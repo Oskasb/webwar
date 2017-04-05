@@ -101,7 +101,9 @@ define([
 				if (a1.length != a2.length) return false;
 
 				for (var i = 0; i < a1.length; i++) {
-					if (a1[i] != a2[i]) return false
+					if (a1[i] != a2[i]) {
+						return false
+					}
 				}
 				return true;
 			};
@@ -109,6 +111,8 @@ define([
 			if (checkArraySame(cachedBinary[url], binData)) {
 				if (errorUrls[url]) {
 					errorResolved(url, errorUrls[url])
+				} else {
+					binData = null;
 				}
 			} else {
 				cachedBinary[url] = binData;

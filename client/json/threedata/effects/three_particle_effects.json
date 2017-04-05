@@ -30,7 +30,7 @@
             "system_key":"THREE",
             "renderer_id":"gpu_normal_atlas_renderer",
             "particle_id":"explosion_smoke_plume_particles",
-            "count":7,
+            "count":5,
             "simulation_id":"gpu_predictive_simulation"
           }
         },
@@ -40,7 +40,17 @@
             "system_key":"THREE",
             "renderer_id":"gpu_additive_atlas_renderer",
             "particle_id":"firey_explosion_core_particles",
-            "count":15,
+            "count":4,
+            "simulation_id":"gpu_predictive_simulation"
+          }
+        },
+        {
+          "id":"normal_explosion_core",
+          "data":{
+            "system_key":"THREE",
+            "renderer_id":"gpu_normal_atlas_renderer",
+            "particle_id":"firey_explosion_core_particles",
+            "count":3,
             "simulation_id":"gpu_predictive_simulation"
           }
         },
@@ -94,7 +104,7 @@
             "system_key":"THREE",
             "renderer_id":"gpu_additive_atlas_renderer",
             "particle_id":"big_sparkly_shatter_particles",
-            "count":35,
+            "count":7,
             "simulation_id":"gpu_predictive_simulation"
           }
         },
@@ -116,7 +126,7 @@
             "system_key":"THREE",
             "renderer_id":"gpu_additive_atlas_renderer",
             "particle_id":"shield_sphere_effect_particles",
-            "count":4,
+            "count":6,
             "simulation_id":"gpu_predictive_simulation"
           }
         },
@@ -138,7 +148,7 @@
             "system_key":"THREE",
             "renderer_id":"gpu_additive_atlas_renderer",
             "particle_id":"shield_spark_stars_particles",
-            "count":25,
+            "count":15,
             "simulation_id":"gpu_predictive_simulation"
           }
         },

@@ -11,22 +11,22 @@
           "sprite_id":"thick_smoke",
           "config":{
             "age":     {"min":0.0, "max":0.02},
-            "lifeTime":{"min":3.15,"max":6.15},
-            "positionSpread":{"x":2.01, "y":2.01, "z":2.01},
-            "gravity":2.001,
-            "drag":0.15,
-            "bend":0.001,
+            "lifeTime":{"min":0.15,"max":7.15},
+            "positionSpread":{"x":4.01, "y":2.01, "z":4.01},
+            "gravity":3.6,
+            "drag":0.85,
+            "bend":0.0001,
             "spinDrag":0.2,
             "colorCurve":"smoke",
             "alphaCurve":"zeroOneZero",
             "diffusionCurve":"halfQuickIn",
-            "scaleCurve":"zeroToOne",
-            "size":{"value":1.6, "min": -0.7, "max": 1.5},
+            "scaleCurve":"qubeIn",
+            "size":{"value":1.1, "min": -0.7, "max": 2.5},
             "spin":{"value":0.01, "min":-17.5, "max":17.5},
             "velocityDiffusion":1,
-            "accelerationDiffusion":0.6,
+            "accelerationDiffusion":0.5,
             "colorDiffusion":0.2,
-            "velocityFactor":0.9
+            "velocityFactor":1.2
           }
         },
 
@@ -36,8 +36,8 @@
           "sprite_id":"explosion",
           "config":{
             "age":     {"min":0.0, "max":0.02},
-            "lifeTime":{"min":1.4,"max":2.15},
-            "positionSpread":{"x":2.01, "y":2.01, "z":2.01},
+            "lifeTime":{"min":1.2,"max":1.8},
+            "positionSpread":{"x":2.01, "y":2.01, "z":4.01},
             "gravity":5.001,
             "drag":1.11,
             "bend":0.2,
@@ -46,7 +46,7 @@
             "alphaCurve":"quickFadeOut",
             "diffusionCurve":"pulseSlowOut",
             "scaleCurve":"quickIn",
-            "size":{"value":1.4, "min": -0.2, "max": 2.9},
+            "size":{"value":0.8, "min": -0.2, "max": 3.9},
             "spin":{"value":0.1, "min":-0.30, "max":0.0},
             "spinDrag":0.31,
             "velocitySpread":{"min":-1,"max":1},
@@ -165,9 +165,9 @@
             "age":     {"min":0.01, "max":0.05},
             "lifeTime":{"min":1.5,"max":8.0},
             "positionSpread":{"x":3, "y":3, "z":3},
-            "gravity":2.201,
-            "drag":0.5,
-            "bend":1.6,
+            "gravity":1.201,
+            "drag":0.25,
+            "bend":2.0,
             "spinDrag":0.8,
             "colorCurve":"hotFire",
             "alphaCurve":"oneToZero",
@@ -177,9 +177,9 @@
             "spin":{"value":0.01, "min":-2.5, "max":2.5},
             "velocitySpread":{"min":1,"max":1},
             "velocityDiffusion":1,
-            "accelerationDiffusion":0.5,
+            "accelerationDiffusion":0.3,
             "colorDiffusion":0.35,
-            "velocityFactor":0.013
+            "velocityFactor":0.13
           }
         },
 
@@ -532,23 +532,23 @@
           "sprite_key":"ATLAS",
           "sprite_id":"explosion",
           "config":{
-            "gravity":0.001,
-            "drag":0.01,
+            "gravity":-2.001,
+            "drag":0.25,
             "spinDrag":1.2,
-            "lifeTime":{"min":0.4,"max":2.0},
+            "lifeTime":{"min":0.4,"max":1.2},
             "positionSpread":{"x":2.01, "y":2.01, "z":2.01},
-            "bend":2.5,
+            "bend":0.05,
             "colorCurve":"nearWhite",
             "alphaCurve":"nearWhite",
             "diffusionCurve":"nearWhite",
-            "scaleCurve":"quickInSlowOut",
-            "size":{"value":0.2, "min": 0.3, "max": 1.02},
+            "scaleCurve":"oneToZero",
+            "size":{"value":0.5, "min": -0.3, "max": 1.02},
             "spin":{"value":0.01, "min":-0.5, "max":0.5},
             "velocitySpread":{"min":-1.0,"max":1.0},
             "velocityDiffusion":1,
             "accelerationDiffusion":0.2,
             "colorDiffusion":0.45,
-            "velocityFactor":10.823
+            "velocityFactor":4.823
           }
         },
         {

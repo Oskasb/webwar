@@ -609,10 +609,7 @@ if(typeof(GAME) == "undefined"){
 
         this.temporal.incrementTpf(tpf);
 
-		if (this.temporal.lifeTime < this.temporal.getAge()) {
-	//		console.log("Client Timeout", this.temporal.lifeTime , this.temporal.getAge());
-			this.setState(GAME.ENUMS.PieceStates.TIME_OUT);
-		}
+
     };
 
     GAME.Piece.prototype.setRemoved = function() {

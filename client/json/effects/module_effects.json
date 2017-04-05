@@ -8,6 +8,7 @@
           {"id":"big_sparkly_shatter"},
           {"id":"big_shockwave_hit"},
           {"id":"firey_explosion_core"},
+          {"id":"normal_explosion_core"},
           {"id":"explosion_smoke_plume"},
           {"id":"implosion_shockwave_hit"}
         ]

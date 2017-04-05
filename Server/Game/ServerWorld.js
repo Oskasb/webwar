@@ -200,18 +200,29 @@ ServerWorld.prototype.updateWorldPiece = function(piece, currentTime, tpf) {
 };
 
 ServerWorld.prototype.removePiece = function(piece) {
+    var pre = this.pieces.length;
+
     this.pieces.splice(this.pieces.indexOf(piece), 1);
 
     if (piece.gridSector) {
         piece.gridSector.deactivatePiece(piece);
     }
 
+
+    var post = this.pieces.length;
+
+    if (post != pre-1) {
+        console.log("Remove piece failed, incorrect array length")
+    }
+
     //piece.setRemoved()
 };
 
+var timeouts = [];
+var remove = [];
+
 ServerWorld.prototype.updatePieces = function(currentTime, tpf) {
-	var timeouts = [];
-    var remove = [];
+
 
 	for (var i = 0; i < this.pieces.length; i++) {
 
@@ -221,7 +232,7 @@ ServerWorld.prototype.updatePieces = function(currentTime, tpf) {
         }
 
 
-        if (this.pieces[i].spatial.vel.getX() > 0.05 || this.pieces[i].spatial.vel.getZ() > 0.05) {
+        if (Math.abs(this.pieces[i].spatial.vel.getX()) > 0.001 || Math.abs(this.pieces[i].spatial.vel.getZ()) > 0.001) {
             this.updateWorldPiece(this.pieces[i], currentTime, tpf);
         } else if (this.pieces[i].groundPiece) {
 
@@ -240,6 +251,11 @@ ServerWorld.prototype.updatePieces = function(currentTime, tpf) {
 
         }
 
+        if (this.pieces[i].temporal.lifeTime < this.pieces[i].temporal.getAge()) {
+            this.pieces[i].setState(GAME.ENUMS.PieceStates.TIME_OUT);
+        }
+
+
         if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.TIME_OUT) {
 			timeouts.push(this.pieces[i]);
 		}
@@ -257,6 +273,9 @@ ServerWorld.prototype.updatePieces = function(currentTime, tpf) {
     for (var i = 0; i < remove.length; i++) {
         this.removePiece(remove[i]);
     }
+
+    timeouts.length = 0;
+    remove.length = 0;
 };
 
 ServerWorld.prototype.removeTerrain = function(piece) {
@@ -266,19 +285,7 @@ ServerWorld.prototype.removeTerrain = function(piece) {
 };
 
 ServerWorld.prototype.updateTerrains = function(currentTime) {
-    //var timeouts = [];
 
-
-    for (var i = 0; i < this.terrains.length; i++) {
-    //    this.updateWorldPiece(this.terrains[i], currentTime);
-        if (this.terrains[i].getState() == GAME.ENUMS.PieceStates.TIME_OUT) {
-    //        timeouts.push(this.terrains[i]);
-        }
-    }
-
-  //  for (var i = 0; i < timeouts.length; i++) {
-    //    this.removeTerrain(timeouts[i]);
-  //  }
 
 };
 

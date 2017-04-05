@@ -37,7 +37,7 @@ define([
             "jsonPipe":{
                 "polling":{
                     "enabled":true,
-                    "frequency":17
+                    "frequency":8
                 }
             },
             "svgPipe":{
@@ -49,7 +49,7 @@ define([
             "imagePipe":{
                 "polling":{
                     "enabled":true,
-                    "frequency":7
+                    "frequency":4
                 }
             }
         };

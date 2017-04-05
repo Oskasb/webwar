@@ -99,11 +99,12 @@ define([
             var distance = ThreeAPI.distanceToCamera(this.piece.spatial.posX(), this.piece.spatial.posY(), this.piece.spatial.posZ())
 
             // out of visibility range
+            /*
             if (distance > this.getVisibilityRange()) {
                 this.setRendereable(false);
                 return this.render;
             }
-
+*/
             // camera inside bounds
             if (distance < this.boundingSize) {
 

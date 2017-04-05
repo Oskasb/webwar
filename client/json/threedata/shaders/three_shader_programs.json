@@ -328,7 +328,7 @@
 
           "float baseRotation = 0.0;",
 
-          "float lastAge = cycleAge - 0.06;",
+          "float lastAge = max(cycleAge - 0.06, 0.0);",
 
           "float lastDragFactor = 1.0 / (1.0 + (0.5 * acceleration.x * gravityDiffusion * lastAge * lastAge));",
           "float lastGravityFactor = 0.5 * acceleration.y * lastAge * lastAge;",
