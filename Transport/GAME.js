@@ -25,6 +25,7 @@ if(typeof(GAME) == "undefined"){
 	GAME.ENUMS.PieceStates = {
 		TIME_OUT:'TIME_OUT',
 		MOVING:'MOVING',
+        STATIC:'STATIC',
 		TELEPORT:'TELEPORT',
 		SPAWN:'SPAWN',
 		KILLED:'KILLED',
@@ -498,7 +499,7 @@ if(typeof(GAME) == "undefined"){
 
 		this.updateServerSpatial(tickDelta, terrainFunctions);
 		this.spatial.updateGroundContact();
-		this.setState(GAME.ENUMS.PieceStates.MOVING);
+	//	this.setState(GAME.ENUMS.PieceStates.MOVING);
 
 	};
 
@@ -506,7 +507,12 @@ if(typeof(GAME) == "undefined"){
 
 	//	this.updateServerSpatial(tickDelta, terrainFunctions);
         this.spatial.updateSpatial(tickDelta);
-		this.setState(GAME.ENUMS.PieceStates.MOVING);
+        if (this.spatial.vel.getLengthSquared() > 0.01) {
+            this.setState(GAME.ENUMS.PieceStates.MOVING);
+        } else {
+            this.setState(GAME.ENUMS.PieceStates.STATIC);
+        }
+
 
 	};
 

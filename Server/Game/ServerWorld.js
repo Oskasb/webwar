@@ -83,9 +83,6 @@ ServerWorld.prototype.createWorldTerrainPiece = function(pieceType, elevation, p
 };
 
 ServerWorld.prototype.addWorldTerrainPiece = function(piece) {
-
-//    this.broadcastPieceState(piece);
-//    piece.setState(GAME.ENUMS.PieceStates.MOVING);
     this.terrains.push(piece);
 };
 
@@ -231,10 +228,15 @@ ServerWorld.prototype.updatePieces = function(currentTime, tpf) {
             this.cannonAPI.updatePhysicalPiece(this.pieces[i]);
         }
 
+        if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.APPEAR) {
+            this.pieces[i].setState(GAME.ENUMS.PieceStates.STATIC);
+        }
 
         if (Math.abs(this.pieces[i].spatial.vel.getX()) > 0.001 || Math.abs(this.pieces[i].spatial.vel.getZ()) > 0.001) {
             this.updateWorldPiece(this.pieces[i], currentTime, tpf);
+
         } else if (this.pieces[i].groundPiece) {
+
 
             if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.SPAWN) {
                 this.pieces[i].setState(GAME.ENUMS.PieceStates.APPEAR)
@@ -246,7 +248,6 @@ ServerWorld.prototype.updatePieces = function(currentTime, tpf) {
                 if (this.pieces[i].spatial.posY() != y) {
             //        this.broadcastPieceState(this.pieces[i]);
                 }
-
             }
 
         }

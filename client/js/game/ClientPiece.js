@@ -193,19 +193,38 @@ define([
             }
         };
         
-        ClientPiece.prototype.calculateClientPosition = function(piece) {
+        ClientPiece.prototype.calculateClientSpatial = function(piece) {
     //        piece.spatial.interpolateRotational(piece.spatial, piece.serverSpatial, piece.temporal.tpf);
             piece.spatial.interpolateFraction(piece.frameCurrentSpatial, piece.frameNextSpatial, piece.temporal.getPacketTimeFraction());
         };
 
-		
-		ClientPiece.prototype.updatePlayer = function(tpf) {
+        ClientPiece.prototype.calculateClientPosition = function(piece) {
+            //        piece.spatial.interpolateRotational(piece.spatial, piece.serverSpatial, piece.temporal.tpf);
+            piece.spatial.interpolatePositions(piece.frameCurrentSpatial, piece.frameNextSpatial, piece.temporal.getPacketTimeFraction());
+
+
+        //    this.interpolatePositions( start, target, fraction);
+            
+        };
+
+
+
+        ClientPiece.prototype.updatePlayer = function(tpf) {
 			
 			this.piece.updatePieceFrame(tpf);
 
-            this.calculateClientPosition(this.piece);
+            if (this.piece.state != GAME.ENUMS.PieceStates.STATIC) {
+                this.calculateClientSpatial(this.piece);
+            } else {
+            //    console.log("Static Piece..");
+            //    this.piece.spatial.setSpatial(this.piece.frameCurrentSpatial)
+                this.calculateClientPosition(this.piece);
+            }
+
+
 			
-			if (this.piece.state == GAME.ENUMS.PieceStates.TIME_OUT) {
+			if (this.piece.state == GAME.ENUMS.PieceStates.TIME_OUT || this.piece.state == GAME.ENUMS.PieceStates.REMOVED) {
+
 				this.playerRemove();
 				return;
 			} else {
@@ -284,7 +303,13 @@ define([
             this.getPieceName();
         };
 
+        ClientPiece.prototype.forceServerSpatial = function(serverState) {
 
+            this.piece.spatial.setSendData(serverState.spatial);
+            this.piece.frameCurrentSpatial.setSendData(serverState.spatial);
+            this.piece.frameNextSpatial.setSendData(serverState.spatial);
+            this.piece.serverSpatial.setSendData(serverState.spatial);
+        };
 
 
         ClientPiece.prototype.notifyServerState = function(serverState) {
@@ -299,15 +324,14 @@ define([
 
                 evt.fire(evt.list().MESSAGE_UI, {channel:'system_status', message:this.piece.id+' has left the area' });
 
-				this.playerRemove();
-				return;
+            //    this.forceServerSpatial(serverState);
+
+			//	this.playerRemove();
+			//	return;
 			}
 
 			if (serverState.state == GAME.ENUMS.PieceStates.TIME_OUT) {
-			//	evt.fire(evt.list().GAME_EFFECT, {effect:"despawn_pulse", pos:this.piece.spatial.pos, vel:{data:[0, 1, 0]}});
-			//	this.domPlayer.renderEffect('effect_shockwave_light', 0.25, 1.4);
-				this.playerRemove();
-				return;
+		    //    this.forceServerSpatial(serverState);
 			}
 
             if (serverState.state == GAME.ENUMS.PieceStates.EXPLODE) {
@@ -320,8 +344,11 @@ define([
 				evt.fire(evt.list().PARTICLE_TEXT, {text:'OUCH', textStyle:textStyle});
 
 
-				evt.fire(evt.list().GAME_EFFECT, {effect:"explode", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
+		//		evt.fire(evt.list().GAME_EFFECT, {effect:"explode", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
 		//		evt.fire(evt.list().GAME_EFFECT, {effect:"shockwave", pos:this.piece.spatial.pos, vel:this.piece.spatial.vel});
+
+            //    this.forceServerSpatial(serverState);
+
             }
 
             if (serverState.state == GAME.ENUMS.PieceStates.BURST) {
@@ -358,37 +385,27 @@ define([
 			}
 
 			if (serverState.state == GAME.ENUMS.PieceStates.APPEAR) {
+                this.forceServerSpatial(serverState);
 				textStyle.posx = this.piece.spatial.pos.getX()-5;
 				textStyle.posy = this.piece.spatial.pos.getZ()+5;
 
 			//	evt.fire(evt.list().PARTICLE_TEXT, {text:'APPEAR', textStyle:textStyle});
 
 			//	this.gooPiece.updateGooPiece();
-				return;
+			//	return;
 			}
 			
 			
 			if (serverState.state == GAME.ENUMS.PieceStates.SPAWN) {
 				//	this.piece.notifyTrigger(true);
-
+             //   this.forceServerSpatial(serverState);
 				textStyle.posx = this.piece.spatial.pos.getX()-5;
 				textStyle.posy = this.piece.spatial.pos.getZ()+5;
 
-		//		evt.fire(evt.list().PARTICLE_TEXT, {text:'POP', textStyle:textStyle});
-
-			//	this.gooPiece.updateGooPiece();
-                /*
-				if (this.pieceData.default_modules) {
-					if (this.pieceData.default_modules.indexOf('bullet_shell') != -1) {
-						evt.fire(evt.list().GAME_EFFECT, {
-							effect: "test_effect",
-							pos: this.piece.spatial.pos,
-							vel: this.piece.spatial.vel
-						});
-					}
-				}
-                */
 			}
+
+            this.piece.state = serverState.state;
+
 		};
 
 

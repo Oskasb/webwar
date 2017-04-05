@@ -24,7 +24,8 @@ ServerModuleCallbacks.prototype.fireCannon = function(piece, value, moduleData) 
     var bulletPiece = this.pieceSpawner.spawnBullet(piece, moduleData, this.serverGameMain.getNow(), this.serverGameMain.gameConfigs.PIECE_DATA, this.serverGameMain.gameConfigs);
     this.serverWorld.addWorldPiece(bulletPiece);
     this.serverWorld.broadcastPieceState(bulletPiece);
-    bulletPiece.setState(GAME.ENUMS.PieceStates.MOVING);
+    bulletPiece.setState(GAME.ENUMS.PieceStates.STATIC);
+    this.serverWorld.broadcastPieceState(bulletPiece);
 };
 
 ServerModuleCallbacks.prototype.applyControl = function(piece, value, moduleData) {

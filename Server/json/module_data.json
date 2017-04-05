@@ -141,7 +141,7 @@
         "pitch_module":"cannon_pitch",
         "bullet":"cannon_bullet",
         "exitVelocity":135,
-        "lifeTime":30
+        "lifeTime":30,
         "barrel_length": 3.5,
         "three_model":"sherman_cannon"
       }
