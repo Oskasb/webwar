@@ -69,9 +69,9 @@ define([
 
 
             var removeCallback = function(playerId) {
-                setTimeout(function() {
+            //    setTimeout(function() {
                     delete pieces[playerId];
-                }, 20)
+            //    }, 20);
             };
 
             var pieceReady = function(clientPiece) {

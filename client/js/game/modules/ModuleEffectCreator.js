@@ -23,9 +23,9 @@ define([
 
         var maxGroundContactDistance = 0.5;
 
-        var maxActiveGroundPrints = 2200;
+        var maxActiveGroundPrints = 800;
 
-        var maxGeometryEffetcs = 1000;
+        var maxGeometryEffetcs = 500;
 
         var groundprints = [];
         var geometryEffects = [];
@@ -112,7 +112,7 @@ define([
         };
 
         ModuleEffectCreator.createPositionEffect = function(pos, effectId, transform, vel) {
-            
+
             if (!effectId) {
                 var fx = PipelineAPI.readCachedConfigKey('MODULE_EFFECTS', 'default_remove_effect');
             } else {

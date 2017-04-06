@@ -99,7 +99,7 @@ define([],
             if (particle.params.size) {
                 particle.setAttribute1D('size', 0)
             } else if (particle.params.position.w) {
-                particle.setAttribute4D('offsetSize', 0, 0, 0, 0)
+                particle.setAttribute4D('offsetSize', 0, -999990, 0, 0)
             } else {
                 console.log("Unknown death model for particle")
             }

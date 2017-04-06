@@ -51,9 +51,9 @@ ServerGameMain.prototype.setupLoop = function(systemParams) {
     
 	console.log("Setup Loop: ", MODEL.SimulationTime, MODEL.NetworkTime);
     
-    SIMULATION_LOOP = setInterval(function() {
-		_this.tickGameSimulation();
-	}, MODEL.SimulationTime * 1000);
+
+    _this.tickGameSimulation();
+
 
     NETWORK_LOOP = setInterval(function() {
         _this.tickGameNetwork();
@@ -141,7 +141,7 @@ ServerGameMain.prototype.getNow = function() {
 
 
 ServerGameMain.prototype.tickGameSimulation = function() {
-    this.headroom = this.getNow() - this.currentTime;
+
 	this.currentTime = this.getNow();
 
     var tpf =  this.currentTime - this.lastFrameTime;
@@ -150,12 +150,9 @@ ServerGameMain.prototype.tickGameSimulation = function() {
 
     this.serverWorld.tickSimulationWorld(this.currentTime, tpf);
 
-    if (this.serverWorld.playerCount == 0) {
-        this.clearServerGameState();
-        return;
-    }
-
     this.tickComputeTime = this.getNow() - this.currentTime;
+
+    this.headroom = tpf - this.tickComputeTime;
 
     if (this.headroom / this.tickComputeTime < 1) console.log("High Load: Headroom, ComputeTime: ", this.headroom, this.tickComputeTime);
 
@@ -164,18 +161,39 @@ ServerGameMain.prototype.tickGameSimulation = function() {
 
 	var memUse = process.memoryUsage();
 
-	this.healthData.push({
-		time:this.currentTime,
-		idle:this.headroom,
-		busy:this.tickComputeTime,
-		pieces:this.serverWorld.pieces.length,
-		terrains:this.serverWorld.terrains.length,
-		players:this.serverWorld.playerCount,
-		bodies:bodies,
-		contacts:contacts,
-		memoryUsage:memUse
-	});
+
+    var _this = this;
+
+    var tickTime = MODEL.SimulationTime*1000;
+    if (tpf > MODEL.SimulationTime) {
+        tickTime = 0;
+    }
+
+    SIMULATION_LOOP = setTimeout(function() {
+        _this.tickGameSimulation();
+    }, tickTime );
+
     this.lastFrameTime = this.currentTime;
+
+    if (this.serverWorld.playerCount == 0) {
+        this.clearServerGameState();
+        return;
+    }
+
+    this.healthData.push({
+        time:this.currentTime,
+        idle:this.headroom,
+        busy:this.tickComputeTime,
+        pieces:this.serverWorld.pieces.length,
+        terrains:this.serverWorld.terrains.length,
+        players:this.serverWorld.playerCount,
+        bodies:bodies,
+        contacts:contacts,
+        memoryUsage:memUse
+    });
+
+
+
 };
 
 ServerGameMain.prototype.tickGameNetwork = function() {

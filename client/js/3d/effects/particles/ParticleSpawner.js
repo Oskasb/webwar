@@ -130,7 +130,7 @@ define([
                 return;
             }
 
-            if (renderer.particles.length < effect.effectData.effect.count) {
+            if (!renderer.particles.length) {
                 console.log("Not enough available particles...");
                 return;
             }

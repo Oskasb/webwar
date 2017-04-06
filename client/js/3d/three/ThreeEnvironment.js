@@ -20,11 +20,17 @@ define(['../../PipelineObject',
     var calcVec = new THREE.Vector3();
     var calcVec2 = new THREE.Vector3();
 
+    var theta;
+    var phi;
+
+
     var sky;
     var scene;
     var camera;
     var renderer;
     var sunSphere;
+
+    var currentSkyConf;
 
     var fogColor = new THREE.Color(1, 1, 1);
     var dynamicFogColor = new THREE.Color(1, 1, 1);
@@ -55,7 +61,7 @@ define(['../../PipelineObject',
 
         // Add Sun Helper
         sunSphere = new THREE.Mesh(
-            new THREE.SphereBufferGeometry( 20000, 16, 8 ),
+            new THREE.SphereBufferGeometry( 2000, 16, 8 ),
             new THREE.MeshBasicMaterial( { color: 0xffffff } )
         );
 
@@ -66,7 +72,7 @@ define(['../../PipelineObject',
     };
 
 
-    function applySkyConfig(skyList) {
+    function applySkyConfig() {
 
         var config = skyList[currentEnvId];
 
@@ -77,8 +83,8 @@ define(['../../PipelineObject',
         uniforms.mieCoefficient.value = config.mieCoefficient.value;
         uniforms.mieDirectionalG.value = config.mieDirectionalG.value;
 
-        var theta = Math.PI * ( config.inclination - 0.5 );
-        var phi = 2 * Math.PI * ( config.azimuth - 0.5 );
+        theta = Math.PI * ( config.inclination - 0.5 );
+        phi = 2 * Math.PI * ( config.azimuth - 0.5 );
 
         sunSphere.position.x = config.distance * Math.cos( phi );
         sunSphere.position.y = config.distance * Math.sin( phi ) * Math.sin( theta );
@@ -99,8 +105,8 @@ define(['../../PipelineObject',
     var updateDynamigFog = function(sunInTheBack) {
 
         dynamicFogColor.copy(fogColor);
-        dynamicFogColor.lerp(world.sun.color, 0.5 - sunInTheBack * 0.5);
-        dynamicFogColor.lerp(ambientColor, 0.2 - sunInTheBack * 0.2);
+        dynamicFogColor.lerp(world.sun.color, 0.2 - sunInTheBack * 0.2);
+        dynamicFogColor.lerp(ambientColor, 0.3 - sunInTheBack * 0.3);
         world.fog.color.copy(dynamicFogColor)
 
     };
@@ -117,6 +123,25 @@ define(['../../PipelineObject',
 
 
     var tickEnvironment = function() {
+
+        currentSkyConf = skyList[currentEnvId];
+
+        theta = Math.PI * ( currentSkyConf.inclination - 0.5 );
+        phi = 2 * Math.PI * ( currentSkyConf.azimuth - 0.5 );
+
+        sunSphere.position.x = camera.position.x + currentSkyConf.distance * Math.cos( phi );
+        sunSphere.position.y = camera.position.y + currentSkyConf.distance * Math.sin( phi ) * Math.sin( theta );
+        sunSphere.position.z = camera.position.z + currentSkyConf.distance * Math.sin( phi ) * Math.cos( theta );
+
+
+        sky.mesh.position.copy(camera.position);
+
+        sky.uniforms.sunPosition.value.copy( sunSphere.position );
+
+        world.sun.position.copy(sunSphere.position);
+        world.sun.lookAt(camera.position);
+
+
         calcVec.x = 0;
         calcVec.y = 0;
         calcVec.z = 1;
@@ -205,9 +230,9 @@ define(['../../PipelineObject',
 
                     if (key == 'moon') {
 
-                        world[key].position.x = -sunSphere.position.x*0.5;
-                        world[key].position.y =  sunSphere.position.y * 2;
-                        world[key].position.z = -sunSphere.position.z*0.5;
+                        world[key].position.x = 10 -sunSphere.position.x * 0.2;
+                        world[key].position.y = 1000 +sunSphere.position.y * 5;
+                        world[key].position.z = 10 -sunSphere.position.z * 0.2;
                         world[key].lookAt(worldCenter)
                     }
 

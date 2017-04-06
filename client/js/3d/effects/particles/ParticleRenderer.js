@@ -126,10 +126,18 @@ define([
 
 
         ParticleRenderer.prototype.calculateAllowance = function(requestSize) {
-            if (this.particles.length > requestSize * 3) {
+            if (this.particles.length - requestSize > this.poolSize / 3) {
                 return requestSize;
             } else {
-                return Math.floor(0.5*this.particles.length);
+                var req = Math.round( (this.poolSize / this.particles.length) * requestSize) || 1;
+                if (this.particles.length > req) {
+                    return  req;
+                } else if (this.particles.length) {
+
+                    return 1;
+                }
+                console.log("zero particles.. ", requestSize)
+                return null;
             }
         };
 

@@ -3,8 +3,8 @@
   "setup": {
     "system":{
       "tickNetworkTime":1200,
-      "tickSimulationTime":35,
-      "physicsStepTime":0.02,
+      "tickSimulationTime":50,
+      "physicsStepTime":0.01,
       "physicsMaxSubSteps":2,
       "temporalTolerance": 0.3,
       "angularVelocityTolerance": 0.15,

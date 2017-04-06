@@ -397,7 +397,7 @@
 
         "vertexDirectionalVertexLight":[
 
-          "sunDir = sunLightColor * (0.45 + dot(normal, sunLightDirection) * 0.55);",
+          "sunDir = sunLightColor * (0.55 + dot(normal, sunLightDirection) * 0.45);",
 
           "vColor.r = ambientLightColor.r*1.0;",
           "vColor.g = ambientLightColor.g*1.0;",
