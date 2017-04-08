@@ -154,7 +154,7 @@ ServerGameMain.prototype.tickGameSimulation = function() {
 
     this.headroom = tpf - this.tickComputeTime;
 
-    if (this.headroom / this.tickComputeTime < 1) console.log("High Load: Headroom, ComputeTime: ", this.headroom, this.tickComputeTime);
+    if ((MODEL.SimulationTime*1000) < this.tickComputeTime * 2) console.log("High Load: TargetSimTime, ComputeTime: ", (MODEL.SimulationTime*1000) , this.tickComputeTime);
 
 	var bodies = this.serverWorld.cannonAPI.fetchCannonStatus().bodyCount;
     var contacts = this.serverWorld.cannonAPI.fetchCannonStatus().contactCount;
@@ -162,7 +162,7 @@ ServerGameMain.prototype.tickGameSimulation = function() {
 	var memUse = process.memoryUsage();
 
 
-    var _this = this;
+    var _this = this;1
 
     var tickTime = MODEL.SimulationTime*1000;
     if (tpf > MODEL.SimulationTime) {

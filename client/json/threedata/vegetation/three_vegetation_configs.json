@@ -6,21 +6,21 @@
 
         {
           "name":"small",
-          "vegetationSectorSize":18,
+          "vegetationSectorSize":25,
           "rowsNColumns":3,
-          "spawnFrames":5,
-          "plantCount":10
-        },
-        {
-          "name":"medium",
-          "vegetationSectorSize":23,
-          "rowsNColumns":5,
-          "spawnFrames":6,
+          "spawnFrames":15,
           "plantCount":5
         },
         {
-          "name":"big",
+          "name":"medium",
           "vegetationSectorSize":45,
+          "rowsNColumns":5,
+          "spawnFrames":6,
+          "plantCount":4
+        },
+        {
+          "name":"big",
+          "vegetationSectorSize":65,
           "rowsNColumns":5,
           "spawnFrames":6,
           "plantCount":4

@@ -40,6 +40,7 @@ define([
             systemTime.value += 0.016;
 
             for (var key in materialList) {
+                materialList[key].uniforms.systemTime.value = systemTime.value;
                 applyUniformEnvironmentColor(materialList[key].uniforms.ambientLightColor, 'ambient');
                 applyUniformEnvironmentColor(materialList[key].uniforms.sunLightColor, 'sun');
                 applyUniformEnvironmentRotation(materialList[key].uniforms.sunLightDirection, 'sun');
