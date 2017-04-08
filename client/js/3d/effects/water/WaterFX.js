@@ -1,23 +1,27 @@
 "use strict";
 
 define([
-        'ThreeAPI'
+        'ThreeAPI',
+        '3d/effects/water/WaterMaterial',
+        'PipelineObject'
     ],
     function(
-        ThreeAPI
+        ThreeAPI,
+        WaterMaterial,
+        PipelineObject
     ) {
 
-        var effectFXAA;
-        var bloomPass;
-        var composer;
-        var renderScene;
+        var waterList = {};
+        var terrainIndex = {};
+        var terrainMaterial;
 
-        var container, stats;
-        var camera, scene, renderer;
-        var sphere;
+        var oceanId = 'main_ocean';
+
+        var calcVec = new THREE.Vector3();
+
         var parameters = {
-            width: 100000,
-            height: 100000,
+            width: 10000,
+            height: 10000,
             widthSegments: 32,
             heightSegments: 32,
             depth: 1500,
@@ -27,27 +31,39 @@ define([
         var waterNormals;
         var water = {};
 
-        var WaterFX = function() {
+        var waterMaterial;
 
+        var WaterFX = function() {
+            waterMaterial = new WaterMaterial(ThreeAPI);
+
+            
+            this.loadData();
+        };
+
+
+        WaterFX.prototype.loadData = function() {
+
+
+            var oceansLoaded = function(scr, data) {
+                for (var i = 0; i < data.length; i++){
+                    waterList[data[i].id] = data[i];
+                    waterMaterial.addWaterMaterial(data[i].id, data[i].textures, data[i].shader);
+                }
+            };
+            new PipelineObject("OCEANS", "THREE", oceansLoaded);
         };
 
         WaterFX.prototype.initWaterEffect = function() {
             
-            waterNormals = new THREE.TextureLoader().load( './client/assets/images/effects/watertile.png' );
-            waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
+            var material = waterMaterial.getMaterialById(oceanId);
 
-            var material = new THREE.MeshStandardMaterial( { map:waterNormals, color: 0xffffff, wireframe: false, fog:false } );
-
-            var mirrorMesh = new THREE.Mesh(
-                new THREE.PlaneBufferGeometry( parameters.width, parameters.height, 32, 32 ),
+            var waterMesh = new THREE.Mesh(
+                new THREE.PlaneBufferGeometry( parameters.width, parameters.height, 64, 64 ),
                 material
             );
 
-
-
-        //    mirrorMesh.add( water );
-            mirrorMesh.rotation.x = -Math.PI * 0.5;
-            ThreeAPI.addToScene( mirrorMesh );
+            waterMesh.rotation.x = -Math.PI * 0.5;
+            ThreeAPI.addToScene( waterMesh );
 
         };
 

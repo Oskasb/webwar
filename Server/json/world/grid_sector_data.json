@@ -25,12 +25,12 @@
         "weight":5,
         "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
         "spawn":[
-          {"pieceType":"huge_tree_piece", "min":1, "max":2},
-          {"pieceType":"small_tree_piece", "min":2, "max":6},
-          {"pieceType":"medium_tree_piece", "min":1, "max":3},
-          {"pieceType":"plasma_blob_piece", "min":1, "max":5},
-          {"pieceType":"big_fuzzy_shrub_piece", "min":15, "max":45},
-          {"pieceType":"big_shrub_piece", "min":15, "max":45}
+          {"pieceType":"huge_tree_piece", "min":1, "max":3},
+          {"pieceType":"small_tree_piece", "min":2, "max":8},
+          {"pieceType":"medium_tree_piece", "min":1, "max":5},
+          {"pieceType":"plasma_blob_piece", "min":1, "max":3},
+          {"pieceType":"big_fuzzy_shrub_piece", "min":5, "max":15},
+          {"pieceType":"big_shrub_piece", "min":5, "max":15}
         ],
         "buildings":[
           {"pieceType":"small_house_building", "min":1, "max":2, "flatten":true},
@@ -43,7 +43,7 @@
         "ground":[{"pieceType":"ground_hill", "min":1, "max":1}],
         "spawn":[
           {"pieceType":"huge_tree_piece", "min":1, "max":2},
-          {"pieceType":"small_tree_piece", "min":3, "max":6},
+          {"pieceType":"small_tree_piece", "min":3, "max":4},
           {"pieceType":"medium_tree_piece", "min":1, "max":2},
           {"pieceType":"big_tree_piece", "min":1, "max":2},
           {"pieceType":"big_fuzzy_shrub_piece", "min":7, "max":14},
@@ -61,13 +61,13 @@
         "weight":3,
         "ground":[{"pieceType":"ground_pit", "min":1, "max":1}],
         "spawn":[
-          {"pieceType":"huge_tree_piece", "min":2, "max":4},
-          {"pieceType":"small_tree_piece", "min":3, "max":7},
+          {"pieceType":"huge_tree_piece", "min":3, "max":5},
+          {"pieceType":"small_tree_piece", "min":3, "max":8},
           {"pieceType":"medium_tree_piece", "min":1, "max":4},
-          {"pieceType":"big_tree_piece", "min":2, "max":4},
+          {"pieceType":"big_tree_piece", "min":1, "max":3},
           {"pieceType":"plasma_blob_piece", "min":2, "max":4},
-          {"pieceType":"big_fuzzy_shrub_piece", "min":55, "max":99},
-          {"pieceType":"big_shrub_piece", "min":55, "max":99}
+          {"pieceType":"big_fuzzy_shrub_piece", "min":15, "max":25},
+          {"pieceType":"big_shrub_piece", "min":15, "max":25}
         ],
         "buildings":[
         {"pieceType":"small_house_building", "min":0, "max":0, "flatten":true},
@@ -91,8 +91,8 @@
         "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
         "spawn":[
           {"pieceType":"small_tree_piece", "min":2, "max":3},
-          {"pieceType":"medium_tree_piece", "min":2, "max":3},
-          {"pieceType":"big_tree_piece", "min":1, "max":2},
+          {"pieceType":"medium_tree_piece", "min":2, "max":4},
+          {"pieceType":"big_tree_piece", "min":1, "max":3},
 
           {"pieceType":"plasma_blob_piece", "min":5, "max":13}
         ],
@@ -108,7 +108,7 @@
           {"pieceType":"small_tree_piece", "min":0, "max":3},
           {"pieceType":"medium_tree_piece", "min":0, "max":2},
           {"pieceType":"big_tree_piece", "min":0, "max":2},
-          {"pieceType":"plasma_blob_piece", "min":15, "max":32}
+          {"pieceType":"plasma_blob_piece", "min":7, "max":15}
         ],
         "buildings":[
           {"pieceType":"small_house_building", "min":0, "max":0, "flatten":true},
@@ -122,7 +122,7 @@
           {"pieceType":"small_tree_piece", "min":1, "max":3},
           {"pieceType":"medium_tree_piece", "min":1, "max":2},
           {"pieceType":"big_tree_piece", "min":1, "max":2},
-          {"pieceType":"small_space_rock_piece", "min":11, "max":22},
+          {"pieceType":"small_space_rock_piece", "min":3, "max":7},
           {"pieceType":"plasma_blob_piece", "min":1, "max":2}
         ],
         "buildings":[

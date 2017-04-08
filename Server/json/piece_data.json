@@ -92,7 +92,7 @@
         ]
       },
       "ground_plane":{
-        "size":700,
+        "size":1100,
         "controls":{
           "actions": {},
           "constants":{}
@@ -105,7 +105,7 @@
         ]
       },
       "ground_pit":{
-        "size":700,
+        "size":1100,
         "controls":{
           "actions": {},
           "constants":{}
@@ -118,7 +118,7 @@
         ]
       },
       "ground_hill":{
-        "size":700,
+        "size":1100,
         "controls":{
           "actions": {},
           "constants":{}

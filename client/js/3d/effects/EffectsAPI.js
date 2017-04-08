@@ -35,9 +35,19 @@ define([
             init = true;
             vegetation = new Vegetation(this);
             particleSpawner = new ParticleSpawner();
+
+            var waterReady = function() {
+                waterFx.initWaterEffect();
+            };
+
             waterFx = new WaterFX();
+
+            setTimeout(function() {
+                waterReady();
+            }, 500);
+
             particleSpawner.initParticleSpawner(onReady);
-            waterFx.initWaterEffect();
+
             //    screenSpaceFX = new ScreenSpaceFX();
             //    screenSpaceFX.initFilterEffects();
 

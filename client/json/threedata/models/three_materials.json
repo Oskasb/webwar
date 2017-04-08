@@ -127,6 +127,8 @@
             "terrain_fract":           "./client/assets/images/textures/tiles/fract.png",
             "terrain_crackstile":      "./client/assets/images/textures/tiles/crackstile.png",
             "terrain_dark_grass":      "./client/assets/images/textures/tiles/dark_grass.png",
+            "ocean_watertile2":        "./client/assets/images/textures/tiles/watertile2.png",
+            "ocean_watertile":         "./client/assets/images/textures/tiles/watertile.png",
             "terrain_grass":           "./client/assets/images/textures/tiles/grass.png"
           }]
         }

@@ -331,6 +331,32 @@
           "varying vec2 vUv;"
         ],
 
+        "vx_oceanTextureLayers":[
+          "uniform float systemTime;",
+          "uniform vec2 tx0repeat;",
+          "uniform vec2 tx1repeat;",
+          "uniform vec2 tx2repeat;",
+          "varying float height;",
+          "varying float slope;",
+          "varying vec2 vUv0;",
+          "varying vec2 vUv1;",
+          "varying vec2 vUv2;"
+
+        ],
+
+        "fx_oceanTextureLayers":[
+          "uniform float systemTime;",
+          "varying float height;",
+          "varying float slope;",
+          "varying vec2 vUv0;",
+          "varying vec2 vUv1;",
+          "varying vec2 vUv2;",
+          "uniform sampler2D tx0;",
+          "uniform sampler2D tx1;",
+          "uniform sampler2D tx2;"
+        ],
+
+
         "vx_terrainTextureLayers":[
           "uniform vec2 tx0repeat;",
           "uniform vec2 tx1repeat;",
