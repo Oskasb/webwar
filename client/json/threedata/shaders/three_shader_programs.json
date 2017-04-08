@@ -132,7 +132,7 @@
           "vUv0 = uv * tx0repeat;",
           "vUv1 = uv * tx1repeat;",
           "vUv2 = uv * tx2repeat;",
-          "slope = sin(systemTime*0.4 + position.x*75.0 + position.y*12.0 + (sin(systemTime * 0.06 + position.x * 42.1 + position.y * 2.5)*0.5));",
+          "slope = sin(systemTime*0.11 + position.x*21.0 + position.y*1.0 + (sin(systemTime * 0.06 + position.x * 22.1 + position.y * 2.5)*0.5));",
           "height = position.z;"
         ],
 

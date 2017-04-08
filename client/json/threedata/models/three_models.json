@@ -3,6 +3,20 @@
     "MODELS": {
       "THREE": [
         {
+          "id": "transport_hull",
+          "material": "main_atlas",
+          "format":"obj",
+          "url": "./client/assets/models/boats/transport_hull",
+          "urluv2": "",
+          "pool": 5,
+          "transform": {
+            "pos": [0, -1.2, -0.3],
+            "rot": [0, 0, 0],
+            "scale": [1, 1, 1]
+          }
+        },
+
+        {
           "id": "sherman_hull",
           "material": "tank_atlas",
           "format":"obj",
@@ -154,9 +168,9 @@
         {
           "id": "main_ocean",
           "textures": [
-            {"uniform":"tx0", "file":"watertile2",       "repeat":[30,  30]},
-            {"uniform":"tx1", "file":"watertile",        "repeat":[85,  85]},
-            {"uniform":"tx2", "file":"watertile",        "repeat":[125,125]}
+            {"uniform":"tx0", "file":"watertile2",       "repeat":[40, 70]},
+            {"uniform":"tx1", "file":"watertile",        "repeat":[75, 35]},
+            {"uniform":"tx2", "file":"watertile",        "repeat":[85, 85]}
           ],
           "shader":"OCEAN_SHADER",
           "transform": {
