@@ -239,15 +239,15 @@ ServerWorld.prototype.updatePieces = function(currentTime, tpf) {
 
 
             if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.SPAWN) {
-                this.pieces[i].setState(GAME.ENUMS.PieceStates.APPEAR)
-                var y = this.pieces[i].spatial.pos.getY();
-                this.pieces[i].spatial.pos.setY(this.terrainFunctions.getTerrainHeightAt(this.pieces[i].groundPiece, this.pieces[i].spatial.pos));
+                this.pieces[i].setState(GAME.ENUMS.PieceStates.APPEAR);
+                
+                var terrainHeight = this.terrainFunctions.getTerrainHeightAt(this.pieces[i].groundPiece, this.pieces[i].spatial.pos);
+
+                this.pieces[i].spatial.pos.setY(Math.max(terrainHeight, 0));
+
                 piece.processTemporalState(currentTime);
                 piece.spatial.updateSpatial(piece.temporal.stepTime);
 
-                if (this.pieces[i].spatial.posY() != y) {
-            //        this.broadcastPieceState(this.pieces[i]);
-                }
             }
 
         }

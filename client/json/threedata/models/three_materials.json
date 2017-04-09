@@ -15,7 +15,7 @@
             "reflectivity":1.0,
             "metalness":1.0,
             "envMapIntensity":1.0,
-            "aoMapIntensity":2.0
+            "aoMapIntensity":1.4
           },
           "textures":[{
             "map":"./client/assets/images/textures/main_diff.png",
@@ -26,6 +26,29 @@
             "aoMap":"./client/assets/images/textures/tank_lm.png"
           }]
         },{
+          "id":"modern_transport_atlas",
+          "shader":"MeshPhysicalMaterial",
+          "settings":{
+            "blending":"NoBlending",
+            "color":{"r":0.9, "g":0.9, "b":0.9},
+            "clearCoat":0.05,
+            "clearCoatRoughness":0.95,
+            "roughness":1,
+            "reflectivity":1.0,
+            "metalness":1.0,
+            "envMapIntensity":1.0,
+            "aoMapIntensity":1.4
+          },
+          "textures":[{
+            "map":"./client/assets/images/textures/main_diff.png",
+            "metalnessMap":"./client/assets/images/textures/main_cm.png",
+            "roughnessMap":"./client/assets/images/textures/main_roughness.png",
+            "normalMap":"./client/assets/images/textures/main_nm.png",
+            "envMap":"./client/assets/images/textures/ref_sphere.png",
+            "aoMap":"./client/assets/images/textures/big_transport_ao.png"
+          }]
+        },{
+
           "id":"main_atlas",
           "shader":"MeshPhysicalMaterial",
           "settings":{

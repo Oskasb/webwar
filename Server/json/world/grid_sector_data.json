@@ -12,6 +12,9 @@
         ],
         "buildings":[
           {"pieceType":"small_house_building", "min":0, "max":2, "flatten":true}
+        ],
+        "ships":[
+          {"pieceType":"modern_transport_ship", "min":1, "max":2, "ocean":true}
         ]
       }
     ]
@@ -36,7 +39,11 @@
           {"pieceType":"small_house_building", "min":1, "max":2, "flatten":true},
           {"pieceType":"tall_building_17", "min":0, "max":0, "flatten":true},
           {"pieceType":"tall_building_10", "min":0, "max":0, "flatten":true}
-        ]},
+        ],
+        "ships":[
+          {"pieceType":"modern_transport_ship", "min":0, "max":1, "ocean":true}
+        ]
+      },
 
       {"id":"sparse",
         "weight":4,
@@ -53,7 +60,11 @@
           {"pieceType":"small_house_building", "min":0, "max":2, "flatten":true},
           {"pieceType":"tall_building_17", "min":0, "max":0, "flatten":true},
           {"pieceType":"tall_building_10", "min":0, "max":0, "flatten":true}
-        ]},
+        ],
+        "ships":[
+          {"pieceType":"modern_transport_ship", "min":0, "max":1, "ocean":true}
+        ]
+      },
 
 
 
@@ -73,11 +84,16 @@
         {"pieceType":"small_house_building", "min":0, "max":0, "flatten":true},
           {"pieceType":"tall_building_17",   "min":0, "max":0, "flatten":true},
           {"pieceType":"tall_building_10",   "min":0, "max":0, "flatten":true}
-      ]},
+        ],
+        "ships":[
+          {"pieceType":"modern_transport_ship", "min":0, "max":1, "ocean":true}
+        ]
+      },
       {"id":"city",
         "weight":2,
         "ground":[{"pieceType":"ground_pit", "min":1, "max":1}],
         "spawn":[
+
           {"pieceType":"small_tree_piece", "min":1, "max":4},
           {"pieceType":"medium_tree_piece", "min":1, "max":2},
           {"pieceType":"big_tree_piece", "min":0, "max":2}
@@ -85,7 +101,11 @@
         "buildings":[
           {"pieceType":"tall_building_17", "min":0, "max":2, "flatten":true},
           {"pieceType":"tall_building_10", "min":1, "max":3, "flatten":true}
-        ]},
+        ],
+        "ships":[
+          {"pieceType":"modern_transport_ship", "min":2, "max":2, "ocean":true}
+        ]
+      },
       {"id":"crowded",
         "weight":2,
         "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
@@ -100,7 +120,11 @@
           {"pieceType":"small_house_building", "min":1, "max":2, "flatten":true},
           {"pieceType":"tall_building_17", "min":0, "max":0, "flatten":true},
           {"pieceType":"tall_building_10", "min":0, "max":0, "flatten":true}
-        ]},
+        ],
+        "ships":[
+          {"pieceType":"modern_transport_ship", "min":1, "max":1, "ocean":true}
+        ]
+      },
       {"id":"plasmatic",
         "weight":2,
         "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
@@ -114,7 +138,11 @@
           {"pieceType":"small_house_building", "min":0, "max":0, "flatten":true},
           {"pieceType":"tall_building_17", "min":0, "max":0, "flatten":true},
           {"pieceType":"tall_building_10", "min":0, "max":0, "flatten":true}
-        ]},
+        ],
+        "ships":[
+          {"pieceType":"modern_transport_ship", "min":0, "max":1, "ocean":true}
+        ]
+      },
       {"id":"rockness",
         "weight":3,
         "ground":[{"pieceType":"ground_pit", "min":1, "max":1}],
@@ -129,7 +157,11 @@
           {"pieceType":"small_house_building", "min":0, "max":0, "flatten":true},
           {"pieceType":"tall_building_17", "min":0, "max":0, "flatten":true},
           {"pieceType":"tall_building_10", "min":0, "max":0, "flatten":true}
-        ]}
+        ],
+        "ships":[
+          {"pieceType":"modern_transport_ship", "min":0, "max":1, "ocean":true}
+        ]
+      }
     ]
 
   }

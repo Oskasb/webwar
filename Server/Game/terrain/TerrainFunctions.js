@@ -190,8 +190,9 @@ TerrainFunctions.prototype.applyEdgeElevation = function(piece, isMinX, isMaxX, 
     if (isMinX || isMaxX || isMinY || isMaxY) {
 
         this.setHeightByIndexAndReach(array1d, idx, idx, Math.round(i*shoreBumb), setHeight)
-
+        return true;
     }
+    return false;
 
 };
 

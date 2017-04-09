@@ -2,9 +2,22 @@
   "dataType":"MODULE_DATA",
   "modules":{
 
-    "hull":{
+    "modern_transport_hull":{
       "type":"hull",
-      "id":"hull",
+      "id":"modern_transport_hull",
+      "source":"initiate",
+      "initState": true,
+      "size":4,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "three_model":"modern_transport_hull"
+      }
+    },
+
+    "sherman_hull":{
+      "type":"hull",
+      "id":"sherman_hull",
       "source":"initiate",
       "initState": true,
       "size":4,

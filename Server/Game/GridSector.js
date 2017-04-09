@@ -32,6 +32,8 @@ GridSector = function(minX, minY, size, row, column, gridIndex, serverWorld, sec
     
     this.groundPiece;
     
+    this.hasWater = false;
+    
     this.groundPhysics = false;
 
     this.configsUpdated(sectorConfigs);
@@ -88,6 +90,13 @@ GridSector.prototype.activateSector = function() {
         this.queueSelection(this.sectorConfig.spawn[i])
     }
 
+    
+    if (this.hasWater) {
+        for (var i = 0; i < this.sectorConfig.ships.length; i++) {
+            this.queueSelection(this.sectorConfig.ships[i])
+        }
+    }
+
 
   //  if (!this.groundPhysics) {
         this.terrainFunctions.addTerrainToPhysics(this.groundPiece);
@@ -112,7 +121,7 @@ GridSector.prototype.spawnGround = function(spawnData, elevation) {
     //    this.stitchTerrain();
     //    piece.spatial.updateSpatial(10);
 
-        this.terrainFunctions.applyEdgeElevation(
+        this.hasWater = this.terrainFunctions.applyEdgeElevation(
             piece,
 
             this.column == 0,
@@ -182,39 +191,49 @@ var tries = 0;
 var maxTries = 550;
 var normalLimit = 0.65;
 
-GridSector.prototype.checkPosForLegit = function(margin, nmStore, baseSeed) {
+GridSector.prototype.checkPosForLegit = function(margin, nmStore, baseSeed, spawnData) {
 
     pos = this.getRandomPointInSector(margin, nmStore, baseSeed);
     this.calcVec.setArray(pos);
 
     tries++;
 
-    if (pos[1] < 0.1) {
+    if (spawnData.ocean) {
+        if (pos[1] < 3.5) {
+            pos[1] = 0;
+            return pos;
+        } else {
+            baseSeed += 1.214;
+            return this.checkPosForLegit(1, nmStore, baseSeed, spawnData);
+        }
+    }
+
+    if (pos[1] < 1.5) {
         baseSeed += 4.212;
-        return this.checkPosForLegit(margin, nmStore, baseSeed)
+        return this.checkPosForLegit(margin, nmStore, baseSeed, spawnData)
     }
 
     for (var i = 0; i < this.activeSectorPieces.length; i++) {
         var distance = this.activeSectorPieces[i].spatial.pos.getDistance(this.calcVec) ;
         if ((2 * distance - (2 * distance * (tries/maxTries))) < this.activeSectorPieces[i].config.size + margin  && tries < maxTries) {
             baseSeed += 8.612;
-            return this.checkPosForLegit(margin, nmStore, baseSeed)
+            return this.checkPosForLegit(margin, nmStore, baseSeed, spawnData)
         }
     }
 
     if (nmStore.getY() < (normalLimit - (normalLimit * (tries/maxTries))) && tries < maxTries) {
         baseSeed += 4.212;
-        return this.checkPosForLegit(margin, nmStore, baseSeed)
+        return this.checkPosForLegit(margin, nmStore, baseSeed, spawnData)
     }
 
     return pos
 };
 
-GridSector.prototype.getLegitNewPointInSector = function(margin) {
+GridSector.prototype.getLegitNewPointInSector = function(margin, spawnData) {
 
     var baseSeed = 3612.2;
     tries = 0;
-    pos = this.checkPosForLegit(margin * 3, this.normalStore, baseSeed);
+    pos = this.checkPosForLegit(margin * 3, this.normalStore, baseSeed, spawnData);
     return pos
 };
 
@@ -230,7 +249,7 @@ GridSector.prototype.buildSectorPiece = function(spawnData) {
 GridSector.prototype.spawnRandomSectorPiece = function(piece) {
     piece.gridSector = this;
 
-    pos = this.getLegitNewPointInSector(piece.config.size + 5);
+    pos = this.getLegitNewPointInSector(piece.config.size + 5, piece.spawnData);
     piece.spatial.pos.setXYZ(pos[0], pos[1], pos[2]);
 
     piece.groundPiece = this.groundPiece;

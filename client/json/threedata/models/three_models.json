@@ -3,12 +3,12 @@
     "MODELS": {
       "THREE": [
         {
-          "id": "transport_hull",
-          "material": "main_atlas",
+          "id": "modern_transport_hull",
+          "material": "modern_transport_atlas",
           "format":"obj",
-          "url": "./client/assets/models/boats/transport_hull",
-          "urluv2": "",
-          "pool": 5,
+          "url": "./client/assets/models/boats/modern_transport_hull",
+          "urluv2": "./client/assets/models/boats/modern_transport_hull_ao",
+          "pool": 15,
           "transform": {
             "pos": [0, -1.2, -0.3],
             "rot": [0, 0, 0],
@@ -22,7 +22,7 @@
           "format":"obj",
           "url": "./client/assets/models/sherman_hull",
           "urluv2": "./client/assets/models/sherman_hull_ao",
-          "pool": 5,
+          "pool": 15,
           "transform": {
             "pos": [0, -1.2, -0.3],
             "rot": [0, 0, 0],
@@ -34,7 +34,7 @@
           "material": "tank_atlas",
           "url": "./client/assets/models/sherman_turret",
           "urluv2": "./client/assets/models/sherman_turret_ao",
-          "pool": 5,
+          "pool": 15,
           "transform": {
             "pos": [0, -2.4, 0.3],
             "rot": [0, -1, 0],
@@ -46,7 +46,7 @@
           "material": "tank_atlas",
           "url": "./client/assets/models/sherman_cannon",
           "urluv2": "./client/assets/models/sherman_cannon_ao",
-          "pool": 5,
+          "pool": 15,
           "transform": {
             "pos": [0, -2.45, 3.2],
             "rot": [0, 0, 0],
@@ -58,7 +58,7 @@
           "material": "tank_track",
           "url": "./client/assets/models/sherman_track_l",
           "urluv2": "./client/assets/models/sherman_track_l_ao",
-          "pool": 5,
+          "pool": 15,
           "transform": {
             "pos": [
               1.3, -0.2, -0.55],
@@ -71,7 +71,7 @@
           "material": "tank_track",
           "url": "./client/assets/models/sherman_track_r",
           "urluv2": "./client/assets/models/sherman_track_r_ao",
-          "pool": 5,
+          "pool": 15,
           "transform": {
             "pos": [-1.3, -0.2, -0.55],
             "rot": [0, 0, 0],
