@@ -199,7 +199,7 @@ GridSector.prototype.checkPosForLegit = function(margin, nmStore, baseSeed, spaw
     tries++;
 
     if (spawnData.ocean) {
-        if (pos[1] < 3.5) {
+        if (pos[1] < -3.5) {
             pos[1] = 0;
             return pos;
         } else {
