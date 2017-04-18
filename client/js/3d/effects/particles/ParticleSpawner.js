@@ -33,7 +33,7 @@ define([
             renderers[renderer.id] = renderer;
             finished ++;
 
-            console.log("ParticleSpawner load: r/s", started, finished);
+    //        console.log("ParticleSpawner load: r/s", started, finished);
             if (started == finished) {
                 ready();
             }
@@ -56,7 +56,7 @@ define([
         ParticleSpawner.prototype.setupParticleRenderers = function() {
 
 
-            console.log("SETUP PARTICLE RENDERERS");
+    //        console.log("SETUP PARTICLE RENDERERS");
 
             
             
@@ -66,7 +66,7 @@ define([
 
                     started++;
 
-                    console.log("SETUP PARTICLE RENDERER:", src, data[i]);
+    //                console.log("SETUP PARTICLE RENDERER:", src, data[i]);
                     if (renderers[data[i].id]) {
                         console.log("DELETE EXISTING PARTICLE RENDERER", data[i].id);
                         renderers[data[i].id].dispose();

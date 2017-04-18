@@ -128,7 +128,7 @@ define([
             var uv2Found = function(uv2mesh, mid) {
                 var meshObj = PipelineAPI.readCachedConfigKey('THREE_MODEL', mid);
 
-                console.log(meshObj, uv2mesh, uv2mesh.geometry.attributes.uv);
+        //        console.log(meshObj, uv2mesh, uv2mesh.geometry.attributes.uv);
                 meshObj.geometry.addAttribute('uv2',  uv2mesh.geometry.attributes.uv);
                 uv2mesh.geometry.dispose();
                 uv2mesh.material.dispose();
@@ -265,7 +265,7 @@ define([
 
             if (!modelPool[id].length) {
 
-                console.log("Increase Model Pool", id);
+    //            console.log("Increase Model Pool", id);
                 var modelData = function(src, cached) {
                     var clone = cached.clone();
                     clone.poolId = cached.poolId;

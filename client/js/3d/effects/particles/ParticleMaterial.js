@@ -68,7 +68,7 @@ define([
 
             matCount++;
 
-            console.log("new ParticleMaterial, count:", matCount);
+    //        console.log("new ParticleMaterial, count:", matCount);
 
             this.txSettings = {};
             this.opts = {};
@@ -87,7 +87,7 @@ define([
         ParticleMaterial.prototype.setupMaterial = function() {
 
 
-            console.log("OPTIONS BUILT", this.txSettings, this.opts);
+    //        console.log("OPTIONS BUILT", this.txSettings, this.opts);
 
             var uniforms = {
                 systemTime: {value:0},
@@ -115,7 +115,7 @@ define([
                 for (var key in addUniforms) {
                     uniforms[key] = addUniforms[key];
                 }
-                console.log("GLOBAL UNIFORMS: ", uniforms, addUniforms);
+    //            console.log("GLOBAL UNIFORMS: ", uniforms, addUniforms);
 
             }
             

@@ -75,7 +75,7 @@ define([
 
         Client.prototype.setClientState = function(state) {
             ClientState = state;
-            console.log("SetCLientState: ", state);
+    //        console.log("SetCLientState: ", state);
             evt.fire(evt.list().MESSAGE_UI, {channel:'client_state', message:' - '+state});
         };
 
@@ -130,7 +130,7 @@ define([
 			var count = 0;
 
 			var requestPlayer = function(e) {
-				console.log("Request Player", e);
+		//		console.log("Request Player", e);
                 
                 if (!name) name = 'NoName';
                 
@@ -139,7 +139,7 @@ define([
 
 				if (ClientState == GAME.ENUMS.ClientStates.CLIENT_REQUESTED) {
 					var clientId = PipelineAPI.readCachedConfigKey('REGISTRY', 'CLIENT_ID');
-					console.log("RequestPlaye with ClientId:", clientId);
+			//		console.log("RequestPlaye with ClientId:", clientId);
 					evt.fire(evt.list().SEND_SERVER_REQUEST, {id:'RegisterPlayer', data:{clientId:clientId, name:name}});
 					this.setClientState(GAME.ENUMS.ClientStates.PLAYER_REQUESTED);
 				}
@@ -154,7 +154,7 @@ define([
 
                 var clientId = PipelineAPI.readCachedConfigKey('REGISTRY', 'CLIENT_ID');
 
-                console.log("Request ClientID",clientId);
+        //        console.log("Request ClientID",clientId);
 
                 if (clientId == 'CLIENT_ID') {
                     evt.fire(evt.list().MESSAGE_UI, {channel:'system_status', message:'Request ID'});
@@ -204,7 +204,7 @@ define([
         Client.prototype.setupSimulation = function(sceneController, ready) {
             var _this = this;
 
-            console.log("Setup Simulation");
+    //        console.log("Setup Simulation");
 
             var clientTick = function(tpf) {
                 _this.tick(tpf)
@@ -214,8 +214,7 @@ define([
 
             var sysReady = function() {
 
-                systems++
-                console.log("Sys Ready", systems);
+                systems++;
 
                 if (systems == 1) {
 

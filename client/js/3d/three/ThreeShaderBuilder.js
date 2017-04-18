@@ -58,7 +58,7 @@ define([
             }
 
             okCount++;
-            console.log("Shader OK:", okCount);
+    //        console.log("Shader OK:", okCount);
             evt.fire(evt.list().MESSAGE_UI, {channel:'connection_status', message:'-> Shader ('+okCount+') Compiled OK <- '});
             return shader;
         }
@@ -122,7 +122,7 @@ define([
 
                     return;
                 } else {
-                    console.log("Shader Test success: ", src, key)
+    //                console.log("Shader Test success: ", src, key)
                 }
 
                 if (cached) {
@@ -134,7 +134,7 @@ define([
             }
 
             PipelineAPI.setCategoryKeyValue("SHADERS", src, program);
-            console.log("CACHED SHADER PROGRAMS:", src, PipelineAPI.getCachedConfigs());
+    //        console.log("CACHED SHADER PROGRAMS:", src, PipelineAPI.getCachedConfigs());
         };
 
         var buildShadersFromIndex = function() {
@@ -148,7 +148,7 @@ define([
             for (var key in data) {
                 shaderDataIndex[src][key] = data[key];
             }
-            console.log("SHADER DATA INDEX:", shaderDataIndex);
+    //        console.log("SHADER DATA INDEX:", shaderDataIndex);
             notifyShaderDataUpdate();
         };
 

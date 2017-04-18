@@ -37,7 +37,7 @@ define([
 
 
             var toggleTriggered = function(src, data) {
-                console.log("Enable event", src, data);
+        //        console.log("Enable event", src, data);
                 _this.canvasElement.toggleEnabled(data);
             };
 
@@ -54,7 +54,7 @@ define([
                 _this.active = true;
 
                 if (_this.conf.enableOnEvent) {
-                    console.log("Enable event", _this.conf);
+        //            console.log("Enable event", _this.conf);
                     var data = {};
                     data[_this.conf.enableOnEvent.key] = false;
                     PipelineAPI.setCategoryData(_this.conf.enableOnEvent.category, data);
@@ -69,7 +69,7 @@ define([
 
 
             var guiReady = function() {
-                console.log("GUI READY CALLBACK FIRED");
+        //        console.log("GUI READY CALLBACK FIRED");
 
             };
             new PipelineObject('GAME_DATA', 'OWN_PLAYER', playerReady);

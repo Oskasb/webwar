@@ -43,6 +43,9 @@ define([
 
 
         function applyDebugConfig(src, DEBUG) {
+
+
+
             evt.fire(evt.list().MONITOR_STATUS, {MON_SERVER:DEBUG.monitorServer});
             evt.fire(evt.list().MONITOR_STATUS, {MON_TRAFFIC:DEBUG.trackTraffic});
             evt.fire(evt.list().MONITOR_STATUS, {MON_TPF:DEBUG.trackTpf});
@@ -62,6 +65,9 @@ define([
             };
 
             PipelineAPI.subscribeToCategoryKey('STATUS', 'MON_VEGETATION', monitorVegetation);
+
+
+
         };
 
         StatusMonitor.prototype.monitorRenderStates = function() {
@@ -226,6 +232,13 @@ define([
 
         StatusMonitor.prototype.tickMonitors = function() {
             evt.fire(evt.list().MONITOR_STATUS, {CACHE_READS:PipelineAPI.sampleCacheReadCount()});
+
+            if (PipelineAPI.readCachedConfigKey('GAME_DATA', 'OWN_PLAYER').ownPiece) {
+                evt.fire(evt.list().MONITOR_STATUS, {CONTROL_ID:PipelineAPI.readCachedConfigKey('GAME_DATA', 'OWN_PLAYER').ownPiece.playerId});
+                evt.fire(evt.list().MONITOR_STATUS, {TARGET_ID:PipelineAPI.readCachedConfigKey('CONTROL_STATE', 'TOGGLE_TARGET_SELECTED')});
+            }
+
+
             MonitorEffectAPI.tickEffectMonitor();
             this.monitorRenderStates();
             this.monitorMemory();

@@ -16,7 +16,8 @@ define([
             TOGGLE_HYPER:'hyper_drive',
             TOGGLE_TELEPORT:'warp_drive',
             TOGGLE_TARGET_SELECTED:'input_target_select',
-            TOGGLE_ATTACK_ENABLED:'input_toggle_attack'
+            TOGGLE_ATTACK_ENABLED:'input_toggle_attack',
+            TOGGLE_TARGET_CONTROL:'input_toggle_control'
         };
 
 

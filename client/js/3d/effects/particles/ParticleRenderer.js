@@ -39,7 +39,7 @@ define([
             this.systemTime = 0;
 
             var particleMaterialData = function(src, data) {
-                console.log("particleMaterialData", src, data);
+    //            console.log("particleMaterialData", src, data);
                 this.applyRendererMaterialData(data, rendererReady)
             }.bind(this);
 
@@ -54,13 +54,13 @@ define([
         ParticleRenderer.prototype.applyRendererMaterialData = function(data, rendererReady) {
 
             var materialReady = function(material) {
-                console.log("MaterialReady", material);
+    //            console.log("MaterialReady", material);
                 this.setMaterial(material, rendererReady);
             }.bind(this);
 
             for (var i = 0; i < data.length; i++) {
                 if (data[i].id == this.config.material_id) {
-                    console.log("buildParticleMaterial", data[i].id );
+    //                console.log("buildParticleMaterial", data[i].id );
                     this.setupBufferAttributes(data[i].attributes);
                     this.buildParticleMaterial(data[i], materialReady);
                 }

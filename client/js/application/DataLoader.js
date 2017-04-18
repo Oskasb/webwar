@@ -96,7 +96,7 @@ define([
 
             var styles = PipelineAPI.getCachedConfigs()['styles'];
 
-            console.log("STYLES ", styles);
+    //        console.log("STYLES ", styles);
 
             var imageStore = [];
 
@@ -151,7 +151,7 @@ define([
         //    };
 
             function connectClient() {
-                console.log('connectClient')
+    //            console.log('connectClient')
                 client.initiateClient(new SocketMessages(), connectionReady);
             }
             

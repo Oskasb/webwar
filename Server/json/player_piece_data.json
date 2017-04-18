@@ -47,6 +47,7 @@
         {"point_id":"steering",      "slot":"control"  },
         {"point_id":"target_select", "slot":"control"  },
         {"point_id":"toggle_attack", "slot":"control"  },
+        {"point_id":"toggle_control","slot":"control"  },
         {"point_id":"aim_pitch",     "slot":"control"  },
         {"point_id":"aim_yaw",       "slot":"control"  },
         {"point_id":"nameplate",     "slot":"name",                                 "transform":{ "rot":[0, 1, 0],   "pos":[0,      0.80,      0],   "size":[ 0.01,  0.01,  0.01]}}
@@ -65,6 +66,7 @@
         "inputControls",
         "input_target_select",
         "input_toggle_attack",
+        "input_toggle_control",
         "turret_aim_pitch",
         "turret_aim_yaw",
         "nameplate"
@@ -116,6 +118,7 @@
         {"point_id":"steering",      "slot":"control"  },
         {"point_id":"target_select", "slot":"control"  },
         {"point_id":"toggle_attack", "slot":"control"  },
+        {"point_id":"toggle_control","slot":"control"  },
         {"point_id":"aim_pitch",     "slot":"control"  },
         {"point_id":"aim_yaw",       "slot":"control"  },
         {"point_id":"nameplate",     "slot":"name",                                 "transform":{ "rot":[0, 1, 0],   "pos":[0,      0.80,      0],   "size":[ 0.01,  0.01,  0.01]}}
@@ -134,12 +137,13 @@
         "inputControls",
         "input_target_select",
         "input_toggle_attack",
+        "input_toggle_control",
         "turret_aim_pitch",
         "turret_aim_yaw",
         "nameplate"
       ]
     },
-    "modern_transport_ship":{
+    "transport_ship":{
       "size":35,
       "controls":{
         "input": {
@@ -172,10 +176,14 @@
         }
       },
       "attachment_points":[
-        {"point_id":"body",   "slot":"hull",   "transform":{ "rot":[0, 0, 0],   "pos":[0,  1.3,  0], "size":[3, 1.5,  5.5]}}
+        {"point_id":"body",           "slot":"hull",            "transform":{ "rot":[0, 0, 0],   "pos":[0,  1.3,  0], "size":[3, 1.5,  5.5]}},
+        {"point_id":"steering",       "slot":"control"  },
+        {"point_id":"toggle_control", "slot":"control"  }
       ],
       "default_modules":[
-        "modern_transport_hull"
+        "modern_transport_hull",
+        "inputControls",
+        "input_toggle_control"
       ]
     }
   }

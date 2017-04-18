@@ -269,6 +269,17 @@
       }
     },
 
+    "input_toggle_control":{
+      "type":"control",
+      "id":"input_toggle_control",
+      "initState": null,
+      "applies":{
+        "type":"bool",
+        "state":false
+      }
+    },
+
+
     "input_target_select":{
       "type":"control",
       "id":"input_target_select",

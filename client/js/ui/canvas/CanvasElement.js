@@ -25,7 +25,7 @@ define([
 
         var CanvasElement = function(canvasParams) {
 
-            console.log("CANVAS ELEM", canvasParams);
+    //        console.log("CANVAS ELEM", canvasParams);
 
             this.time = 0;
             this.configs = {};

@@ -69,14 +69,14 @@ define([
 
             var originalImageUpdated = function(src, data) {
 
-                console.log("Buffer Data Updated:  ", url, txType, src, [data]);
+            //    console.log("Buffer Data Updated:  ", url, txType, src, [data]);
                 var onLoad = function(tx) {
                     if (PipelineAPI.readCachedConfigKey('STATUS', "PIPELINE")) {
                         var imgId = tx.toJSON(meta).image;
                         delete meta.images[imgId].uuid;
                         var json = JSON.stringify(meta.images[imgId]);
                         //      var json = meta.images[imgId].url;
-                        console.log("JSON Image:", imgId, [json]);
+            //            console.log("JSON Image:", imgId, [json]);
                         saveJsonUrl(json, url);
                     }
                 };
@@ -119,7 +119,7 @@ define([
 
             var ok = function(src, data) {
                 images[textureStore.url] = data;
-                console.log("TextureCached", src, textureStore);
+        //        console.log("TextureCached", src, textureStore);
                 textureStore.bufferData = data;
                 PipelineAPI.setCategoryKeyValue('BUFFER_IMAGE', textureStore.url, data);
             };
@@ -132,7 +132,7 @@ define([
                 images[textureStore.url] = {};
 
                 if (PipelineAPI.getPipelineOptions('jsonPipe').polling.enabled) {
-                    console.log("PipelineState:",PipelineAPI.readCachedConfigKey('STATUS', 'PIPELINE'))
+            //        console.log("PipelineState:",PipelineAPI.readCachedConfigKey('STATUS', 'PIPELINE'))
                     PipelineAPI.cacheImageFromUrl(textureStore.url, ok, fail)
                 } else {
                     console.log("Load TX Production Mode")

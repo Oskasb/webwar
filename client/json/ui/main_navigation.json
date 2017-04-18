@@ -566,7 +566,7 @@
           "parentId": "monitorContainer2",
           "style": ["data_list_container"],
           "dataField":{
-            "dataKeys":["MON_SERVER", "MON_TPF", "MON_TRAFFIC", "PIPELINE"],
+            "dataKeys":["CONTROL_ID", "TARGET_ID", "MON_SERVER", "MON_TPF", "MON_TRAFFIC", "PIPELINE"],
             "dataCategory":"STATUS"
           }
         }
