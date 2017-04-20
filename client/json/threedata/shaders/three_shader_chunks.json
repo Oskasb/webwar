@@ -290,17 +290,7 @@
           "varying float rowDiffusion;",
           "varying float progress;",
           "varying float pixelSizeSampler;",
-          "varying float sampledSizeFactor;",
-          "varying vec4  velocityDiffusion;",
-          "varying vec4  accelerationDiffusion;",
-          "varying vec4  colorDiffusion;",
-          "varying float scaleDiffusion;",
-          "varying float sillySeed;",
-          "varying float sillyRandom1;",
-          "varying float sillyRandom2;",
-          "varying float sillyRandom3;",
-
-          "varying vec4 pixelColorSampler;"
+          "varying float sampledSizeFactor;"
         ],
 
         "vx_billboard":[

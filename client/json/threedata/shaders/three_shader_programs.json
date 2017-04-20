@@ -234,7 +234,7 @@
           "float sillyRandom3 = sin(sillySeed3*2.4 + progress*1.7 + effectAge * duration * 0.21);",
           "float sillyRandom4 = sin(sillySeed*9.9 + progress*3.5 + effectAge * duration * 0.23);",
 
-          "colorDiffusion        = vec4(0.5 + sillySeed*0.5 * diffusors.w + 1.0-diffusors.w, 0.5 + sillySeed2*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillySeed3*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillySeed*0.5*diffusors.w + 1.0-diffusors.w);",
+          "vec4 colorDiffusion        = vec4(0.5 + sillySeed*0.5 * diffusors.w + 1.0-diffusors.w, 0.5 + sillySeed2*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillySeed3*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillySeed*0.5*diffusors.w + 1.0-diffusors.w);",
 
           "pixelSelector.x = progress + (0.5/data_rows);",
           "pixelSelector.y = 1.0 - ((rowDiffusion / data_rows) - (0.5 / data_rows));",
@@ -288,12 +288,12 @@
 
           "vec3 motionBend = vec3(sillyRandom3* acceleration.z, sillyRandom4* acceleration.z, sillyRandom2* acceleration.z);",
 
-          "velocityDiffusion = vec4(sillySeed, sillySeed2, sillySeed3, sillyRandom4);",
+          "vec4 velocityDiffusion = vec4(sillySeed, sillySeed2, sillySeed3, sillyRandom4);",
           "velocityDiffusion = normalize(velocityDiffusion);",
           "velocityDiffusion = velocityDiffusion * diffusors.x;",
 
 
-          "accelerationDiffusion = vec4(sillySeed3, sillySeed, sillySeed2, sillySeed);",
+          "vec4 accelerationDiffusion = vec4(sillySeed3, sillySeed, sillySeed2, sillySeed);",
           "accelerationDiffusion = normalize(accelerationDiffusion);",
           "accelerationDiffusion = accelerationDiffusion * acceleration.z;",
           "accelerationDiffusion = vec4(1.0 - accelerationDiffusion.x, 1.0 - accelerationDiffusion.y, 1.0 - accelerationDiffusion.z, 1.0);",
@@ -301,7 +301,7 @@
 
 
 
-          "colorDiffusion        = vec4(0.5 + sillyRandom3*0.5 * diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom1*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom4*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom2*0.5*diffusors.w + 1.0-diffusors.w);",
+          "vec4 colorDiffusion        = vec4(0.5 + sillyRandom3*0.5 * diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom1*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom4*0.5*diffusors.w + 1.0-diffusors.w, 0.5 + sillyRandom2*0.5*diffusors.w + 1.0-diffusors.w);",
 
           "velocityFactor = diffusors.z;",
 
