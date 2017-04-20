@@ -2,13 +2,11 @@
 
 define([
     'ThreeAPI',
-        '3d/effects/particles/SPEutils',
         '3d/effects/particles/ParticleDataTexture',
         'PipelineObject'
     ],
     function(
         ThreeAPI,
-        SPEutils,
         ParticleDataTexture,
         PipelineObject
     ) {
@@ -18,49 +16,38 @@ define([
         var mapTextures = {};
 
 
-        var utils = SPEutils();
-        var types = utils.types;
 
-        var configureTXSettings = function(txSettings, txMatSettings) {
-            var options = utils.ensureTypedArg( txMatSettings, types.OBJECT, {} );
+        var configureTXSettings = function(txSettings, options) {
 
-            txSettings.data_texture = utils.ensureInstanceOf( dataTextures[txMatSettings.data_texture], THREE.Texture, null );
-            if (txMatSettings.data_texture) {
-                txSettings.data_rows = utils.ensureTypedArg( options.settings.data_rows, types.NUMBER, null );
+            txSettings.data_texture = dataTextures[options.data_texture];
+            if (options.data_texture) {
+                txSettings.data_rows = options.settings.data_rows;
             }
 
-            if (txMatSettings.global_uniforms) {
-                txSettings.global_uniforms = txMatSettings.global_uniforms;
+            if (options.global_uniforms) {
+                txSettings.global_uniforms = options.global_uniforms;
             }
 
 
-            txSettings.texture = utils.ensureInstanceOf( mapTextures[txMatSettings.particle_texture], THREE.Texture, null );
-            txSettings.tiles_x = utils.ensureTypedArg( options.settings.tiles_x, types.NUMBER, 1 );
-            txSettings.tiles_y = utils.ensureTypedArg( options.settings.tiles_y, types.NUMBER, 1 );
+            txSettings.texture =  mapTextures[options.particle_texture];
+            txSettings.tiles_x =  options.settings.tiles_x;
+            txSettings.tiles_y =  options.settings.tiles_y;
 
             txSettings.texture.flipY = options.settings.flip_y;
 
         };
 
-        var configureOptions = function(opts, systemOptions) {
-
-            var options = utils.ensureTypedArg( systemOptions, types.OBJECT, {} );
+        var configureOptions = function(opts, options) {
 
             // Set properties used to define the ShaderMaterial's appearance.
-            opts.blending       = utils.ensureTypedArg( THREE[options.blending], types.NUMBER, THREE.AdditiveBlending );
-            opts.transparent    = utils.ensureTypedArg( options.transparent,     types.BOOLEAN, true );
-            opts.alphaTest      = parseFloat(utils.ensureTypedArg( options.alphaTest, types.NUMBER, 0.0 ) );
-            opts.depthWrite     = utils.ensureTypedArg( options.depthWrite, types.BOOLEAN, false );
-            opts.depthTest      = utils.ensureTypedArg( options.depthTest, types.BOOLEAN, true );
-            opts.fog            = utils.ensureTypedArg( options.fog, types.BOOLEAN, true );
-            opts.scale          = utils.ensureTypedArg( options.scale, types.NUMBER, 300 );
-            opts.colorize       = utils.ensureTypedArg( options.colorize, types.BOOLEAN, true );
-            opts.perspective    = utils.ensureTypedArg( options.hasPerspective, types.BOOLEAN, true );
-            opts.rotate         = utils.ensureTypedArg( options.rotate, types.BOOLEAN, false );
-            opts.wiggle         = utils.ensureTypedArg( options.wiggle, types.BOOLEAN, false );
+            opts.blending       = THREE[options.blending];
+            opts.transparent    = options.transparent;
+            opts.alphaTest      = parseFloat( options.alphaTest);
+            opts.depthWrite     = options.depthWrite    ;
+            opts.depthTest      = options.depthTest     ;
+            opts.fog            = options.fog           ;
 
         };
-
 
         var matCount = 0;
 
