@@ -2,7 +2,7 @@
 
 define([
         '3d/effects/water/WaterFX',    
-    '3d/effects/vegetation/Vegetation',
+        '3d/effects/vegetation/Vegetation',
         '3d/effects/particles/ParticleSpawner',
         '3d/effects/filters/ScreenSpaceFX'
     ],
@@ -106,10 +106,7 @@ define([
         EffectsAPI.vegDebug = function() {
             return debugVegetation;
         };
-
-
-
-
+        
         return EffectsAPI;
 
     });
