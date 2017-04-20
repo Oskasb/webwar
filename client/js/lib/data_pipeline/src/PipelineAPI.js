@@ -38,18 +38,7 @@ define(['data_pipeline/data/ConfigCache'],
 		PipelineAPI.removeCategoryKeySubscriber = function(category, key, onDataCallback) {
 			ConfigCache.unsubscribeCategoryKey(category, key, onDataCallback)
 		};
-		
-		PipelineAPI.cloneLoadedGooEntity = function(entityName, callback) {
-			ConfigCache.cloneCachedEntity(entityName, callback);
-		};
-
-		PipelineAPI.applyEnvironmentGooEntity = function(entityName, callback) {
-			ConfigCache.reloadEnvironmentEntity(entityName, callback);
-		};
-
-		PipelineAPI.initBundleDownload = function(path, goo, masterUrl, assetUpdated, fail, notifyLoaderProgress) {
-			ConfigCache.loadBundleMaster(path, goo, masterUrl, assetUpdated, fail, notifyLoaderProgress)
-		};
+				
 
 		PipelineAPI.meshCombineEntityList = function(entityList, combineDone) {
 			ConfigCache.combineEntities(entityList, combineDone);

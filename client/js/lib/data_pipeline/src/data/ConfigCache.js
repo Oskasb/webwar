@@ -312,30 +312,7 @@ define([
 			GameDataPipeline.loadConfigFromUrl(url, onLoaded, fail);
 		};
 
-		ConfigCache.cloneCachedEntity = function(entityName, callback) {
-			console.log("Config Cache Clone: ", entityName)
-			gooEntityCache.cloneEntity(entityName, callback);
-		};
-
-		ConfigCache.reloadEnvironmentEntity = function(entityName, callback) {
-			gooEntityCache.reloadEnvironment(entityName, callback);
-		};
-
-		ConfigCache.cacheGooBundleFromUrl = function(path, goo, bundleConf, success, fail, notifyLoaderProgress) {
-			ConfigCache.notifyUrlReadRequest(path+bundleConf.folder);
-			var entitiesCached = function(srcKey, entities) {
-				success(srcKey, entities);
-			};
-
-			var onLoaded = function(remoteUrl, data, loader) {
-				console.log("Bundle Url: ", remoteUrl)
-				ConfigCache.notifyUrlReceived(remoteUrl);
-				ConfigCache.dataCombineToKey('bundles', bundleConf.id, data, loader);
-				gooEntityCache.cacheLoadedEntities(goo, bundleConf, data, loader, entitiesCached, fail, notifyLoaderProgress)
-			};
-
-			GameDataPipeline.loadGooBundleFromUrl(path, goo, path+bundleConf.folder, bundleConf.file, onLoaded, fail);
-		};
+		
 
 		ConfigCache.cacheSvgFromUrl = function(url, success, fail) {
 			ConfigCache.notifyUrlReadRequest(url);
@@ -359,36 +336,7 @@ define([
 
 
 		ConfigCache.loadBundleMaster = function(path, goo, masterUrl, assetUpdated, fail, notifyLoaderProgress) {
-			var bundleArray;
 
-			var success = function(srcKey, loaderData) {
-				if (bundleArray.length) {
-					var next =  bundleArray.shift();
-					console.log("next bundle:", next);
-					processNext(next);
-				}
-				assetUpdated(srcKey, loaderData);
-			}.bind(this);
-
-			var processNext = function(next) {
-				var cacheFail = function(err) {
-					console.error("Failed to cache bundle: ", err);
-				};
-				ConfigCache.cacheGooBundleFromUrl(window.resourcePath, goo,next, success, cacheFail, notifyLoaderProgress)
-			};
-
-			var registerBundleList = function(bundles) {
-				bundleArray = bundles;
-				processNext(bundleArray.shift());
-			};
-
-			var bundleMasterUpdated = function(srcKey, data) {
-				for (var i = 0; i < data.length; i++) {
-					registerBundleList(data[i].bundle_index.bundles);
-				}
-			};
-
-			ConfigCache.cacheFromUrl(masterUrl, bundleMasterUpdated, fail);
 		};
 
 		ConfigCache.combineEntities = function(entityList, combineDone) {

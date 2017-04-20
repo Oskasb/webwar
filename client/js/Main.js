@@ -64,19 +64,25 @@ require([
 ) {
 
 
-    new SystemDetector();
-    new ButtonEventDispatcher();
-    new DevConfigurator();
-    new FullScreenConfigurator();
-    new ControlStateDispatcher();
+    var init = function() {
+        new SystemDetector();
+        new ButtonEventDispatcher();
+        new DevConfigurator();
+        new FullScreenConfigurator();
+        new ControlStateDispatcher();
 
-    GameScreen.registerAppContainer(document.getElementById('game_window'));
-    
-    var sceneController = new SceneController();
-    var dataLoader = new DataLoader();
+        GameScreen.registerAppContainer(document.getElementById('game_window'));
 
-    console.log(window.location.href);
+        var sceneController = new SceneController();
+        var dataLoader = new DataLoader();
 
-    dataLoader.loadData(Client, PointerCursor, sceneController);
+        console.log(window.location.href);
+
+        dataLoader.loadData(Client, PointerCursor, sceneController);
+    };
+
+    setTimeout(function() {
+        init();
+    }, 0)
 
 });
