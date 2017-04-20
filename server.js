@@ -10,8 +10,8 @@ var servers = [];
 var app = express();
 var port = process.env.PORT || 5000;
 
-
 var devMode = true;
+
 if (process.env.PORT) {
     devMode = false;
     console.log(process.env.PORT)
@@ -22,8 +22,7 @@ app.use(express.static(__dirname + "/"));
 var server = http.createServer(app);
 server.listen(port);
 
-
-if (port == 5000) {
+if (devMode) {
 
     var fileServer = http.createServer();
     fileServer.listen(5001);

@@ -20,8 +20,8 @@
           "id": "sherman_hull",
           "material": "tank_atlas",
           "format":"obj",
-          "url": "./client/assets/models/sherman_hull",
-          "urluv2": "./client/assets/models/sherman_hull_ao",
+          "url": "./client/assets/models/tank/sherman_hull",
+          "urluv2": "./client/assets/models/tank/sherman_hull_ao",
           "pool": 15,
           "transform": {
             "pos": [0, -1.2, -0.3],
@@ -32,8 +32,8 @@
         {
           "id": "sherman_turret",
           "material": "tank_atlas",
-          "url": "./client/assets/models/sherman_turret",
-          "urluv2": "./client/assets/models/sherman_turret_ao",
+          "url": "./client/assets/models/tank/sherman_turret",
+          "urluv2": "./client/assets/models/tank/sherman_turret_ao",
           "pool": 15,
           "transform": {
             "pos": [0, -2.4, 0.3],
@@ -44,8 +44,8 @@
         {
           "id": "sherman_cannon",
           "material": "tank_atlas",
-          "url": "./client/assets/models/sherman_cannon",
-          "urluv2": "./client/assets/models/sherman_cannon_ao",
+          "url": "./client/assets/models/tank/sherman_cannon",
+          "urluv2": "./client/assets/models/tank/sherman_cannon_ao",
           "pool": 15,
           "transform": {
             "pos": [0, -2.45, 3.2],
@@ -56,8 +56,8 @@
         {
           "id": "sherman_track_l",
           "material": "tank_track",
-          "url": "./client/assets/models/sherman_track_l",
-          "urluv2": "./client/assets/models/sherman_track_l_ao",
+          "url": "./client/assets/models/tank/sherman_track_l",
+          "urluv2": "./client/assets/models/tank/sherman_track_l_ao",
           "pool": 15,
           "transform": {
             "pos": [
@@ -69,8 +69,8 @@
         {
           "id": "sherman_track_r",
           "material": "tank_track",
-          "url": "./client/assets/models/sherman_track_r",
-          "urluv2": "./client/assets/models/sherman_track_r_ao",
+          "url": "./client/assets/models/tank/sherman_track_r",
+          "urluv2": "./client/assets/models/tank/sherman_track_r_ao",
           "pool": 15,
           "transform": {
             "pos": [-1.3, -0.2, -0.55],
@@ -81,7 +81,7 @@
         {
           "id": "rock_10m",
           "material": "main_atlas",
-          "url": "./client/assets/models/rock_10m",
+          "url": "./client/assets/models/shapes/rock_10m",
           "pool": 5,
           "transform": {
             "pos": [3, -6, 8],

@@ -3,19 +3,17 @@
 define([
         '3d/effects/water/WaterFX',    
         '3d/effects/vegetation/Vegetation',
-        '3d/effects/particles/ParticleSpawner',
-        '3d/effects/filters/ScreenSpaceFX'
+        '3d/effects/particles/ParticleSpawner'
     ],
     function(
         WaterFX,
         Vegetation,
-        ParticleSpawner,
-        ScreenSpaceFX
+        ParticleSpawner
     ) {
 
         var vegetation;
         var particleSpawner;
-        var screenSpaceFX;
+
         var waterFx;
 
         var debugVegetation = false;
@@ -24,15 +22,10 @@ define([
 
         };
 
-        var init = false;
         
         EffectsAPI.initEffects = function(onReady) {
             
-            if (init) {
-                console.error("Init FX already called!")
-                return;
-            }
-            init = true;
+
             vegetation = new Vegetation(this);
             particleSpawner = new ParticleSpawner();
 
@@ -44,12 +37,9 @@ define([
 
             setTimeout(function() {
                 waterReady();
-            }, 500);
+            }, 5);
 
             particleSpawner.initParticleSpawner(onReady);
-
-            //    screenSpaceFX = new ScreenSpaceFX();
-            //    screenSpaceFX.initFilterEffects();
 
         };
 

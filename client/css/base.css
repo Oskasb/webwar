@@ -53,7 +53,8 @@ body {
     transform: translate3d(0px, 0px, 0px);
 }
 
-div.game_window {
+
+div.canvas_window {
     top: 0em;
     left: 0em;
     right: 0em;
@@ -62,7 +63,7 @@ div.game_window {
     transform: translate3d(0px, 0px, 0px);
 }
 
-div.game_window_landscape {
+div.canvas_window_landscape {
     top: 0em;
     left: 122em;
     right: 122em;
@@ -70,7 +71,7 @@ div.game_window_landscape {
     position: absolute;
 }
 
-div.game_window_portrait {
+div.canvas_window_portrait {
     top: 122em;
     left: 0em;
     right: 0em;

@@ -20,30 +20,49 @@ define([
             return 'content'+url.slice(1);
         };
 
-        var saveJsonUrl = function(json, url) {
-            var shiftUrl = url.slice(1);
-            PipelineAPI.saveJsonFileOnServer(json, shiftUrl)
-        };
 
         var poolMesh = function(id, mesh, count) {
             var poolCount = count || 3;
             mesh.poolId = id;
             modelPool[id] = [];
-
             for (var i = 0; i < poolCount; i++) {
                 var clone = mesh.clone();
                 clone.poolId = id;
                 clone.frustumCulled = false;
                 modelPool[id].push(clone);
             }
-
         };
 
-        var cacheMesh = function(id, mesh, pool) {
 
+        var saveJsonUrl = function(json, url) {
+            var shiftUrl = url.slice(1);
+            console.log("STORE JSON MESH:", shiftUrl, json);
+
+            PipelineAPI.saveJsonFileOnServer(JSON.stringify(json), shiftUrl)
+        };
+
+        var saveJsonMesh = function(id, mesh) {
+            saveJsonUrl(mesh.toJSON(), modelList[id].url+'.json');
+        };
+
+
+        var cacheMesh = function(id, mesh, pool) {
             PipelineAPI.setCategoryKeyValue('THREE_MODEL', id, mesh);
             poolMesh(id, mesh, pool)
         };
+
+
+        var loadJSON = function(modelId, pool) {
+
+            var loader = new THREE.ObjectLoader();
+
+            loader.load( contentUrl(modelList[modelId].url)+'.json', function ( jsonModel ) {
+
+                cacheMesh(modelId, jsonModel, pool);
+
+            });
+        };
+
 
         var loadFBX = function(modelId, pool) {
 
@@ -70,7 +89,8 @@ define([
                     if ( child instanceof THREE.Mesh ) {
                         console.log(child)
                         child.rotation.x += Math.PI/2;
-                        cacheMesh(modelId, child, pool);
+                        saveJsonMesh(modelId, child);
+                    //    cacheMesh(modelId, child, pool);
 
                     }
                 } );
@@ -93,7 +113,8 @@ define([
                         console.log(child)
                         child.rotation.x = Math.PI;
                         child.needsUpdate = true;
-                        cacheMesh(modelId, child, pool);
+                        saveJsonMesh(modelId, child);
+                    //    cacheMesh(modelId, child, pool);
                     }
                 } );
             });
@@ -132,7 +153,10 @@ define([
                 meshObj.geometry.addAttribute('uv2',  uv2mesh.geometry.attributes.uv);
                 uv2mesh.geometry.dispose();
                 uv2mesh.material.dispose();
-                cacheMesh(mid, meshObj, pool);
+
+
+                saveJsonMesh(mid, meshObj);
+                //   cacheMesh(mid, meshObj, pool);
             };
 
             var modelFound = function(child, mid) {
@@ -141,7 +165,8 @@ define([
                 if (modelList[modelId].urluv2) {
                     loadUrl(modelList[modelId].urluv2+'.obj', modelId, uv2Found)
                 } else {
-                    cacheMesh(mid, child, pool);
+                    saveJsonMesh(mid, child);
+                //    cacheMesh(mid, child, pool);
                 }
             };
 
@@ -162,6 +187,12 @@ define([
 
         };
 
+        var delayedLoad = function(id, pool) {
+            setTimeout(function() {
+                loadJSON(id, pool);
+            }, 2000)
+        };
+
         ThreeModelLoader.loadData = function(TAPI) {
 
             ThreeTerrain.loadData(TAPI);
@@ -171,21 +202,27 @@ define([
 
                     modelList[data[i].id] = data[i];
 
-                    switch ( data[i].format )	{
 
-                        case 'dae':
-                            loadCollada(data[i].id, data[i].pool);
-                            break;
+                    if (PipelineAPI.getPipelineOptions('jsonPipe').polling.enabled) {
+                        switch ( data[i].format )	{
 
-                        case 'fbx':
-                            loadFBX(data[i].id, data[i].pool);
-                            break;
+                            case 'dae':
+                                loadCollada(data[i].id, data[i].pool);
+                                break;
 
-                        default:
-                            LoadObj(data[i].id, data[i].pool);
-                            break;
+                            case 'fbx':
+                                loadFBX(data[i].id, data[i].pool);
+                                break;
 
+                            default:
+                                LoadObj(data[i].id, data[i].pool);
+                                break;
+                        }
                     }
+
+
+                    delayedLoad(data[i].id, data[i].pool)
+
                 }
             };
 

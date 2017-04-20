@@ -1,6 +1,6 @@
 define(["Events", "io/TouchActionListener"], function(event, touchListener) {
 
-    var refDiv = document.getElementById("game_window");
+    var refDiv = document.getElementById("canvas_window");
 
     var getElementById = function(id) {
         return document.getElementById(id);

@@ -73,7 +73,7 @@ define([
                 transition: 'all 1.6s ease-in-out'
             };
 
-            this.progHeader = DomUtils.createDivElement(this.root, 'phead', 'twinkio.com', 'point');
+            this.progHeader = DomUtils.createDivElement(this.root, 'phead', 'Loading...', 'point');
 
             DomUtils.applyElementStyleParams(this.progHeader, hStyle);
 
@@ -247,12 +247,12 @@ define([
 
                 setTimeout(function() {
                     DomUtils.removeElement(_this.root);
-                }, 1500);
+                }, 500);
 
                 DomUtils.removeElement(_this.pipeMessage);
                 DomUtils.removeElement(_this.progMessage);
 
-            },400);
+            },200);
 
 		};
 

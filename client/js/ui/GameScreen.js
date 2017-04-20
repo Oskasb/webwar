@@ -1,5 +1,23 @@
 "use strict";
 
+var meta = document.createElement('meta');
+meta.name = "viewport";
+meta.content = "initial-scale=1, maximum-scale=1";
+document.getElementsByTagName('head')[0].appendChild(meta);
+
+Element.prototype.remove = function() {
+    this.parentElement.removeChild(this);
+};
+
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = this.length - 1; i >= 0; i--) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
+};
+
+
 define([
 
     ],
@@ -143,7 +161,6 @@ define([
             return percentZoom = 100*factor;
         };
 
-
         var goFullscreen = function() {
             
                 var el = document.body;
@@ -160,7 +177,6 @@ define([
 
         };
 
-
         var exitFullscreen = function() {
 
             function is() {
@@ -168,7 +184,7 @@ define([
                     document.webkitFullscreenElement || document.msFullscreenElement
             }
 
-            var el = document // is();
+            var el = document;
 
             if (el.exitFullscreen) {
                 el.exitFullscreen()
@@ -179,8 +195,6 @@ define([
             } else if (el.webkitExitFullscreen) {
                 el.webkitExitFullscreen()
             }
-
-
 
         };
 

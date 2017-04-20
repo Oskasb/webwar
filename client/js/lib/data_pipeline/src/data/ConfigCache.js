@@ -83,7 +83,7 @@ define([
 			};
 
 
-			console.log("Request Load: ", jsonIndexUrl)
+			console.log("Request Load: ", jsonIndexUrl);
 			ConfigCache.cacheFromUrl(jsonIndexUrl, indexLoaded, loadFail);
 
 		};

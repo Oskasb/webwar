@@ -235,7 +235,7 @@ define([
 
                     _this.setupPipelineCallback(loadStateChange);
                     sharedFilesLoaded();
-                }, 20);
+                }, 0);
 
             };
 
@@ -244,7 +244,7 @@ define([
 
                     setTimeout(function() {
                         sharedLoaded();
-                    }, 20)
+                    }, 0)
                 
             };
 

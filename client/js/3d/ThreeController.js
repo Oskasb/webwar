@@ -20,6 +20,8 @@ define([
 
     var fireResize;
 
+    var divId = 'canvas_window';
+    
     var ThreeController = function() {
         new ThreeCamera();
     };
@@ -71,13 +73,13 @@ define([
 
     var monkeypatchCustomEngine = function() {
 
-        document.getElementById('game_window').style.left = '122em';
-        document.getElementById('game_window').style.right = '122em';
-        document.getElementById('game_window').style.top = '0em';
-        document.getElementById('game_window').style.bottom = '0em';
-        document.getElementById('game_window').style.width = 'auto';
-        document.getElementById('game_window').style.height = 'auto';
-        document.getElementById('game_window').style.position = 'fixed';
+        document.getElementById(divId).style.left = '122em';
+        document.getElementById(divId).style.right = '122em';
+        document.getElementById(divId).style.top = '0em';
+        document.getElementById(divId).style.bottom = '0em';
+        document.getElementById(divId).style.width = 'auto';
+        document.getElementById(divId).style.height = 'auto';
+        document.getElementById(divId).style.position = 'fixed';
 
         var width = window.innerWidth;
         var height = window.innerHeight;
@@ -92,19 +94,19 @@ define([
             height = window.innerHeight;
 
             if (width > height) {
-                document.getElementById('game_window').style.left = '122em';
-                document.getElementById('game_window').style.right = '122em';
-                document.getElementById('game_window').style.top = '0em';
-                document.getElementById('game_window').style.bottom = '0em';
+                document.getElementById(divId).style.left = '122em';
+                document.getElementById(divId).style.right = '122em';
+                document.getElementById(divId).style.top = '0em';
+                document.getElementById(divId).style.bottom = '0em';
 
                 GameScreen.setLandscape(true);
                 landscape = true;
                 evt.fire(evt.list().SCREEN_CONFIG, {landscape:true})
             } else {
-                document.getElementById('game_window').style.left = '0em';
-                document.getElementById('game_window').style.right = '0em';
-                document.getElementById('game_window').style.top = '122em';
-                document.getElementById('game_window').style.bottom = '122em';
+                document.getElementById(divId).style.left = '0em';
+                document.getElementById(divId).style.right = '0em';
+                document.getElementById(divId).style.top = '122em';
+                document.getElementById(divId).style.bottom = '122em';
 
 
                 GameScreen.setLandscape(false);
@@ -112,8 +114,8 @@ define([
                 evt.fire(evt.list().SCREEN_CONFIG, {landscape:false})
             }
 
-            width = document.getElementById('game_window').offsetWidth;
-            height = document.getElementById('game_window').offsetHeight;
+            width = document.getElementById(divId).offsetWidth;
+            height = document.getElementById(divId).offsetHeight;
 
             PipelineAPI.setCategoryData('SETUP', {SCREEN:[width, height], LANDSCAPE:landscape});
             GameScreen.notifyResize();
