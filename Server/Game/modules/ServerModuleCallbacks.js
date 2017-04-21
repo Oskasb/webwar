@@ -22,6 +22,8 @@ ServerModuleCallbacks.prototype.updateModuleState = function(piece, value, modul
 ServerModuleCallbacks.prototype.fireCannon = function(piece, value, moduleData) {
 
     var bulletPiece = this.pieceSpawner.spawnBullet(piece, moduleData, this.serverGameMain.getNow(), this.serverGameMain.gameConfigs.PIECE_DATA, this.serverGameMain.gameConfigs);
+
+    this.serverWorld.addWorldPiecePhysics(bulletPiece);
     this.serverWorld.addWorldPiece(bulletPiece);
     this.serverWorld.broadcastPieceState(bulletPiece);
     bulletPiece.setState(GAME.ENUMS.PieceStates.STATIC);
@@ -29,8 +31,20 @@ ServerModuleCallbacks.prototype.fireCannon = function(piece, value, moduleData) 
 };
 
 ServerModuleCallbacks.prototype.applyControl = function(piece, value, moduleData) {
+
+
+
 //    this.serverWorld.applyControlModule(piece, moduleData, value);
 };
+
+
+ServerModuleCallbacks.prototype.commandTarget = function(piece, value, moduleData) {
+    if (value) {
+        this.serverModuleFunctions.applyCommandTarget(piece, moduleData);
+    }
+
+};
+
 
 ServerModuleCallbacks.prototype.applyPitch = function(piece, value, moduleData) {
     this.serverModuleFunctions.applyModulePitch(piece, moduleData, value);

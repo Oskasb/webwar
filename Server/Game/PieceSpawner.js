@@ -17,11 +17,6 @@ PieceSpawner.prototype.notifyConfigsUpdated = function(gameConfigs, players) {
     //   console.log("Module data updated...", gameConfigs.PIECE_DATA);
 
     for (var key in players) {
-
-        if (gameConfigs.PIECE_DATA) {
-            players[key].applyPieceConfig(this.buildPieceData(players[key].piece.type, gameConfigs));
-        }
-
         console.log("Notify player...", key)
         players[key].client.sendToClient({id:'updateGameData', data:{clientId:players[key].client.id, gameData:gameConfigs}});
         players[key].client.notifyDataFrame();
@@ -65,7 +60,7 @@ PieceSpawner.prototype.spawnPlayerPiece = function(client, data, clients, simula
     
     var config = this.buildPieceData(player.piece.type, gameConfigs);
 
-    player.applyPieceConfig(config);
+
     player.piece.applyConfig(config);
 
 

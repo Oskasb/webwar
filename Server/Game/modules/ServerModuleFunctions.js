@@ -54,8 +54,9 @@ ServerModuleFunctions.prototype.applyModulePitch = function(sourcePiece, moduleD
         sourcePiece.networkDirty = true;
     }
 
-
 };
+
+
 
 ServerModuleFunctions.prototype.applyModuleYaw = function(sourcePiece, moduleData) {
     //   sourcePiece.pieceControls.setControlState(moduleData, action, value);
@@ -114,4 +115,29 @@ ServerModuleFunctions.prototype.applyModuleYaw = function(sourcePiece, moduleDat
     if (diff > 0.00001) {
         sourcePiece.networkDirty = true;
     }
+};
+
+
+ServerModuleFunctions.prototype.applyCommandTarget = function(sourcePiece, moduleData) {
+
+    sourcePiece.setModuleState(moduleData.id, moduleData.initState);
+
+    if (!moduleData.applies.master_module_id) {
+        console.log("No master module for commandTarget");
+        return;
+    }
+
+    var target = this.serverWorld.getPieceById(sourcePiece.getModuleById(moduleData.applies.master_module_id).state.value);
+
+    var currentPlayer = this.serverWorld.getPlayer(target.id);
+
+    if (currentPlayer) {
+        console.log("Try command existing player")
+        return;
+    }
+
+    this.serverWorld.playerTakeControlOfPiece(target, sourcePiece.id);
+
+    console.log("Apply Command Target: ", target.id);
+
 };

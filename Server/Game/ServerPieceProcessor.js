@@ -33,8 +33,8 @@ ServerPieceProcessor.prototype.getDistanceSquaredFromPieceToTarget = function(pi
 ServerPieceProcessor.prototype.checkProximity = function(players, pieces) {
 
     for (var key in players) {
-        this.playerAgainstPieces(players[key], pieces);
-        this.playerAgainstPlayers(players[key], players);
+    //    this.playerAgainstPieces(players[key], pieces);
+    //    this.playerAgainstPlayers(players[key], players);
     }
 
     for (var i = 0; i < pieces.length; i++) {
@@ -129,10 +129,9 @@ ServerPieceProcessor.prototype.pieceAgainstPiece = function(pieceA, pieceB) {
         if (this.collissions.indexOf(pieceA) != -1 && this.collissions.indexOf(pieceB) != -1) {
             return;
         }
+
         this.collissions.push(pieceA);
         this.collissions.push(pieceB);
-            pieceA.setState(GAME.ENUMS.PieceStates.BURST);
-            pieceB.setState(GAME.ENUMS.PieceStates.BURST);
 
 
             if (pieceA.spatial.getVelVec().getLength() > pieceB.spatial.getVelVec().getLength()) {
@@ -145,14 +144,18 @@ ServerPieceProcessor.prototype.pieceAgainstPiece = function(pieceA, pieceB) {
         pieceA.networkDirty = true;
         pieceB.networkDirty = true;
 
+        pieceA.notifyCollide();
+        pieceB.notifyCollide();
+
         this.callbacks.broadcast(pieceA);
         this.callbacks.broadcast(pieceB);
-        pieceA.setState(GAME.ENUMS.PieceStates.TIME_OUT);
-        pieceB.setState(GAME.ENUMS.PieceStates.TIME_OUT);
-        }
+
+    }
 };
 
 ServerPieceProcessor.prototype.collidePieces = function(fastPiece, slowPiece, hitNormal) {
+
+    return;
 
     this.calcVec.setVec(fastPiece.spatial.getPosVec());
     this.calcVec.subVec(slowPiece.spatial.getPosVec());

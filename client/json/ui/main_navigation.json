@@ -27,6 +27,8 @@
           }
         }
 
+
+
       },{
         "id":"buttonContainer1",
         "data":{
@@ -112,23 +114,55 @@
           }
         }
 
+
+
       },{
-        "id":"buttonContainerHyper",
+        "id":"buttonContainer2",
         "data":{
           "parentId":"rightRoot",
           "style":["main_button_container", "coloring_container_main_panel"]
         }
       },{
-        "id":"hyperButton",
+        "id":"multiButtonContainer2",
         "data":{
-          "parentId":"buttonContainerHyper",
-          "style":["panel_button", "coloring_button_main_panel"],
+          "parentId":"buttonContainer2",
+          "style":["full_size_container"]
+        }
+      },{
+        "id":"buttonContainer2_1",
+        "data":{
+          "parentId":"multiButtonContainer2",
+          "style":["main_button_container_multi"]
+        }
+      },{
+        "id":"buttonContainer2_2",
+        "data":{
+          "parentId":"multiButtonContainer2",
+          "style":["main_button_container_multi", "coloring_container_main_panel"]
+        }
+      },{
+        "id":"button2_1",
+        "data":{
+          "parentId":"buttonContainer2_1",
+          "style":["panel_button_multi", "coloring_button_main_panel"],
           "button":{
             "id":"panel_button",
             "event":{"category":"CONTROL_STATE", "key":"TOGGLE_TELEPORT", "type":"toggle"}
           },
           "text":"WARP"
         }
+      },{
+        "id":"button2_2",
+        "data":{
+          "parentId":"buttonContainer2_2",
+          "style":["panel_button_multi", "coloring_button_main_panel"],
+          "button":{
+            "id":"panel_button",
+            "event":{"category":"CONTROL_STATE", "key":"TOGGLE_TARGET_CONTROL", "type":"toggle"}
+          },
+          "text":"CONTROL"
+        }
+
 
       },{
         "id":"buttonContainerAttack",

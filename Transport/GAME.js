@@ -128,11 +128,11 @@ if(typeof(GAME) == "undefined"){
 
 
 
-	GAME.Piece = function(type, id, creationTime, lifeTime, broadcast) {
+	GAME.Piece = function(type, id, creationTime, lifeTime) {
         this.networkDirty = true;
 		this.id = id;
 		this.type = type;
-		this.broadcast = broadcast;
+		this.broadcast = function() {};
 		this.pieceControls = new GAME.PieceControls();
 		this.temporal = new MODEL.Temporal(creationTime, lifeTime);
         this.sendTime = 0;
@@ -153,6 +153,9 @@ if(typeof(GAME) == "undefined"){
         this.registerParentPiece(this);
 	};
 
+    GAME.Piece.prototype.setBroadcastFunction = function(broadcast) {
+        this.broadcast = broadcast;
+    };
 
 	GAME.Piece.prototype.registerParentPiece = function(piece) {
 		this.parentPiece = piece;
@@ -241,6 +244,24 @@ if(typeof(GAME) == "undefined"){
 	GAME.Piece.prototype.getState = function() {
 		return this.state;
 	};
+
+    GAME.Piece.prototype.notifyCollide = function() {
+
+        if (!this.config.controls) {
+            this.setState(GAME.ENUMS.PieceStates.TIME_OUT);
+            return;
+        }
+
+        if (this.config.controls.actions) {
+            if (this.config.controls.actions.collideState) {
+                this.setState(this.config.controls.actions.collideState);
+                return;
+            }
+        }
+
+    //    this.setState(GAME.ENUMS.PieceStates.EXPLODE);
+    };
+
 
 	GAME.Piece.prototype.makePacket = function() {
 

@@ -6,7 +6,8 @@
       "controls":{
         "actions": {
           "applyForward":1,
-          "timeoutEvent": "EXPLODE"
+          "timeoutEvent":"EXPLODE",
+          "collideState":"TIME_OUT"
         },
         "constants":{
           "velocityDrag":0,
@@ -25,7 +26,8 @@
         "size":1,
         "actions": {
           "applyForward":1,
-          "timeoutEvent": "EXPLODE"
+          "timeoutEvent": "EXPLODE",
+          "collideState":"TIME_OUT"
         },
         "constants":{
           "velocityDrag":0,
@@ -44,7 +46,8 @@
       "controls":{
         "actions": {
           "applyForward":1,
-          "timeoutEvent": "EXPLODE"
+          "timeoutEvent": "EXPLODE",
+          "collideState":"TIME_OUT"
         },
         "constants":{
           "velocityDrag":0,

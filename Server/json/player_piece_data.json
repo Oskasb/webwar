@@ -19,7 +19,8 @@
           "applyThrottle":0,
           "applyForward":0,
           "applyShields":0,
-          "fireCannon":false
+          "fireCannon":false,
+          "collideState":"BURST"
         },
         "constants":{
           "shieldEnergy":50,
@@ -82,7 +83,8 @@
             "distanceSegments":3,
             "radius":25,
             "width":25,
-            "streamTimeout":0.2
+            "streamTimeout":0.2,
+            "collideState":"BURST"
           }
         },
         "actions": {
@@ -161,7 +163,8 @@
           "applyThrottle":0,
           "applyForward":0,
           "applyShields":0,
-          "fireCannon":false
+          "fireCannon":false,
+          "collideState":"BURST"
         },
         "constants":{
           "shieldEnergy":50,

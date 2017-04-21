@@ -11,24 +11,10 @@ ServerPlayer = function(pieceType, clientId, client, simTime) {
 	this.client = client;
 	this.clientId = clientId;
 
-	this.configs = {};
+    var piece = new GAME.Piece(pieceType, this.id, simTime, Number.MAX_VALUE);
 
-	var piece;
+	this.setPlayerPiece(piece);
 
-	var broadcast = function(piecePacket) {
-		if (!client) {
-			console.log("Bad ConnectedClient!", piece.id, piecePacket);
-			return;
-		}
-    //    console.log("ServerPlayer broadcast: ", piece.id, piece.state);
-		client.broadcastToVisible(piecePacket);
-	};
-	
-	piece = new GAME.Piece(pieceType, this.id, simTime, Number.MAX_VALUE, broadcast);
-	this.piece = piece;
-
-	this.piece.networkDirty = true;
-	this.piece.setName(clientId);
 	client.attachPlayer(this);
 
     this.visiblePieces = [];
@@ -40,13 +26,25 @@ ServerPlayer = function(pieceType, clientId, client, simTime) {
 };
 
 
-ServerPlayer.prototype.applyPieceConfig = function(pieceTypeConfigs) {
-    if(!this.piece) {
-        console.log('Bad Server Player');
-        return
-    }
+ServerPlayer.prototype.setPlayerPiece = function(p) {
+    var piece = p;
+    this.piece = piece;
 
-	this.configs = pieceTypeConfigs;
+    var client = this.client;
+
+    var broadcast = function(piecePacket) {
+        if (!client) {
+            console.log("Bad ConnectedClient!", piece.id, piecePacket);
+            return;
+        }
+        //    console.log("ServerPlayer broadcast: ", piece.id, piece.state);
+        client.broadcastToVisible(piecePacket);
+    };
+
+    this.piece.setBroadcastFunction(broadcast);
+
+    this.piece.networkDirty = true;
+    this.piece.setName(this.id);
 };
 
 ServerPlayer.prototype.makeAppearPacket = function() {

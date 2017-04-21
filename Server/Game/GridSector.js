@@ -269,6 +269,7 @@ GridSector.prototype.spawnPiece = function(piece) {
 
     this.spawnRandomSectorPiece(piece);
 
+    this.serverWorld.addWorldPiecePhysics(piece);
     this.serverWorld.addWorldPiece(piece);
 
     if (piece.spawnData.flatten && !this.groundPhysics) {

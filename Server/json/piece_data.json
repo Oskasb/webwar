@@ -6,7 +6,8 @@
         "size":25,
         "controls":{
           "actions": {
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
           }
@@ -23,7 +24,8 @@
         "size":22,
         "controls":{
           "actions": {
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
           }
@@ -40,7 +42,8 @@
         "size":14,
         "controls":{
           "actions": {
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
           }
@@ -58,7 +61,8 @@
         "controls":{
           "actions": {
             "applyForward":1,
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
             "velocityDrag":0.98,
@@ -77,7 +81,8 @@
         "controls":{
           "actions": {
             "applyForward":1,
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
             "velocityDrag":0.5,
@@ -135,7 +140,8 @@
         "controls":{
           "actions": {
             "applyForward":1,
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
             "velocityDrag":0.5,
@@ -154,7 +160,8 @@
         "controls":{
           "actions": {
             "applyForward":1,
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
             "velocityDrag":0.5,
@@ -188,7 +195,8 @@
         "controls":{
           "actions": {
             "applyForward":1,
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
             "velocityDrag":0.5,
@@ -218,7 +226,8 @@
         "controls":{
           "actions": {
             "applyForward":1,
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
             "velocityDrag":0.5,
@@ -246,7 +255,8 @@
         "controls":{
           "actions": {
             "applyForward":1,
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
             "velocityDrag":0.5,
@@ -273,7 +283,8 @@
         "controls":{
           "actions": {
             "applyForward":1,
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
             "velocityDrag":0.5,
@@ -296,7 +307,8 @@
         "controls":{
           "actions": {
             "applyForward":1,
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
             "velocityDrag":0.5,
@@ -318,7 +330,8 @@
         "controls":{
           "actions": {
             "applyForward":1,
-            "timeoutEvent": "EXPLODE"
+            "timeoutEvent": "EXPLODE",
+            "collideState":"TIME_OUT"
           },
           "constants":{
             "velocityDrag":0.5,

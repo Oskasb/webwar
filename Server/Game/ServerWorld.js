@@ -12,7 +12,6 @@ ServerWorld = function(sectorGrid) {
 	this.playerCount = 0;
 	this.pieces = [];
     this.terrains = [];
-	this.stars = [];
 	this.actionHandlers;
 	this.pieceCount = 0;
 
@@ -44,9 +43,9 @@ ServerWorld.prototype.initWorld = function(clients) {
 ServerWorld.prototype.getPieceById = function(id) {
 
 
-        if (this.players[id]) {
-            return this.players[id].piece;
-        }
+    if (this.players[id]) {
+ //       return this.players[id].piece;
+    }
 
 
     for (var i = 0; i < this.pieces.length; i++) {
@@ -86,14 +85,15 @@ ServerWorld.prototype.addWorldTerrainPiece = function(piece) {
     this.terrains.push(piece);
 };
 
-ServerWorld.prototype.addWorldPiece = function(piece) {
-    
-//    this.broadcastPieceState(piece);
-//    piece.setState(GAME.ENUMS.PieceStates.MOVING);
+ServerWorld.prototype.addWorldPiecePhysics = function(piece) {
+
     if (piece.physics) {
         CnnAPI.attachPiecePhysics(piece);
     }
     piece.setTerrainFunctions(this.terrainFunctions);
+};
+
+ServerWorld.prototype.addWorldPiece = function(piece) {
 	this.pieces.push(piece);
 };
 
@@ -102,32 +102,36 @@ ServerWorld.prototype.getPlayer = function(playerId) {
 };
 
 ServerWorld.prototype.addPlayer = function(player) {
-    if (player.piece.physics) {
-        CnnAPI.attachPiecePhysics(player.piece);
-    }
 
-    player.piece.setTerrainFunctions(this.terrainFunctions);
-    player.piece.teleportRandom();
 	this.players[player.id] = player;
 };
 
 ServerWorld.prototype.removePlayer = function(playerId) {
     this.players[playerId].currentGridSector.notifyPlayerLeave(this.players[playerId]);
-    
-    if (this.players[playerId].piece.physics) {
-        this.cannonAPI.removePhysicsPiece(this.players[playerId].piece)
-    }
-    
-    
-    
+
+    this.players[playerId].piece.setState(GAME.ENUMS.PieceStates.TIME_OUT);
+
 	delete this.players[playerId];
 };
 
 
+ServerWorld.prototype.playerTakeControlOfPiece = function(piece, playerId) {
 
-ServerWorld.prototype.fetch = function(data) {
-	return this.stars;
+//    this.splicePiece(piece);
+
+    var player = this.players[playerId];
+
+//    var oldPiece = player.piece;
+    if (!player) {
+        console.log("No player by ID: ", playerId);
+        return;
+    }
+    player.setPlayerPiece(piece);
+
+//    this.addWorldPiece(oldPiece);
 };
+
+
 
 ServerWorld.prototype.broadcastPieceState = function(piece) {
 	var packet = piece.makePacket();
@@ -157,14 +161,14 @@ ServerWorld.prototype.updateWorldPiece = function(piece, currentTime, tpf) {
 
     var tpfMod = tpf+(tpf-piece.temporal.stepTime)*0.1;
 
-	piece.processTemporalState(currentTime);
+
 
     if (piece.physics) {
     //    console.log("phys piece")
         this.cannonAPI.updatePhysicalPiece(piece);
-
+        piece.processServerState(currentTime);
     } else {
-
+        piece.processTemporalState(currentTime);
         tempVec.setVec(piece.spatial.vel);
         tempVec.scale(tpfMod);
         tempVec.addVec(piece.spatial.pos);
@@ -196,10 +200,15 @@ ServerWorld.prototype.updateWorldPiece = function(piece, currentTime, tpf) {
 
 };
 
+ServerWorld.prototype.splicePiece = function(piece) {
+    this.pieces.splice(this.pieces.indexOf(piece), 1);
+};
+
+
 ServerWorld.prototype.removePiece = function(piece) {
     var pre = this.pieces.length;
 
-    this.pieces.splice(this.pieces.indexOf(piece), 1);
+    this.splicePiece(piece);
 
     if (piece.gridSector) {
         piece.gridSector.deactivatePiece(piece);
@@ -212,7 +221,6 @@ ServerWorld.prototype.removePiece = function(piece) {
         console.log("Remove piece failed, incorrect array length")
     }
 
-    //piece.setRemoved()
 };
 
 var timeouts = [];
@@ -223,16 +231,16 @@ ServerWorld.prototype.updatePieces = function(currentTime, tpf) {
 
 	for (var i = 0; i < this.pieces.length; i++) {
 
-
-        if (this.pieces[i].physics) {
-            this.cannonAPI.updatePhysicalPiece(this.pieces[i]);
-        }
-
         if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.APPEAR) {
             this.pieces[i].setState(GAME.ENUMS.PieceStates.STATIC);
         }
 
-        if (Math.abs(this.pieces[i].spatial.vel.getX()) > 0.001 || Math.abs(this.pieces[i].spatial.vel.getZ()) > 0.001) {
+
+        if (this.pieces[i].physics) {
+    //        this.cannonAPI.updatePhysicalPiece(this.pieces[i]);
+    //        this.pieces[i].processServerState(currentTime);
+            this.updateWorldPiece(this.pieces[i], currentTime, tpf);
+        } else if (Math.abs(this.pieces[i].spatial.vel.getX()) > 0.0001 || Math.abs(this.pieces[i].spatial.vel.getZ()) > 0.0001) {
             this.updateWorldPiece(this.pieces[i], currentTime, tpf);
 
         } else if (this.pieces[i].groundPiece) {
@@ -307,22 +315,25 @@ ServerWorld.prototype.updateSectorStatus = function(player) {
 ServerWorld.prototype.updatePlayers = function(currentTime, tpf) {
 	this.playerCount = 0;
 	for (var key in this.players) {
+
+/*
         var piece = this.players[key].piece;
 
-        if (piece.physics.body) {
-            
-            this.cannonAPI.updatePhysicalPiece(piece);
+        if (piece.physics) {
+            if (piece.physics.body) {
 
-            piece.processServerState(currentTime);
+                this.cannonAPI.updatePhysicalPiece(piece);
 
+                piece.processServerState(currentTime);
+
+            }
         } else {
             
             piece.spatial.pos.setY(this.terrainFunctions.getHeightForPlayer(this.players[key], MATH.tempNormal));
 
             piece.processServerState(currentTime, this.terrainFunctions);
         }
-
-
+*/
         this.updateSectorStatus(this.players[key]);
 		this.players[key].client.notifyDataFrame();
 		this.playerCount++;
@@ -333,8 +344,11 @@ ServerWorld.prototype.updatePlayers = function(currentTime, tpf) {
 ServerWorld.prototype.tickSimulationWorld = function(currentTime, tpf) {
     this.cannonAPI.updatePhysicsSimulation(currentTime);
     this.updateTerrains(currentTime);
-    this.updatePieces(currentTime, tpf);
+
     this.updatePlayers(currentTime);
+
+    this.updatePieces(currentTime, tpf);
+
     this.serverPieceProcessor.checkProximity(this.players, this.pieces);
 };
 

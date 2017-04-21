@@ -275,7 +275,9 @@
       "initState": null,
       "applies":{
         "type":"bool",
-        "state":false
+        "state":false,
+        "action":"commandTarget",
+        "master_module_id":"input_target_select"
       }
     },
 

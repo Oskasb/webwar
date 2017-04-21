@@ -31,13 +31,17 @@
           "settings":{
             "blending":"NoBlending",
             "color":{"r":0.9, "g":0.9, "b":0.9},
-            "clearCoat":0.05,
-            "clearCoatRoughness":0.95,
-            "roughness":1,
+            "clearCoat":0.0,
+            "alphaTest": 0.8,
+            "clearCoatRoughness":1.0,
+            "roughness":1.0,
             "reflectivity":1.0,
             "metalness":1.0,
-            "envMapIntensity":1.0,
-            "aoMapIntensity":1.4
+            "envMapIntensity":1.8,
+            "emissiveIntensity":1,
+            "lightMapIntensity":1,
+            "refractionRatio":0.1,
+            "aoMapIntensity":1.0
           },
           "textures":[{
             "map":"./client/assets/images/textures/main_diff.png",
@@ -62,7 +66,7 @@
             "roughness":1.0,
             "reflectivity":1.0,
             "metalness":1.0,
-            "envMapIntensity":1.5,
+            "envMapIntensity":1.2,
             "emissiveIntensity":1,
             "lightMapIntensity":2,
             "refractionRatio":0.1,
