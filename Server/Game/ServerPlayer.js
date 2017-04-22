@@ -1,5 +1,7 @@
 ServerPlayer = function(pieceType, clientId, client, simTime) {
 
+    var commandModuleId = "piece_command_module";
+
 	if (!client) {
 		console.log("Bad ConnectedClient!", clientId);
 		return;
@@ -13,7 +15,7 @@ ServerPlayer = function(pieceType, clientId, client, simTime) {
 
     var piece = new GAME.Piece(pieceType, this.id, simTime, Number.MAX_VALUE);
 
-	this.setPlayerPiece(piece);
+	this.setPlayerPiece(piece, commandModuleId);
 
 	client.attachPlayer(this);
 
@@ -22,15 +24,16 @@ ServerPlayer = function(pieceType, clientId, client, simTime) {
 
     this.sendSeeQueue = [];
     this.sendUnseeQueue = [];
-
+    piece.setName(this.id);
 };
 
 
-ServerPlayer.prototype.setPlayerPiece = function(p) {
+ServerPlayer.prototype.setPlayerPiece = function(p, commandModuleId) {
     var piece = p;
     this.piece = piece;
 
     var client = this.client;
+    var clientId = this.clientId;
 
     var broadcast = function(piecePacket) {
         if (!client) {
@@ -38,13 +41,24 @@ ServerPlayer.prototype.setPlayerPiece = function(p) {
             return;
         }
         //    console.log("ServerPlayer broadcast: ", piece.id, piece.state);
+        piece.setModuleState(commandModuleId, clientId);
         client.broadcastToVisible(piecePacket);
     };
 
     this.piece.setBroadcastFunction(broadcast);
 
     this.piece.networkDirty = true;
-    this.piece.setName(this.id);
+
+};
+
+
+ServerPlayer.prototype.releaseCurrentCommandedPiece = function() {
+    var client = this.client;
+    var broadcast = function(piecePacket) {
+        client.broadcastToVisible(piecePacket);
+    };
+
+    this.piece.setBroadcastFunction(broadcast);
 };
 
 ServerPlayer.prototype.makeAppearPacket = function() {

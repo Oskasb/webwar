@@ -4,12 +4,14 @@ define([
         'ui/GameScreen',
         'ui/dom/DomElement',
         'ui/dom/DomMessage',
+        'PipelineObject',
         'Events'
     ],
     function(
         GameScreen,
         DomElement,
         DomMessage,
+        PipelineObject,
         evt
     ) {
 
@@ -67,11 +69,29 @@ define([
 
         InputSegmentRadial.prototype.registerControlledPiece = function(piece) {
             //    console.log("Register Control", piece);
+
+
             this.piece = piece;
 
             if (!this.listenersEnabled) {
                 this.setupInputListeners();
             }
+
+            if (this.pipeObj) {
+                this.pipeObj.removePipelineObject();
+            }
+
+            var _this = this;
+
+            var pieceModuleDataLoaded = function(src, data) {
+                if (!data.controls.input) {
+                    console.log("No input control data for controlled piece:", piece, data);
+                    return;
+                };
+                _this.applyConfigs(data.controls.input);
+            };
+
+            this.pipeObj = new PipelineObject('PIECE_DATA', piece.type, pieceModuleDataLoaded);
 
         };
 

@@ -115,7 +115,7 @@ ServerWorld.prototype.removePlayer = function(playerId) {
 };
 
 
-ServerWorld.prototype.playerTakeControlOfPiece = function(piece, playerId) {
+ServerWorld.prototype.playerTakeControlOfPiece = function(piece, playerId, commandModuleId) {
 
 //    this.splicePiece(piece);
 
@@ -126,7 +126,8 @@ ServerWorld.prototype.playerTakeControlOfPiece = function(piece, playerId) {
         console.log("No player by ID: ", playerId);
         return;
     }
-    player.setPlayerPiece(piece);
+    player.releaseCurrentCommandedPiece();
+    player.setPlayerPiece(piece, commandModuleId);
 
 //    this.addWorldPiece(oldPiece);
 };

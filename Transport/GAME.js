@@ -205,6 +205,19 @@ if(typeof(GAME) == "undefined"){
 		return this.serverState.modules[moduleId];
 	};
 
+    GAME.Piece.prototype.getModuleStateValue = function(moduleId) {
+
+        var module = this.getModuleById(moduleId);
+
+        if (!module) {
+            console.log("No PieceModule by ID: ", moduleId);
+            return false;
+        }
+
+        return module.state.value;
+
+    };
+
     GAME.Piece.prototype.getModuleById = function(moduleId) {
 
         for (var i = 0; i < this.modules.length; i++) {

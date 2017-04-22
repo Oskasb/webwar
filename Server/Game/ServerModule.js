@@ -24,6 +24,10 @@ ServerModule.prototype.attachRigidBody = function(rigidBodyParams) {
 };
 
 
+ServerModule.prototype.setInitState = function() {
+    this.setModuleState(this.data.initState);
+};
+
 ServerModule.prototype.getModuleCooldown = function() {
     return this.cooldown;
 };

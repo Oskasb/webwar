@@ -35,6 +35,9 @@
         }
       },
       "attachment_points":[
+
+        {"point_id":"command",       "slot":"commander",                            "transform":{ "rot":[0, 0, 0],   "pos":[0,      2.5,        0],   "size":[0.7,    0.1,  0.7]}},
+
         {"point_id":"body",          "slot":"hull",                                 "transform":{ "rot":[0, 0, 0],   "pos":[0,      0,        0],   "size":[3,    1.5,  5.5]}},
         {"point_id":"shield",        "slot":"shield",                               "transform":{ "rot":[0, 0, 0],   "pos":[0,      0.4,    0.1]}},
         {"point_id":"drive_hyper",   "slot":"drive",                                "transform":{ "rot":[0, 0, 1],   "pos":[0.0,    0.8,    2.1],   "size":[ 0.6,  0.6,   0.6]}},
@@ -54,6 +57,7 @@
         {"point_id":"nameplate",     "slot":"name",                                 "transform":{ "rot":[0, 1, 0],   "pos":[0,      0.80,      0],   "size":[ 0.01,  0.01,  0.01]}}
       ],
       "default_modules":[
+        "piece_command_module",
         "sherman_hull",
         "shield",
         "hyper_drive",
@@ -107,6 +111,9 @@
         }
       },
       "attachment_points":[
+
+        {"point_id":"command",       "slot":"commander",                            "transform":{ "rot":[0, 0, 0],   "pos":[0,      2.5,        0],   "size":[0.7,    0.1,  0.7]}},
+
         {"point_id":"body",          "slot":"hull",                                 "transform":{ "rot":[0, 0, 0],   "pos":[0,      0,        0],   "size":[3,    1.5,  5.5]}},
         {"point_id":"shield",        "slot":"shield",                               "transform":{ "rot":[0, 0, 0],   "pos":[0,      0.4,    0.1]}},
         {"point_id":"drive_hyper",   "slot":"drive",                                "transform":{ "rot":[0, 0, 1],   "pos":[0.0,    0.8,    2.1],   "size":[ 0.6,  0.6,   0.6]}},
@@ -126,6 +133,7 @@
         {"point_id":"nameplate",     "slot":"name",                                 "transform":{ "rot":[0, 1, 0],   "pos":[0,      0.80,      0],   "size":[ 0.01,  0.01,  0.01]}}
       ],
       "default_modules":[
+        "piece_command_module",
         "sherman_hull",
         "shield",
         "hyper_drive",

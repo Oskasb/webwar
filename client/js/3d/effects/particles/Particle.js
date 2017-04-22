@@ -50,7 +50,8 @@ define([],
                 position:this.posVec,
                 velocity:this.velVec,
                 quaternion:this.quat,
-                systemTime:this.systemTime
+                systemTime:this.systemTime,
+                acceleration:new THREE.Vector4()
             };
 
             this.progress = 0;

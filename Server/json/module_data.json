@@ -277,10 +277,20 @@
         "type":"bool",
         "state":false,
         "action":"commandTarget",
-        "master_module_id":"input_target_select"
+        "master_module_id":"input_target_select",
+        "target_module_id":"piece_command_module"
       }
     },
 
+    "piece_command_module":{
+      "type":"commander",
+      "id":"piece_command_module",
+      "initState": "no_commander",
+      "applies":{
+        "type":"string",
+        "state":false
+      }
+    },
 
     "input_target_select":{
       "type":"control",

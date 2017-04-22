@@ -127,17 +127,37 @@ ServerModuleFunctions.prototype.applyCommandTarget = function(sourcePiece, modul
         return;
     }
 
-    var target = this.serverWorld.getPieceById(sourcePiece.getModuleById(moduleData.applies.master_module_id).state.value);
+    var target = this.serverWorld.getPieceById(sourcePiece.getModuleStateValue(moduleData.applies.master_module_id));
 
-    var currentPlayer = this.serverWorld.getPlayer(target.id);
+    var targetCommandModule = target.getModuleById(moduleData.applies.target_module_id);
 
-    if (currentPlayer) {
-        console.log("Try command existing player")
+    if (!targetCommandModule) {
+        console.log("No command module on target piece");
         return;
     }
 
-    this.serverWorld.playerTakeControlOfPiece(target, sourcePiece.id);
+    var currentCommander = targetCommandModule.state.value;
+
+    console.log("Current Commander:", currentCommander);
+
+    if (currentCommander != targetCommandModule.data.initState) {
+        console.log("Commander already activer", currentCommander);
+        return;
+    }
+
+
+    var sourceCommandModule = sourcePiece.getModuleById(moduleData.applies.target_module_id);
+
+
+
+//    console.log("SourcePiece drop commander to: ", sourceCommandModule.data.initState);
+
+    // sourcePiece.setModuleState(moduleData.id, moduleData.initState);
+
+    this.serverWorld.playerTakeControlOfPiece(target, sourcePiece.getModuleStateValue(moduleData.applies.target_module_id), moduleData.applies.target_module_id);
 
     console.log("Apply Command Target: ", target.id);
+
+    sourceCommandModule.setInitState();
 
 };

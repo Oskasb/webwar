@@ -252,27 +252,27 @@ define([
 		};
 
 		
-		ClientPiece.prototype.setIsOwnPlayer = function(bool) {
+		ClientPiece.prototype.setIsOwnPlayer = function(bool, inputSegmentRadial) {
 			evt.fire(evt.list().MESSAGE_UI, {channel:'server_message', message:'Player Ready'});
 			this.isOwnPlayer = bool;
-			this.attachRadialControl();
+			this.attachRadialControl(inputSegmentRadial);
 			PipelineAPI.setCategoryKeyValue('GAME_DATA', 'OWN_PLAYER', {ownPiece:this});
 			evt.fire(evt.list().CONTROLLED_PIECE_UPDATED, this.piece)
 		};
 
-		ClientPiece.prototype.attachRadialControl = function() {
-			var inputSegmentRadial = new InputSegmentRadial();
+		ClientPiece.prototype.attachRadialControl = function(inputSegmentRadial) {
+
 			inputSegmentRadial.registerControlledPiece(this.piece);
-
-			var pieceModuleDataLoaded = function(src, data) {
-				inputSegmentRadial.applyConfigs(data.controls.input);
-
-			};
             this.inputSegmentRadial = inputSegmentRadial;
-			new PipelineObject('PIECE_DATA', this.piece.type, pieceModuleDataLoaded);
-			console.log("ClientPiece", this);
-		};
-		
+			console.log("ClientPiece attachRadialControl", this);
+        };
+
+        ClientPiece.prototype.detachRadialControl = function() {
+            this.inputSegmentRadial = null;
+            console.log("ClientPiece detachRadialControl", this);
+        };
+
+
 		ClientPiece.prototype.playerRemove = function() {
 			if (!this.pipelineObject) {
 				console.log("Broken Piece, no pipeline Object?: ", this);

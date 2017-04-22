@@ -22,7 +22,6 @@
             ping:{source:'ping', method:'ping', target:'timeTracker', reflect:true}
         };
 
-
 		this.messages = {};
 		for (var key in Messages) {
 			this.messages[key] = new Message(key, Messages[key])

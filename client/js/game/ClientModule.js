@@ -84,7 +84,8 @@ define([
             }
             
             this.state.value = serverState[this.id][0].value;
-            this.notifyModuleStateForUi()
+            this.notifyModuleStateForUi();
+
         };
 
         ClientModule.prototype.notifyModuleStateForUi = function () {
@@ -110,8 +111,26 @@ define([
         ClientModule.prototype.sampleModuleFrame = function () {
             if (this.state.value != this.lastValue) {
                 this.lastValue = this.state.value;
+                this.handleModuleServerStateChange();
             }
             this.threeModule.updateThreeModule(this.state.value);
+        };
+
+        ClientModule.prototype.handleModuleServerStateChange = function () {
+
+
+            if (this.data.type == "commander") {
+
+                if (this.state.value == this.data.initState) {
+                    evt.fire(evt.list().PIECE_COMMANDER_CHANGE, {piece:this.clientPiece, commanderId:null});
+                    console.log("commander removed", this.state.value, this);
+                } else {
+                    evt.fire(evt.list().PIECE_COMMANDER_CHANGE, {piece:this.clientPiece, commanderId:this.state.value});
+                    console.log("commander added", this.state.value, this);
+                }
+
+            }
+
         };
 
         ClientModule.prototype.removeClientModule = function () {

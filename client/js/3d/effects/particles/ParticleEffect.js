@@ -94,20 +94,14 @@ define(['3d/effects/particles/EffectSimulators',
             vec.z += spreadV4.z * (Math.random()-0.5);
         };
 
+
+
         ParticleEffect.prototype.includeParticle = function(particle, systemTime, index, allowedCount) {
 
             var frameTpfFraction = this.lastTpf*(index/allowedCount);
 
             if (this.effectData.gpuEffect) {
-                ParticleParamParser.applyEffectParams(particle, this.effectData.gpuEffect.init_params);
-                particle.posOffset.set(0, 0, 0);
-
-                spreadVector(particle.posOffset, this.size);
-                spreadVector(particle.posOffset, this.effectData.gpuEffect.positionSpread.vec4);
-
-                particle.setQuaternion(this.quat);
-                particle.setPosition(this.pos);
-                particle.addPosition(particle.posOffset)
+                this.setupGpuEffect(particle, this.effectData.gpuEffect);
             } else {
                 ParticleParamParser.applyEffectParams(particle, this.effectData.simulation.init_params);
             }
@@ -118,6 +112,18 @@ define(['3d/effects/particles/EffectSimulators',
 
             this.updateParticle(particle, frameTpfFraction);
 
+        };
+
+        ParticleEffect.prototype.setupGpuEffect = function(particle, gpuEffect) {
+            ParticleParamParser.applyEffectParams(particle, gpuEffect.init_params);
+            particle.posOffset.set(0, 0, 0);
+
+            spreadVector(particle.posOffset, this.size);
+            spreadVector(particle.posOffset, gpuEffect.positionSpread.vec4);
+
+            particle.setQuaternion(this.quat);
+            particle.setPosition(this.pos);
+            particle.addPosition(particle.posOffset)
         };
 
         ParticleEffect.prototype.applyParticleSimulator = function(simulator, particle, tpf) {
