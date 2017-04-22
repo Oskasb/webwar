@@ -80,19 +80,6 @@ define([
 
         GameMain.prototype.registerPlayer = function(clientPiece) {
 
-
-            if (clientPiece.piece.type != 'player_ship') {
-                return this.pieces[clientPiece.playerId];
-            }
-
-            if (!this.ownPlayer) {
-
-
-            } else {
-                evt.fire(evt.list().MESSAGE_UI, {channel:'server_message', message:'Appear: '+clientPiece.playerId });
-            }
-
-
         };
 
         GameMain.prototype.createPlayer = function(data) {

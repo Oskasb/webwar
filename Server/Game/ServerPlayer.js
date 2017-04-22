@@ -53,10 +53,8 @@ ServerPlayer.prototype.setPlayerPiece = function(p, commandModuleId) {
 
 
 ServerPlayer.prototype.releaseCurrentCommandedPiece = function() {
-    var client = this.client;
-    var broadcast = function(piecePacket) {
-        client.broadcastToVisible(piecePacket);
-    };
+
+    var broadcast = function() {};
 
     this.piece.setBroadcastFunction(broadcast);
 };

@@ -54,7 +54,7 @@ PieceSpawner.prototype.spawnPlayerPiece = function(client, data, clients, simula
     if (player) {
         console.log("Player already registered", data.clientId);
     } else {
-        player = new ServerPlayer('player_ship', data.clientId, clients.getClientById(data.clientId), simulationTime);
+        player = new ServerPlayer('sherman_tank', data.clientId, clients.getClientById(data.clientId), simulationTime);
     }
     player.piece.setName(data.name);
     

@@ -110,7 +110,7 @@ define([
 
             //    ctx.fillStyle = CanvasDraw.randomizedColor(widgetConfigs.playerBlips.colorSelf, 0.3);
 
-                if (gamePieces[index].piece.type == 'player_ship') {
+                if (gamePieces[index].piece.type == 'sherman_tank') {
                     tempRect.left 	= left - widgetConfigs.playerBlips.size*seed;
                     tempRect.top 	= top - widgetConfigs.playerBlips.size*seed;
                     tempRect.width 	= 2*seed*widgetConfigs.playerBlips.size;

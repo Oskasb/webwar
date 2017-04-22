@@ -149,11 +149,6 @@ ServerModuleFunctions.prototype.applyCommandTarget = function(sourcePiece, modul
     var sourceCommandModule = sourcePiece.getModuleById(moduleData.applies.target_module_id);
 
 
-
-//    console.log("SourcePiece drop commander to: ", sourceCommandModule.data.initState);
-
-    // sourcePiece.setModuleState(moduleData.id, moduleData.initState);
-
     this.serverWorld.playerTakeControlOfPiece(target, sourcePiece.getModuleStateValue(moduleData.applies.target_module_id), moduleData.applies.target_module_id);
 
     console.log("Apply Command Target: ", target.id);

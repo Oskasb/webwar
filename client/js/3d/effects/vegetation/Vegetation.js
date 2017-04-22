@@ -35,6 +35,7 @@ define([
             var initVeg = function() {
                 if (!initiated) {
                     this.createVegetationSystems();
+                    initiated = true;
                 }
             }.bind(this);
 

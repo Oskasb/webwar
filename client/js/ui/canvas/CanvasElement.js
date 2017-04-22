@@ -65,6 +65,12 @@ define([
                     var _this = this;
 
                     var playerReady = function(src, player) {
+
+                        if (_this.ready) {
+                            console.log("Canvas Ui already initiated");
+                            return
+                        }
+
                         _this.canvasApi.init3dCanvasGui(_this.callbackMap, _this.canvasGuiConfig);
                         _this.ctx = _this.canvasApi.getCanvasContext();
                         _this.ready = true;

@@ -60,8 +60,10 @@ define([
         InputSegmentRadial.prototype.applyConfigs = function(configs) {
             this.configs = configs.data;
 
+            this.vectors = [];
+
             for (var i = 0; i < this.configs.radialSegments; i++) {
-                this.vectors.push(0);
+                this.vectors[i] = 0;
             }
         };
 
