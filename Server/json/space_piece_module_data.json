@@ -184,11 +184,11 @@
       "id":"rock_physical_10m_module",
       "type":"hull",
       "rigid_body":{
-        "mass":10,
-        "shape":"Sphere",
-        "size":10
+        "mass":0,
+        "shape":"Box",
+        "size":5
       },
-      "size":8,
+      "size":6,
       "source":"initiate",
       "initState": true,
       "applies": {

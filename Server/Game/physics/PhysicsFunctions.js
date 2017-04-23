@@ -71,14 +71,14 @@ PhysicsFunctions.prototype.createCannonWorld = function() {
 
     //  world.broadphase = new CANNON.NaiveBroadphase();
 
-    world.defaultContactMaterial.friction = 0;
+    world.defaultContactMaterial.friction = 0.2;
 
     groundMaterial = new CANNON.Material("groundMaterial");
     wheelMaterial = new CANNON.Material("wheelMaterial");
     wheelGroundContactMaterial = new CANNON.ContactMaterial(wheelMaterial, groundMaterial, {
-        friction: 0.3,
-        restitution: 0,
-        contactEquationStiffness: 1000
+        friction: 0.1,
+        restitution: 0.5,
+        contactEquationStiffness: 500
     });
 
     // We must add the contact materials to the world
@@ -99,14 +99,15 @@ PhysicsFunctions.prototype.createCannonWorld = function() {
 // Create a plane
     var groundBody = new CANNON.Body({
         mass: 0, // mass == 0 makes the body static
+        position: new CANNON.Vec3(0, 0, -2), // m
         allowSleep:false
     });
 
     var groundShape = new CANNON.Plane();
     groundBody.addShape(groundShape);
-//    world.addBody(groundBody);
+    world.addBody(groundBody);
 
-//    groundBody.quaternion.setFromEuler(1, 1, 0, 'XYZ');
+ //   groundBody.quaternion.setFromEuler(1, 0, 0, 'XYZ');
 
     fixedTimeStep = 1.0 / 120.0; // seconds
     maxSubSteps = 3;
@@ -231,29 +232,43 @@ PhysicsFunctions.prototype.buildCannonBody = function(world, spatial, bodyParams
         var rigidBody = createVehicle(world, spatial, bodyParams);
         return rigidBody;
 
-
-
     } else {
 
-        var size = bodyParams.size
+        var size = bodyParams.size;
+
+        var elev = size;
 
         if (bodyParams.shape == "Box") {
-            size = new CANNON.Vec3(size, size, size)
-        } else {
 
+            if (size.length) {
+                size = new CANNON.Vec3(size[0], size[2], size[1]);
+                elev = size[1];
+            } else {
+                size = new CANNON.Vec3(size, size, size)
+            }
+
+            var shape = new CANNON[bodyParams.shape](size);
+        } else {
+            var shape = new CANNON[bodyParams.shape](size);
         }
 
-        var shape = new CANNON[bodyParams.shape](size);
+
         var body = {
             mass: bodyParams.mass, // kg
-            position: new CANNON.Vec3(spatial.posX(), spatial.posZ(), spatial.posY()+bodyParams.size), // m
-            shape: shape
+            position: new CANNON.Vec3(spatial.posX(), spatial.posZ(), spatial.posY() + elev), // m
+            shape: shape,
+            material: wheelGroundContactMaterial,
+            linearDamping: 0.05
         };
 
         var ridigBody = new CANNON.Body(body);
     //    world.addBody(ridigBody);
-        ridigBody.calcVec = new CANNON.Vec3();
+        ridigBody.calcVec = new CANNON.Vec3(0, 0, 1);
         ridigBody.calcVec2 = new CANNON.Vec3();
+
+
+        ridigBody.quaternion.setFromAxisAngle(ridigBody.calcVec, spatial.rot.getY()*Math.PI);
+
         world.addBody(ridigBody);
         return ridigBody;
     }
@@ -263,24 +278,23 @@ PhysicsFunctions.prototype.buildCannonBody = function(world, spatial, bodyParams
 
 var createVehicle = function(world, spatial, bodyParams) {
 
-
     var vehicle;
 
- //   var groundMaterial = new CANNON.Material("groundMaterial");
- //   var wheelMaterial = new CANNON.Material("wheelMaterial");
-
-
-    var width = bodyParams.width || 1.5;
-    var length = bodyParams.length || 3.1;
-    var height = bodyParams.height || 1.1;
-    var clearance = bodyParams.clearance || 0.2;
-    var mass = bodyParams.mass || 8550;
+    var width       = bodyParams.width      || 1.5;
+    var length      = bodyParams.length     || 3.1;
+    var height      = bodyParams.height     || 1.1;
+    var clearance   = bodyParams.clearance  || 0.2;
+    var mass        = bodyParams.mass       || 0;
 
     var chassisShape;
     chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, height));
-    var chassisBody = new CANNON.Body({ mass: mass });
+    var chassisBody = new CANNON.Body({
+        mass: mass ,
+        material: wheelGroundContactMaterial,
+        linearDamping: 0.05
+    });
     chassisBody.addShape(chassisShape);
-    chassisBody.position.set(spatial.posX(), spatial.posZ(), spatial.posY()+bodyParams.height*2);
+    chassisBody.position.set(spatial.posX(), spatial.posZ(), spatial.posY()+height+clearance);
     chassisBody.angularVelocity.set(0, 0, 0.1);
 
     // Create the vehicle
@@ -296,7 +310,7 @@ var createVehicle = function(world, spatial, bodyParams) {
 
     vehicle.addToWorld(world);
 
-    var wOpts = bodyParams.wheelOptions;
+    var wOpts = bodyParams.wheelOptions || {};
 
     var options = {
         radius: wOpts.radius || 0.5,
@@ -307,12 +321,12 @@ var createVehicle = function(world, spatial, bodyParams) {
         dampingRelaxation: wOpts.dampening / 2 || 1.81,
         dampingCompression: wOpts.dampening    || 2.5,
         maxSuspensionForce: wOpts.maxSuspensionForce || 148000,
-        rollInfluence:  0.01,
+        rollInfluence:  wOpts.rollInfluence    || 0.1,
         axleLocal: new CANNON.Vec3(0, -1, 0),
         chassisConnectionPointLocal: new CANNON.Vec3(width/2, length/1.7, height*0.05),
         maxSuspensionTravel: wOpts.suspensionLength || 0.6,
-        customSlidingRotationalSpeed: -2,
-        useCustomSlidingRotationalSpeed: true
+        customSlidingRotationalSpeed: 0,
+        useCustomSlidingRotationalSpeed: false
     };
 
 
@@ -358,6 +372,7 @@ var createVehicle = function(world, spatial, bodyParams) {
         vehicle.wheelInfos[i].brakeFactor           = brakeMatrix[i]            || 1;
         vehicle.wheelInfos[i].transmissionFactor    = transmissionMatrix[i]     || 1;
         vehicle.wheelInfos[i].transmissionYawMatrix = transmissionYawMatrix[i]  || 1;
+        vehicle.setBrake(vehicle.wheelInfos[i].brakeFactor*vehicle.wheelInfos[i].brakeFactor, i);
     }
 
     return chassisBody;

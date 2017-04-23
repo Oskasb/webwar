@@ -170,7 +170,7 @@ define([
 
             this.detatchEffects();
 
-            ThreeAPI.disposeModel(this.parentObject3d);
+        //    ThreeAPI.disposeModel(this.parentObject3d);
         };
 
 

@@ -177,6 +177,16 @@ define([
 			return this.piece.id;
 		};
 
+        ClientPiece.prototype.getAttachmentPointById = function(pointId) {
+
+            for (var i = 0; i < this.attachmentPoints.length; i++) {
+                if (this.attachmentPoints[i].point_id === pointId) {
+                    return this.attachmentPoints[i];
+                }
+            }
+
+        };
+
         ClientPiece.prototype.getPieceName = function() {
             if (this.piece.readServerModuleState('nameplate')) {
                 var name = this.piece.readServerModuleState('nameplate')[0].value;

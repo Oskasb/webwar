@@ -272,7 +272,7 @@ ServerPlayer.prototype.notifyCurrentGridSector = function(gridSector) {
 
 
 	if (!gridSector) {
-		this.piece.requestTeleport();
+	//	this.piece.requestTeleport();
         return;
 	}
 

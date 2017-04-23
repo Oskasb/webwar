@@ -89,6 +89,8 @@ ServerWorld.prototype.addWorldPiecePhysics = function(piece) {
 
     if (piece.physics) {
         CnnAPI.attachPiecePhysics(piece);
+        CnnAPI.updatePhysicalPiece(piece);
+        piece.networkDirty = true;
     }
     piece.setTerrainFunctions(this.terrainFunctions);
 };
@@ -236,7 +238,6 @@ ServerWorld.prototype.updatePieces = function(currentTime, tpf) {
             this.pieces[i].setState(GAME.ENUMS.PieceStates.STATIC);
         }
 
-
         if (this.pieces[i].physics) {
     //        this.cannonAPI.updatePhysicalPiece(this.pieces[i]);
     //        this.pieces[i].processServerState(currentTime);
@@ -245,7 +246,6 @@ ServerWorld.prototype.updatePieces = function(currentTime, tpf) {
             this.updateWorldPiece(this.pieces[i], currentTime, tpf);
 
         } else if (this.pieces[i].groundPiece) {
-
 
             if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.SPAWN) {
                 this.pieces[i].setState(GAME.ENUMS.PieceStates.APPEAR);
@@ -258,25 +258,25 @@ ServerWorld.prototype.updatePieces = function(currentTime, tpf) {
                 piece.spatial.updateSpatial(piece.temporal.stepTime);
 
             }
-
         }
 
         if (this.pieces[i].temporal.lifeTime < this.pieces[i].temporal.getAge()) {
             this.pieces[i].setState(GAME.ENUMS.PieceStates.TIME_OUT);
         }
 
-
         if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.TIME_OUT) {
+            this.pieces[i].networkDirty = true;
 			timeouts.push(this.pieces[i]);
 		}
 
         if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.REMOVED) {
             remove.push(this.pieces[i]);
         }
+
+
 	}
 
 	for (var i = 0; i < timeouts.length; i++) {
-        this.broadcastPieceState(timeouts[i]);
 		this.removePiece(timeouts[i]);
 	}
 
@@ -363,8 +363,9 @@ ServerWorld.prototype.tickNetworkWorld = function() {
     }
 
     for (var i = 0; i < this.pieces.length; i++) {
-        if (this.pieces[i].spatial.vel.getLength() + Math.abs(this.pieces[i].spatial.rotVel.getLength()) > 0.01) {
+        if (this.pieces[i].spatial.vel.getLength() + Math.abs(this.pieces[i].spatial.rotVel.getLength()) > 0.01 || this.pieces[i].physicsDirty) {
             this.broadcastPieceState(this.pieces[i]);
+            this.pieces[i].networkDirty = false;
         }
     }
 

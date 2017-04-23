@@ -375,11 +375,11 @@ if(typeof(GAME) == "undefined"){
 
 		var throttleState = this.pieceControls.inputState.getThrottle();
 
-		var yawState = this.pieceControls.inputState.getSteeringY()*1;
+		var yawState = this.pieceControls.inputState.getSteeringY();
 
 		this.pieceControls.inputState.setSteeringY(yawState*0.99);
 
-		yawState = yawState*Math.abs(yawState) * 1.0;
+	//	yawState = yawState*Math.abs(yawState) * 1.0;
 
 		var vehicle = this.physics.body.vehicle;
 
@@ -423,9 +423,6 @@ if(typeof(GAME) == "undefined"){
 
         yawState *=  (1 / Math.sqrt(speed*0.5) + Math.abs(yawState*0.9)) * MATH.clamp(throttleState*10, -1, 1);
 
-		var trackYawL = - yawState*12.3*speedFactor;
-		var trackYawR = + yawState*12.3*speedFactor;
-	//	console.log(throttleState, brakeForce, yawState);
 
         var wheelInfos = vehicle.wheelInfos;
 
@@ -448,10 +445,11 @@ if(typeof(GAME) == "undefined"){
 		if (this.physics) {
 			if (this.physics.body.vehicle) {
 				this.applyPhysicsVehicleControls(tickDelta);
+                return;
 			} else {
-				console.log("No vehicle on control physics")
+				// console.log("No vehicle on control physics")
 			}
-			return;
+
 		}
 
 		if (typeof(this.pieceControls.actions.applyThrottle) != undefined) {
@@ -582,9 +580,9 @@ if(typeof(GAME) == "undefined"){
 
 
 		if (this.networkDirty) {
-
 			this.broadcast(this.makePacket());
 			this.networkDirty = false;
+			this.physicsDirty = true;
 		}
 	};
 

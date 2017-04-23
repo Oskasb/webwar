@@ -43,7 +43,7 @@
         "controls":{
           "actions": {
             "timeoutEvent": "EXPLODE",
-            "collideState":"TIME_OUT"
+            "collideState": "BURST"
           },
           "constants":{
           }
@@ -152,7 +152,7 @@
           {"slot":"root" ,   "transform":{"rot":[0, 0, 0.2], "pos":[0, 4, 0], "size":[16, 12, 22]}}
         ],
         "default_modules":[
-          "rock_10m_module"
+          "rock_physical_10m_module"
         ]
       },
       "huge_tree_piece":{
@@ -326,12 +326,12 @@
       },
 
       "small_space_rock_piece":{
-        "size":17,
+        "size":10,
         "controls":{
           "actions": {
             "applyForward":1,
             "timeoutEvent": "EXPLODE",
-            "collideState":"TIME_OUT"
+            "collideState":"BURST"
           },
           "constants":{
             "velocityDrag":0.5,
@@ -339,10 +339,10 @@
           }
         },
         "attachment_points":[
-          {"slot":"root" ,    "transform":{"rot":[0, 0.4, 0], "pos":[0, 4, 0], "size":[16, 12, 22]}}
+          {"slot":"root" ,    "transform":{"rot":[0, 0.4, 0], "pos":[0, 0, 0], "size":[10, 10, 10]}}
         ],
         "default_modules":[
-          "rock_10m_module"
+          "rock_physical_10m_module"
         ]
       }
     }

@@ -7,9 +7,6 @@ define([
 
 ) {
 
-
-
-
     var ThreeFeedbackFunctions = function() {
 
     };
@@ -22,6 +19,9 @@ define([
 
 
     ThreeFeedbackFunctions.applyModelTextureTranslation = function(model, x, y) {
+
+    //    console.log("Transform UV", model.children[0])
+
         applyToTextures(model.children[0].material, x, y);
     };
 

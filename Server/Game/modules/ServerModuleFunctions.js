@@ -37,7 +37,7 @@ ServerModuleFunctions.prototype.applyModulePitch = function(sourcePiece, moduleD
         if (moduleData.id == 'cannon_pitch') {
 
             var pitchAimModuleID = sourcePiece.getModuleById(moduleData.applies.master_module_id).data.applies.pitch_aim_module_id;
-            var targetAngle = this.serverPieceProcessor.getDistanceSquaredFromPieceToTarget(sourcePiece, target)*0.000005;
+            var targetAngle = this.serverPieceProcessor.getDistanceSquaredFromPieceToTarget(sourcePiece, target)*0.0000001;
 
             angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), targetAngle, clamp);
             angle = MATH.clamp(angle, moduleData.applies.rotation_min, moduleData.applies.rotation_max)
@@ -51,7 +51,7 @@ ServerModuleFunctions.prototype.applyModulePitch = function(sourcePiece, moduleD
     }
 
     if (diff > 0.0000001) {
-        sourcePiece.networkDirty = true;
+    //    sourcePiece.networkDirty = true;
     }
 
 };
@@ -113,7 +113,7 @@ ServerModuleFunctions.prototype.applyModuleYaw = function(sourcePiece, moduleDat
     }
 
     if (diff > 0.00001) {
-        sourcePiece.networkDirty = true;
+    //    sourcePiece.networkDirty = true;
     }
 };
 

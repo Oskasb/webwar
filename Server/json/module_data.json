@@ -10,57 +10,56 @@
       "size":4,
       "rigid_body":{
         "shape"     :"Vehicle",
-        "mass"      : 8550,
-        "width"     : 1.5,
-        "length"    : 3.1,
-        "height"    : 1.1,
-        "clearance" : 0.2,
+        "torque"     : 100000000,
+        "enginePower": 500000000,
+        "brake"     : 8,
+        "mass"      : 1000000,
+        "width"     : 12,
+        "length"    : 40,
+        "height"    : 3,
+        "clearance" : 2.25,
 
         "steerMatrix":[
-          -0.3, -0.3,
-          0.0,  0.0,
-          0.2,  0.2
+          -0.8, -0.8,
+          0.3,  0.3
         ],
 
         "brakeMatrix":[
-          1, 1,
-          1, 1,
+          0, 0,
           1, 1
         ],
 
         "transmissionMatrix":[
-          0.5, 0.5,
-          0.5, 0.5,
-          0.5, 0.5
+          1, 1,
+          1, 1
         ],
 
         "transmissionYawMatrix":[
           -8, 8,
-          -10,10,
           -8, 8
         ],
 
         "wheelMatrix":[
-          [-1,    1, 0.75],[1,    1, 0.75],
-          [-1,  0.0,    1],[1,  0.0,    1],
-          [-1,   -1, 0.75],[1,   -1, 0.75]
+          [-0.5,    0.4, 1],[0.5,   0.4, 1],
+          [-0.5,   -0.4, 1],[0.5,  -0.4, 1]
         ],
 
-
         "wheelOptions":{
-          "radius":0.5,
-          "suspensionStiffness":13,
-          "suspensionLength":0.6,
-          "dampening":2.5,
-          "maxSuspensionForce":148000
+          "radius":2.0,
+          "suspensionStiffness":3,
+          "suspensionLength":5.0,
+          "dampening":1.5,
+          "frictionSlip":0.3,
+          "rollInfluence":0.5,
+          "maxSuspensionForce":10000000
         }
       },
-      "applies":{
-        "type":"string",
-        "state":true,
-        "three_model":"modern_transport_hull"
-      }
-    },
+    "applies":{
+      "type":"string",
+      "state":true,
+      "three_model":"modern_transport_hull"
+    }
+  },
 
     "sherman_hull":{
       "type":"hull",
@@ -74,10 +73,10 @@
         "enginePower": 5000000,
         "brake"     : 8,
         "mass"      : 28550,
-        "width"     : 1.7,
-        "length"    : 3.1,
-        "height"    : 1.1,
-        "clearance" : 0.25,
+        "width"     : 1.8,
+        "length"    : 3.2,
+        "height"    : 0.7,
+        "clearance" : 0.4,
 
         "steerMatrix":[
           -0.3, -0.3,
@@ -91,25 +90,26 @@
 
         "transmissionMatrix":[
           0.5, 0.5,
-          1.5, 1.5
+          1.0, 1.0
         ],
 
         "transmissionYawMatrix":[
-          -8, 8,
-          -8, 8
+          -15, 15,
+          -15, 15
         ],
 
         "wheelMatrix":[
-          [-0.9,    1, 1],[0.9,    1, 1],
-          [-0.58,   -1, 1],[0.5,   -1, 1]
+          [-0.9,     1, 1],[0.9,    1, 1],
+          [-0.7,    -1, 1],[0.7,   -1, 1]
         ],
 
         "wheelOptions":{
           "radius":0.5,
-          "suspensionStiffness":8,
-          "suspensionLength":0.9,
-          "dampening":1.8,
-          "frictionSlip":20.8,
+          "suspensionStiffness":15,
+          "suspensionLength":0.5,
+          "dampening":2.2,
+          "rollInfluence":0.3,
+          "frictionSlip":15,
           "maxSuspensionForce":500000
         }
       },
@@ -236,11 +236,11 @@
         "action":"fireCannon",
         "master_module_id":"input_toggle_attack",
         "delay":0.4,
-        "cooldown":0.1,
+        "cooldown":1.5,
         "yaw_module":"tank_turret",
         "pitch_module":"cannon_pitch",
         "bullet":"cannon_bullet",
-        "exitVelocity":135,
+        "exitVelocity":835,
         "lifeTime":30,
         "barrel_length": 3.5,
         "three_model":"sherman_cannon"
@@ -380,6 +380,7 @@
         "state":false
       }
     },
+
 
     "input_target_select":{
       "type":"control",

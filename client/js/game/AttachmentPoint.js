@@ -60,7 +60,7 @@ define([
                 this.clientModules[i].removeClientModule();
             }
             
-            ThreeAPI.disposeModel(this.object3D)
+        //    ThreeAPI.disposeModel(this.object3D)
         };
         
         return AttachmentPoint

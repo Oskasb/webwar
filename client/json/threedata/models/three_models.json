@@ -57,7 +57,7 @@
           "id": "sherman_track_l",
           "material": "tank_track",
           "url": "./client/assets/models/tank/sherman_track_l",
-          "urluv2": "./client/assets/models/tank/sherman_track_l_ao",
+          "unique":true,
           "pool": 15,
           "transform": {
             "pos": [
@@ -70,7 +70,7 @@
           "id": "sherman_track_r",
           "material": "tank_track",
           "url": "./client/assets/models/tank/sherman_track_r",
-          "urluv2": "./client/assets/models/tank/sherman_track_r_ao",
+          "unique":true,
           "pool": 15,
           "transform": {
             "pos": [-1.3, -0.2, -0.55],
@@ -81,12 +81,12 @@
         {
           "id": "rock_10m",
           "material": "main_atlas",
-          "url": "./client/assets/models/shapes/rock_10m",
-          "pool": 5,
+          "url": "./client/assets/models/shapes/boxrock",
+          "pool": 25,
           "transform": {
-            "pos": [3, -6, 8],
+            "pos": [0, 0, 0],
             "rot": [0, 0, 0],
-            "scale": [1, 1, 1]
+            "scale": [10, 10, 10]
           }
         },
 

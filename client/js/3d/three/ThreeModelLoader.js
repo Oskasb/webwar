@@ -14,7 +14,7 @@ define([
 
 
         var modelPool = {};
-
+        var modelList = {};
 
         var contentUrl = function(url) {
             return 'content'+url.slice(1);
@@ -25,6 +25,9 @@ define([
             var poolCount = count || 3;
             mesh.poolId = id;
             modelPool[id] = [];
+
+
+
             for (var i = 0; i < poolCount; i++) {
                 var clone = mesh.clone();
                 clone.poolId = id;
@@ -174,7 +177,7 @@ define([
 
         };
 
-        var modelList = {};
+
 
         var ThreeModelLoader = function() {
 
@@ -262,7 +265,15 @@ define([
                         rootObject.remove(rootObject.children[i]);
                     }
 
-                    model.material = data;
+                    if (modelList[modelId].unique) {
+                        model.material = data.clone();
+                        model.material.map = model.material.map.clone();
+                        model.material.map.needsUpdate = true;
+                    } else {
+                        model.material = data;
+                    }
+
+
                     setup.addToScene(model);
                     rootObject.add(model);
                     transformModel(modelList[modelId].transform, model);

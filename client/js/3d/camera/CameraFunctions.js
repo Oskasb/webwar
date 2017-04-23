@@ -10,6 +10,14 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
     var hasTarget;
     var targetDistance = 0;
 
+    var heightFactor = 2;
+    var maxDistFactor = 15;
+
+    var headingMinFactor = 2;
+    var followMinFactor = 9;
+    var distanceFactor = 5;
+    var distLimitFactor = 100;
+
     var CameraFunctions = function() {
         headingVec = new MATH.Vec3(0, 0, 0);
         calcVec = new MATH.Vec3(0, 0, 0);
@@ -115,6 +123,21 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
     };
 
     CameraFunctions.prototype.setCameraTargetPiece = function(piece) {
+    //    console.log("Camera Target piece:", piece);
+
+        var commandAttachmentPoint = piece.getAttachmentPointById('command');
+
+        var commandHeight = commandAttachmentPoint.transform.posY();
+
+    //    this.elevation.y = commandHeight*heightFactor;
+        this.lookAtElevation.y = commandHeight;
+        this.distance.z = distanceFactor * commandHeight;
+
+        this.maxDist = maxDistFactor * commandHeight;
+        this.headingMin = headingMinFactor * commandHeight;
+        this.followMin = followMinFactor * commandHeight;
+        this.distanceLimit = distLimitFactor * commandHeight;
+
         this.targetPiece = piece.piece;
     };
 
