@@ -26,7 +26,7 @@ define([
         var setupEffect = function(args) {
         //    console.log("Setup FX:", args);
 
-            if (!args.pos.x) {
+            if (args.pos.data) {
                 posVec.x = args.pos.data[0];
                 posVec.y = args.pos.data[1];
                 posVec.z = args.pos.data[2];
@@ -34,7 +34,7 @@ define([
                 posVec.copy(args.pos)
             }
 
-            if (!args.vel.x) {
+            if (args.vel.data) {
                 velVec.x = args.vel.data[0];
                 velVec.y = args.vel.data[1];
                 velVec.z = args.vel.data[2];
@@ -43,7 +43,6 @@ define([
             }
 
         };
-
 
 
 

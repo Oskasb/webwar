@@ -17,11 +17,11 @@
         "width"     : 12,
         "length"    : 40,
         "height"    : 3,
-        "clearance" : 2.25,
+        "clearance" : 4.25,
 
         "steerMatrix":[
-          -0.8, -0.8,
-          0.3,  0.3
+          -0.3, -0.3,
+           0.6,  0.6
         ],
 
         "brakeMatrix":[
@@ -30,7 +30,7 @@
         ],
 
         "transmissionMatrix":[
-          1, 1,
+          0, 0,
           1, 1
         ],
 
@@ -49,7 +49,7 @@
           "suspensionStiffness":3,
           "suspensionLength":5.0,
           "dampening":1.5,
-          "frictionSlip":0.3,
+          "frictionSlip":0.2,
           "rollInfluence":0.5,
           "maxSuspensionForce":10000000
         }
@@ -90,12 +90,12 @@
 
         "transmissionMatrix":[
           0.5, 0.5,
-          1.0, 1.0
+          1.5, 1.5
         ],
 
         "transmissionYawMatrix":[
-          -15, 15,
-          -15, 15
+          -5, 5,
+          -5, 5
         ],
 
         "wheelMatrix":[

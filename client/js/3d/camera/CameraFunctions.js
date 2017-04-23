@@ -11,12 +11,15 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
     var targetDistance = 0;
 
     var heightFactor = 2;
-    var maxDistFactor = 15;
+    var maxDistFactor = 4;
 
-    var headingMinFactor = 2;
-    var followMinFactor = 9;
-    var distanceFactor = 5;
-    var distLimitFactor = 100;
+    var headingMinFactor = 8;
+    var followMinFactor = 14;
+    var distanceFactor = 15;
+    var distLimitFactor = 200;
+
+    var gainFactor = 7;
+    var distanceGain = 5;
 
     var CameraFunctions = function() {
         headingVec = new MATH.Vec3(0, 0, 0);
@@ -37,7 +40,7 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
         this.finalTPos = new THREE.Vector3(0, 0, 0);
 
         this.cameraIdeal = new THREE.Vector3(0, 0, 0);
-        this.finalCPos = new THREE.Vector3(0, 0, -10);
+        this.finalCPos = new THREE.Vector3(0, 0, 0);
 
 
         this.distance  = new THREE.Vector3(0, 0, 7);
@@ -125,18 +128,31 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
     CameraFunctions.prototype.setCameraTargetPiece = function(piece) {
     //    console.log("Camera Target piece:", piece);
 
+        var heightFactor = 1.2;
+        var maxDistFactor = 6;
+
+        var headingMinFactor = 2;
+        var followMinFactor = 45;
+        var distanceFactor = 1;
+        var distLimitFactor = 100;
+
+        var gainFactor = 8;
+
+
         var commandAttachmentPoint = piece.getAttachmentPointById('command');
 
         var commandHeight = commandAttachmentPoint.transform.posY();
 
-    //    this.elevation.y = commandHeight*heightFactor;
+        this.elevation.y =  heightFactor * commandHeight;
         this.lookAtElevation.y = commandHeight;
-        this.distance.z = distanceFactor * commandHeight;
 
+        this.distance.z = distanceFactor * commandHeight;
         this.maxDist = maxDistFactor * commandHeight;
         this.headingMin = headingMinFactor * commandHeight;
         this.followMin = followMinFactor * commandHeight;
         this.distanceLimit = distLimitFactor * commandHeight;
+
+        distanceGain = gainFactor * commandHeight;
 
         this.targetPiece = piece.piece;
     };
@@ -161,9 +177,8 @@ define(['PipelineAPI','ThreeAPI'], function(PipelineAPI, ThreeAPI) {
 
 
     CameraFunctions.prototype.calcDistanceGain = function() {
-        return 0.1*this.frameVel * Math.sqrt(15+this.frameVel)-5 + Math.sqrt(this.rotVel*this.rotVel*this.rotVel*12) ;
+        return 0.1*this.frameVel * Math.sqrt(distanceGain+this.frameVel)-distanceGain*0.3 + Math.sqrt(this.rotVel*this.rotVel*this.rotVel*(distanceGain)) ;
     };
-
 
 
     CameraFunctions.prototype.calcIdealElevations = function() {

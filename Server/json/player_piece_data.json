@@ -111,17 +111,28 @@
         }
       },
       "attachment_points":[
-        {"point_id":"command",       "slot":"commander",                            "transform":{ "rot":[0, 0, 0],   "pos":[0,      12.5,     0],   "size":[0.7,   0.1,  0.7]}},
-        {"point_id":"body",          "slot":"hull",                                 "transform":{ "rot":[0, 0, 0],   "pos":[0,      -2.5,     0],   "size":[3,     1.5,  5.5]}},
-        {"point_id":"shield",        "slot":"shield",                               "transform":{ "rot":[0, 0, 0],   "pos":[0,      0.4,    0.1]}},
-        {"point_id":"drive_hyper",   "slot":"drive",                                "transform":{ "rot":[0, 0, 1],   "pos":[0.0,    0.8,    2.1],   "size":[ 0.6,  0.6,   0.6]}},
-        {"point_id":"drive_warp",    "slot":"drive",                                "transform":{ "rot":[0, 0, 1],   "pos":[ 0.0,  -1.0,    2.1],   "size":[ 5.3,  0.1,   5.3]}},
-        {"point_id":"weapon",        "slot":"weapon",       "parent":"elevator",    "transform":{ "rot":[0, 0, 0],   "pos":[0,      0.2,   -3.0],   "size":[ 0.7,  0.7,  4.1]}},
-        {"point_id":"main_turret",   "slot":"turret",                               "transform":{ "rot":[0, 1, 0],   "pos":[0,      0.60,     0],   "size":[ 2.2,  0.8,  2.4]}},
-        {"point_id":"elevator",      "slot":"cannon_pitch", "parent":"main_turret", "transform":{ "rot":[0, 0, 0],   "pos":[0,      0.5,   -0.5],   "size":[ 0.8,  0.1,  0.1]}},
-        {"point_id":"engine",        "slot":"engine",                               "transform":{ "rot":[0, 0, 0],   "pos":[ 0.0,   0.8,    2.1],   "size":[ 1.0, 0.3,   1.0]}},
-        {"point_id":"tracks_l",      "slot":"track_l",                              "transform":{ "rot":[0, 1, 0],   "pos":[-1.3,  -1.0,   -0.11],  "size":[ 0.8, 0.1,   5.3]}},
-        {"point_id":"tracks_r",      "slot":"track_r",                              "transform":{ "rot":[0, 1, 0],   "pos":[ 1.3,  -1.0,   -0.11],  "size":[ 0.8, 0.1,   5.3]}},
+        {"point_id":"command",       "slot":"commander",                              "transform":{ "rot":[0, 0, 0],   "pos":[0,     18.5,     0],   "size":[0.7,   0.1,  0.7]}},
+        {"point_id":"body",          "slot":"hull",                                   "transform":{ "rot":[0, 0, 0],   "pos":[0,        0,     0],   "size":[18,    8.5, 68.5]}},
+
+        {"point_id":"drive_hyper",   "slot":"drive",                                  "transform":{ "rot":[0, 0, 1],   "pos":[0.0,    0.8,    2.1],   "size":[ 0.6,  0.6,   0.6]}},
+        {"point_id":"drive_warp",    "slot":"drive",                                  "transform":{ "rot":[0, 0, 1],   "pos":[ 0.0,  -1.0,    2.1],   "size":[ 5.3,  0.1,   5.3]}},
+
+        {"point_id":"swivel_turret_f","slot":"shield",                                "transform":{ "rot":[0, 0, 0],   "pos":[0,        7,    -15],   "size":[ 1, 1,  1]}},
+
+
+
+        {"point_id":"main_turret_f", "slot":"turret",       "parent":"",              "transform":{ "rot":[0, 1, 0],   "pos":[0,       3.5,    -7],   "size":[ 3,   1,   3]}},
+        {"point_id":"elevator_f",    "slot":"cannon_pitch", "parent":"main_turret_f", "transform":{ "rot":[0, 0, 0],   "pos":[0,      0.5,   -0.5],   "size":[ 0.8,  0.1,  0.1]}},
+        {"point_id":"weapon_f",      "slot":"weapon",       "parent":"elevator_f",    "transform":{ "rot":[0, 0, 0],   "pos":[0,      0.2,   -3.0],   "size":[ 0.7,  0.7,  4.1]}},
+
+        {"point_id":"swivel_turret_r","slot":"shield",                                "transform":{ "rot":[0, 0, 0],   "pos":[0,        7,     22],   "size":[ 1, 1,  1]}},
+
+        {"point_id":"main_turret_r", "slot":"turret",       "parent":"",              "transform":{ "rot":[0,-1, 0],   "pos":[0,      2.2,     13],   "size":[ 1,  1, 1]}},
+        {"point_id":"elevator_r",    "slot":"cannon_pitch", "parent":"main_turret_r", "transform":{ "rot":[0, 0, 0],   "pos":[0,      0.5,   -0.5],   "size":[ 0.8,  0.1,  0.1]}},
+        {"point_id":"weapon_r",      "slot":"weapon",       "parent":"elevator_r",    "transform":{ "rot":[0, 0, 0],   "pos":[0,      0.2,   -3.0],   "size":[ 0.7,  0.7,  4.1]}},
+
+        {"point_id":"engine",        "slot":"engine",                                 "transform":{ "rot":[0, 0, 0],   "pos":[ 0.0,  15.1,   10.1],   "size":[ 1.5, 0.8,   1.5]}},
+
         {"point_id":"steering",      "slot":"control"  },
         {"point_id":"target_select", "slot":"control"  },
         {"point_id":"toggle_attack", "slot":"control"  },
@@ -133,15 +144,24 @@
       "default_modules":[
         "piece_command_module",
         "modern_transport_hull",
-        "shield",
+
         "hyper_drive",
         "warp_drive",
-        "auto_cannon",
+
+        "shield",
+
         "tank_turret",
         "cannon_pitch",
+        "auto_cannon",
+
+        "shield",
+
+        "tank_turret",
+        "cannon_pitch",
+        "auto_cannon",
+
         "engine",
-        "track_r",
-        "track_l",
+
         "inputControls",
         "input_target_select",
         "input_toggle_attack",
