@@ -125,6 +125,8 @@ define([
 
         var getMesh = function(object, id, cb) {
 
+            if (!object) return;
+
             object.traverse( function ( child ) {
                 object.remove(child);
 

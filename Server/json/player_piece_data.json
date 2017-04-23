@@ -114,7 +114,7 @@
         {"point_id":"command",       "slot":"commander",                              "transform":{ "rot":[0, 0, 0],   "pos":[0,     18.5,     0],   "size":[0.7,   0.1,  0.7]}},
         {"point_id":"body",          "slot":"hull",                                   "transform":{ "rot":[0, 0, 0],   "pos":[0,        0,     0],   "size":[18,    8.5, 68.5]}},
 
-        {"point_id":"drive_hyper",   "slot":"drive",                                  "transform":{ "rot":[0, 0, 1],   "pos":[0.0,    0.8,    2.1],   "size":[ 0.6,  0.6,   0.6]}},
+        {"point_id":"drive_hyper",   "slot":"drive",                                  "transform":{ "rot":[0, 0, 1],   "pos":[ 0.0,  15.1,   10.1],   "size":[ 1.2, 1.8,   1.2]}},
         {"point_id":"drive_warp",    "slot":"drive",                                  "transform":{ "rot":[0, 0, 1],   "pos":[ 0.0,  -1.0,    2.1],   "size":[ 5.3,  0.1,   5.3]}},
 
         {"point_id":"swivel_turret_f","slot":"shield",                                "transform":{ "rot":[0, 0, 0],   "pos":[0,        7,    -15],   "size":[ 1, 1,  1]}},
