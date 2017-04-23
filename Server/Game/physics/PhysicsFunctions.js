@@ -235,7 +235,15 @@ PhysicsFunctions.prototype.buildCannonBody = function(world, spatial, bodyParams
 
     } else {
 
-        var shape = new CANNON[bodyParams.shape](bodyParams.size);
+        var size = bodyParams.size
+
+        if (bodyParams.shape == "Box") {
+            size = new CANNON.Vec3(size, size, size)
+        } else {
+
+        }
+
+        var shape = new CANNON[bodyParams.shape](size);
         var body = {
             mass: bodyParams.mass, // kg
             position: new CANNON.Vec3(spatial.posX(), spatial.posZ(), spatial.posY()+bodyParams.size), // m
@@ -255,120 +263,103 @@ PhysicsFunctions.prototype.buildCannonBody = function(world, spatial, bodyParams
 
 var createVehicle = function(world, spatial, bodyParams) {
 
-    var mass = 8550;
+
     var vehicle;
 
  //   var groundMaterial = new CANNON.Material("groundMaterial");
  //   var wheelMaterial = new CANNON.Material("wheelMaterial");
 
-    var width = 1.5;
-    var length = 3.1;
-    var height = 1.1;
-    var clearance = 0.2;
+
+    var width = bodyParams.width || 1.5;
+    var length = bodyParams.length || 3.1;
+    var height = bodyParams.height || 1.1;
+    var clearance = bodyParams.clearance || 0.2;
+    var mass = bodyParams.mass || 8550;
 
     var chassisShape;
     chassisShape = new CANNON.Box(new CANNON.Vec3(length, width, height));
     var chassisBody = new CANNON.Body({ mass: mass });
     chassisBody.addShape(chassisShape);
-    chassisBody.position.set(spatial.posX(), spatial.posZ(), spatial.posY()+bodyParams.size);
-    chassisBody.angularVelocity.set(0, 0, 0.2);
-
-
-
-
-    var options = {
-        radius: 0.5,
-        directionLocal: new CANNON.Vec3(0, 0, -1),
-        suspensionStiffness: 17,
-        suspensionRestLength: 0.6,
-        frictionSlip: 5.8,
-        dampingRelaxation: 1.81,
-        dampingCompression: 2.3,
-        maxSuspensionForce: 148000,
-        rollInfluence:  0.01,
-        axleLocal: new CANNON.Vec3(0, -1, 0),
-        chassisConnectionPointLocal: new CANNON.Vec3(width/2, length/1.7, height*0.05),
-        maxSuspensionTravel: 0.6,
-        customSlidingRotationalSpeed: -60,
-        useCustomSlidingRotationalSpeed: true
-    };
+    chassisBody.position.set(spatial.posX(), spatial.posZ(), spatial.posY()+bodyParams.height*2);
+    chassisBody.angularVelocity.set(0, 0, 0.1);
 
     // Create the vehicle
     vehicle = new CANNON.RaycastVehicle({
-        chassisBody: chassisBody,//
+        chassisBody: chassisBody
     });
 
     chassisBody.vehicle = vehicle;
 
-    width -= 0.2;
-    length -= 0.5;
-    var edgeShift = 0.88;
-
-    options.chassisConnectionPointLocal.set(-width, -length, -clearance*edgeShift);
-    vehicle.addWheel(options);
-
-    options.chassisConnectionPointLocal.set(-width, length, -clearance*edgeShift);
-    vehicle.addWheel(options);
-
-    options.chassisConnectionPointLocal.set(-width, -length*0.6, -clearance);
-    vehicle.addWheel(options);
-
-    options.chassisConnectionPointLocal.set(-width, length*0.6, -clearance);
-    vehicle.addWheel(options);
-
-    options.chassisConnectionPointLocal.set(width,  -length*0.6, -clearance);
-    vehicle.addWheel(options);
-
-    options.chassisConnectionPointLocal.set(width,  length*0.6, -clearance);
-    vehicle.addWheel(options);
-
-    options.chassisConnectionPointLocal.set(width,  -length, -clearance*edgeShift);
-    vehicle.addWheel(options);
-    
-    options.chassisConnectionPointLocal.set(width, length, -clearance*edgeShift);
-    vehicle.addWheel(options);
+    vehicle.brake  = bodyParams.brake  || 5;
+    vehicle.torque = bodyParams.torque || 50;
+    vehicle.enginePower = bodyParams.enginePower || 800000;
 
     vehicle.addToWorld(world);
 
-    var wheelBodies = [];
-    for(var i=0; i<vehicle.wheelInfos.length; i++){
-        var wheel = vehicle.wheelInfos[i];
-        var cylinderShape = new CANNON.Cylinder(wheel.radius, wheel.radius, wheel.radius / 2, 20);
-        var wheelBody = new CANNON.Body({ mass: 1 });
-        var q = new CANNON.Quaternion();
-        q.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2);
-        wheelBody.addShape(cylinderShape, new CANNON.Vec3(), q);
-        wheelBodies.push(wheelBody);
+    var wOpts = bodyParams.wheelOptions;
+
+    var options = {
+        radius: wOpts.radius || 0.5,
+        directionLocal: new CANNON.Vec3(0, 0, -1),
+        suspensionStiffness: wOpts.suspensionStiffness || 17,
+        suspensionRestLength: wOpts.suspensionLength || 0.6,
+        frictionSlip: wOpts.frictionSlip || 4.8,
+        dampingRelaxation: wOpts.dampening / 2 || 1.81,
+        dampingCompression: wOpts.dampening    || 2.5,
+        maxSuspensionForce: wOpts.maxSuspensionForce || 148000,
+        rollInfluence:  0.01,
+        axleLocal: new CANNON.Vec3(0, -1, 0),
+        chassisConnectionPointLocal: new CANNON.Vec3(width/2, length/1.7, height*0.05),
+        maxSuspensionTravel: wOpts.suspensionLength || 0.6,
+        customSlidingRotationalSpeed: -2,
+        useCustomSlidingRotationalSpeed: true
+    };
+
+
+
+    length -= options.radius;
+
+    var wheelsMat = [
+        [-1,  0.9,    1],[1, 0.9,     1],
+        [-1, -0.9,    1],[1,-0.9,     1]
+    ];
+
+    var steerMat = [
+        1, 1,
+        0, 0
+    ];
+
+    var brakeMat = [
+        0.2,0.2,
+        1  ,1
+    ];
+
+    var transmissionMat = [
+        1,1,
+        0,0
+    ];
+
+    var transmissionYawMat = [
+        0,0,
+        0,0
+    ];
+
+    var wheelMatrix = bodyParams.wheelMatrix || wheelsMat;
+
+    var steerMatrix = bodyParams.steerMatrix || steerMat;
+    var brakeMatrix = bodyParams.brakeMatrix || brakeMat;
+    var transmissionMatrix = bodyParams.transmissionMatrix || transmissionMat;
+    var transmissionYawMatrix = bodyParams.transmissionYawMatrix || transmissionYawMat;
+
+    for (var i = 0; i < wheelMatrix.length; i++) {
+        options.chassisConnectionPointLocal.set(length * wheelMatrix[i][1], width * wheelMatrix[i][0], -clearance*wheelMatrix[i][2]);
+        vehicle.addWheel(options);
+        vehicle.wheelInfos[i].steerFactor           = steerMatrix[i]            || 0;
+        vehicle.wheelInfos[i].brakeFactor           = brakeMatrix[i]            || 1;
+        vehicle.wheelInfos[i].transmissionFactor    = transmissionMatrix[i]     || 1;
+        vehicle.wheelInfos[i].transmissionYawMatrix = transmissionYawMatrix[i]  || 1;
     }
 
-    // Update wheels
-    world.addEventListener('postStep', function(){
-        for (var i = 0; i < vehicle.wheelInfos.length; i++) {
-            vehicle.updateWheelTransform(i);
-            var t = vehicle.wheelInfos[i].worldTransform;
-            wheelBodies[i].position.copy(t.position);
-            wheelBodies[i].quaternion.copy(t.quaternion);
-        }
-    });
-
-    var matrix = [];
-    var sizeX = 64,
-        sizeY = 64;
-
-    for (var i = 0; i < sizeX; i++) {
-        matrix.push([]);
-        for (var j = 0; j < sizeY; j++) {
-            var height = Math.cos(i / sizeX * Math.PI * 5) * Math.cos(j/sizeY * Math.PI * 5) * 2 + 2;
-            if(i===0 || i === sizeX-1 || j===0 || j === sizeY-1)
-                height = 3;
-            matrix[i].push(height);
-        }
-    }
-    
-    var maxSteerVal = 0.5;
-    var maxForce = 1000;
-    var brakeForce = 1000000;
-    
     return chassisBody;
     
 };

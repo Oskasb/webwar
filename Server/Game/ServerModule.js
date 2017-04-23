@@ -111,7 +111,6 @@ ServerModule.prototype.processInputState = function(controls, actionCallback) {
             }
         }
 
-
         // module controls itself...
         //    console.log(controls.inputState[this.data.source])
         //    if (this.id == 'shield')  console.log("Process Shield state: ", this.state.value)
@@ -119,7 +118,19 @@ ServerModule.prototype.processInputState = function(controls, actionCallback) {
         return;
     }
 
-    this.setModuleState(controls.inputState[this.data.source]);
+    if (this.data.source) {
+        this.setModuleState(controls.inputState[this.data.source]);
+    } else if (this.data.physicsSource) {
+
+        if (this.data.physicsSource.bodyType == "Vehicle") {
+            var vehicle = this.piece.physics.body.vehicle;
+            var info = vehicle.wheelInfos[this.data.physicsSource.vehicleWheelIndex];
+            var value = info[this.data.physicsSource.param]
+            this.setModuleState(value);
+        }
+
+    }
+
 
     if (typeof(controls.actions[this.data.applies.action]) != undefined) {
         controls.actions[this.data.applies.action] = this.state.value;
