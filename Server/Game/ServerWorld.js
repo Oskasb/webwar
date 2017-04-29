@@ -217,6 +217,7 @@ ServerWorld.prototype.removePiece = function(piece) {
         piece.gridSector.deactivatePiece(piece);
     }
 
+    CnnAPI.pieceRemoved(piece);
 
     var post = this.pieces.length;
 

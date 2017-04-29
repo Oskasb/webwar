@@ -44,10 +44,15 @@ CannonAPI.prototype.excludeBody = function(body) {
     this.world.removeBody(body);
 };
 
+CannonAPI.prototype.pieceRemoved = function(piece) {
+    if (piece.physics) {
+        this.removePhysicsPiece(piece);
+    }
+};
 
 CannonAPI.prototype.removePhysicsPiece = function(piece) {
     console.log("REMOVE RIGID BODY:", piece.physics.rigid_body);
-    this.world.removeBody(piece.physics.body);
+    this.excludeBody(piece.physics.body);
 };
 
 CannonAPI.prototype.updatePhysicalPiece = function(piece) {

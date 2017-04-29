@@ -112,6 +112,7 @@
       },
       "attachment_points":[
         {"point_id":"command",       "slot":"commander",                              "transform":{ "rot":[0, 0, 0],   "pos":[0,     18.5,     0],   "size":[0.7,   0.1,  0.7]}},
+        {"point_id":"vehicle",       "slot":"physics",                                "transform":{ "rot":[0, 0, 0],   "pos":[0,        0,     0],   "size":[2,    2, 48]}},
         {"point_id":"body",          "slot":"hull",                                   "transform":{ "rot":[0, 0, 0],   "pos":[0,        0,     0],   "size":[18,    8.5, 68.5]}},
 
         {"point_id":"drive_hyper",   "slot":"drive",                                  "transform":{ "rot":[0, 0, 1],   "pos":[ 0.0,  15.1,   10.1],   "size":[ 1.2, 1.8,   1.2]}},
@@ -127,7 +128,7 @@
 
         {"point_id":"swivel_turret_r","slot":"shield",                                "transform":{ "rot":[0, 0, 0],   "pos":[0,        7,     22],   "size":[ 1, 1,  1]}},
 
-        {"point_id":"main_turret_r", "slot":"turret",       "parent":"",              "transform":{ "rot":[0,-1, 0],   "pos":[0,      2.2,     13],   "size":[ 1,  1, 1]}},
+        {"point_id":"main_turret_r", "slot":"turret",       "parent":"",              "transform":{ "rot":[0,-1, 0],   "pos":[0,      2.2,     12],   "size":[ 1,  1, 1]}},
         {"point_id":"elevator_r",    "slot":"cannon_pitch", "parent":"main_turret_r", "transform":{ "rot":[0, 0, 0],   "pos":[0,      0.5,   -0.5],   "size":[ 0.8,  0.1,  0.1]}},
         {"point_id":"weapon_r",      "slot":"weapon",       "parent":"elevator_r",    "transform":{ "rot":[0, 0, 0],   "pos":[0,      0.2,   -3.0],   "size":[ 0.7,  0.7,  4.1]}},
 
@@ -143,6 +144,7 @@
       ],
       "default_modules":[
         "piece_command_module",
+        "modern_transport_vehicle",
         "modern_transport_hull",
 
         "hyper_drive",

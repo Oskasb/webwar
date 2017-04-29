@@ -2,9 +2,9 @@
   "dataType":"MODULE_DATA",
   "modules":{
 
-    "modern_transport_hull":{
-      "type":"hull",
-      "id":"modern_transport_hull",
+    "modern_transport_vehicle":{
+      "type":"vehicle",
+      "id":"modern_transport_vehicle",
       "source":"initiate",
       "initState": true,
       "size":4,
@@ -16,12 +16,12 @@
         "mass"      : 1000000,
         "width"     : 12,
         "length"    : 40,
-        "height"    : 3,
-        "clearance" : 4.25,
+        "height"    : 3.5,
+        "clearance" : 2.0,
 
         "steerMatrix":[
           -0.3, -0.3,
-           0.6,  0.6
+          0.6,  0.6
         ],
 
         "brakeMatrix":[
@@ -45,15 +45,28 @@
         ],
 
         "wheelOptions":{
-          "radius":2.0,
-          "suspensionStiffness":3,
-          "suspensionLength":5.0,
+          "radius":1.0,
+          "suspensionStiffness":15,
+          "suspensionLength":2.0,
           "dampening":1.5,
           "frictionSlip":0.2,
-          "rollInfluence":0.5,
+          "rollInfluence":0.7,
           "maxSuspensionForce":10000000
         }
       },
+      "applies":{
+        "type":"string",
+        "state":true
+      }
+    },
+
+    "modern_transport_hull":{
+      "type":"hull",
+      "id":"modern_transport_hull",
+      "source":"initiate",
+      "initState": true,
+      "size":4,
+
     "applies":{
       "type":"string",
       "state":true,
