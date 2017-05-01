@@ -41,17 +41,72 @@
 
         "fragmentOceanTxLayersMain":[
 
-          "float waveSpeed    = systemTime * 0.05;",
-          "vec2 uvScaled      = vUv0;",
-          "vec2 waveTranslate = vec2(uvScaled.x * 1.015 + cos(waveSpeed * uvScaled.x * 0.2), uvScaled.y * 0.01  * (0.5*sin(waveSpeed * uvScaled.y * 0.2)+0.5));",
-          "vec4 txColor0      = smoothstep(0.0, 0.5+sin(sin(waveSpeed*0.1 + uvScaled.x*0.5) * 0.6+waveTranslate.x*0.05*uvScaled.x)*0.3, waveTranslate.y*0.4)          * texture2D( tx0, 5.0 * uvScaled + (waveTranslate));",
-          "uvScaled           = uvScaled * 0.75;",
-          "vec4 txColor1      = smoothstep(0.1, 0.5+sin(sin(waveSpeed*0.2 + uvScaled.x*0.25) * 0.5+waveTranslate.x*0.025*uvScaled.x)*0.4, waveTranslate.y*0.8 + 0.7)   * texture2D( tx0, 11.0 * uvScaled + (waveTranslate));",
-          "uvScaled           = uvScaled *0.75;",
-          "waveTranslate      = vec2(uvScaled.x * 1.15 + cos(waveSpeed * uvScaled.x * 0.002), uvScaled.y * 0.01  * (0.5*sin(waveSpeed * uvScaled.y * 0.4)+0.5));",
-          "vec4 txColor2      = smoothstep(0.4, 0.6+sin(sin(waveSpeed*0.2 + uvScaled.x*0.2)*0.5+waveTranslate.x*1.25*uvScaled.x)*0.2, waveTranslate.y*0.8*slope)      * texture2D( tx0, 18.0 * uvScaled + (waveTranslate));",
-          "vec4 txColor3      = texture2D( tx0, 0.1 * vUv2 + (waveTranslate*0.05));",
-          "vec4 txColor       = (txColor0 * 0.7 + txColor1 * 0.1 + txColor1 * 0.8 * txColor2 * 0.7) + txColor2 * 1.0 + txColor3 * 0.3;"
+          "float waveSpeed    = 0.12;",
+          "float translation  = systemTime * waveSpeed;",
+          "float wavePosition = sin(translation)*0.4 + 0.3;",
+
+          "vec2 uvScaled      = vUv0 * 3.0;",
+
+          "float posX         = uvScaled.x;",
+          "float posY         = translation*waveSpeed + uvScaled.y;",
+
+          "float speedX       = cos(wavePosition * uvScaled.x * waveSpeed) * waveSpeed;",
+          "float speedY       = cos(translation*8.0)*0.1 + (0.6 + wavePosition * 0.4);",
+
+          "float compression  = (0.5 + sin(uvScaled.y*20.0)*0.1) + (1.0 * speedY + 0.5) * 0.0  + 0.5*cos(uvScaled.x*0.2)*0.0;",
+
+          "vec2 waveTranslate = vec2(uvScaled.x + posX + speedX * 0.0, (uvScaled.y + posY + speedY * 1.0) + compression *0.25 + cos(uvScaled.x*0.2 + translation*waveSpeed)*1.1 + translation*waveSpeed);",
+
+          "vec4 txSample      = texture2D( tx0, waveTranslate);",
+
+          "float blend        = compression - 0.2 + sin(waveTranslate.y * 8.0 + translation * waveSpeed) * 0.8;",
+
+          "vec4 txColor0      = smoothstep(0.0, 1.0, blend) * txSample;",
+
+
+          "wavePosition = cos(translation)*0.4 + 0.3;",
+
+          "uvScaled     = uvScaled * (0.5 + waveSpeed);",
+
+
+
+          "posX         = uvScaled.x;",
+          "posY         = translation*waveSpeed + uvScaled.y;",
+
+          "speedX       = cos(wavePosition * uvScaled.x * waveSpeed) * waveSpeed;",
+          "speedY       = cos(translation*8.0)*0.1 + (0.6 + wavePosition * 0.6);",
+
+          "compression  = (0.5 + sin(uvScaled.y*20.0)*0.1) + (1.0 * speedY + 0.5) * 0.0  + 0.5*cos(uvScaled.x*0.2)*0.0;",
+
+          "waveTranslate = vec2(uvScaled.x + posX + speedX * 0.0, (uvScaled.y + posY + speedY * 1.0) + compression *0.25 + cos(uvScaled.x*0.2 + translation*waveSpeed)*0.2 + translation*waveSpeed);",
+
+          "txSample      = texture2D( tx0, waveTranslate);",
+
+          "blend        = compression + 0.3 + sin(waveTranslate.y * 8.0 + translation * waveSpeed) * 0.6;",
+
+          "vec4 txColor1      = smoothstep(0.0, 1.0, blend) * txSample;",
+
+
+
+          "uvScaled           = uvScaled *0.15;",
+
+          "waveTranslate      = vec2(uvScaled.x*0.1 + posX + speedX * 0.0, (uvScaled.y * 0.1 + posY + speedY * 1.0) + compression *0.25 + cos(uvScaled.x*2.0 + translation*waveSpeed*1.1)*1.1 + translation*waveSpeed*0.1);",
+
+          "txSample           = texture2D( tx0, waveTranslate);",
+
+          "blend              = compression + 0.2 + sin(waveTranslate.y * 1.0 + translation * waveSpeed) * 0.5;",
+
+          "vec4 txColor2      = smoothstep(0.0, 1.0, blend) * txSample;",
+
+
+
+          "waveTranslate      = vec2(uvScaled.x * (1.0 + waveSpeed) + cos(wavePosition * uvScaled.x * 0.02) * 0.002, uvScaled.y * 0.01);",
+
+          "vec4 txColor3      = texture2D( tx0, 0.11 * vUv2 + (waveTranslate*0.5));",
+
+          "vec4 txColor4      = texture2D( tx0, 0.06 * vUv2);",
+
+          "vec4 txColor       = (txColor0 * 1.0 * txColor1 * 2.0) + txColor3 * txColor2 * 0.5 + txColor3 * 0.4 + txColor4 * 0.5;"
         ],
 
 
