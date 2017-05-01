@@ -106,7 +106,7 @@
 
           "vec4 txColor4      = texture2D( tx0, 0.06 * vUv2);",
 
-          "vec4 txColor       = (txColor0 * 1.0 * txColor1 * 2.0) + txColor3 * txColor2 * 0.5 + txColor3 * 0.4 + txColor4 * 0.5;"
+          "vec4 txColor       = (txColor0 * 1.0 * txColor1 * 2.0) + txColor3 * txColor2 * 0.5 + txColor3 * 0.4 + txColor4 * 0.7;"
         ],
 
 

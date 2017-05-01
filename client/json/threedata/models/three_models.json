@@ -15,7 +15,30 @@
             "scale": [1, 1, 1]
           }
         },
-
+        {
+          "id": "transport_turret",
+          "material": "modern_transport_atlas",
+          "url": "./client/assets/models/boats/ship_turret_main",
+          "urluv2": "./client/assets/models/boats/ship_turret_main_ao",
+          "pool": 15,
+          "transform": {
+            "pos":   [0, -6.5, 20.0],
+            "rot":   [0, 1, 0],
+            "scale": [1, 1, 1]
+          }
+        },
+        {
+          "id": "transport_cannon",
+          "material": "modern_transport_atlas",
+          "url": "./client/assets/models/boats/ship_cannon_main",
+          "urluv2": "./client/assets/models/boats/ship_cannon_main_ao",
+          "pool": 15,
+          "transform": {
+            "pos": [0, -7.0, 24.0],
+            "rot": [0,  1, 0],
+            "scale": [1, 1, 1]
+          }
+        },
         {
           "id": "sherman_hull",
           "material": "tank_atlas",
@@ -24,7 +47,7 @@
           "urluv2": "./client/assets/models/tank/sherman_hull_ao",
           "pool": 15,
           "transform": {
-            "pos": [0, -1.2, -0.3],
+            "pos": [0, -1.4, -0.3],
             "rot": [0, 0, 0],
             "scale": [1, 1, 1]
           }
@@ -61,7 +84,7 @@
           "pool": 15,
           "transform": {
             "pos": [
-              1.3, -0.2, -0.55],
+               1.2, -0.2, -0.55],
             "rot": [0, 0, 0],
             "scale": [1, 1, 1]
           }
@@ -73,7 +96,7 @@
           "unique":true,
           "pool": 15,
           "transform": {
-            "pos": [-1.3, -0.2, -0.55],
+            "pos": [-1.2, -0.2, -0.55],
             "rot": [0, 0, 0],
             "scale": [1, 1, 1]
           }
@@ -96,7 +119,7 @@
           "url": "./client/assets/models/trees/tree_1_combined",
           "pool": 5,
           "transform": {
-            "pos": [0, -8, 0],
+            "pos": [0, 0, 0],
             "rot": [0, 0, 0],
             "scale": [0.6, 0.6, 0.6]
           }
@@ -107,7 +130,7 @@
           "url": "./client/assets/models/trees/tree_2_combined",
           "pool": 5,
           "transform": {
-            "pos": [0, -4, 0],
+            "pos": [0, 0, 0],
             "rot": [0, 0, 0],
             "scale": [0.4, 0.4, 0.4]
           }
@@ -118,7 +141,7 @@
           "url": "./client/assets/models/trees/tree_3_combined",
           "pool": 5,
           "transform": {
-            "pos": [0, -10, 0],
+            "pos": [0, -0, 0],
             "rot": [0, 0, 0],
             "scale": [0.5, 0.5, 0.5]
           }
@@ -129,7 +152,7 @@
           "url": "./client/assets/models/trees/tree_4_combined",
           "pool": 5,
           "transform": {
-            "pos": [0, -5, 0],
+            "pos": [0, -0, 0],
             "rot": [0, 0, 0],
             "scale": [0.5, 0.5, 0.5]
           }

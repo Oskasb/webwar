@@ -52,6 +52,7 @@ define([
             if (transform.pos) this.transform.setPosXYZ(transform.pos[0], transform.pos[1], transform.pos[2]);
             if (transform.rot) this.transform.fromAngles(transform.rot[0]*Math.PI, transform.rot[1]*Math.PI, transform.rot[2]*Math.PI);
             if (transform.size) this.transform.setSizeXYZ(transform.size[0], transform.size[1], transform.size[2]);
+            ThreeAPI.applySpatialToModel(this.transform, this.object3D);
         };
 
         AttachmentPoint.prototype.detatchAttachmentPoint = function (parentObj3d) {

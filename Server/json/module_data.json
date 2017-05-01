@@ -74,9 +74,9 @@
     }
   },
 
-    "sherman_hull":{
-      "type":"hull",
-      "id":"sherman_hull",
+    "sherman_vehicle":{
+      "type":"vehicle",
+      "id":"sherman_vehicle",
       "source":"initiate",
       "initState": true,
       "size":4,
@@ -93,7 +93,7 @@
 
         "steerMatrix":[
           -0.3, -0.3,
-           0.3,  0.3
+          0.3,  0.3
         ],
 
         "brakeMatrix":[
@@ -129,7 +129,19 @@
       "applies":{
         "type":"string",
         "state":true,
-        "pitch_roll":[1, 1],
+        "pitch_roll":[1, 1]
+      }
+    },
+
+    "sherman_hull":{
+      "type":"hull",
+      "id":"sherman_hull",
+      "source":"initiate",
+      "initState": true,
+      "size":4,
+      "applies":{
+        "type":"string",
+        "state":true,
         "three_model":"sherman_hull"
       }
     },
@@ -221,6 +233,45 @@
       }
     },
 
+    "transport_main_turret":{
+      "type":"turret",
+      "id":"transport_main_turret",
+      "initState": 0.01,
+      "applies":{
+        "type":"float",
+        "action":"applyYaw",
+        "master_module_id":"input_target_select",
+        "delay":0,
+        "cooldown":0.4,
+        "spatial_axis":"yaw",
+        "rotation_axis":[0, 1, 0],
+        "rotation_velocity":0.5,
+        "rotation_min":-6.2,
+        "rotation_max":6.2,
+        "three_model":"transport_turret"
+      }
+    },
+
+    "transport_main_cannon":{
+      "type":"weapon",
+      "id":"transport_main_cannon",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "action":"fireCannon",
+        "master_module_id":"input_toggle_attack",
+        "delay":0.4,
+        "cooldown":2.5,
+        "yaw_module":"transport_main_turret",
+        "pitch_module":"cannon_pitch",
+        "bullet":"cannon_bullet",
+        "exitVelocity":1200,
+        "lifeTime":30,
+        "barrel_length": 5.5,
+        "three_model":"transport_cannon"
+      }
+    },
+
     "cannon_pitch":{
       "type":"turret",
       "id":"cannon_pitch",
@@ -235,8 +286,7 @@
         "rotation_axis":[1, 0, 0],
         "rotation_velocity":0.08,
         "rotation_min":0,
-        "rotation_max":0.4,
-        "game_effect":"cannon_lazer_module"
+        "rotation_max":0.4
       }
     },
 
@@ -333,7 +383,7 @@
         "threshold":0.2,
         "three_model":"sherman_track_l",
         "animate_texture":[0, 1],
-        "animate_speed_scale":0.2
+        "animate_speed_scale":-0.2
       }
     },
 
@@ -357,7 +407,7 @@
         "threshold":0.2,
         "three_model":"sherman_track_r",
         "animate_texture":[0, 1],
-        "animate_speed_scale":0.2
+        "animate_speed_scale":-0.2
       }
     },
 

@@ -249,9 +249,9 @@ define([
             model.rotation.x = trf.rot[0]*Math.PI;
             model.rotation.y = trf.rot[1]*Math.PI;
             model.rotation.z = trf.rot[2]*Math.PI;
-            model.scale.x =    trf.scale[0];
-            model.scale.y =    trf.scale[1];
-            model.scale.z =    trf.scale[2];
+            model.scale.x    = trf.scale[0] || 1;
+            model.scale.y    = trf.scale[1] || 1;
+            model.scale.z    = trf.scale[2] || 1;
 
         };
 
